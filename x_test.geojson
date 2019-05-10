@@ -1,0 +1,43 @@
+{
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Bird Exhibit",
+        "height": 100,
+        "base_height": 0,
+        "color": "orange"
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -0.911006,
+              50.994527
+            ],
+            [
+              -0.911006,
+              50.994527
+            ],
+            [
+              -0.91100600001,
+              50.994527
+            ],
+            [
+              -0.91100600001,
+              50.994527
+            ],
+            [
+              -0.911006,
+              50.994527
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "id": "06e8fa0b3f851e3ae0e1da5fc17e111e"
+    }
+  ],
+  "type": "FeatureCollection"
+}
