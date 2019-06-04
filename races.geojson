@@ -1,0 +1,599 @@
+{
+   "type": "FeatureCollection",
+   "features": [
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -2.00473784,50.61476068,614 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"The Maverick Inov-8 Original Dorset",
+    "date":"Saturday 11 May 2019",
+    "location":"Swanage, Dorset",
+    "description":"Our Dorset Original event is the home of Maverick Race and for 2019 we are back with a new venue and three new routes. We are proud to call this beautiful part of the UK our home and urge beginner to experienced trail runners alike to join us on the trails for this event.With three new routes to choose from there is a suitable challenge for everyone to come and see what we at Maverick race are all about. We can promise that each route will take in some of the best scenery and coastlines that the UK has to offer, and will get you hooked on trail running.We head towards the rugged Jurassic coastline, where seabirds soar, and ancient caves litter the coastline. Steeped in heritage, with more elevation than previous seasons, Dorset will not disappoint. The 3 routes are designed to challenge you, but also leave you with some epic memories and a sense of achievement.",
+    "link":"http://www.maverick-race.com/races/theoriginalorset2019",
+    "distance":4.7,
+    "route_geojson":"2019_Maverick_inov_8_Original_Dorset_Middle.geojson",
+    "route_url":"2019_Maverick_inov_8_Original_Dorset_Middle"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -2.00473784,50.61476068,877 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"The Maverick Inov-8 Original Dorset",
+    "date":"Sunday 12 May 2019",
+    "location":"Swanage, Dorset",
+    "description":"Our Dorset Original event is the home of Maverick Race and for 2019 we are back with a new venue and three new routes. We are proud to call this beautiful part of the UK our home and urge beginner to experienced trail runners alike to join us on the trails for this event.With three new routes to choose from there is a suitable challenge for everyone to come and see what we at Maverick race are all about. We can promise that each route will take in some of the best scenery and coastlines that the UK has to offer, and will get you hooked on trail running.We head towards the rugged Jurassic coastline, where seabirds soar, and ancient caves litter the coastline. Steeped in heritage, with more elevation than previous seasons, Dorset will not disappoint. The 3 routes are designed to challenge you, but also leave you with some epic memories and a sense of achievement.",
+    "link":"http://www.maverick-race.com/races/theoriginalorset2020",
+    "distance":9.8,
+    "route_geojson":"2019_Maverick_inov_8_Original_Dorset_Middle.geojson",
+    "route_url":"2019_Maverick_inov_8_Original_Dorset_Middle"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -2.00473784,50.61476068,1420 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"The Maverick Inov-8 Original Dorset",
+    "date":"Monday 13 May 2019",
+    "location":"Swanage, Dorset",
+    "description":"Our Dorset Original event is the home of Maverick Race and for 2019 we are back with a new venue and three new routes. We are proud to call this beautiful part of the UK our home and urge beginner to experienced trail runners alike to join us on the trails for this event.With three new routes to choose from there is a suitable challenge for everyone to come and see what we at Maverick race are all about. We can promise that each route will take in some of the best scenery and coastlines that the UK has to offer, and will get you hooked on trail running.We head towards the rugged Jurassic coastline, where seabirds soar, and ancient caves litter the coastline. Steeped in heritage, with more elevation than previous seasons, Dorset will not disappoint. The 3 routes are designed to challenge you, but also leave you with some epic memories and a sense of achievement.",
+    "link":"http://www.maverick-race.com/races/theoriginalorset2021",
+    "distance":15.3,
+    "route_geojson":"2019_Maverick_inov_8_Original_Dorset_Long.geojson",
+    "route_url":"2019_Maverick_inov_8_Original_Dorset_Long"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3296579795,51.24667073,520 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"The Maverick Inov-8 Original Surrey",
+    "date":"Saturday 18 May 2019",
+    "location":"Great Bookham, Dorking, Surrey",
+    "description":"The Maverick invov-8 Original Surrey event starts in the historic National trust grounds of the Edwardian country house of Polseden Lacey. Starting in the heart of the Polesden Lacey estate three brand new routes for 2019 consisting of long gradual climbs, alpine like forests, technical descents and stunning views, await for trail runners of all ability looking for a challenge. Our Original Surrey event may be nestled within the grounds of a peaceful picture-perfect estate, but don’t be deceived, as all three routes have a serious amount of twists, turn, up and downs that will require some fierce leg work. All three routes take you on an adventure through ancient woodlands, the notorious Surrey hills and onto the North downs Way. In 2018 our Surrey event was one of the most popular events of the season due to its proximity to London, with direct trains from London Waterloo to Dorking taking less than 1 hour, or the drive being 90 minutes from London City straight to the race start.",
+    "link":"http://www.maverick-race.com/races/theoriginalsurrey2019",
+    "distance":4.1,
+    "route_geojson":"2019_Maverick_Exposure_Dark_Surrey_Short.geojson",
+    "route_url":"2019_Maverick_Exposure_Dark_Surrey_Short"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3296579795,51.24667073,998 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"The Maverick Inov-8 Original Surrey",
+    "date":"Sunday 19 May 2019",
+    "location":"Great Bookham, Dorking, Surrey",
+    "description":"The Maverick invov-8 Original Surrey event starts in the historic National trust grounds of the Edwardian country house of Polseden Lacey. Starting in the heart of the Polesden Lacey estate three brand new routes for 2019 consisting of long gradual climbs, alpine like forests, technical descents and stunning views, await for trail runners of all ability looking for a challenge. Our Original Surrey event may be nestled within the grounds of a peaceful picture-perfect estate, but don’t be deceived, as all three routes have a serious amount of twists, turn, up and downs that will require some fierce leg work. All three routes take you on an adventure through ancient woodlands, the notorious Surrey hills and onto the North downs Way. In 2018 our Surrey event was one of the most popular events of the season due to its proximity to London, with direct trains from London Waterloo to Dorking taking less than 1 hour, or the drive being 90 minutes from London City straight to the race start.",
+    "link":"http://www.maverick-race.com/races/theoriginalsurrey2020",
+    "distance":8,
+    "route_geojson":"2019_Maverick_Exposure_Dark_Surrey_Middle.geojson",
+    "route_url":"2019_Maverick_Exposure_Dark_Surrey_Middle"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3296579795,51.24667073,1746 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"The Maverick Inov-8 Original Surrey",
+    "date":"Monday 20 May 2019",
+    "location":"Great Bookham, Dorking, Surrey",
+    "description":"The Maverick invov-8 Original Surrey event starts in the historic National trust grounds of the Edwardian country house of Polseden Lacey. Starting in the heart of the Polesden Lacey estate three brand new routes for 2019 consisting of long gradual climbs, alpine like forests, technical descents and stunning views, await for trail runners of all ability looking for a challenge. Our Original Surrey event may be nestled within the grounds of a peaceful picture-perfect estate, but don’t be deceived, as all three routes have a serious amount of twists, turn, up and downs that will require some fierce leg work. All three routes take you on an adventure through ancient woodlands, the notorious Surrey hills and onto the North downs Way. In 2018 our Surrey event was one of the most popular events of the season due to its proximity to London, with direct trains from London Waterloo to Dorking taking less than 1 hour, or the drive being 90 minutes from London City straight to the race start.",
+    "link":"http://www.maverick-race.com/races/theoriginalsurrey2021",
+    "distance":15.5,
+    "route_geojson":"2019_Maverick_Exposure_Dark_Surrey_Long.geojson",
+    "route_url":"2019_Maverick_Exposure_Dark_Surrey_Long"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.8960354656,51.61988614,960 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick x TRIBE Run Free Full Marathon, Half Marathon & 10km",
+    "date":"Saturday 25 May 2019",
+    "location":"Wormsley Estate, Ibstone, High Wycombe",
+    "description":"The last Maverick x TRIBE Run Free was chosen as one of the top ten races of 2018 by Coach Magazine and sold out six weeks before the race. In 2019 we’re going even bigger and better! We're heading to the beautiful Chilterns Area of Outstanding Natural Beauty to explore the trails surrounding Wormsley. The routes we have mapped are intended to test you. With a half or Full marathon route to choose from, there's something for everyone. The trails will lead you through the Chilterns up and over undulating hills with panoramic views across the escarpment. Trail running doesn't get better than this. In true Maverick x TRIBE style, there will be a huge post-race celebration to look forward to! Expect: an epic variety of delicious food and drink to kick back and enjoy; dreamy summer festival vibes; cosy firepit chill-out zones; an awesome selection of live music acts and inspiring speakers. The TRIBE shake shack will be in full operation and the limited edition TRIBE x Maverick Trail Ales ready and waiting when you cross the finish! Round up your friends and family to explore the stunning Wormsley estate and surrounding area, take a walk around the course and enjoy the full festival village experience. Together, we go further and faster.",
+    "link":"http://www.maverick-race.com/races/2019/5/25/maverick-x-tribe-run-free-marathon-2019",
+    "distance":6.6,
+    "route_geojson":"2019_TRIBE_Run_Free_Short.geojson",
+    "route_url":"2019_TRIBE_Run_Free_Short"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.8960354656,51.61988614,1920 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick x TRIBE Run Free Full Marathon, Half Marathon & 10km",
+    "date":"Sunday 26 May 2019",
+    "location":"Wormsley Estate, Ibstone, High Wycombe",
+    "description":"The last Maverick x TRIBE Run Free was chosen as one of the top ten races of 2018 by Coach Magazine and sold out six weeks before the race. In 2019 we’re going even bigger and better! We're heading to the beautiful Chilterns Area of Outstanding Natural Beauty to explore the trails surrounding Wormsley. The routes we have mapped are intended to test you. With a half or Full marathon route to choose from, there's something for everyone. The trails will lead you through the Chilterns up and over undulating hills with panoramic views across the escarpment. Trail running doesn't get better than this. In true Maverick x TRIBE style, there will be a huge post-race celebration to look forward to! Expect: an epic variety of delicious food and drink to kick back and enjoy; dreamy summer festival vibes; cosy firepit chill-out zones; an awesome selection of live music acts and inspiring speakers. The TRIBE shake shack will be in full operation and the limited edition TRIBE x Maverick Trail Ales ready and waiting when you cross the finish! Round up your friends and family to explore the stunning Wormsley estate and surrounding area, take a walk around the course and enjoy the full festival village experience. Together, we go further and faster.",
+    "link":"http://www.maverick-race.com/races/2019/5/25/maverick-x-tribe-run-free-marathon-2020",
+    "distance":14.9,
+    "route_geojson":"2019_TRIBE_Run_Free_Middle.geojson",
+    "route_url":"2019_TRIBE_Run_Free_Middle"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.8960354656,51.61988614,3134 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick x TRIBE Run Free Full Marathon, Half Marathon & 10km",
+    "date":"Monday 27 May 2019",
+    "location":"Wormsley Estate, Ibstone, High Wycombe",
+    "description":"The last Maverick x TRIBE Run Free was chosen as one of the top ten races of 2018 by Coach Magazine and sold out six weeks before the race. In 2019 we’re going even bigger and better! We're heading to the beautiful Chilterns Area of Outstanding Natural Beauty to explore the trails surrounding Wormsley. The routes we have mapped are intended to test you. With a half or Full marathon route to choose from, there's something for everyone. The trails will lead you through the Chilterns up and over undulating hills with panoramic views across the escarpment. Trail running doesn't get better than this. In true Maverick x TRIBE style, there will be a huge post-race celebration to look forward to! Expect: an epic variety of delicious food and drink to kick back and enjoy; dreamy summer festival vibes; cosy firepit chill-out zones; an awesome selection of live music acts and inspiring speakers. The TRIBE shake shack will be in full operation and the limited edition TRIBE x Maverick Trail Ales ready and waiting when you cross the finish! Round up your friends and family to explore the stunning Wormsley estate and surrounding area, take a walk around the course and enjoy the full festival village experience. Together, we go further and faster.",
+    "link":"http://www.maverick-race.com/races/2019/5/25/maverick-x-tribe-run-free-marathon-2021",
+    "distance":26.8,
+    "route_geojson":"2019_TRIBE_Run_Free_Long.geojson",
+    "route_url":"2019_TRIBE_Run_Free_Long"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -3.876050408,51.21771339,1618 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick inov-8 X-Series Exmoor",
+    "date":"Saturday 15 June 2019",
+    "location":"Lynton, Devon",
+    "description":"Our Exmoor X-Series debuted in 2018 and was quickly termed ‘The Beast’, and labelled the toughest event on our Maverick calendar, due to the stomach-churning amount of vertical ascent of over 1800m on the marathon route.Exmoor National Park, in the South West of England, is known for its dramatic coastline and moorland, and you can be sure that this event takes in the very best that the area has to offer. Three routes take runners along parts of the South West costal path, which means stunning views and savage climbs will be plentiful. The event is not for the faint hearted, but trail runners of all abilities will be capable of completing one of the distances on offer, if they commit to the challenge ahead and put their mind to it.",
+    "link":"http://www.maverick-race.com/races/the-x-ultra-exmoor2019",
+    "distance":9.2,
+    "route_geojson":"2019_Maverick_Inov_8_X_Exmoor_Short.geojson",
+    "route_url":"2019_Maverick_Inov_8_X_Exmoor_Short"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -3.876050408,51.21771339,2305 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick inov-8 X-Series Exmoor",
+    "date":"Sunday 16 June 2019",
+    "location":"Lynton, Devon",
+    "description":"Our Exmoor X-Series debuted in 2018 and was quickly termed ‘The Beast’, and labelled the toughest event on our Maverick calendar, due to the stomach-churning amount of vertical ascent of over 1800m on the marathon route.Exmoor National Park, in the South West of England, is known for its dramatic coastline and moorland, and you can be sure that this event takes in the very best that the area has to offer. Three routes take runners along parts of the South West costal path, which means stunning views and savage climbs will be plentiful. The event is not for the faint hearted, but trail runners of all abilities will be capable of completing one of the distances on offer, if they commit to the challenge ahead and put their mind to it.",
+    "link":"http://www.maverick-race.com/races/the-x-ultra-exmoor2020",
+    "distance":12.6,
+    "route_geojson":"2019_Maverick_Inov_8_X_Exmoor_Middle.geojson",
+    "route_url":"2019_Maverick_Inov_8_X_Exmoor_Middle"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -3.876050408,51.21771339,5124 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick inov-8 X-Series Exmoor",
+    "date":"Monday 17 June 2019",
+    "location":"Lynton, Devon",
+    "description":"Our Exmoor X-Series debuted in 2018 and was quickly termed ‘The Beast’, and labelled the toughest event on our Maverick calendar, due to the stomach-churning amount of vertical ascent of over 1800m on the marathon route.Exmoor National Park, in the South West of England, is known for its dramatic coastline and moorland, and you can be sure that this event takes in the very best that the area has to offer. Three routes take runners along parts of the South West costal path, which means stunning views and savage climbs will be plentiful. The event is not for the faint hearted, but trail runners of all abilities will be capable of completing one of the distances on offer, if they commit to the challenge ahead and put their mind to it.",
+    "link":"http://www.maverick-race.com/races/the-x-ultra-exmoor2021",
+    "distance":26.5,
+    "route_geojson":"2019_Maverick_Inov_8_X_Exmoor_Long.geojson",
+    "route_url":"2019_Maverick_Inov_8_X_Exmoor_Long"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.09097737242,50.86299522,390 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"The Maverick inov-8 Original East Sussex",
+    "date":"Saturday 29 June 2019",
+    "location":"Brighton, Sussex",
+    "description":"This is a new addition to our 2019 calendar. Here at Maverick Race we are committed to showing you all the best of the UK through trail running, and we know that our new event won’t disappoint.Three routes take in the famous South Downs Way, which inevitably means some rolling hills are in store for all. They take in the famous Ditchling Beacon, the 3rd highest point in the South Downs National Park. With stunning views all the way to London in the North and the coast to your South, you will really feel like you are deep in the English countryside. The trails here consist of woodland, chalky tracks, and valleys; the route is suitable for all levels of runner and a great event for people looking to transition to trail running. 5k, 15k, 23k.",
+    "link":"http://www.maverick-race.com/races/theoriginalastsussex2019",
+    "distance":3.1,
+    "route_geojson":"2019_Maverick_Inov_8_Original_East_Sussex_Short.geojson",
+    "route_url":"2019_Maverick_Inov_8_Original_East_Sussex_Short"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.09097737242,50.86299522,1031 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"The Maverick inov-8 Original East Sussex",
+    "date":"Sunday 30 June 2019",
+    "location":"Brighton, Sussex",
+    "description":"This is a new addition to our 2019 calendar. Here at Maverick Race we are committed to showing you all the best of the UK through trail running, and we know that our new event won’t disappoint.Three routes take in the famous South Downs Way, which inevitably means some rolling hills are in store for all. They take in the famous Ditchling Beacon, the 3rd highest point in the South Downs National Park. With stunning views all the way to London in the North and the coast to your South, you will really feel like you are deep in the English countryside. The trails here consist of woodland, chalky tracks, and valleys; the route is suitable for all levels of runner and a great event for people looking to transition to trail running. 5k, 15k, 23k.",
+    "link":"http://www.maverick-race.com/races/theoriginalastsussex2020",
+    "distance":9.4,
+    "route_geojson":"2019_Maverick_Inov_8_Original_East_Sussex_Middle.geojson",
+    "route_url":"2019_Maverick_Inov_8_Original_East_Sussex_Middle"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.09097737242,50.86299522,1314 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"The Maverick inov-8 Original East Sussex",
+    "date":"Monday 1 July 2019",
+    "location":"Brighton, Sussex",
+    "description":"This is a new addition to our 2019 calendar. Here at Maverick Race we are committed to showing you all the best of the UK through trail running, and we know that our new event won’t disappoint.Three routes take in the famous South Downs Way, which inevitably means some rolling hills are in store for all. They take in the famous Ditchling Beacon, the 3rd highest point in the South Downs National Park. With stunning views all the way to London in the North and the coast to your South, you will really feel like you are deep in the English countryside. The trails here consist of woodland, chalky tracks, and valleys; the route is suitable for all levels of runner and a great event for people looking to transition to trail running. 5k, 15k, 23k.",
+    "link":"http://www.maverick-race.com/races/theoriginalastsussex2021",
+    "distance":14.2,
+    "route_geojson":"2019_Maverick_Inov_8_Original_East_Sussex_Long.geojson",
+    "route_url":"2019_Maverick_Inov_8_Original_East_Sussex_Long"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.749019461,53.34833532,1737 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick inov-8 X & Ultra Trail Series Peaks",
+    "date":"Saturday 13 July 2019",
+    "location":"Hope, Derbyshire",
+    "description":"This ultra distance has been added to the Peaks event for 2019, taking you out to a new area of the Peak District, winding down through valleys, crossing stunning streams and climbing up to Alport Castle, before heading across open moorland where the famous grouse roam. You will then re-join the marathon route and continue on towards Black Ashop Moor. The village of Hope in the Peak District is centrally located and easily accessible for trail runners of all abilities to set themselves a serious challenge, and a trail run event that they won’t forget. Options for 16k, 26k, 46k and now 69k events.",
+    "link":"http://www.maverick-race.com/races/the-x-ultra-peaks2019",
+    "distance":10.3,
+    "route_geojson":"2019_Maverick_Inov_8_X_Peaks_Short.geojson",
+    "route_url":"2019_Maverick_Inov_8_X_Peaks_Short"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.749019461,53.34833532,3234 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick inov-8 X & Ultra Trail Series Peaks",
+    "date":"Sunday 14 July 2019",
+    "location":"Hope, Derbyshire",
+    "description":"This ultra distance has been added to the Peaks event for 2019, taking you out to a new area of the Peak District, winding down through valleys, crossing stunning streams and climbing up to Alport Castle, before heading across open moorland where the famous grouse roam. You will then re-join the marathon route and continue on towards Black Ashop Moor. The village of Hope in the Peak District is centrally located and easily accessible for trail runners of all abilities to set themselves a serious challenge, and a trail run event that they won’t forget. Options for 16k, 26k, 46k and now 69k events.",
+    "link":"http://www.maverick-race.com/races/the-x-ultra-peaks2020",
+    "distance":16.8,
+    "route_geojson":"2019_Maverick_Inov_8_X_Peaks_Middle.geojson",
+    "route_url":"2019_Maverick_Inov_8_X_Peaks_Middle"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.749019461,53.34833532,5190 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick inov-8 X & Ultra Trail Series Peaks",
+    "date":"Monday 15 July 2019",
+    "location":"Hope, Derbyshire",
+    "description":"This ultra distance has been added to the Peaks event for 2019, taking you out to a new area of the Peak District, winding down through valleys, crossing stunning streams and climbing up to Alport Castle, before heading across open moorland where the famous grouse roam. You will then re-join the marathon route and continue on towards Black Ashop Moor. The village of Hope in the Peak District is centrally located and easily accessible for trail runners of all abilities to set themselves a serious challenge, and a trail run event that they won’t forget. Options for 16k, 26k, 46k and now 69k events.",
+    "link":"http://www.maverick-race.com/races/the-x-ultra-peaks2021",
+    "distance":28.2,
+    "route_geojson":"2019_Maverick_Inov_8_X_Peaks_Long.geojson",
+    "route_url":"2019_Maverick_Inov_8_X_Peaks_Long"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.749019461,53.34833532,6925 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick inov-8 X & Ultra Trail Series Peaks",
+    "date":"Tuesday 16 July 2019",
+    "location":"Hope, Derbyshire",
+    "description":"This ultra distance has been added to the Peaks event for 2019, taking you out to a new area of the Peak District, winding down through valleys, crossing stunning streams and climbing up to Alport Castle, before heading across open moorland where the famous grouse roam. You will then re-join the marathon route and continue on towards Black Ashop Moor. The village of Hope in the Peak District is centrally located and easily accessible for trail runners of all abilities to set themselves a serious challenge, and a trail run event that they won’t forget. Options for 16k, 26k, 46k and now 69k events.",
+    "link":"http://www.maverick-race.com/races/the-x-ultra-peaks2022",
+    "distance":43,
+    "route_geojson":"2019_Inov_8_Ultra_Trail_Series_Peaks.geojson",
+    "route_url":"2019_Inov_8_Ultra_Trail_Series_Peaks"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -3.873533614,51.2176925,9011 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick inov-8 Ultra Trail Series Exmoor",
+    "date":"Saturday 7 September 2019",
+    "location":"Lynton, Devon",
+    "description":"The all new Maverick Inov-8 Ultra Trail Series Exmoor (UTSE) point to point is the ultimate in endurance events. It’s the product of our favourite X Series and our hardest Original Series events. On paper you may not see the largest amount of elevation over the 55 mile route, but the extremely hard, roller coaster-like terrain, with minimal flat sections, make it incredibly demanding, both physically and mentally. Once you leave the start venue at Caffyns Farm in Exmoor, the tone is instantly set. There’s a tough climb within the first 2k, and you will be climbing for quite some time during the first stage of the race. Your eyes will be drawn to the epic scenery, first the Valley of the Rocks, then the climb to Foreland Point. From there will be your first technical descent, with loose scree on sheer cliff face - this event is not for the faint-hearted. Finish location is Kilve Court, Kilve, Bridgwater.",
+    "link":"http://www.maverick-race.com/races/2019/9/7/the-maverick-inov-8-ultra-series-exmoor-utse",
+    "distance":54.7,
+    "route_geojson":"2019_Maverick_Inov_Ultra_Trail_Series_Exmoor.geojson",
+    "route_url":"2019_Maverick_Inov_Ultra_Trail_Series_Exmoor"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -4.119894003,53.11759373,3145 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick inov-8 & Ultra Trail Series Snowdonia",
+    "date":"Saturday 21 September 2019",
+    "location":"Llanberis, Caernarfon",
+    "description":"The Maverick inov-8 Snowdonia X-series is quickly becoming a notorious event on the UK’s trail running calendar, and to maintain its reputation as the toughest event in the area we’ve added a new ultra-distance route that will see the most bold of trail runners cover over 60k of Snowdonia’s finest trails and summits, from both the Llanberis and the Miners track. 17k, 23k, 42k and 64k options. In the Snowdonia National Park in North Wales, there is never any guarantee of the weather, but what is always promised is the most extraordinary trail running, up and around the formidable 1085m peak of Snowdon itself.",
+    "link":"http://www.maverick-race.com/races/the-x-ultra-snowdonia-2019",
+    "distance":10.6,
+    "route_geojson":"2019_Maverick_Inov_8_X_Snowdonia_Short.geojson",
+    "route_url":"2019_Maverick_Inov_8_X_Snowdonia_Short"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -4.119894003,53.11759373,4088 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick inov-8 & Ultra Trail Series Snowdonia",
+    "date":"Sunday 22 September 2019",
+    "location":"Llanberis, Caernarfon",
+    "description":"The Maverick inov-8 Snowdonia X-series is quickly becoming a notorious event on the UK’s trail running calendar, and to maintain its reputation as the toughest event in the area we’ve added a new ultra-distance route that will see the most bold of trail runners cover over 60k of Snowdonia’s finest trails and summits, from both the Llanberis and the Miners track. 17k, 23k, 42k and 64k options. In the Snowdonia National Park in North Wales, there is never any guarantee of the weather, but what is always promised is the most extraordinary trail running, up and around the formidable 1085m peak of Snowdon itself.",
+    "link":"http://www.maverick-race.com/races/the-x-ultra-snowdonia-2020",
+    "distance":14.4,
+    "route_geojson":"2019_Maverick_Inov_8_X_Snowdonia_Middle.geojson",
+    "route_url":"2019_Maverick_Inov_8_X_Snowdonia_Middle"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -4.119894003,53.11759373,6277 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick inov-8 & Ultra Trail Series Snowdonia",
+    "date":"Monday 23 September 2019",
+    "location":"Llanberis, Caernarfon",
+    "description":"The Maverick inov-8 Snowdonia X-series is quickly becoming a notorious event on the UK’s trail running calendar, and to maintain its reputation as the toughest event in the area we’ve added a new ultra-distance route that will see the most bold of trail runners cover over 60k of Snowdonia’s finest trails and summits, from both the Llanberis and the Miners track. 17k, 23k, 42k and 64k options. In the Snowdonia National Park in North Wales, there is never any guarantee of the weather, but what is always promised is the most extraordinary trail running, up and around the formidable 1085m peak of Snowdon itself.",
+    "link":"http://www.maverick-race.com/races/the-x-ultra-snowdonia-2021",
+    "distance":26.2,
+    "route_geojson":"2019_Maverick_Inov_8_X_Snowdonia_Long.geojson",
+    "route_url":"2019_Maverick_Inov_8_X_Snowdonia_Long"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -4.119894003,53.11759373,9909 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick inov-8 & Ultra Trail Series Snowdonia",
+    "date":"Tuesday 24 September 2019",
+    "location":"Llanberis, Caernarfon",
+    "description":"The Maverick inov-8 Snowdonia X-series is quickly becoming a notorious event on the UK’s trail running calendar, and to maintain its reputation as the toughest event in the area we’ve added a new ultra-distance route that will see the most bold of trail runners cover over 60k of Snowdonia’s finest trails and summits, from both the Llanberis and the Miners track. 17k, 23k, 42k and 64k options. In the Snowdonia National Park in North Wales, there is never any guarantee of the weather, but what is always promised is the most extraordinary trail running, up and around the formidable 1085m peak of Snowdon itself.",
+    "link":"http://www.maverick-race.com/races/the-x-ultra-snowdonia-2022",
+    "distance":39.2,
+    "route_geojson":"2019_Inov-8_Ultra_Trail_Series_Snowdonia.geojson",
+    "route_url":"2019_Inov-8_Ultra_Trail_Series_Snowdonia"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3296579795,51.24667073,444 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick USE Exposure Lights Dark Series - Surrey",
+    "date":"Saturday 2 November 2019",
+    "location":"Denbies Wine Estate, Dorking, Surrey",
+    "description":"Welcome to the Maverick USE Exposure Lights Dark Series. If you enjoy trail running in the daylight then you are in for a real treat running in the dark! It's an amazing experience: your senses are heightened; you immerse yourself deep into the surroundings; with your head torch on, the trails streak past you at warp speed; you concentrate on making that perfect foot placement so as not to take a tumble.We return to the Surrey Hills, starting from the magnificent Denbies Wine Estate on the North Downs, with glorious views across the rolling Hills and acres of countryside. The routes are intended to test you. We don’t plot routes to make them easy, we want you to become a Maverick and challenge yourself. With 3 to choose from - 5k, 10k, 15k - there’s something for everyone, and we’re sure you’ll have an epic night trail run out here with the Mavericks. And remember – The Darkness Awaits...",
+    "link":"http://www.maverick-race.com/races/thedarksurrey2019",
+    "distance":3.5,
+    "route_geojson":"2019_Maverick_Exposure_Dark_Surrey_Short.geojson",
+    "route_url":"2019_Maverick_Exposure_Dark_Surrey_Short"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3296579795,51.24667073,791 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick USE Exposure Lights Dark Series - Surrey",
+    "date":"Sunday 3 November 2019",
+    "location":"Denbies Wine Estate, Dorking, Surrey",
+    "description":"Welcome to the Maverick USE Exposure Lights Dark Series. If you enjoy trail running in the daylight then you are in for a real treat running in the dark! It's an amazing experience: your senses are heightened; you immerse yourself deep into the surroundings; with your head torch on, the trails streak past you at warp speed; you concentrate on making that perfect foot placement so as not to take a tumble.We return to the Surrey Hills, starting from the magnificent Denbies Wine Estate on the North Downs, with glorious views across the rolling Hills and acres of countryside. The routes are intended to test you. We don’t plot routes to make them easy, we want you to become a Maverick and challenge yourself. With 3 to choose from - 5k, 10k, 15k - there’s something for everyone, and we’re sure you’ll have an epic night trail run out here with the Mavericks. And remember – The Darkness Awaits...",
+    "link":"http://www.maverick-race.com/races/thedarksurrey2020",
+    "distance":6.3,
+    "route_geojson":"2019_Maverick_Exposure_Dark_Surrey_Middle.geojson",
+    "route_url":"2019_Maverick_Exposure_Dark_Surrey_Middle"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3296579795,51.24667073,1115 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick USE Exposure Lights Dark Series - Surrey",
+    "date":"Monday 4 November 2019",
+    "location":"Denbies Wine Estate, Dorking, Surrey",
+    "description":"Welcome to the Maverick USE Exposure Lights Dark Series. If you enjoy trail running in the daylight then you are in for a real treat running in the dark! It's an amazing experience: your senses are heightened; you immerse yourself deep into the surroundings; with your head torch on, the trails streak past you at warp speed; you concentrate on making that perfect foot placement so as not to take a tumble.We return to the Surrey Hills, starting from the magnificent Denbies Wine Estate on the North Downs, with glorious views across the rolling Hills and acres of countryside. The routes are intended to test you. We don’t plot routes to make them easy, we want you to become a Maverick and challenge yourself. With 3 to choose from - 5k, 10k, 15k - there’s something for everyone, and we’re sure you’ll have an epic night trail run out here with the Mavericks. And remember – The Darkness Awaits...",
+    "link":"http://www.maverick-race.com/races/thedarksurrey2021",
+    "distance":9.1,
+    "route_geojson":"2019_Maverick_Exposure_Dark_Surrey_Long.geojson",
+    "route_url":"2019_Maverick_Exposure_Dark_Surrey_Long"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.9748640579,50.96493913,478 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick USE Exposure Lights Dark Series - Hampshire",
+    "date":"Saturday 30 November 2019",
+    "location":"Queen Elizabeth Country Park, Horndean, Hampshire",
+    "description":"Welcome to the Maverick USE Exposure Lights Dark Series. If you enjoy trail running in the daylight then you are in for a real treat running in the dark! It's an amazing experience: your senses are heightened; you immerse yourself deep into the surroundings; with your head torch on, the trails streak past you at warp speed; you concentrate on making that perfect foot placement so as not to take a tumble.We venture to the stunning Queen Elizabeth Country Park, nestled in the western end of the South Downs National Park, and dominated by our favourite thing - hills!. Three routes - 5k, 10k, 15k - all find themselves tackling some rolling terrain and dipping in and out of some stunning wooded areas. The trails are well groomed and hard packed, so you can concentrate on flying down the winding trails without a care in the world. The routes are suitable for all levels of trail runner. All routes are marked with reflective signage so you will not get lost. #thedarknessawaits",
+    "link":"http://www.maverick-race.com/races/thedarkhampshire2019",
+    "distance":3.2,
+    "route_geojson":"2019_Maverick_Exposure_Dark_Hampshire_Short.geojson",
+    "route_url":"2019_Maverick_Exposure_Dark_Hampshire_Short"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.9748640579,50.96493913,774 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick USE Exposure Lights Dark Series - Hampshire",
+    "date":"Sunday 1 December 2019",
+    "location":"Queen Elizabeth Country Park, Horndean, Hampshire",
+    "description":"Welcome to the Maverick USE Exposure Lights Dark Series. If you enjoy trail running in the daylight then you are in for a real treat running in the dark! It's an amazing experience: your senses are heightened; you immerse yourself deep into the surroundings; with your head torch on, the trails streak past you at warp speed; you concentrate on making that perfect foot placement so as not to take a tumble.We venture to the stunning Queen Elizabeth Country Park, nestled in the western end of the South Downs National Park, and dominated by our favourite thing - hills!. Three routes - 5k, 10k, 15k - all find themselves tackling some rolling terrain and dipping in and out of some stunning wooded areas. The trails are well groomed and hard packed, so you can concentrate on flying down the winding trails without a care in the world. The routes are suitable for all levels of trail runner. All routes are marked with reflective signage so you will not get lost. #thedarknessawaits",
+    "link":"http://www.maverick-race.com/races/thedarkhampshire2020",
+    "distance":5.9,
+    "route_geojson":"2019_Maverick_Exposure_Dark_Hampshire_Middle.geojson",
+    "route_url":"2019_Maverick_Exposure_Dark_Hampshire_Middle"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.9748640579,50.96493913,993 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick USE Exposure Lights Dark Series - Hampshire",
+    "date":"Monday 2 December 2019",
+    "location":"Queen Elizabeth Country Park, Horndean, Hampshire",
+    "description":"Welcome to the Maverick USE Exposure Lights Dark Series. If you enjoy trail running in the daylight then you are in for a real treat running in the dark! It's an amazing experience: your senses are heightened; you immerse yourself deep into the surroundings; with your head torch on, the trails streak past you at warp speed; you concentrate on making that perfect foot placement so as not to take a tumble.We venture to the stunning Queen Elizabeth Country Park, nestled in the western end of the South Downs National Park, and dominated by our favourite thing - hills!. Three routes - 5k, 10k, 15k - all find themselves tackling some rolling terrain and dipping in and out of some stunning wooded areas. The trails are well groomed and hard packed, so you can concentrate on flying down the winding trails without a care in the world. The routes are suitable for all levels of trail runner. All routes are marked with reflective signage so you will not get lost. #thedarknessawaits",
+    "link":"http://www.maverick-race.com/races/thedarkhampshire2021",
+    "distance":9,
+    "route_geojson":"2019_Maverick_Exposure_Dark_Hampshire_Long.geojson",
+    "route_url":"2019_Maverick_Exposure_Dark_Hampshire_Long"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -2.00473784,50.61476068,153 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick USE Exposure Lights Dark Series - Dorset",
+    "date":"Saturday 7 December 2019",
+    "location":"Sika Trail,  Coldharbour, Wareham, Dorset",
+    "description":"Welcome to the Maverick USE Exposure Lights Dark Series. If you enjoy trail running in the daylight then you are in for a real treat running in the dark! It's an amazing experience: your senses are heightened; you immerse yourself deep into the surroundings; with your head torch on, the trails streak past you at warp speed; you concentrate on making that perfect foot placement so as not to take a tumble.Dorset is the home of Maverick Race, and we head to the stunning Sika Trail in Wareham Forest. A perfect location for our pre-Xmas Dark event, the route takes in forest, heath and some open pastures. The Sika Trail is a stone's throw away from Poole, but you will feel a million miles away from civilisation. The Dorset Dark routes - 5k, 10k, 16k - are designed for all level of runner, and with very little elevation these three routes can test you in a different way...... The Darkness awaits.",
+    "link":"http://www.maverick-race.com/races/thedarkdorset2019",
+    "distance":3.4,
+    "route_geojson":"2019_Maverick_inov_8_Original_Dorset_Short.geojson",
+    "route_url":"2019_Maverick_inov_8_Original_Dorset_Short"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -2.00473784,50.61476068,250 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick USE Exposure Lights Dark Series - Dorset",
+    "date":"Sunday 8 December 2019",
+    "location":"Sika Trail,  Coldharbour, Wareham, Dorset",
+    "description":"Welcome to the Maverick USE Exposure Lights Dark Series. If you enjoy trail running in the daylight then you are in for a real treat running in the dark! It's an amazing experience: your senses are heightened; you immerse yourself deep into the surroundings; with your head torch on, the trails streak past you at warp speed; you concentrate on making that perfect foot placement so as not to take a tumble.Dorset is the home of Maverick Race, and we head to the stunning Sika Trail in Wareham Forest. A perfect location for our pre-Xmas Dark event, the route takes in forest, heath and some open pastures. The Sika Trail is a stone's throw away from Poole, but you will feel a million miles away from civilisation. The Dorset Dark routes - 5k, 10k, 16k - are designed for all level of runner, and with very little elevation these three routes can test you in a different way...... The Darkness awaits.",
+    "link":"http://www.maverick-race.com/races/thedarkdorset2020",
+    "distance":6.5,
+    "route_geojson":"2019_Maverick_inov_8_Original_Dorset_Middle.geojson",
+    "route_url":"2019_Maverick_inov_8_Original_Dorset_Middle"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -2.00473784,50.61476068,408 ]
+    },
+    "properties": {
+    "organiser":"Maverick",
+    "title":"Maverick USE Exposure Lights Dark Series - Dorset",
+    "date":"Monday 9 December 2019",
+    "location":"Sika Trail,  Coldharbour, Wareham, Dorset",
+    "description":"Welcome to the Maverick USE Exposure Lights Dark Series. If you enjoy trail running in the daylight then you are in for a real treat running in the dark! It's an amazing experience: your senses are heightened; you immerse yourself deep into the surroundings; with your head torch on, the trails streak past you at warp speed; you concentrate on making that perfect foot placement so as not to take a tumble.Dorset is the home of Maverick Race, and we head to the stunning Sika Trail in Wareham Forest. A perfect location for our pre-Xmas Dark event, the route takes in forest, heath and some open pastures. The Sika Trail is a stone's throw away from Poole, but you will feel a million miles away from civilisation. The Dorset Dark routes - 5k, 10k, 16k - are designed for all level of runner, and with very little elevation these three routes can test you in a different way...... The Darkness awaits.",
+    "link":"http://www.maverick-race.com/races/thedarkdorset2021",
+    "distance":9.8,
+    "route_geojson":"2019_Maverick_inov_8_Original_Dorset_Long.geojson",
+    "route_url":"2019_Maverick_inov_8_Original_Dorset_Long"
+    }
+  }
+]
+}
