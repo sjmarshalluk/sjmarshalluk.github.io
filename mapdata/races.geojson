@@ -1,0 +1,5045 @@
+{
+   "type": "FeatureCollection",
+   "features": [
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7277128,51.7961637 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-wendover-woods-half-marathon-10k",
+    "title":"The Wendover Woods Half Marathon & 10k",
+    "date":"Sunday 10 March 2019",
+    "location":"Ashton Clinton, Buckinghamshire",
+    "time":1552176000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.339189,51.389686 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ditton-dash-10k",
+    "title":"Ditton Dash 10k",
+    "date":"Sunday 23 June 2019",
+    "location":"Thames Ditton, Surrey",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.4685497,51.7355868 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-viper-15-mile-trail-run",
+    "title":"The Viper 15 mile Trail Run",
+    "date":"Sunday 28 April 2019",
+    "location":"Chelmsford, Essex",
+    "time":1556409600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.555119,50.855171 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-to-the-king",
+    "title":"Race to the King",
+    "date":"Sunday 23 June 2019",
+    "location":"Nr Arundel, West Sussex",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.891874,51.895927 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/paras-10-colchester",
+    "title":"PARAS'10 Colchester",
+    "date":"Saturday 18 May 2019",
+    "location":"Colchester, Essex",
+    "time":1558137600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.798802,51.214321 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/north-downs-way-50",
+    "title":"North Downs Way 50",
+    "date":"Saturday 18 May 2019",
+    "location":"Farnham, Surrey",
+    "time":1558137600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.570409,51.23622 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/surrey-hills-night-run-march",
+    "title":"Surrey Hills Night Run - March",
+    "date":"Thursday 21 March 2019",
+    "location":"Guildford, Surrey",
+    "time":1553126400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7594171,52.0406224 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/enigma-week-at-the-knees",
+    "title":"Enigma Week At the Knees",
+    "date":"Monday 11 March 2019",
+    "location":"Milton Keynes, Buckinghamshire",
+    "time":1552262400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.570409,51.23622 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/north-downs-way-ultra-run-may",
+    "title":"North Downs Way Ultra Run - May",
+    "date":"Sunday 5 May 2019",
+    "location":"Guildford, Surrey",
+    "time":1557014400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.013156,51.406025 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ted-pepper-memorial-race-10k-1",
+    "title":"Ted Pepper Memorial 10k Race",
+    "date":"Monday 6 May 2019",
+    "location":"Bromley, Kent",
+    "time":1557100800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.106333,50.999041 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/haywards-heath-10",
+    "title":"Haywards Heath 10",
+    "date":"Sunday 5 May 2019",
+    "location":"Haywards Heath, Sussex",
+    "time":1557014400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.816221,52.062458 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/cattle-creep-10k",
+    "title":"Cattle Creep 10k",
+    "date":"Thursday 20 June 2019",
+    "location":"Wolverton, Milton Keynes, Buckinghamshire",
+    "time":1560988800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.713373,51.090856 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-serpent-trail",
+    "title":"The Serpent Trail",
+    "date":"Saturday 6 July 2019",
+    "location":"Haslemere, Surrey",
+    "time":1562371200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.8024651,51.0879632 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-salisbury-5k",
+    "title":"Race for Life - Salisbury 5k",
+    "date":"Sunday 9 June 2019",
+    "location":"Hudson's Field, Salisbury, Wiltshire",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.372882,50.81787 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/south-downs-way-50",
+    "title":"South Downs Way 50",
+    "date":"Saturday 6 April 2019",
+    "location":"Worthing, West Sussex",
+    "time":1554508800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.303742,51.461311 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/london-2-brighton-challenge",
+    "title":"London 2 Brighton Challenge",
+    "date":"Saturday 25 May 2019",
+    "location":"Richmond, London",
+    "time":1558742400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.326676,50.887403 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/rough-runner-the-south-sunday",
+    "title":"Rough Runner The South (Sunday)",
+    "date":"Sunday 14 April 2019",
+    "location":"Steyning, West Sussex",
+    "time":1555200000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.655879,51.796078 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/discover-run-the-wild",
+    "title":"Discover Run the Wild",
+    "date":"Saturday 13 April 2019",
+    "location":"Tring, Hertfordshire",
+    "time":1555113600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3173869,51.686808 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/five-fields-fun-run",
+    "title":"Five Fields Fun Run",
+    "date":"Monday 6 May 2019",
+    "location":"Radlett, Hertfordshire",
+    "time":1557100800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.671448,51.731805 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/maldon-mud-race",
+    "title":"Maldon Mud Race",
+    "date":"Sunday 12 May 2019",
+    "location":"Maldon, Essex",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.498938,50.705279 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/spyvelo-xc-run-series-the-cow-march",
+    "title":"SpyVelo XC Run Series @The Cow (March)",
+    "date":"Sunday 10 March 2019",
+    "location":"Yarmouth, Isle Of Wight",
+    "time":1552176000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.38477,51.1813239 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/paddock-wood-half-marathon",
+    "title":"Paddock Wood Half Marathon",
+    "date":"Sunday 7 April 2019",
+    "location":"Paddock Wood,Kent",
+    "time":1554595200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.834518,51.724376 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/maverick-inov-8-original-buckinghamshire",
+    "title":"Maverick inov-8 Original Buckinghamshire",
+    "date":"Saturday 23 March 2019",
+    "location":"Princes Risborough, Buckinghamshire",
+    "time":1553299200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.2754,51.4520259 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/boys-beating-cancer",
+    "title":"Boys Beating Cancer",
+    "date":"Saturday 15 June 2019",
+    "location":"Hermitage, Thatcham, Berkshire.",
+    "time":1560556800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.753636,51.183203 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/1-hour-mini-trail-tilford-surrey-hills",
+    "title":"1 hour Mini Trail Run - Tilford, Surrey Hills",
+    "date":"Sunday 17 March 2019",
+    "location":"Tilford Institute, Tilford Road, Tilford, Farnham, Surrey,  GU10 2DA",
+    "time":1552780800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.0653974,51.6206639 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-chiltern-chase",
+    "title":"The Chiltern Chase",
+    "date":"Sunday 9 June 2019",
+    "location":"Ewelme, Oxfordshire",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.010939,52.1354963 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/run-orwell",
+    "title":"Run Orwell",
+    "date":"Sunday 30 June 2019",
+    "location":"Orwell, Cambridgeshire",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.5399824,51.2666129 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/resolution-run-maidstone",
+    "title":"Resolution Run Maidstone",
+    "date":"Sunday 24 March 2019",
+    "location":"Mote Park, Maidstone, Kent",
+    "time":1553385600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.3919487,51.1001855 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/bewl-water-10k-half-marathon-marathon-ultra",
+    "title":"Bewl Water 10k, Half Marathon, Marathon & Ultra",
+    "date":"Saturday 11 May 2019",
+    "location":"Lamberhurst, Kent",
+    "time":1557532800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.4526671,51.577472 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-kids-basildon",
+    "title":"Pretty Muddy Race for Life Kids - Basildon",
+    "date":"Sunday 16 June 2019",
+    "location":"Gloucester Park, Basildon, Essex",
+    "time":1560643200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.572015,51.817485 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ashridge-boundary-run",
+    "title":"Ashridge Boundary Run",
+    "date":"Saturday 16 March 2019",
+    "location":"Ringshall,Hertfordshire",
+    "time":1552694400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.5099181,50.6851905 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/isle-of-wight-festival-of-running",
+    "title":"Isle of Wight Festival of Running",
+    "date":"Saturday 1 June 2019",
+    "location":"Freshwater, Isle of Wight",
+    "time":1559347200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.748229,51.628611 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/rifle-run",
+    "title":"Rifle Run",
+    "date":"Sunday 14 April 2019",
+    "location":"High Wycombe, Buckinghamshire",
+    "time":1555200000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.794472,51.068785 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/sarsen-trail-neolithic-marathon-bike-trail",
+    "title":"Sarsen Trail, Neolithic Marathon & Bike Trail",
+    "date":"Sunday 26 May 2019",
+    "location":"Salisbury, Wiltshire",
+    "time":1558828800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.3061761,51.3969214 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-newbury-5k",
+    "title":"Race for Life - Newbury 5k",
+    "date":"Sunday 30 June 2019",
+    "location":"Newbury Racecourse, Berkshire",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-thames-path-potter",
+    "title":"PHOENIX - Thames Path Potter",
+    "date":"Sunday 9 June 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.1381747,50.849505 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/fareham-creek-10k",
+    "title":"Fareham Creek 10k",
+    "date":"Sunday 23 June 2019",
+    "location":"Portchester, Hampshire",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.8942222,51.5622886 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/gung-ho-reading",
+    "title":"Gung-Ho! Reading",
+    "date":"Saturday 6 July 2019",
+    "location":"Culden Faw Estate, Reading, Berkshire",
+    "time":1562371200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.4810391,51.3691457 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-gibbet-challenge",
+    "title":"The Gibbet Challenge",
+    "date":"Sunday 30 June 2019",
+    "location":"Inkpen, Berkshire",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.241705,51.325073 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-hampshire-hoppit-marathon-half-marathon",
+    "title":"The Hampshire Hoppit Marathon & Half Marathon",
+    "date":"Sunday 9 June 2019",
+    "location":"Kingsclere, Hampshire",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7182421,52.0524679 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-milton-keynes-10k",
+    "title":"Race for Life - Milton Keynes 10k",
+    "date":"Sunday 9 June 2019",
+    "location":"Willen Lake, Milton Keynes, Buckinghamshire",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.93899,51.007591 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/serpent-trail-50k",
+    "title":"Serpent Trail 50k",
+    "date":"Saturday 6 July 2019",
+    "location":"Petersfield, Hampshire",
+    "time":1562371200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.5950406,51.5105384 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/run-wexham",
+    "title":"Run Wexham",
+    "date":"Sunday 30 June 2019",
+    "location":"Slough, Berkshire",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3741693,51.2588624 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/trust10-10k-runs-polesden-lacey-may",
+    "title":"Trust10 10k Runs Polesden Lacey - May",
+    "date":"Sunday 26 May 2019",
+    "location":"Polesden Lacey, Surrey",
+    "time":1558828800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.4756795,51.3246379 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-testway-50",
+    "title":"The Testway 50",
+    "date":"Saturday 6 April 2019",
+    "location":"Linkenholt, Hampshire",
+    "time":1554508800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1277583,51.5073509 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/thames-path-100",
+    "title":"Thames Path 100",
+    "date":"Saturday 4 May 2019",
+    "location":"Richmond New Waterfront, London",
+    "time":1556928000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.00878,50.873872 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/moyleman-marathon",
+    "title":"The Moyleman Marathon",
+    "date":"Sunday 17 March 2019",
+    "location":"Lewes, East Sussex",
+    "time":1552780800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.8942222,51.5622886 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/tough-mudder-london-west-5k-sunday",
+    "title":"Tough Mudder London West 5k (Sunday)",
+    "date":"Sunday 5 May 2019",
+    "location":"Culden Faw Estate Office, Henley-on-Thames",
+    "time":1557014400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.188434,50.898199 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/hundred-acres",
+    "title":"Hundred Acres - Half, 10k, 5k",
+    "date":"Saturday 6 April 2019",
+    "location":"Wickham, Hampshire",
+    "time":1554508800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.6372325,51.4855474 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-windsor-5k",
+    "title":"Race for Life - Windsor 5k",
+    "date":"Sunday 2 June 2019",
+    "location":"Royal Windsor Racecourse, Windsor, Berkshire",
+    "time":1559433600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.335246,51.444581 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/london-cardiff-24",
+    "title":"London Cardiff 24",
+    "date":"Friday 7 June 2019",
+    "location":"Twickenham, London",
+    "time":1559865600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-top-run-3",
+    "title":"PHOENIX - Top Run 3",
+    "date":"Saturday 13 April 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1555113600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.457947,51.11306 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-bedgebury-pinetum-summer-10k-5k-series-race-3",
+    "title":"The Bedgebury Pinetum Summer 10k & 5k Series Race 3",
+    "date":"Wednesday 3 July 2019",
+    "location":"Goudhurst, Kent",
+    "time":1562112000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 1.270466,51.1039532 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/cookiethon",
+    "title":"Cookiethon",
+    "date":"Sunday 7 April 2019",
+    "location":"Samphire Hoe, Kent",
+    "time":1554595200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1047257,51.5645784 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/tough-mudder-north-london-urban-saturday",
+    "title":"Tough Mudder North London Urban (Saturday)",
+    "date":"Saturday 13 April 2019",
+    "location":"Finsbury Park, London",
+    "time":1555113600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.9131513,51.4667969 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-sonning-10k-5km-fun-run",
+    "title":"The Sonning 10k, 5km & Fun Run",
+    "date":"Sunday 26 May 2019",
+    "location":"Sonning, Reading, Berkshire",
+    "time":1558828800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.115356,51.02161 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/focus-10k-1",
+    "title":"Focus 10K",
+    "date":"Sunday 2 June 2019",
+    "location":"Borde Hill Garden, Haywards Heath, Sussex",
+    "time":1559433600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1495897,51.4587158 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/wheres-wally",
+    "title":"Where's Wally?",
+    "date":"Sunday 17 March 2019",
+    "location":"Clapham Common, London",
+    "time":1552780800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2531872,51.3132451 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-epsom-5k",
+    "title":"Race for Life - Epsom 5k",
+    "date":"Sunday 23 June 2019",
+    "location":"Epsom Downs Racecourse, Surrey",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.154471,51.5759029 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/treehouse-5k-10k",
+    "title":"Treehouse 5k & 10k",
+    "date":"Sunday 31 March 2019",
+    "location":"Cholsey, Oxfordshire",
+    "time":1553990400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.2575691,51.7912014 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/oxford-self-transcendence-summer-races-race-3",
+    "title":"Oxford Self-Transcendence Summer Races Race 3",
+    "date":"Monday 3 June 2019",
+    "location":"Cutteslowe Park, Oxford",
+    "time":1559520000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2306633,51.4375858 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/second-sunday-5-may",
+    "title":"Second Sunday 5 (May)",
+    "date":"Sunday 12 May 2019",
+    "location":"Wimbledon Common, London",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.570409,51.23622 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/kellys-clandon-park-run",
+    "title":"Kelly's Clandon Park Run",
+    "date":"Saturday 23 March 2019",
+    "location":"Guildford, Surrey",
+    "time":1553299200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.6372325,51.4855474 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-windsor-10k",
+    "title":"Race for Life - Windsor 10k",
+    "date":"Sunday 2 June 2019",
+    "location":"Royal Windsor Racecourse, Berkshire",
+    "time":1559433600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.8024651,51.0879632 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-salisbury-10k",
+    "title":"Race for Life - Salisbury 10k",
+    "date":"Sunday 9 June 2019",
+    "location":"Hudson's Field, Salisbury, Wiltshire",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2491687,51.4388052 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/runthrough-wimbledon-half-marathon-june",
+    "title":"RunThrough Wimbledon Half Marathon - June",
+    "date":"Sunday 2 June 2019",
+    "location":"Roehampton Vale, London",
+    "time":1559433600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.310142,51.059771 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/south-downs-way-100",
+    "title":"South Downs Way 100",
+    "date":"Saturday 8 June 2019",
+    "location":"Winchester, Hampshire",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.5386609,50.811057 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/arun-river-marathon",
+    "title":"Arun River Marathon",
+    "date":"Saturday 11 May 2019",
+    "location":"Littlehampton, Sussex",
+    "time":1557532800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.0119117,51.4748848 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-london-blackheath-5k",
+    "title":"Race for Life - London Blackheath 5k",
+    "date":"Sunday 30 June 2019",
+    "location":"Blackheath Common, London",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.510432,51.088924 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-houghton-trail-event",
+    "title":"The Houghton Trail Event",
+    "date":"Sunday 5 May 2019",
+    "location":"Houghton, Hampshire",
+    "time":1557014400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1388495,51.6590545 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-enfield-5k",
+    "title":"Race for Life - Enfield 5k",
+    "date":"Sunday 9 June 2019",
+    "location":"Trent Park, Enfield, London",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4503647,52.1346563 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/run-bedford-10k",
+    "title":"Run Bedford 10k",
+    "date":"Sunday 2 June 2019",
+    "location":"Russell Park, Bedford",
+    "time":1559433600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4109319,51.6586771 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-watford-10k",
+    "title":"Race for Life - Watford 10k",
+    "date":"Sunday 9 June 2019",
+    "location":"Cassiobury Park, Watford, Hertfordshire",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.4447345,51.1662352 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/harewood-forest-10k",
+    "title":"Harewood Forest 10k",
+    "date":"Monday 6 May 2019",
+    "location":"Wherwell, Hampshire",
+    "time":1557100800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.452624,51.372939 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-reject-run",
+    "title":"The Reject Run",
+    "date":"Sunday 28 April 2019",
+    "location":"Cuxton, Rochester, Kent",
+    "time":1556409600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.332378,51.232202 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/colour5k-dorking",
+    "title":"Colour5K Dorking",
+    "date":"Saturday 8 June 2019",
+    "location":"Dorking, Surrey",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.2230082,51.0724065 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-general-winchester-10k-obstacle-run",
+    "title":"The General Winchester 10K Obstacle Run",
+    "date":"Sunday 7 April 2019",
+    "location":"The Matterley Estate, Winchester, Hampshire",
+    "time":1554595200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.452624,51.372939 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ranscombe-spring-challenge",
+    "title":"Ranscombe Spring Challenge",
+    "date":"Saturday 27 April 2019",
+    "location":"Cuxton, Rochester, Kent",
+    "time":1556323200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.9313803,51.6428188 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/maverick-x-tribe-run-free-half-full-marathon",
+    "title":"Maverick x TRIBE Run Free Full Marathon, Half Marathon & 10km",
+    "date":"Saturday 25 May 2019",
+    "location":"Wormsley Estate, Ibstone, High Wycombe",
+    "time":1558742400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.205883,51.237276 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/reigate-priory-park-10k",
+    "title":"Reigate Priory Park 10k",
+    "date":"Sunday 24 March 2019",
+    "location":"Reigate, Surrey",
+    "time":1553385600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.372882,50.81787 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/three-forts-marathon-challenge",
+    "title":"Three Forts Challenge",
+    "date":"Sunday 5 May 2019",
+    "location":"Worthing, West Sussex",
+    "time":1557014400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.4383269,51.2885498 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-beginners2runners-woodland-run",
+    "title":"The Beginners2Runners Woodland Run",
+    "date":"Sunday 12 May 2019",
+    "location":"East Malling, Kent",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.188434,50.898199 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/river-meon-marathon",
+    "title":"River Meon Marathon",
+    "date":"Sunday 2 June 2019",
+    "location":"Wickham, Hampshire",
+    "time":1559433600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.753636,51.183203 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/2-hour-trail-run-tilford-surrey-hills",
+    "title":"2 hour Trail Run - Tilford, Surrey Hills",
+    "date":"Sunday 17 March 2019",
+    "location":"Tilford Institute, Tilford Road, Tilford, Farnham, Surrey,  GU10 2DA",
+    "time":1552780800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.2826942,51.552001 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/thames-chase-10k-run-family-fun-run",
+    "title":"Thames Chase 10k Run & Family Fun Run",
+    "date":"Sunday 2 June 2019",
+    "location":"The Forest Centre, Upminster, Essex",
+    "time":1559433600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3733532,51.2783826 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/maverick-inov-8-original-surrey",
+    "title":"Maverick inov-8 Original Surrey",
+    "date":"Saturday 18 May 2019",
+    "location":"Great Bookham, Dorking, Surrey",
+    "time":1558137600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2166667,51.7833333 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-welwyn-hatfield-5k",
+    "title":"Pretty Muddy Race for Life -  Welwyn & Hatfield 5k",
+    "date":"Saturday 1 June 2019",
+    "location":"Stanborough Park, Welwyn Garden City, Hertfordshire",
+    "time":1559347200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.188434,50.898199 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/may-the-fourth",
+    "title":"May The Fourth",
+    "date":"Saturday 4 May 2019",
+    "location":"Wickham, Fareham, Hampshire",
+    "time":1556928000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.6372325,51.4855474 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-pretty-muddy-windsor-5k",
+    "title":"Pretty Muddy Race for Life - Windsor 5k",
+    "date":"Saturday 1 June 2019",
+    "location":"Royal Windsor Racecourse, Berkshire",
+    "time":1559347200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.0420105,52.1434558 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-barr-ellison-wimpole-10k-hoohaah",
+    "title":"The Barr Ellison Wimpole 10k hoohaah",
+    "date":"Sunday 19 May 2019",
+    "location":"Wimpole, Cambridgeshire",
+    "time":1558224000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.2230082,51.0724065 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-general-winchester-20k-trail-run",
+    "title":"The General Winchester 20k Trail Run",
+    "date":"Saturday 6 April 2019",
+    "location":"Matterley Estate, Winchester, Hampshire",
+    "time":1554508800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.277723,52.097776 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/time2run-24-hour-race",
+    "title":"Time2Run 24 Hour Race",
+    "date":"Saturday 25 May 2019",
+    "location":"Linton, Cambridge",
+    "time":1558742400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.6414187,50.8083585 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/sway-carnival-5-mile-run",
+    "title":"Sway Carnival 5 Mile Run",
+    "date":"Sunday 30 June 2019",
+    "location":"Wilverley Plain, Brockenhurst, Hampshire",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.798802,51.214321 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/bolt-round-the-holt",
+    "title":"Bolt Round the Holt",
+    "date":"Saturday 30 March 2019",
+    "location":"Farnham, Surrey",
+    "time":1553904000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.370759,51.441884 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/cakeathon-may-bank-holiday-challenge",
+    "title":"Cakeathon May Bank Holiday Challenge",
+    "date":"Monday 6 May 2019",
+    "location":"Gravesend, Kent",
+    "time":1557100800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.370759,51.441884 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/spring-cakeathon-challenge",
+    "title":"Spring Cakeathon Challenge",
+    "date":"Monday 27 May 2019",
+    "location":"Gravesend, Kent",
+    "time":1558915200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.5399824,51.2666129 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-kids-maidstone",
+    "title":"Pretty Muddy Race for Life Kids - Maidstone",
+    "date":"Sunday 7 July 2019",
+    "location":"Mote Park, Maidstone, Kent",
+    "time":1562457600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 1.270466,51.1039532 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/crispathon",
+    "title":"Crispathon",
+    "date":"Saturday 6 April 2019",
+    "location":"Samphire Hoe, Kent",
+    "time":1554508800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3398173,51.416531 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-bushy-park-spring-10k-5k",
+    "title":"The Bushy Park Spring 10k & 5k",
+    "date":"Sunday 14 April 2019",
+    "location":"Bushy Park, London",
+    "time":1555200000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.2067669,51.2603811 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/run-walk-or-push-for-dementia",
+    "title":"Run, Walk or Push for Dementia",
+    "date":"Sunday 12 May 2019",
+    "location":"Knole Park, Sevenoaks, Kent",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.5399824,51.2666129 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/gung-ho-maidstone",
+    "title":"Gung-Ho! Maidstone",
+    "date":"Saturday 8 June 2019",
+    "location":"Mote Park, Maidstone, Kent",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.308611,51.255 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/salomon-trail-running-festival-box-hill-1",
+    "title":"Salomon Trail Running Festival Box Hill",
+    "date":"Saturday 8 June 2019",
+    "location":"Box Hill, Surrey",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.442128,51.396893 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ollie-johnson-memorial-kintbury-5",
+    "title":"Ollie Johnson Memorial Kintbury 5",
+    "date":"Sunday 2 June 2019",
+    "location":"Kintbury, Hungerford, Berkshire",
+    "time":1559433600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.630622,51.051048 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/zenith24",
+    "title":"RBLI Zenith24",
+    "date":"Saturday 22 June 2019",
+    "location":"Rolvenden, Kent",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.706515,51.582071 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/roach-valley-way-relay",
+    "title":"Roach Valley Way Relay",
+    "date":"Sunday 5 May 2019",
+    "location":"Rochford, Essex",
+    "time":1557014400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.710842,51.651046 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/hazlemere-super-5",
+    "title":"Hazlemere SUPER 5",
+    "date":"Sunday 9 June 2019",
+    "location":"Hazlemere, High Wycombe, Buckinghamshire",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.094214,51.374843 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/bh5k-naked-run-may",
+    "title":"BH5K Naked Run (May)",
+    "date":"Sunday 12 May 2019",
+    "location":"Orpington, Kent",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.93899,51.007591 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/serpent-trail-half-marathon",
+    "title":"Serpent Trail Half Marathon",
+    "date":"Saturday 6 July 2019",
+    "location":"Petersfield, Hampshire",
+    "time":1562371200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.2543396,51.6778833 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/nuclear-oblivion-extreme",
+    "title":"Nuclear Oblivion Extreme",
+    "date":"Sunday 19 May 2019",
+    "location":"Kelvedon Hatch, Essex",
+    "time":1558224000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.613576,51.4817279 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/royal-windsor-10k-river-trail-run",
+    "title":"Royal Windsor 10k River Trail Run",
+    "date":"Sunday 19 May 2019",
+    "location":"Windsor, Berkshire",
+    "time":1558224000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.038972,51.5365614 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/wild-wine-run-victoria-park-london-5k",
+    "title":"Wild Wine Run - Victoria Park, London 5k",
+    "date":"Saturday 22 June 2019",
+    "location":"Victoria Park, London",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.137163,50.82253 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/maverick-inov-8-original-east-sussex",
+    "title":"Maverick inov-8 Original East Sussex",
+    "date":"Saturday 29 June 2019",
+    "location":"Brighton, Sussex",
+    "time":1561766400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.6892818,51.6155586 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/rochford-10k",
+    "title":"Rochford 10k",
+    "date":"Sunday 12 May 2019",
+    "location":"Ashingdon, Essex",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.8084,51.815606 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/forestry-100-running-series-wendover-woods",
+    "title":"Forestry 100 Running Series Wendover Woods",
+    "date":"Sunday 30 June 2019",
+    "location":"Aylesbury, Buckinghamshire",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.204373,50.744559 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/coastal-trail-series-exmoor",
+    "title":"Endurancelife Coastal Trail Series - Exmoor",
+    "date":"Saturday 6 April 2019",
+    "location":"Birling Gap, Eastbourne",
+    "time":1554508800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1047257,51.5645784 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/tough-mudder-north-london-urban-friday",
+    "title":"Tough Mudder North London Urban (Friday)",
+    "date":"Friday 12 April 2019",
+    "location":"Finsbury Park, London",
+    "time":1555027200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3817481,50.8081568 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/worthing-beach-race",
+    "title":"Amphibirun Worthing",
+    "date":"Saturday 22 June 2019",
+    "location":"Worthing Beach, West Sussex",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2072336,51.7201439 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/hawkshead-hobble",
+    "title":"Hawkshead Hobble",
+    "date":"Sunday 24 March 2019",
+    "location":"North Mymms, Hertfordshire",
+    "time":1553385600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.267382,51.336036 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/epsom-downs-5k-10k-winter-race",
+    "title":"Epsom Downs 5k & 10k Winter Race",
+    "date":"Sunday 31 March 2019",
+    "location":"Epsom, Surrey",
+    "time":1553990400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3741693,51.2588624 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/trust10-10k-runs-polesden-lacey-june",
+    "title":"Trust10 10k Runs Polesden Lacey - June",
+    "date":"Sunday 23 June 2019",
+    "location":"Polesden Lacey, Surrey",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.4096232,50.9245008 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-southampton-5k",
+    "title":"Pretty Muddy Race for Life - Southampton 5k",
+    "date":"Saturday 22 June 2019",
+    "location":"The Common, Southampton, Hampshire",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1229806,51.5858305 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ymca-north-london-fun-run-festival",
+    "title":"YMCA North London Fun Run Festival",
+    "date":"Sunday 19 May 2019",
+    "location":"Priory Park, Crouch End, London",
+    "time":1558224000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7277128,51.7961637 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/wendover-woods-festival-of-running-half-marathon-10k",
+    "title":"Wendover Woods Festival of Running Half Marathon & 10k",
+    "date":"Saturday 9 March 2019",
+    "location":"Ashton Clinton, Buckinghamshire",
+    "time":1552089600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.0000067,50.9355606 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/clanfield-challenge",
+    "title":"Clanfield Challenge",
+    "date":"Sunday 19 May 2019",
+    "location":"Clanfield, Hampshire",
+    "time":1558224000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.212348,51.832802 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/welwyn-10k",
+    "title":"Welwyn 10K",
+    "date":"Sunday 23 June 2019",
+    "location":"Welwyn, Hertfordshire",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.794606,51.211095 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-kent-spring-marathon-half-marathon",
+    "title":"The Kent Spring Marathon & Half Marathon",
+    "date":"Sunday 7 April 2019",
+    "location":"Charing, Kent",
+    "time":1554595200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7902197,51.064889 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/maverick-inov-8-original-hampshire",
+    "title":"Maverick inov-8 Original Hampshire",
+    "date":"Saturday 9 March 2019",
+    "location":"Iron Hill, Liphook, Hampshire,",
+    "time":1552089600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.326676,50.887403 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/rough-runner-the-south-saturday",
+    "title":"Rough Runner The South (Saturday)",
+    "date":"Saturday 13 April 2019",
+    "location":"Steyning, West Sussex",
+    "time":1555113600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2403418,51.5169637 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-hammersmith-5k",
+    "title":"Pretty Muddy Race for Life - Hammersmith 5k",
+    "date":"Saturday 22 June 2019",
+    "location":"Wormwood Scrubs, London",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.909148,51.632968 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ibstone-circle-5k-10k",
+    "title":"Ibstone Circle 5k & 10k",
+    "date":"Sunday 28 April 2019",
+    "location":"Ibstone, South Buckinghamshire",
+    "time":1556409600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.833078,50.841097 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/moors-valley-run",
+    "title":"Moors Valley Run",
+    "date":"Sunday 19 May 2019",
+    "location":"Ashley Heath, Dorset",
+    "time":1558224000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-excalibur-five-the-long-one",
+    "title":"PHOENIX - Excalibur Five The Long One",
+    "date":"Saturday 18 May 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1558137600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2531872,51.3132451 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-epsom-10k",
+    "title":"Race for Life - Epsom 10k",
+    "date":"Sunday 23 June 2019",
+    "location":"Epsom Downs Racecourse, Surrey",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3741693,51.2588624 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/trust10-10k-runs-polesden-lacey-march",
+    "title":"Trust10 10k Runs Polesden Lacey - March",
+    "date":"Sunday 24 March 2019",
+    "location":"Polesden Lacey, Surrey",
+    "time":1553385600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4321146,52.130733 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-bedford-10k",
+    "title":"Pretty Muddy Race for Life - Bedford 10k",
+    "date":"Saturday 22 June 2019",
+    "location":"Priory Park, Bedford",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.927325,50.963505 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ditcham-park-10k-5k",
+    "title":"Ditcham Park 10k & 5k",
+    "date":"Sunday 5 May 2019",
+    "location":"Ditcham, Hampshire",
+    "time":1557014400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-movies-run-day",
+    "title":"PHOENIX - Movies Run Day",
+    "date":"Monday 15 April 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1555286400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.014126,51.176981 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-lingfield-10s",
+    "title":"The Lingfield 10s",
+    "date":"Sunday 30 June 2019",
+    "location":"Lingfield, Surrey",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.607241,51.6755179 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/amersham-ultra",
+    "title":"Humanity Direct Amersham Ultra",
+    "date":"Saturday 9 March 2019",
+    "location":"Amersham, Buckinghamshire",
+    "time":1552089600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2729712,51.2772596 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/leatherhead-rotary-bluebell-10k",
+    "title":"Leatherhead Rotary Bluebell 10k",
+    "date":"Sunday 5 May 2019",
+    "location":"Headley, Epsom, Surrey",
+    "time":1557014400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-ty-run-osaurus-bones",
+    "title":"PHOENIX - Ty-RUN-Osaurus BONES",
+    "date":"Friday 19 April 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1555632000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.3231139,51.401409 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/roc-newbury-10k",
+    "title":"Roc Newbury 10k",
+    "date":"Sunday 26 May 2019",
+    "location":"Newbury, Berkshire",
+    "time":1558828800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.300689,51.41233 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/thames-meander-marathon-half-marathon-march",
+    "title":"Thames Meander Marathon & Half Marathon - March",
+    "date":"Saturday 9 March 2019",
+    "location":"Kingston-Upon-Thames, Surrey",
+    "time":1552089600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.325858,51.062883 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/mels-milers-10k",
+    "title":"Mel's Milers 10k",
+    "date":"Sunday 31 March 2019",
+    "location":"Horsham, Sussex",
+    "time":1553990400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.188434,50.898199 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/revenge-of-the-fifth-1",
+    "title":"Revenge of the Fifth",
+    "date":"Sunday 5 May 2019",
+    "location":"Wickham, Fareham, Hampshire",
+    "time":1557014400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.902894,51.535764 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-henley-10k-trail-run-1",
+    "title":"The Henley 10k Trail Run",
+    "date":"Sunday 12 May 2019",
+    "location":"Henley-on-Thames, Oxfordshire",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.5419099,50.758531 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/lymington-lifeboat-10k",
+    "title":"Lymington Lifeboat 10k",
+    "date":"Sunday 12 May 2019",
+    "location":"Lymington, Hampshire",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.595944,51.568747 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/bluebell-5",
+    "title":"Bluebell 5",
+    "date":"Sunday 12 May 2019",
+    "location":"Thundersley, Essex",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.0119117,51.4748848 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-london-blackheath-10k",
+    "title":"Race for Life - London Blackheath 10k",
+    "date":"Sunday 30 June 2019",
+    "location":"Blackheath Common, London",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4109319,51.6586771 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-watford-5k",
+    "title":"Pretty Muddy Race for Life - Watford 5k",
+    "date":"Saturday 8 June 2019",
+    "location":"Cassiobury Park, Watford, Hertfordshire",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.3071749,51.620475 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/nuclear-rookie-rush-weekend",
+    "title":"Nuclear Rookie Rush Weekend",
+    "date":"Saturday 18 May 2019",
+    "location":"Brentwood, Essex",
+    "time":1558137600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.4756795,51.3246379 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-testway-40",
+    "title":"The Testway 40",
+    "date":"Saturday 6 April 2019",
+    "location":"Linkenholt, Hampshire",
+    "time":1554508800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.3184195,50.6045194 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/isle-of-wight-challenge",
+    "title":"Isle of Wight Challenge",
+    "date":"Saturday 4 May 2019",
+    "location":"Chale, Ventnor, Isle of Wight,",
+    "time":1556928000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.0952244,50.7830943 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-portsmouth-5k",
+    "title":"Pretty Muddy Race for Life - Portsmouth 5k",
+    "date":"Saturday 6 July 2019",
+    "location":"Southsea Common, Portsmouth, Hampshire",
+    "time":1562371200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 1.2137547,51.3781135 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/kent-50-mile-endurance-run",
+    "title":"Kent 50 Mile Endurance Run",
+    "date":"Saturday 15 June 2019",
+    "location":"Reculver, Kent",
+    "time":1560556800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 1.306532,51.373347 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/d-day-challenge-charge-up-the-beach",
+    "title":"D-Day Challenge - Charge up the Beach!",
+    "date":"Thursday 6 June 2019",
+    "location":"Birchington, Kent",
+    "time":1559779200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.472921,50.985538 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/robertsbridge-midsummer-10k",
+    "title":"Robertsbridge Midsummer 10k",
+    "date":"Friday 21 June 2019",
+    "location":"Robertsbridge, East Sussex",
+    "time":1561075200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.354091,51.847267 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/blenheim-7k-fun-run",
+    "title":"Blenheim 7k Fun Run",
+    "date":"Sunday 28 April 2019",
+    "location":"Woodstock, Oxfordshire",
+    "time":1556409600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.9375034,51.8422698 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-aylesbury-5k",
+    "title":"Race for Life - Aylesbury 5k",
+    "date":"Sunday 12 May 2019",
+    "location":"Waddesdon Manor, Buckinghamshire",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2757727,51.4463869 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/run-richmond-park-5k-10k-race-9",
+    "title":"Run Richmond Park 5k & 10k Race 9",
+    "date":"Saturday 1 June 2019",
+    "location":"Richmond Park, London",
+    "time":1559347200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 1.270466,51.1039532 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/samphire-100",
+    "title":"Samphire 100",
+    "date":"Saturday 9 March 2019",
+    "location":"Samphire Hoe, Kent",
+    "time":1552089600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.0759493,51.5081124 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/bhf-tower-of-london-run",
+    "title":"BHF Tower of London Run",
+    "date":"Wednesday 8 May 2019",
+    "location":"Tower of London, London",
+    "time":1557273600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2757727,51.4463869 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/richmond-park-marathon",
+    "title":"Richmond Park Marathon",
+    "date":"Sunday 19 May 2019",
+    "location":"Richmond Park, London",
+    "time":1558224000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1276999,51.5073907 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/london-pizza-run",
+    "title":"London Pizza Run",
+    "date":"Sunday 16 June 2019",
+    "location":"Central London",
+    "time":1560643200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4191503,51.4191935 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/color-obstacle-rush-london",
+    "title":"Color Obstacle Rush London",
+    "date":"Saturday 8 June 2019",
+    "location":"Shepperton, Sunbury-on-Thames, Surrey",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.370759,51.441884 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/mega-challenge-double",
+    "title":"Mega Challenge Double",
+    "date":"Saturday 25 May 2019",
+    "location":"Gravesend, Kent",
+    "time":1558742400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.1133804,51.3926045 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/questars-adventure-race-3-berkshire",
+    "title":"Questars Adventure Race 3 Berkshire",
+    "date":"Saturday 29 June 2019",
+    "location":"Padworth, Reading, Berkshire",
+    "time":1561766400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2938223,51.8114109 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/wheathampstead-10k",
+    "title":"Wheathampstead 10K",
+    "date":"Sunday 12 May 2019",
+    "location":"Wheathampstead, Hertfordshire",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.6442409,51.602396 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/beaconsfield-5-mile-trail-run",
+    "title":"Beaconsfield 5 Mile Trail Run",
+    "date":"Monday 22 April 2019",
+    "location":"Beaconsfield, Buckinghamshire",
+    "time":1555891200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.137163,50.82253 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/color-obstacle-rush-brighton",
+    "title":"Color Obstacle Rush Brighton",
+    "date":"Saturday 22 June 2019",
+    "location":"Brighton, East Sussex",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4321146,52.130733 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-bedford-5k",
+    "title":"Race for Life - Bedford 5k",
+    "date":"Sunday 23 June 2019",
+    "location":"Priory Park, Bedford, Bedfordshire",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.241173,51.688986 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/t60-challenge",
+    "title":"T60 Challenge",
+    "date":"Saturday 11 May 2019",
+    "location":"Radley, Oxfordshire",
+    "time":1557532800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1631376,51.5608421 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-london-hampstead-10k",
+    "title":"Race for Life - London Hampstead 10k",
+    "date":"Saturday 15 June 2019",
+    "location":"Hampstead Heath, London",
+    "time":1560556800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2206288,51.4183389 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/runthrough-chase-the-sun-wimbledon-5k-10k-may",
+    "title":"RunThrough Chase the Sun Wimbledon 5k  & 10k - May",
+    "date":"Wednesday 29 May 2019",
+    "location":"Wimbledon, London",
+    "time":1559088000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4109319,51.6586771 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/watford-10k",
+    "title":"Watford 10K",
+    "date":"Monday 6 May 2019",
+    "location":"Cassiobury Park, Watford",
+    "time":1557100800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1806924,51.0935388 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-pretty-muddy-crawley-10k",
+    "title":"Pretty Muddy Race for Life - Crawley 10k",
+    "date":"Sunday 23 June 2019",
+    "location":"Tilgate Park, Crawley, West Sussex,",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.580516,51.71552 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/essex-cross-country-10k-series-danbury-country-park",
+    "title":"Essex Cross Country 10K Series - Danbury Country Park",
+    "date":"Saturday 8 June 2019",
+    "location":"Danbury, Chelmsford",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.580516,51.71552 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/color-obstacle-rush-windsor",
+    "title":"Color Obstacle Rush Windsor",
+    "date":"Saturday 18 May 2019",
+    "location":"Windsor, West Berkshire",
+    "time":1558137600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7170941,51.2226134 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/woodland-woggle",
+    "title":"Woodland Woggle",
+    "date":"Sunday 12 May 2019",
+    "location":"Seale, Farnham, Surrey",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-golden-phoenix-marathon",
+    "title":"PHOENIX - Golden Phoenix Marathon",
+    "date":"Sunday 2 June 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1559433600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-excalibur-six-the-knight-run",
+    "title":"PHOENIX - Excalibur Six The KNight Run",
+    "date":"Saturday 8 June 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.872574,51.439938 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/dinton-challenge",
+    "title":"Dinton Challenge",
+    "date":"Thursday 28 March 2019",
+    "location":"Dinton Pastures Country Park, Reading",
+    "time":1553731200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4109319,51.6586771 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-kids-watford",
+    "title":"Pretty Muddy Race for Life Kids - Watford",
+    "date":"Saturday 8 June 2019",
+    "location":"Cassiobury Park, Watford",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.1108119,51.1854609 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-castle-run-series-hever-castle-festival-of-endurance-2018-1",
+    "title":"The Castle Run Series - Hever Castle Festival of Endurance",
+    "date":"Sunday 7 July 2019",
+    "location":"Hever, Kent",
+    "time":1562457600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.1354894,51.8068791 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/otmoor-challenge",
+    "title":"Otmoor Challenge",
+    "date":"Saturday 8 June 2019",
+    "location":"Horton cum Studley, Oxford",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.697369,52.006156 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-enigma-easter-series",
+    "title":"The Enigma Easter Series",
+    "date":"Friday 19 April 2019",
+    "location":"Caldecotte, Buckinghamshire",
+    "time":1555632000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.325858,51.062883 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/horsham-10k",
+    "title":"Horsham 10k",
+    "date":"Sunday 2 June 2019",
+    "location":"Horsham, West Sussex",
+    "time":1559433600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.673061,50.782998 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-felpham-five-beach-race",
+    "title":"The Felpham Five Beach Race",
+    "date":"Wednesday 5 June 2019",
+    "location":"Bognor Regis, Sussex",
+    "time":1559692800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.4775076,51.3579001 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/combe-gibbet-to-overton-16",
+    "title":"Combe Gibbet to Overton 16",
+    "date":"Sunday 7 April 2019",
+    "location":"Combe Gibbet, Berkshire",
+    "time":1554595200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1806924,51.0935388 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-pretty-muddy-crawley-5k",
+    "title":"Pretty Muddy Race for Life - Crawley 5k",
+    "date":"Sunday 23 June 2019",
+    "location":"Tilgate Park, Crawley, West Sussex,",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.190898,51.27241 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/knole-park-10k-run",
+    "title":"Knole Park 10k Run",
+    "date":"Sunday 17 March 2019",
+    "location":"Sevenoaks, Kent",
+    "time":1552780800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-d-day-75th-sea-run",
+    "title":"PHOENIX - D-Day 75th SEA Run",
+    "date":"Friday 7 June 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1559865600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.255234,50.864612 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/mad-marsh-run-10k-east-sussex",
+    "title":"Mad Marsh Run 10k - East Sussex",
+    "date":"Sunday 28 April 2019",
+    "location":"Hailsham, East Sussex",
+    "time":1556409600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.6372325,51.4855474 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-kids-windsor",
+    "title":"Pretty Muddy Race for Life Kids - Windsor",
+    "date":"Saturday 1 June 2019",
+    "location":"Royal Windsor Racecourse",
+    "time":1559347200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.3703569,51.3437699 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/harvel-5",
+    "title":"Harvel 5",
+    "date":"Saturday 1 June 2019",
+    "location":"Harvel, Kent",
+    "time":1559347200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.014468,51.128742 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/east-grinstead-10",
+    "title":"East Grinstead 10",
+    "date":"Saturday 4 May 2019",
+    "location":"East Grinstead, WestSussex",
+    "time":1556928000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.4526671,51.577472 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-pretty-muddy-basildon",
+    "title":"Pretty Muddy Race for Life - Basildon",
+    "date":"Sunday 16 June 2019",
+    "location":"Gloucester Park, Basildon, Essex",
+    "time":1560643200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.902894,51.535764 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/run-for-sparkle-henley",
+    "title":"Run for Sparkle - Henley",
+    "date":"Saturday 11 May 2019",
+    "location":"Remenham, Henley on Thames, Oxfordshire",
+    "time":1557532800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.2575691,51.7912014 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/oxford-self-transcendence-summer-races-race-4",
+    "title":"Oxford Self-Transcendence Summer Races Race 4",
+    "date":"Monday 17 June 2019",
+    "location":"Cutteslowe Park, Oxford",
+    "time":1560729600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -89.5192484,34.3664951 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/oxford-greenbelt-run",
+    "title":"Oxford Greenbelt Run",
+    "date":"Saturday 4 May 2019",
+    "location":"Oxford",
+    "time":1556928000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.111502,51.102295 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/hartfield-10k-fun-run",
+    "title":"Hartfield 10k & Fun Run",
+    "date":"Sunday 7 April 2019",
+    "location":"Hartfield, East Sussex",
+    "time":1554595200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.547876,51.428825 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/magna-carta-marathon-half",
+    "title":"Magna Carta Marathon & Half Marathon",
+    "date":"Saturday 13 April 2019",
+    "location":"Egham, Surrey",
+    "time":1555113600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.226624,51.979074 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-greenway-challenge",
+    "title":"The Greenway Challenge",
+    "date":"Sunday 12 May 2019",
+    "location":"Letchworth Garden City, Hertfordshire",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7351826,51.7820684 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/chiltern-ridge-half-marathon",
+    "title":"Chiltern Ridge Half Marathon",
+    "date":"Saturday 11 May 2019",
+    "location":"Halton, Aylesbury, Buckinghamshire",
+    "time":1557532800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 1.432038,51.360163 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/harbour-wallbanger",
+    "title":"Harbour Wallbanger",
+    "date":"Saturday 22 June 2019",
+    "location":"Broadstairs, Kent",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.328092,50.828179 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/lancing-college-10k",
+    "title":"Lancing College 10K",
+    "date":"Sunday 7 April 2019",
+    "location":"Lancing, West Sussex",
+    "time":1554595200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1806924,51.0935388 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-kids-crawley",
+    "title":"Pretty Muddy Race for Life Kids - Crawley",
+    "date":"Sunday 23 June 2019",
+    "location":"Tilgate Park, Crawley, West Sussex",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-tricera-trot-bones",
+    "title":"PHOENIX - Tricera-TROT BONES",
+    "date":"Thursday 18 April 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1555545600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.239516,51.216814 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-hildenborough-road-races",
+    "title":"The Hildenborough Road Races",
+    "date":"Monday 6 May 2019",
+    "location":"Hildenborough, Kent",
+    "time":1557100800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.204373,50.744559 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/coastal-trail-series-sussex",
+    "title":"Endurancelife Coastal Trail Series - Sussex",
+    "date":"Saturday 16 March 2019",
+    "location":"Birling Gap, East Dean, East Sussex",
+    "time":1552694400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4250984,52.0098065 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/silsoe-stride",
+    "title":"Silsoe Stride",
+    "date":"Sunday 30 June 2019",
+    "location":"Silsoe, Bedfordshire",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.195173,50.8558751 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/bates-green-gallop",
+    "title":"Bates Green Gallop",
+    "date":"Sunday 23 June 2019",
+    "location":"Arlington, East Sussex",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.452624,51.372939 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/summer-ranscombe-teddy-bears-picnic",
+    "title":"Summer Ranscombe & Teddy Bears Picnic!",
+    "date":"Saturday 22 June 2019",
+    "location":"Cuxton, Rochester, Kent",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.303742,51.461311 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/runthrough-richmond-park-half-marathon-july",
+    "title":"RunThrough Richmond Park Half Marathon - July",
+    "date":"Sunday 7 July 2019",
+    "location":"Richmond, Greater London",
+    "time":1562457600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.738354,50.8017944 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/enduroman-festival-of-ultra-events",
+    "title":"Enduroman Festival of Ultra Events",
+    "date":"Friday 17 May 2019",
+    "location":"Avon Tyrrell, Christchurch, Hampshire",
+    "time":1558051200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.152936,51.6251502 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/triffic-trail-10k",
+    "title":"Triffic Trail 10K",
+    "date":"Sunday 23 June 2019",
+    "location":"Barnet, North London",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 1.270466,51.1039532 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-beatrix-potter-challenge",
+    "title":"The Beatrix Potter Challenge",
+    "date":"Sunday 16 June 2019",
+    "location":"Samphire Hoe Country Park, Kent",
+    "time":1560643200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.077487,51.412626 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/scadbury-5-mile-trail-run",
+    "title":"Scadbury 5 mile Trail Run",
+    "date":"Sunday 7 April 2019",
+    "location":"Chislehurst, Kent",
+    "time":1554595200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1277583,51.5073509 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/glow-in-the-park-london",
+    "title":"Glow in the Park: Brighton",
+    "date":"Saturday 27 April 2019",
+    "location":"West London",
+    "time":1556323200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7277128,51.7961637 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/wendover-woods-festival-of-running-10k-5k-canicross-challenge",
+    "title":"Wendover Woods Festival of Running 10k & 5k Canicross Challenge",
+    "date":"Saturday 9 March 2019",
+    "location":"Ashton Clinton, Buckinghamshire",
+    "time":1552089600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.901018,51.030482 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ridgeway-revenge",
+    "title":"Ridgeway Revenge",
+    "date":"Saturday 29 June 2019",
+    "location":"Bishopstone, Wiltshire",
+    "time":1561766400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7170941,51.2226134 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/great-strides-ultra-marathon",
+    "title":"Great Strides Ultra Marathon",
+    "date":"Saturday 8 June 2019",
+    "location":"Seale, Surrey",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.9310657,51.9173146 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/run-the-claydons",
+    "title":"Run the Claydons",
+    "date":"Sunday 28 April 2019",
+    "location":"East Claydon, Buckinghamshire",
+    "time":1556409600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.028177,51.810437 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/dobbs-weir-double",
+    "title":"Dobbs Weir Double",
+    "date":"Saturday 18 May 2019",
+    "location":"Ware, Hertfordshire",
+    "time":1558137600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.655879,51.796078 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/coffee-capers-10km-coffee-cupping",
+    "title":"Coffee Capers - 10km + Coffee Cupping",
+    "date":"Saturday 13 April 2019",
+    "location":"Tring, Hertfordshire",
+    "time":1555113600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2757727,51.4463869 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-richmond-park-summer-10k-5k",
+    "title":"The Richmond Park Summer 10k & 5k",
+    "date":"Sunday 7 July 2019",
+    "location":"Richmond Park, London",
+    "time":1562457600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.732073,51.113618 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/devils-punchbowl-night-10k-april",
+    "title":"Devil's Punchbowl Night 10k (April)",
+    "date":"Wednesday 3 April 2019",
+    "location":"Hindhead, Surrey",
+    "time":1554249600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.612333,51.709401 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/questars-adventure-race-2-chilterns",
+    "title":"Questars Adventure Race 2 Chilterns",
+    "date":"Saturday 11 May 2019",
+    "location":"Chesham, Buckinghamshire",
+    "time":1557532800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1047055,50.8676993 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-brighton-5k",
+    "title":"Pretty Muddy Race for Life - Brighton 5k",
+    "date":"Saturday 29 June 2019",
+    "location":"Stanmer Park, Brighton, East Sussex",
+    "time":1561766400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4321146,52.130733 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-kids-bedford",
+    "title":"Pretty Muddy Race for Life Kids - Bedford",
+    "date":"Saturday 22 June 2019",
+    "location":"Priory Park, Bedford",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.3071749,51.620475 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/nuclear-rush-weekend",
+    "title":"Nuclear Rush Weekend",
+    "date":"Saturday 18 May 2019",
+    "location":"Brentwood, Essex",
+    "time":1558137600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.891874,51.895927 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/colour5k-colchester",
+    "title":"Colour5K Colchester",
+    "date":"Saturday 29 June 2019",
+    "location":"Colchester, Essex",
+    "time":1561766400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.33802,51.061756 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-bewl-15-mile",
+    "title":"The Bewl 15 Mile",
+    "date":"Sunday 7 July 2019",
+    "location":"Wadhurst, East Sussex",
+    "time":1562457600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.890335,51.551824 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/henley-running-festival",
+    "title":"Henley Running Festival",
+    "date":"Saturday 8 June 2019",
+    "location":"Temple Island Meadows, Henley-on-Thames,",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.8536138,51.4557367 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/wokingham-5km-10km-1",
+    "title":"Wokingham 5km/10km",
+    "date":"Sunday 31 March 2019",
+    "location":"Hurst, Wokingham, Reading, Berkshire",
+    "time":1553990400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2757727,51.4463869 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-richmond-park-spring-10k-5k",
+    "title":"The Richmond Park Spring 10k & 5k",
+    "date":"Sunday 31 March 2019",
+    "location":"Richmond Park, London",
+    "time":1553990400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1631376,51.5608421 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-london-hampstead-5k",
+    "title":"Race for Life - London Hampstead 5k",
+    "date":"Saturday 15 June 2019",
+    "location":"Hampstead Heath, London",
+    "time":1560556800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4109319,51.6586771 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-watford-5k",
+    "title":"Race for Life - Watford 5k",
+    "date":"Sunday 9 June 2019",
+    "location":"Cassiobury Park, Watford, Hertfordshire",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.753636,51.183203 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/tri-adventure-4-hour-long-adventure-race-tilford-surrey-hills",
+    "title":"Tri-Adventure 4 hour Long Adventure Race - Tilford, Surrey Hills",
+    "date":"Sunday 17 March 2019",
+    "location":"Tilford Institute, Tilford Road, Tilford, Farnham, Surrey, GU10 2DA",
+    "time":1552780800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1388495,51.6590545 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-enfield-10k",
+    "title":"Race for Life - Enfield 10k",
+    "date":"Sunday 9 June 2019",
+    "location":"Trent Park, Enfield, London",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.621289,51.255202 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/qof-badass-10k",
+    "title":"QOF Badass 10k",
+    "date":"Sunday 9 June 2019",
+    "location":"Ludgershall, Wiltshire",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.1488225,51.5225588 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/thames-ring-250",
+    "title":"Thames Ring 250",
+    "date":"Wednesday 26 June 2019",
+    "location":"Streatley, Berkshire",
+    "time":1561507200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2757727,51.4463869 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/run-richmond-park-5k-10k-race-10",
+    "title":"Run Richmond Park 5k & 10k Race 10",
+    "date":"Saturday 29 June 2019",
+    "location":"Richmond Park, London",
+    "time":1561766400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.2575691,51.7912014 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/oxford-self-transcendence-summer-races-race-1",
+    "title":"Oxford Self-Transcendence Summer Races Race 1",
+    "date":"Monday 6 May 2019",
+    "location":"Cutteslowe Park, Oxford",
+    "time":1557100800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.2575691,51.7912014 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/oxford-self-transcendence-summer-races-race-2",
+    "title":"Oxford Self-Transcendence Summer Races Race 2",
+    "date":"Monday 20 May 2019",
+    "location":"Cutteslowe Park, Oxford",
+    "time":1558310400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2171801,51.4605741 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/putney-fulham-half-marathon-april",
+    "title":"Putney & Fulham Half Marathon - April",
+    "date":"Sunday 14 April 2019",
+    "location":"Putney, West London",
+    "time":1555200000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.8942222,51.5622886 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/tough-mudder-london-west-classic-saturday",
+    "title":"Tough Mudder London West Classic (Saturday)",
+    "date":"Saturday 4 May 2019",
+    "location":"Culden Faw, Fawley, Henley-on-Thames",
+    "time":1556928000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.370759,51.441884 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/darnley-challenge",
+    "title":"Darnley Challenge",
+    "date":"Saturday 4 May 2019",
+    "location":"Gravesend, Kent",
+    "time":1556928000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.753636,51.183203 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/tri-adventure-2-hour-short-adventure-race-tilford-surrey-hills",
+    "title":"Tri-Adventure 2 hour Short Adventure Race - Tilford, Surrey Hills",
+    "date":"Sunday 17 March 2019",
+    "location":"Tilford Institute, Tilford Road, Tilford, Farnham, Surrey,  GU10 2DA",
+    "time":1552780800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.975358,50.965063 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/south-downs-trail-half-marathon-10k",
+    "title":"South Downs Trail Half Marathon & 10k",
+    "date":"Saturday 15 June 2019",
+    "location":"Queen Elizabeth Country Park, Petersfield, West Sussex",
+    "time":1560556800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-di-plod-ocus-bones",
+    "title":"PHOENIX - Di-PLOD-Ocus BONES",
+    "date":"Wednesday 17 April 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1555459200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-marmalade-mooch",
+    "title":"PHOENIX - Marmalade Mooch",
+    "date":"Saturday 20 April 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1555718400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2671732,51.4876272 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/fullers-thames-towpath-10",
+    "title":"Fuller's Thames Towpath 10",
+    "date":"Sunday 14 April 2019",
+    "location":"Chiswick, London",
+    "time":1555200000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.1005385,51.3538459 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/silchester-fun-run",
+    "title":"Silchester Fun Run",
+    "date":"Saturday 11 May 2019",
+    "location":"Silchester, Berkshire",
+    "time":1557532800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3398173,51.416531 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-bushy-park-summer-10k-5k",
+    "title":"The Bushy Park Summer 10k & 5k",
+    "date":"Sunday 9 June 2019",
+    "location":"Bushy Park, London",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.1824358,51.1727246 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/run-or-dye-penshurst",
+    "title":"Run or Dye - Penshurst",
+    "date":"Sunday 30 June 2019",
+    "location":"Penshurst Place, nr Royal Tunbridge Wells, Kent",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.226624,51.979074 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/first-saturday-of-the-month-5k-june",
+    "title":"First Saturday of the Month 5k - June",
+    "date":"Saturday 1 June 2019",
+    "location":"Letchworth Garden City, Hertfordshire",
+    "time":1559347200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-d-day-75th-air-run",
+    "title":"PHOENIX - D-Day 75th AIR Run",
+    "date":"Saturday 8 June 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.457947,51.11306 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/forestry-100-running-series-bedgebury",
+    "title":"Forestry 100 Running Series Bedgebury",
+    "date":"Sunday 31 March 2019",
+    "location":"Goudhurst, Kent",
+    "time":1553990400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7594171,52.0406224 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/color-obstacle-rush-milton-keynes",
+    "title":"Color Obstacle Rush Milton Keynes",
+    "date":"Saturday 1 June 2019",
+    "location":"Milton Keynes, Buckinghamshire",
+    "time":1559347200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.798802,51.214321 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/forestry-100-running-series-alice-holt",
+    "title":"Forestry 100 Running Series Alice Holt",
+    "date":"Sunday 16 June 2019",
+    "location":"Farnham, Surrey",
+    "time":1560643200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.630622,51.051048 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/rbli-zenith24-10k",
+    "title":"RBLI Zenith24 10k",
+    "date":"Saturday 22 June 2019",
+    "location":"Rolvenden, Cranbrook, Kent",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.1944712,51.5541745 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/xrace-london",
+    "title":"XRACE London",
+    "date":"Sunday 30 June 2019",
+    "location":"Harrow Lodge Park, Hornchurch, East London",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.087386,51.4832554 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/thames-5k-10k-3k-at-beale-park",
+    "title":"Thames 5k, 10k & 2.5k at Beale Park",
+    "date":"Thursday 4 July 2019",
+    "location":"Pangbourne, Reading, Berkshire",
+    "time":1562198400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3741693,51.2588624 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/trust10-10k-runs-polesden-lacey-april",
+    "title":"Trust10 10k Runs Polesden Lacey - April",
+    "date":"Sunday 28 April 2019",
+    "location":"Polesden Lacey, Surrey",
+    "time":1556409600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1047055,50.8676993 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-kids-brighton",
+    "title":"Pretty Muddy Race for Life Kids - Brighton",
+    "date":"Saturday 29 June 2019",
+    "location":"Stanmer Park, Brighton",
+    "time":1561766400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.128701,50.954469 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/burgess-hill-10k",
+    "title":"Burgess Hill 10k",
+    "date":"Monday 6 May 2019",
+    "location":"Burgess Hill, WestSussex",
+    "time":1557100800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.4685497,51.7355868 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/essex-cross-country-10k-series-hylands-park",
+    "title":"Essex Cross Country 10k Series - Hylands Park",
+    "date":"Saturday 11 May 2019",
+    "location":"Chelmsford, Essex",
+    "time":1557532800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.5488944,51.3332972 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/woking-trail-running-festival",
+    "title":"Woking Trail Running Festival",
+    "date":"Sunday 30 June 2019",
+    "location":"Horsell Common, Woking, Surrey",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.8536138,51.4557367 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/dinton-5k-10k-summer-series-race-2",
+    "title":"Dinton 5k & 10k Summer Series Race 2",
+    "date":"Thursday 13 June 2019",
+    "location":"Hurst, Wokingham, Reading, Berkshire",
+    "time":1560384000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.75398,51.41604 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/bracknell-samaritans-run",
+    "title":"Bracknell Samaritans Run",
+    "date":"Saturday 29 June 2019",
+    "location":"Bracknell, Berkshire",
+    "time":1561766400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.928821,51.777645 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/mersea-island-round-the-island-race",
+    "title":"Mersea Island Round the Island Race",
+    "date":"Sunday 23 June 2019",
+    "location":"West Mersea, Nr Colchester, Essex",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.226624,51.979074 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/first-saturday-of-the-month-5k-may",
+    "title":"First Saturday of the Month 5k - May",
+    "date":"Saturday 4 May 2019",
+    "location":"Letchworth Garden City, Hertfordshire",
+    "time":1556928000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7182421,52.0524679 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-milton-keynes-5k",
+    "title":"Race for Life - Milton Keynes 5k",
+    "date":"Sunday 9 June 2019",
+    "location":"Willen Lake, Milton Keynes, Buckinghamshire",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3473688,51.5125031 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ealing-eagles-10k",
+    "title":"Ealing Eagles 10k",
+    "date":"Saturday 11 May 2019",
+    "location":"Brent Lodge Park, Hanwell, London",
+    "time":1557532800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.5488515,52.0625663 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/marston-forest-5k",
+    "title":"Marston Forest 5k",
+    "date":"Friday 7 June 2019",
+    "location":"Marston Moretaine, Bedfordshire",
+    "time":1559865600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.613576,51.4817279 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/royal-windsor-half-marathon-river-trail-run",
+    "title":"Royal Windsor Half Marathon River Trail Run",
+    "date":"Sunday 19 May 2019",
+    "location":"Windsor, Berkshire",
+    "time":1558224000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.0571283,51.588453 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-engine-run",
+    "title":"The Engine Run",
+    "date":"Saturday 15 June 2019",
+    "location":"Hale Village, Tottenham, London",
+    "time":1560556800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.370759,51.441884 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/north-downs-run",
+    "title":"North Downs Run",
+    "date":"Sunday 30 June 2019",
+    "location":"Gravesend, Kent",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.2230082,51.0724065 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-general-winchester-10k-trail-run",
+    "title":"The General Winchester 10k Trail Run",
+    "date":"Saturday 6 April 2019",
+    "location":"Matterley Estate, Winchester, Hampshire",
+    "time":1554508800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.291633,50.700803 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/newport-to-ryde-7",
+    "title":"Newport to Ryde 7",
+    "date":"Saturday 20 April 2019",
+    "location":"Newport, Isle of Wight",
+    "time":1555718400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-pjs-on-the-path",
+    "title":"PHOENIX - PJ's On The Path",
+    "date":"Tuesday 16 April 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1555372800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.370759,51.441884 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/funky-pants-challenge",
+    "title":"Funky Pants Challenge",
+    "date":"Sunday 31 March 2019",
+    "location":"Gravesend, Kent",
+    "time":1553990400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.5399824,51.2666129 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-maidstone-5k",
+    "title":"Pretty Muddy Race for Life - Maidstone 5k",
+    "date":"Sunday 7 July 2019",
+    "location":"Mote Park, Maidstone, Kent",
+    "time":1562457600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2961593,51.4691552 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-richmond-5k",
+    "title":"Race for Life - Richmond 5k",
+    "date":"Sunday 2 June 2019",
+    "location":"Old Deer Park, Richmond, London",
+    "time":1559433600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2306633,51.4375858 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/second-sunday-5-april",
+    "title":"Second Sunday 5 (April)",
+    "date":"Sunday 14 April 2019",
+    "location":"Wimbledon Common, London",
+    "time":1555200000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.9781303,51.4542645 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/endure-24-reading",
+    "title":"Endure 24 Reading",
+    "date":"Friday 14 June 2019",
+    "location":"Reading, Berkshire",
+    "time":1560470400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.613576,51.4817279 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/run-for-sparkle-windsor",
+    "title":"Run for Sparkle - Windsor",
+    "date":"Saturday 18 May 2019",
+    "location":"Windsor, Berkshire",
+    "time":1558137600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.45307,51.2767662 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/hurstbourne-5",
+    "title":"Hurstbourne 5",
+    "date":"Saturday 4 May 2019",
+    "location":"Hurstbourne Tarrant, Hampshire",
+    "time":1556928000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.848346,51.6736549 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-ridge-off-roader",
+    "title":"The Ridge Off Roader",
+    "date":"Sunday 19 May 2019",
+    "location":"Bledlow Ridge, Buckinghamshire",
+    "time":1558224000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.4096232,50.9245008 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-kids-portsmouth",
+    "title":"Pretty Muddy Race for Life Kids - Portsmouth",
+    "date":"Saturday 6 July 2019",
+    "location":"The Common, Southampton",
+    "time":1562371200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.370759,51.441884 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/very-british-challenge",
+    "title":"Very British Challenge",
+    "date":"Saturday 30 March 2019",
+    "location":"Gravesend, Kent",
+    "time":1553904000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.137163,50.82253 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/tuff20",
+    "title":"Tuff20 (formerly Jog Shop Jog/Jog Shop 20)",
+    "date":"Sunday 24 March 2019",
+    "location":"Brighton, East Sussex",
+    "time":1553385600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.358953,51.81846 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/harpenden-half-marathon",
+    "title":"Harpenden Half Marathon",
+    "date":"Sunday 10 March 2019",
+    "location":"Harpenden, Hertfordshire",
+    "time":1552176000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.727062,51.420073 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/marlborough-downs-challenge",
+    "title":"Marlborough Downs Challenge",
+    "date":"Saturday 11 May 2019",
+    "location":"Marlborough, Wiltshire",
+    "time":1557532800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.2306394,50.9703846 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/little-horsted-fun-run",
+    "title":"Little Horsted Fun Run",
+    "date":"Sunday 12 May 2019",
+    "location":"Wealden, East Sussex",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.303742,51.461311 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ranelagh-harriers-richmond-half-marathon",
+    "title":"Ranelagh Harriers Richmond Half Marathon",
+    "date":"Sunday 5 May 2019",
+    "location":"Richmond, Surrey",
+    "time":1557014400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.226624,51.979074 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/first-saturday-of-the-month-5k-april",
+    "title":"First Saturday of the Month 5k - April",
+    "date":"Saturday 6 April 2019",
+    "location":"Letchworth Garden City, Hertfordshire",
+    "time":1554508800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.310142,51.059771 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-devils-challenge",
+    "title":"The Devil's Challenge",
+    "date":"Saturday 4 May 2019",
+    "location":"Winchester, Hampshire",
+    "time":1556928000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.570409,51.23622 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/hard-as-snails",
+    "title":"Hard as Snails",
+    "date":"Wednesday 3 July 2019",
+    "location":"Guildford, Surrey",
+    "time":1562112000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.655879,51.796078 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/run-the-wild-chiltern-hills-challenge",
+    "title":"Run the Wild - Chiltern Hills Challenge (Multi-Day)",
+    "date":"Saturday 30 March 2019",
+    "location":"Tring, Hertfordshire",
+    "time":1553904000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1388495,51.6590545 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-kids-enfield",
+    "title":"Pretty Muddy Race for Life Kids - Enfield",
+    "date":"Saturday 8 June 2019",
+    "location":"Trent Park, Enfield, London",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.1956749,50.899524 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/weald-challenge-trail-races",
+    "title":"Weald Challenge Trail Races",
+    "date":"Sunday 9 June 2019",
+    "location":"Muddles Green, East Sussex",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.902894,51.535764 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/henley-half-marathon-trail-run",
+    "title":"Henley Half Marathon Trail Run",
+    "date":"Sunday 12 May 2019",
+    "location":"Henley-on-Thames, Oxfordshire",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.014468,51.128742 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/mud-monsters-run",
+    "title":"Mud Monsters Run",
+    "date":"Sunday 9 June 2019",
+    "location":"East Grinstead, West Sussex",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-excalibur-four-knight-day-evening-run",
+    "title":"PHOENIX - Excalibur Four KNIGHT & Day (Evening Run)",
+    "date":"Saturday 6 April 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1554508800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.277723,52.097776 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/time2run-24-hour-race-1",
+    "title":"Time2Run 24 Hour Race",
+    "date":"Saturday 25 May 2019",
+    "location":"Linton, Cambridge",
+    "time":1558742400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.697369,52.006156 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/enigma-retro-cars",
+    "title":"Enigma Retro Cars",
+    "date":"Saturday 15 June 2019",
+    "location":"Caldecotte, Buckinghamshire",
+    "time":1560556800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.101108,50.7734669 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/seaford-half-marathon",
+    "title":"Seaford Half Marathon",
+    "date":"Sunday 12 May 2019",
+    "location":"Seaford, East Sussex",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.8942222,51.5622886 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/tough-mudder-london-west-classic-sunday",
+    "title":"Tough Mudder London West Classic (Sunday)",
+    "date":"Sunday 5 May 2019",
+    "location":"Culden Faw, Fawley, Henley-on-Thames",
+    "time":1557014400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4291001,51.3527154 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/whiteley-village-5k-10k",
+    "title":"Whiteley Village 5k & 10k",
+    "date":"Sunday 9 June 2019",
+    "location":"Whiteley Village, Walton on Thames, Surrey, KT12 4EH",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.5099181,50.6851905 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/west-wight-3-hills",
+    "title":"West Wight 3 Hills",
+    "date":"Monday 22 April 2019",
+    "location":"Freshwater, Isle of Wight",
+    "time":1555891200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.2575691,51.7912014 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/oxford-sri-chinmoy-one-mile-junior-race",
+    "title":"Oxford Sri Chinmoy One Mile Junior Race",
+    "date":"Wednesday 29 May 2019",
+    "location":"Cutteslowe Park, Oxford",
+    "time":1559088000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-run-to-the-pub",
+    "title":"PHOENIX - Run To The PUB",
+    "date":"Sunday 21 April 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1555804800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.847247,50.841936 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ringwood-rabbit-run",
+    "title":"Ringwood Rabbit Run",
+    "date":"Sunday 24 March 2019",
+    "location":"Moors Valley Country Park, Ashley Heath, near Ringwood, Dorset.",
+    "time":1553385600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.9749792,52.0519538 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/steeple-bumpstead-10k",
+    "title":"Steeple Bumpstead 10k",
+    "date":"Sunday 23 June 2019",
+    "location":"Essex/Suffolk border",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.3061761,51.3969214 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-newbury-10k",
+    "title":"Race for Life - Newbury 10k",
+    "date":"Sunday 30 June 2019",
+    "location":"Newbury Racecourse, Berkshire",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7011712,51.3380419 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/brutal-bagshot",
+    "title":"BRUTAL Bagshot",
+    "date":"Saturday 13 April 2019",
+    "location":"Bagshot, Surrey GU15 1HF",
+    "time":1555113600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-ten-in-ten-run-series",
+    "title":"PHOENIX - Ten in Ten Run Series",
+    "date":"Saturday 13 April 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1555113600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.101108,50.7734669 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/martello-half-marathon",
+    "title":"Martello Half Marathon",
+    "date":"Sunday 30 June 2019",
+    "location":"Seaford, East Sussex",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4663801,50.860312 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/angmering-bluebell-trail-runs",
+    "title":"Angmering Bluebell Trail Runs",
+    "date":"Sunday 28 April 2019",
+    "location":"Patching, West Sussex",
+    "time":1556409600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.483679,50.917405 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/out-of-the-blue-battle-10k-5k",
+    "title":"Out Of The Blue Battle 10k & 5k",
+    "date":"Thursday 16 May 2019",
+    "location":"nr Battle, East Sussex",
+    "time":1557964800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2396492,51.5213345 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-kids-hammersmith-london",
+    "title":"Pretty Muddy Race for Life Kids - Hammersmith, London",
+    "date":"Saturday 22 June 2019",
+    "location":"Wormwood Scrubs, White City, London",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4026746,51.4185161 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/inflatable-5k-obstacle-run-london",
+    "title":"Inflatable 5k Obstacle Run - London",
+    "date":"Saturday 6 April 2019",
+    "location":"Kempton Park Racecourse, Sunbury-on-Thames",
+    "time":1554508800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.8942222,51.5622886 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/tough-mudder-london-west-5k-saturday",
+    "title":"Tough Mudder London West 5k (Saturday)",
+    "date":"Saturday 4 May 2019",
+    "location":"Culden Faw Estate Office, Henley-on-Thames",
+    "time":1556928000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-x-phoenix",
+    "title":"PHOENIX - X-PhoeniX",
+    "date":"Monday 22 April 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1555891200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.792526,50.9258359 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/questars-adventure-race-1-new-forest",
+    "title":"Questars Adventure Race 1 New Forest",
+    "date":"Saturday 30 March 2019",
+    "location":"Fordingbridge, Hampshire",
+    "time":1553904000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.93899,51.007591 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/serpent-trail-100k",
+    "title":"Serpent Trail 100k",
+    "date":"Saturday 6 July 2019",
+    "location":"Petersfield, Hampshire",
+    "time":1562371200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1388495,51.6590545 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/pretty-muddy-race-for-life-enfield-5k-1",
+    "title":"Pretty Muddy Race for Life - Enfield 5k",
+    "date":"Saturday 8 June 2019",
+    "location":"Trent Park, Enfield, Greater London",
+    "time":1559952000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.205883,51.237276 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ymca-east-surrey-charity-fun-run",
+    "title":"YMCA East Surrey Charity Fun Run",
+    "date":"Sunday 5 May 2019",
+    "location":"Reigate, Surrey",
+    "time":1557014400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.457947,51.11306 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-bedgebury-pinetum-summer-10k-5k-series-race-1",
+    "title":"The Bedgebury Pinetum Summer 10k & 5k Series Race 1",
+    "date":"Wednesday 1 May 2019",
+    "location":"Goudhurst, Kent",
+    "time":1556668800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.612808,51.185732 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-fox",
+    "title":"The Fox",
+    "date":"Saturday 27 April 2019",
+    "location":"Godalming, Surrey",
+    "time":1556323200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.960799,51.459609 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/run-for-sparkle-reading",
+    "title":"Run for Sparkle - Reading",
+    "date":"Sunday 26 May 2019",
+    "location":"Kings Meadow, Napier Rd, Reading",
+    "time":1558828800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.1962289,51.94436 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/quendon-and-rickling-10k-5k-and-fun-run",
+    "title":"Quendon and Rickling RunFest",
+    "date":"Sunday 23 June 2019",
+    "location":"Rickling Green, Essex",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-silver-phoenix-run",
+    "title":"PHOENIX - Silver Phoenix Run",
+    "date":"Saturday 1 June 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1559347200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.457947,51.11306 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-bedgebury-pinetum-summer-10k-5k-series-race-2",
+    "title":"The Bedgebury Pinetum Summer 10k & 5k Series Race 2",
+    "date":"Wednesday 5 June 2019",
+    "location":"Goudhurst, Kent",
+    "time":1559692800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.014468,51.128742 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-mid-sussex-marathon-weekend",
+    "title":"The Mid Sussex Marathon Weekend",
+    "date":"Saturday 4 May 2019",
+    "location":"East Grinstead, West Sussex",
+    "time":1556928000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.7077123,51.5459269 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/harp-24",
+    "title":"HARP 24",
+    "date":"Saturday 22 June 2019",
+    "location":"Southend-on-Sea, Essex",
+    "time":1561161600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.5678569,51.759766 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/technical-series-night-run",
+    "title":"Technical Series - Night Run",
+    "date":"Tuesday 16 April 2019",
+    "location":"Berkhamsted, Hertfordshire",
+    "time":1555372800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.794472,51.068785 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-men",
+    "title":"Race For Men",
+    "date":"Sunday 16 June 2019",
+    "location":"Salisbury, Wiltshire",
+    "time":1560643200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 0.3131392,52.0549748 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/ashdon-10k-3k-run-3k-fun-run",
+    "title":"Ashdon 10k & 3k Run / 3k Fun Run",
+    "date":"Monday 6 May 2019",
+    "location":"Ashdon, Saffron Walden, Essex",
+    "time":1557100800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1047055,50.8676993 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-brighton-5k",
+    "title":"Race for Life - Brighton 5k",
+    "date":"Sunday 30 June 2019",
+    "location":"Stanmer Park, Brighton, East Sussex",
+    "time":1561852800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/surrey-pizza-run",
+    "title":"Surrey Pizza Run",
+    "date":"Sunday 19 May 2019",
+    "location":"Walton-on-Thames, Surrey",
+    "time":1558224000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.5586815,51.3200094 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/wey-ahead",
+    "title":"Wey Ahead",
+    "date":"Saturday 18 May 2019",
+    "location":"Jubilee Square ,Woking, Surrey",
+    "time":1558137600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7351826,51.7820684 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/chiltern-ridge-ultra-trail-50k",
+    "title":"Chiltern Ridge Ultra Trail 50k",
+    "date":"Saturday 11 May 2019",
+    "location":"Halton, Aylesbury, Buckinghamshire",
+    "time":1557532800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.3377623,51.4036128 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-green-belt-relay",
+    "title":"The Green Belt Relay",
+    "date":"Saturday 18 May 2019",
+    "location":"Hampton Court Palace, East Molesey, Surrey",
+    "time":1558137600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.5678569,51.759766 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-groovy-baby",
+    "title":"PHOENIX - Groovy Baby",
+    "date":"Sunday 14 April 2019",
+    "location":"Berkhamsted, Hertfordshire",
+    "time":1555200000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-d-day-75th-land-run",
+    "title":"PHOENIX - D-Day 75th LAND Run",
+    "date":"Thursday 6 June 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1559779200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.1657303,51.5072682 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/london-hyde-park-10k-may-2018-1",
+    "title":"London Hyde Park 10K - May",
+    "date":"Sunday 19 May 2019",
+    "location":"Hyde Park, London",
+    "time":1558224000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.028751,50.890312 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/queen-elizabeth-spring-marathon-half",
+    "title":"Queen Elizabeth Spring Marathon & Half",
+    "date":"Sunday 31 March 2019",
+    "location":"Waterlooville, Hampshire",
+    "time":1553990400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2306633,51.4375858 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/second-sunday-5-march",
+    "title":"Second Sunday 5 (March)",
+    "date":"Sunday 10 March 2019",
+    "location":"Wimbledon Common, London",
+    "time":1552176000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.8536138,51.4557367 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/dinton-5k-10k-summer-series-race-1",
+    "title":"Dinton 5k & 10k Summer Series Race 1",
+    "date":"Thursday 9 May 2019",
+    "location":"Hurst, Wokingham, Reading, Berkshire",
+    "time":1557360000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.4321146,52.130733 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/race-for-life-bedford-10k",
+    "title":"Race for Life - Bedford 10k",
+    "date":"Sunday 23 June 2019",
+    "location":"Priory Park, Bedford, Bedfordshire",
+    "time":1561248000350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2306633,51.4375858 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/second-sunday-5-june",
+    "title":"Second Sunday 5 (June)",
+    "date":"Sunday 9 June 2019",
+    "location":"Wimbledon Common, London",
+    "time":1560038400350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.2961593,51.4691552 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/perseverance-richmond-half-and-10km",
+    "title":"Perseverance Richmond Half and 10km",
+    "date":"Sunday 17 March 2019",
+    "location":"Old Deer Park, Richmond",
+    "time":1552780800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.483985,51.141073 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/cranleigh-trail-marathon-half-marathon",
+    "title":"Cranleigh Trail Marathon & Half Marathon",
+    "date":"Sunday 12 May 2019",
+    "location":"Cranleigh, Surrey",
+    "time":1557619200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7950843,51.2940732 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/brutal-pyestock",
+    "title":"BRUTAL Pyestock",
+    "date":"Saturday 15 June 2019",
+    "location":"Pyestock, Fleet, Hampshire",
+    "time":1560556800350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.7769422,51.5719443 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/the-danesfield-dash",
+    "title":"The Danesfield Dash",
+    "date":"Sunday 28 April 2019",
+    "location":"Marlow, Buckinghamshire",
+    "time":1556409600350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.0921186,51.8476248 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/warrior-adrenaline-race-1",
+    "title":"Warrior Adrenaline Race",
+    "date":"Saturday 27 April 2019",
+    "location":"Woodhall Estate, Hertford",
+    "time":1556323200350
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -0.416969,51.38847 ]
+    },
+    "properties": {
+    "link-href":"https://findarace.com/events/phoenix-excalibur-four-day-knight-morning-run",
+    "title":"PHOENIX - Excalibur Four DAY & Knight (Morning Run)",
+    "date":"Saturday 6 April 2019",
+    "location":"Walton on Thames, Surrey",
+    "time":1554508800350
+    }
+  }
+]
+}
