@@ -121,15 +121,15 @@ demo_button.onclick = function(e) {
   }
   
   if (is_running){
-    window.removeEventListener("devicemotion", handleMotion);
-    //window.removeEventListener("deviceorientation", handleOrientation);
+    //window.removeEventListener("devicemotion", handleMotion);
+    window.removeEventListener("deviceorientation", handleOrientation);
     demo_button.innerHTML = "Start demo";
     demo_button.classList.add('btn-success');
     demo_button.classList.remove('btn-danger');
     is_running = false;
   }else{
-    window.addEventListener("devicemotion", handleMotion);
-    //window.addEventListener("deviceorientation", handleOrientation);
+    //window.addEventListener("devicemotion", handleMotion);
+    window.addEventListener("deviceorientation", handleOrientation);
     document.getElementById("start_demo").innerHTML = "Stop demo";
     demo_button.classList.remove('btn-success');
     demo_button.classList.add('btn-danger');
