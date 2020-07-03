@@ -56,6 +56,7 @@
   <li>Z-axis (&alpha;): <span id="Orientation_a">0</span><span>&deg;</span></li>
 </ul>
 
+<!--
 <h4>Accelerometer</h4>
 <ul>
   <li>X-axis: <span id="Accelerometer_x">0</span><span> m/s<sup>2</sup></span></li>
@@ -78,6 +79,7 @@
   <li>Y-axis: <span id="Gyroscope_y">0</span><span>&deg;/s</span></li>
   <li>Z-axis: <span id="Gyroscope_z">0</span><span>&deg;/s</span></li>
 </ul>
+-->
 
         <!--
             These paths are to be used by clients, when using map bundle from CDN.
@@ -156,14 +158,18 @@ function handleOrientation(event) {
     map.lookAt({ tilt: event.beta });
     map.lookAt({ heading: event.gamma });
 
+
+    /*
   updateFieldIfNotNull('Orientation_a', event.alpha);
   updateFieldIfNotNull('Orientation_b', event.beta);
   updateFieldIfNotNull('Orientation_g', event.gamma);
   incrementEventCount();
+    */
 
 
 }
 
+/*
 function incrementEventCount(){
   let counterElement = document.getElementById("num-observed-events")
   let eventCount = parseInt(counterElement.innerHTML)
@@ -191,6 +197,7 @@ function handleMotion(event) {
   updateFieldIfNotNull('Gyroscope_y', event.rotationRate.gamma);
   incrementEventCount();
 }
+*/
 
 let is_running = false;
 let demo_button = document.getElementById("start_demo");
