@@ -156,7 +156,9 @@
 
 function handleOrientation(event) {
     map.lookAt({ tilt: event.beta });
-    map.lookAt({ heading: event.gamma });
+
+    var rotation = event.gamma - (event.gamma * 2);
+    map.lookAt({ heading: rotation });
 
 
     /*
