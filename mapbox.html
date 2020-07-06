@@ -291,11 +291,18 @@ map.getCanvas().style.cursor = '';
 
 
 function handleOrientation(event) {
+
+
+	map.setPitch(event.beta);
+
+	map.setBearing(event.gamma);
+
+	/*
     map.lookAt({ tilt: event.beta });
 
     //var rotation = event.gamma - (event.gamma * 2);
     map.lookAt({ heading: event.gamma });
-
+	*/
 
     /*
   updateFieldIfNotNull('Orientation_a', event.alpha);
