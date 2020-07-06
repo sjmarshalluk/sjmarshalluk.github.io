@@ -308,8 +308,8 @@ function handleOrientation(event) {
 
 	map.setPitch(event.beta);
 
-  var bearing = event.gamma - (event.gamma * 2);
-	map.setBearing(bearing);
+  //var bearing = event.gamma - (event.gamma * 2);
+	//map.setBearing(bearing);
 
 	/*
     map.lookAt({ tilt: event.beta });
@@ -334,6 +334,7 @@ function manageCompass(event) {
         absoluteHeading = 180 - event.alpha;
     }
     console.log(absoluteHeading);
+    map.setBearing(absoluteHeading);
 }
 
 
