@@ -308,7 +308,8 @@ function handleOrientation(event) {
 
 	map.setPitch(event.beta);
 
-	map.setBearing(event.gamma);
+  var bearing = event.gamma - (event.gamma * 2);
+	map.setBearing(bearing);
 
 	/*
     map.lookAt({ tilt: event.beta });
