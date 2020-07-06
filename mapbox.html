@@ -6,13 +6,17 @@
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
 <style>
 	body { margin: 0; padding: 0; }
-	#map { position: absolute; top: 100px; bottom: 0; width: 100%; }
+	#map { position: absolute; top: 100px; bottom: 0; width: 100%; z-index: 10 }
 	.mapboxgl-popup {
 max-width: 400px;
 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+#videoElement {
+	position: absolute; top: 100px; bottom: 0; width: 100%; height: 100%
 }
 </style>
 </head>
@@ -25,6 +29,9 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
   <li>Z-axis (&alpha;): <span id="Orientation_a">0</span><span>&deg;</span></li>
 </ul>
 <div id="map"></div>
+<video autoplay="true" id="videoElement">
+	
+	</video>
 <script>
 	// TO MAKE THE MAP APPEAR YOU MUST
 	// ADD YOUR ACCESS TOKEN FROM
@@ -32,7 +39,7 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 	mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
 var map = new mapboxgl.Map({
 container: 'map',
-style: 'mapbox://styles/mapbox/streets-v11',
+style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
 center: [-0.93875203281641,51.005568447565174],
 zoom: 20,
 pitch: 60,
@@ -344,6 +351,18 @@ demo_button.onclick = function(e) {
 };
 
 });
+
+var video = document.querySelector("#videoElement");
+
+if (navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function (stream) {
+      video.srcObject = stream;
+    })
+    .catch(function (err0r) {
+      console.log("Something went wrong!");
+    });
+}
 </script>
  
 </body>
