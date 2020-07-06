@@ -18,6 +18,13 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 #videoElement {
 	position: absolute; top: 100px; bottom: 0; width: 100%; height: 100%
 }
+
+#camera, #camera--view, #camera--sensor, #camera--output{
+    position: fixed;
+    height: 100%;
+    width: 100%:
+    object-fit: cover;
+}
 </style>
 </head>
 <body>
@@ -28,6 +35,17 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
   <li>Y-axis (&gamma;): <span id="Orientation_g">0</span><span>&deg;</span></li>
   <li>Z-axis (&alpha;): <span id="Orientation_a">0</span><span>&deg;</span></li>
 </ul>
+
+<main id="camera">
+        <!-- Camera sensor -->
+        <canvas id="camera--sensor"></canvas>
+        <!-- Camera view -->
+        <video id="camera--view" autoplay playsinline></video>
+        <!-- Camera output -->
+        <img src="//:0" alt="" id="camera--output">
+        <!-- Camera trigger -->
+        <button id="camera--trigger">Take a picture</button>
+    </main>
 <div id="map"></div>
 <video autoplay="true" id="videoElement">
 	
@@ -352,17 +370,38 @@ demo_button.onclick = function(e) {
 
 });
 
-var video = document.querySelector("#videoElement");
 
-if (navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices.getUserMedia({ video: true })
-    .then(function (stream) {
-      video.srcObject = stream;
+
+
+// Set constraints for the video stream
+var constraints = { video: { facingMode: "environment" }, audio: false };
+// Define constants
+const cameraView = document.querySelector("#camera--view"),
+    cameraOutput = document.querySelector("#camera--output"),
+    cameraSensor = document.querySelector("#camera--sensor"),
+    cameraTrigger = document.querySelector("#camera--trigger")
+// Access the device camera and stream to cameraView
+function cameraStart() {
+    navigator.mediaDevices
+        .getUserMedia(constraints)
+        .then(function(stream) {
+        track = stream.getTracks()[0];
+        cameraView.srcObject = stream;
     })
-    .catch(function (err0r) {
-      console.log("Something went wrong!");
+    .catch(function(error) {
+        console.error("Oops. Something is broken.", error);
     });
 }
+// Take a picture when cameraTrigger is tapped
+cameraTrigger.onclick = function() {
+    cameraSensor.width = cameraView.videoWidth;
+    cameraSensor.height = cameraView.videoHeight;
+    cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
+    cameraOutput.src = cameraSensor.toDataURL("image/webp");
+    cameraOutput.classList.add("taken");
+};
+// Start the video stream when the window loads
+window.addEventListener("load", cameraStart, false);
 </script>
  
 </body>
