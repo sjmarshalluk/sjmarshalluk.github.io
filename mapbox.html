@@ -3,10 +3,12 @@
 <head>
 <meta charset="utf-8" />
 <title>Extrude polygons for 3D indoor mapping</title>
+
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
 
+
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
 <style>
 	body { margin: 0; padding: 0; }
@@ -14,17 +16,10 @@
 	.mapboxgl-popup {
 max-width: 400px;
 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-}
-#videoElement {
-	position: absolute; top: 100px; bottom: 0; width: 100%; height: 100%
+
 }
 
-#camera, #camera--view, #camera--sensor, #camera--output{
-    position: fixed;
-    height: 100%;
-    width: 100%:
-    object-fit: cover;
-}
+
 </style>
 </head>
 <body>
@@ -35,55 +30,338 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
   <li>Y-axis (&gamma;): <span id="Orientation_g">0</span><span>&deg;</span></li>
   <li>Z-axis (&alpha;): <span id="Orientation_a">0</span><span>&deg;</span></li>
 </ul>
-
-<main id="camera">
-        <!-- Camera sensor -->
-        <canvas id="camera--sensor"></canvas>
-        <!-- Camera view -->
-        <video id="camera--view" autoplay playsinline></video>
-        <!-- Camera output -->
-        <img src="//:0" alt="" id="camera--output">
-        <!-- Camera trigger -->
-        <button id="camera--trigger">Take a picture</button>
-    </main>
-<div id="map"></div>
-<video autoplay="true" id="videoElement">
+	<div id="map"></div>
 	
-	</video>
+  </body>
+
+	
 <script>
 
 
 
+	// TO MAKE THE MAP APPEAR YOU MUST
+	// ADD YOUR ACCESS TOKEN FROM
+	// https://account.mapbox.com
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
+center: [-0.93875203281641,51.005568447565174],
+zoom: 20,
+pitch: 60,
+bearing: 20,
+antialias: true
+});
 
-// Set constraints for the video stream
-var constraints = { video: { facingMode: "environment" }, audio: false };
-// Define constants
-const cameraView = document.querySelector("#camera--view"),
-    cameraOutput = document.querySelector("#camera--output"),
-    cameraSensor = document.querySelector("#camera--sensor"),
-    cameraTrigger = document.querySelector("#camera--trigger")
-// Access the device camera and stream to cameraView
-function cameraStart() {
-    navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then(function(stream) {
-        track = stream.getTracks()[0];
-        cameraView.srcObject = stream;
-    })
-    .catch(function(error) {
-        console.error("Oops. Something is broken.", error);
-    });
+var flat = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Lounge",
+        "height": 5,
+        "base_height": 0,
+        "color": "grey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.9388552978634833,
+              51.00548405917675
+            ],
+            [
+              -0.9388405457139014,
+              51.005476464214254
+            ],
+            [
+              -0.938841886818409,
+              51.005469291192995
+            ],
+            [
+              -0.9388251230120658,
+              51.00546275108438
+            ],
+            [
+              -0.9388137236237525,
+              51.00546549371067
+            ],
+            [
+              -0.9388009831309319,
+              51.005459164572834
+            ],
+            [
+              -0.9387704730033875,
+              51.00548384820557
+            ],
+            [
+              -0.9388267993927002,
+              51.005508531825186
+            ],
+            [
+              -0.9388552978634833,
+              51.00548405917675
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Bedroom",
+        "height": 5,
+        "base_height": 0,
+        "color": "grey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.9388023242354393,
+              51.00549798327142
+            ],
+            [
+              -0.9387704730033875,
+              51.00548405917675
+            ],
+            [
+              -0.9387342631816864,
+              51.00551232930397
+            ],
+            [
+              -0.9387684613466262,
+              51.005527941157865
+            ],
+            [
+              -0.9388023242354393,
+              51.00549798327142
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Kitchen / Hall",
+        "height": 5,
+        "base_height": 0,
+        "color": "grey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.9388254582881929,
+              51.00550895376729
+            ],
+            [
+              -0.9388026595115662,
+              51.005497772300295
+            ],
+            [
+              -0.938768796622753,
+              51.00552773018691
+            ],
+            [
+              -0.9387506917119026,
+              51.005520346202594
+            ],
+            [
+              -0.9387178346514703,
+              51.00555367960828
+            ],
+            [
+              -0.9387523680925368,
+              51.005568447565174
+            ],
+            [
+              -0.9387926012277603,
+              51.00553722387934
+            ],
+            [
+              -0.9387815371155739,
+              51.00553237154789
+            ],
+            [
+              -0.9388026595115662,
+              51.0055140170722
+            ],
+            [
+              -0.9388137236237525,
+              51.00551929134756
+            ],
+            [
+              -0.9388254582881929,
+              51.00550895376729
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Bathroom",
+        "height": 5,
+        "base_height": 0,
+        "color": "grey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.93875203281641,
+              51.005568447565174
+            ],
+            [
+              -0.9387171640992164,
+              51.00555367960828
+            ],
+            [
+              -0.9387017413973807,
+              51.00556697076969
+            ],
+            [
+              -0.938735269010067,
+              51.00558258260522
+            ],
+            [
+              -0.93875203281641,
+              51.005568447565174
+            ]
+          ]
+        ]
+      }
+    }
+  ]
 }
-// Take a picture when cameraTrigger is tapped
-cameraTrigger.onclick = function() {
-    cameraSensor.width = cameraView.videoWidth;
-    cameraSensor.height = cameraView.videoHeight;
-    cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
-    cameraOutput.src = cameraSensor.toDataURL("image/webp");
-    cameraOutput.classList.add("taken");
+
+
+ 
+map.on('load', function() {
+
+	var link = 'flat.geojson';
+
+	//$.getJSON(link)
+    //.done(function(data){
+		map.addSource('floorplan', {
+		// GeoJSON Data source used in vector tiles, documented at
+		// https://gist.github.com/ryanbaumann/a7d970386ce59d11c16278b90dde094d
+		'type': 'geojson',
+		'data': flat
+		
+		});
+		map.addLayer({
+		'id': 'room-extrusion',
+		'type': 'fill-extrusion',
+		'source': 'floorplan',
+		'paint': {
+		// See the Mapbox Style Specification for details on data expressions.
+		// https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions
+		 
+		// Get the fill-extrusion-color from the source 'color' property.
+		'fill-extrusion-color': ['get', 'color'],
+		 
+		// Get fill-extrusion-height from the source 'height' property.
+		'fill-extrusion-height': ['get', 'height'],
+		 
+		// Get fill-extrusion-base from the source 'base_height' property.
+		'fill-extrusion-base': ['get', 'base_height'],
+		 
+		// Make extrusions slightly opaque for see through indoor walls.
+		'fill-extrusion-opacity': 0.5
+		}
+		});
+
+		map.on('click', 'room-extrusion', function(e) {
+new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML(e.features[0].properties.name)
+.addTo(map);
+});
+ 
+// Change the cursor to a pointer when the mouse is over the states layer.
+map.on('mouseenter', 'states-layer', function() {
+map.getCanvas().style.cursor = 'pointer';
+});
+ 
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'states-layer', function() {
+map.getCanvas().style.cursor = '';
+});
+	//});
+
+
+function handleOrientation(event) {
+
+
+	map.setPitch(event.beta);
+
+	map.setBearing(event.gamma);
+
+	/*
+    map.lookAt({ tilt: event.beta });
+
+    //var rotation = event.gamma - (event.gamma * 2);
+    map.lookAt({ heading: event.gamma });
+	*/
+
+    /*
+  updateFieldIfNotNull('Orientation_a', event.alpha);
+  updateFieldIfNotNull('Orientation_b', event.beta);
+  updateFieldIfNotNull('Orientation_g', event.gamma);
+    */
+
+
+}
+
+
+let is_running = false;
+let demo_button = document.getElementById("start_demo");
+demo_button.onclick = function(e) {
+  e.preventDefault();
+
+  if (
+    DeviceMotionEvent &&
+    typeof DeviceMotionEvent.requestPermission === "function"
+  ) {
+    DeviceMotionEvent.requestPermission();
+  }
+  
+  if (is_running){
+    //window.removeEventListener("devicemotion", handleMotion);
+    window.removeEventListener("deviceorientation", handleOrientation);
+    demo_button.innerHTML = "Start demo";
+    demo_button.classList.add('btn-success');
+    demo_button.classList.remove('btn-danger');
+    is_running = false;
+  }else{
+    //window.addEventListener("devicemotion", handleMotion);
+    window.addEventListener("deviceorientation", handleOrientation);
+    document.getElementById("start_demo").innerHTML = "Stop demo";
+    demo_button.classList.remove('btn-success');
+    demo_button.classList.add('btn-danger');
+    is_running = true;
+  }
 };
-// Start the video stream when the window loads
-window.addEventListener("load", cameraStart, false);
+
+});
+
+
+
+
+
 </script>
  
 </body>
