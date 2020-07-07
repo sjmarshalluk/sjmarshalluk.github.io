@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Extrude polygons for 3D indoor mapping</title>
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+  <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 30px; bottom: 0; width: 100%; z-index: 10 }
+	.mapboxgl-popup {
+max-width: 400px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+
+}
+
+
+</style>
+</head>
+<body>
+	<a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button">Start the demo</a>
+
+	<div id="map"></div>
+	
+  </body>
+
+	
+<script>
+
+
+
+	// TO MAKE THE MAP APPEAR YOU MUST
+	// ADD YOUR ACCESS TOKEN FROM
+	// https://account.mapbox.com
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
+center: [-0.93875203281641,51.005568447565174],
+zoom: 20,
+pitch: 60,
+bearing: 20,
+antialias: true
+});
+
+var flat = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Lounge",
+        "height": 5,
+        "base_height": 0,
+        "color": "grey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.9388552978634833,
+              51.00548405917675
+            ],
+            [
+              -0.9388405457139014,
+              51.005476464214254
+            ],
+            [
+              -0.938841886818409,
+              51.005469291192995
+            ],
+            [
+              -0.9388251230120658,
+              51.00546275108438
+            ],
+            [
+              -0.9388137236237525,
+              51.00546549371067
+            ],
+            [
+              -0.9388009831309319,
+              51.005459164572834
+            ],
+            [
+              -0.9387704730033875,
+              51.00548384820557
+            ],
+            [
+              -0.9388267993927002,
+              51.005508531825186
+            ],
+            [
+              -0.9388552978634833,
+              51.00548405917675
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Bedroom",
+        "height": 5,
+        "base_height": 0,
+        "color": "grey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.9388023242354393,
+              51.00549798327142
+            ],
+            [
+              -0.9387704730033875,
+              51.00548405917675
+            ],
+            [
+              -0.9387342631816864,
+              51.00551232930397
+            ],
+            [
+              -0.9387684613466262,
+              51.005527941157865
+            ],
+            [
+              -0.9388023242354393,
+              51.00549798327142
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Kitchen / Hall",
+        "height": 5,
+        "base_height": 0,
+        "color": "grey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.9388254582881929,
+              51.00550895376729
+            ],
+            [
+              -0.9388026595115662,
+              51.005497772300295
+            ],
+            [
+              -0.938768796622753,
+              51.00552773018691
+            ],
+            [
+              -0.9387506917119026,
+              51.005520346202594
+            ],
+            [
+              -0.9387178346514703,
+              51.00555367960828
+            ],
+            [
+              -0.9387523680925368,
+              51.005568447565174
+            ],
+            [
+              -0.9387926012277603,
+              51.00553722387934
+            ],
+            [
+              -0.9387815371155739,
+              51.00553237154789
+            ],
+            [
+              -0.9388026595115662,
+              51.0055140170722
+            ],
+            [
+              -0.9388137236237525,
+              51.00551929134756
+            ],
+            [
+              -0.9388254582881929,
+              51.00550895376729
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Bathroom",
+        "height": 5,
+        "base_height": 0,
+        "color": "grey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.93875203281641,
+              51.005568447565174
+            ],
+            [
+              -0.9387171640992164,
+              51.00555367960828
+            ],
+            [
+              -0.9387017413973807,
+              51.00556697076969
+            ],
+            [
+              -0.938735269010067,
+              51.00558258260522
+            ],
+            [
+              -0.93875203281641,
+              51.005568447565174
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
+
+
+ 
+map.on('load', function() {
+  getOsmBbox();
+
+      function getOsmBbox() {
+        var bounds = map.getBounds();
+        window.searchBbox = bounds._sw.lat + ',' + bounds._sw.lng + ',' + bounds._ne.lat + ',' + bounds._ne.lng;
+        queryOsm();
+      }
+        
+
+
+      function queryOsm() {
+        if (map.getLayer('features-point')) {
+          map.removeLayer('features-point');
+        }
+        if (map.getLayer('features-polygon')) {
+          map.removeLayer('features-polygon');
+        }
+        if (map.getLayer('features-line')) {
+          map.removeLayer('features-line');
+        }
+        if (map.getSource('feats')) {
+          map.removeSource('feats');
+        }
+        showFeature()
+      }
+
+        function buildOverpassApiUrlFeat() {
+
+          var nodeQuery = '';
+          var wayQuery = '';
+          var relationQuery = '';
+
+          wayQuery += 'way[building](' + searchBbox + ');'
+
+
+
+          //var nodeQuery = 'node[' + overpassQuery + '](' + searchBbox + ');';
+          //var nodeQuery = 'node[tourism=attraction](' + searchBbox + ');node[natural=peak](' + searchBbox + ');';
+          //var wayQuery = 'way[' + overpassQuery + '](' + searchBbox + ');';
+          //var relationQuery = 'relation[' + overpassQuery + '](' + searchBbox + ');';
+          var query = '?data=[out:json][timeout:15];(' + nodeQuery + wayQuery + relationQuery + ');out body geom;';
+          var baseUrl = 'http://overpass-api.de/api/interpreter';
+          var resultUrl = baseUrl + query;
+          return resultUrl;
+        }
+
+        
+
+        /*
+        function addShowFunction(type,feature) {
+          var button = document.getElementById('show_' + feature);
+          button.addEventListener('click', function() {
+            showFeature(type,feature)
+          })
+        }
+        */
+
+
+
+        function showFeature(type,feature,shape){
+
+          //var queryFeatures = type + '=' + feature;
+          //var queryFeatures = 'tourism=attraction;natural=peak';
+          var overpassApiUrlFeat = buildOverpassApiUrlFeat();
+          $.get(overpassApiUrlFeat, function (osmDataAsJson) {
+            var resultAsGeojson = osmtogeojson(osmDataAsJson);
+            console.log(resultAsGeojson);
+
+
+            var outlines = {
+              "type":"FeatureCollection",
+              "features":[]
+            };
+
+            resultAsGeojson.features.forEach(function(result) {
+              if (result.properties.tags.building === 'yes') {
+                var line = turf.polygonToLine(result);
+                outlines.features.push(line);
+              }
+            });
+
+
+            
+
+
+
+            paintOsm(resultAsGeojson,outlines);
+
+
+          });   
+        }
+
+
+      function paintOsm(resultAsGeojson,outlines) {
+        if (map.getLayer('osmline-layer')) {
+          map.removeLayer('osmline-layer');
+        }
+        if (map.getLayer('trunk-layer')) {
+          map.removeLayer('trunk-layer');
+        }
+        if (map.getSource('osmline')) {
+          map.removeSource('osmline');
+        }
+
+
+        map.addSource('buildings', {
+          'type': 'geojson',
+          'data': resultAsGeojson
+        });
+        map.addLayer({
+          'id': 'buildings',
+          'type': 'fill-extrusion',
+          'source': 'buildings',
+          'paint': {
+            'fill-extrusion-color': 'grey',
+            'fill-extrusion-height': 5,
+            'fill-extrusion-base': 0,
+            'fill-extrusion-opacity': 0.5
+          }
+        });
+
+
+
+
+
+        map.addSource('osmline', {
+            "type": "geojson",
+            "data": outlines
+        });
+        map.addLayer({
+            "id": "trunk-layer",
+            "type": "line",
+            "source": "osmline",
+            "paint": {
+              //"line-color": "#F3F139",
+              "line-opacity": 1,
+              "line-width": 10,
+               "line-color": '#71433E'
+            },
+            "layout": {
+              'line-cap': 'round',
+              'line-join': 'round'
+            }
+        });
+        
+      }
+
+
+
+
+
+	var link = 'flat.geojson';
+
+	//$.getJSON(link)
+    //.done(function(data){
+		map.addSource('floorplan', {
+  		'type': 'geojson',
+  		'data': flat
+		});
+		map.addLayer({
+  		'id': 'room-extrusion',
+  		'type': 'fill-extrusion',
+  		'source': 'floorplan',
+  		'paint': {
+    		'fill-extrusion-color': ['get', 'color'],
+    		'fill-extrusion-height': ['get', 'height'],
+    		'fill-extrusion-base': ['get', 'base_height'],
+    		'fill-extrusion-opacity': 0.5
+		  }
+		});
+
+		map.on('click', 'room-extrusion', function(e) {
+new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML(e.features[0].properties.name)
+.addTo(map);
+});
+ 
+// Change the cursor to a pointer when the mouse is over the states layer.
+map.on('mouseenter', 'states-layer', function() {
+map.getCanvas().style.cursor = 'pointer';
+});
+ 
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'states-layer', function() {
+map.getCanvas().style.cursor = '';
+});
+	//});
+
+
+function handleOrientation(event) {
+
+
+	map.setPitch(event.beta);
+
+  //var bearing = event.gamma - (event.gamma * 2);
+	//map.setBearing(bearing);
+
+	/*
+    map.lookAt({ tilt: event.beta });
+
+    //var rotation = event.gamma - (event.gamma * 2);
+    map.lookAt({ heading: event.gamma });
+	*/
+
+  if (event.webkitCompassHeading) {
+        absoluteHeading = event.webkitCompassHeading + 180;
+    } else {
+        absoluteHeading = 180 - event.alpha;
+    }
+    console.log(absoluteHeading);
+    map.setBearing(absoluteHeading);
+
+
+    
+  updateFieldIfNotNull('Orientation_a', event.alpha);
+  updateFieldIfNotNull('Orientation_b', event.beta);
+  updateFieldIfNotNull('Orientation_g', event.gamma);
+    
+  
+}
+
+function manageCompass(event) {
+    
+}
+
+
+let is_running = false;
+let demo_button = document.getElementById("start_demo");
+demo_button.onclick = function(e) {
+  e.preventDefault();
+
+  if (
+    DeviceMotionEvent &&
+    typeof DeviceMotionEvent.requestPermission === "function"
+  ) {
+    DeviceMotionEvent.requestPermission();
+  }
+  
+  if (is_running){
+    //window.removeEventListener("devicemotion", handleMotion);
+    window.removeEventListener("deviceorientation", handleOrientation);
+    //window.removeEventListener('deviceorientation', manageCompass);
+    demo_button.innerHTML = "Start demo";
+    demo_button.classList.add('btn-success');
+    demo_button.classList.remove('btn-danger');
+    is_running = false;
+  }else{
+    //window.addEventListener("devicemotion", handleMotion);
+    window.addEventListener("deviceorientation", handleOrientation);
+    //window.addEventListener('deviceorientation', manageCompass);
+    document.getElementById("start_demo").innerHTML = "Stop demo";
+    demo_button.classList.remove('btn-success');
+    demo_button.classList.add('btn-danger');
+    is_running = true;
+  }
+};
+
+});
+
+
+
+
+
+</script>
+ 
+</body>
+</html>
