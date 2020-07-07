@@ -245,9 +245,30 @@ var flat = {
 }
 
 
+
  
 map.on('load', function() {
   getOsmBbox();
+  getLocation();
+
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+
+      
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }
+
+  function showPosition(position) {
+    console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
+
+    var marker = new mapboxgl.Marker()
+      .setLngLat([position.coords.longitude, position.coords.latitude])
+      .addTo(map);
+
+  }
 
       function getOsmBbox() {
         var bounds = map.getBounds();
@@ -321,26 +342,35 @@ map.on('load', function() {
               "features":[]
             };
 
+            var outlinesPoly = {
+              "type":"FeatureCollection",
+              "features":[]
+            }
+
             resultAsGeojson.features.forEach(function(result) {
               if (result.properties.tags.building === 'yes') {
                 var line = turf.polygonToLine(result);
                 outlines.features.push(line);
+                var bufferedLine = turf.buffer(line, 0.0001, {units: 'kilometers'});
+                outlinesPoly.features.push(bufferedLine);
               }
             });
+
+
 
 
             
 
 
 
-            paintOsm(resultAsGeojson,outlines);
+            paintOsm(resultAsGeojson,outlines,outlinesPoly);
 
 
           });   
         }
 
 
-      function paintOsm(resultAsGeojson,outlines) {
+      function paintOsm(resultAsGeojson,outlines,outlinesPoly) {
         if (map.getLayer('osmline-layer')) {
           map.removeLayer('osmline-layer');
         }
@@ -362,6 +392,24 @@ map.on('load', function() {
           'source': 'buildings',
           'paint': {
             'fill-extrusion-color': 'grey',
+            'fill-extrusion-height': 0,
+            'fill-extrusion-base': 0,
+            'fill-extrusion-opacity': 0.5
+          }
+        });
+
+
+
+        map.addSource('walls', {
+          'type': 'geojson',
+          'data': outlinesPoly
+        });
+        map.addLayer({
+          'id': 'walls',
+          'type': 'fill-extrusion',
+          'source': 'walls',
+          'paint': {
+            'fill-extrusion-color': 'red',
             'fill-extrusion-height': 5,
             'fill-extrusion-base': 0,
             'fill-extrusion-opacity': 0.5
