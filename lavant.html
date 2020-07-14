@@ -302,6 +302,8 @@ map.on('load', function() {
 
           wayQuery += 'way[building](' + searchBbox + ');'
 
+          wayQuery += 'node[entrance](' + searchBbox + ');'
+
 
 
           //var nodeQuery = 'node[' + overpassQuery + '](' + searchBbox + ');';
@@ -347,7 +349,16 @@ map.on('load', function() {
               "features":[]
             }
 
+            var doors = {
+              "type":"FeatureCollection",
+              "features":[]
+            }
+
             resultAsGeojson.features.forEach(function(result) {
+              if (result.properties.tags.entrance === 'yes') {
+                var bufferedDoor = turf.buffer(result, 0.0003, {units: 'kilometers'});
+                doors.features.push(bufferedDoor);
+              }
               if (result.properties.tags.building === 'yes') {
                 var line = turf.polygonToLine(result);
                 outlines.features.push(line);
@@ -363,14 +374,14 @@ map.on('load', function() {
 
 
 
-            paintOsm(resultAsGeojson,outlines,outlinesPoly);
+            paintOsm(resultAsGeojson,outlines,outlinesPoly,doors);
 
 
           });   
         }
 
 
-      function paintOsm(resultAsGeojson,outlines,outlinesPoly) {
+      function paintOsm(resultAsGeojson,outlines,outlinesPoly,doors) {
         if (map.getLayer('osmline-layer')) {
           map.removeLayer('osmline-layer');
         }
@@ -413,6 +424,24 @@ map.on('load', function() {
             'fill-extrusion-height': 5,
             'fill-extrusion-base': 0,
             'fill-extrusion-opacity': 0.5
+          }
+        });
+
+
+
+        map.addSource('doors', {
+          'type': 'geojson',
+          'data': doors
+        });
+        map.addLayer({
+          'id': 'doors',
+          'type': 'fill-extrusion',
+          'source': 'doors',
+          'paint': {
+            'fill-extrusion-color': 'white',
+            'fill-extrusion-height': 3,
+            'fill-extrusion-base': 0,
+            'fill-extrusion-opacity': 1
           }
         });
 
@@ -500,9 +529,9 @@ function handleOrientation(event) {
 	*/
 
   if (event.webkitCompassHeading) {
-        absoluteHeading = event.webkitCompassHeading + 180;
+        absoluteHeading = event.webkitCompassHeading;
     } else {
-        absoluteHeading = 180 - event.alpha;
+        absoluteHeading = event.alpha;
     }
     console.log(absoluteHeading);
     map.setBearing(absoluteHeading);
