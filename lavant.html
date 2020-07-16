@@ -23,9 +23,81 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 
 
 </style>
+
+<style>
+.map-overlay {
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+position: absolute;
+width: 200px;
+top: 0;
+left: 0;
+padding: 10px;
+z-index: 1000;
+}
+ 
+.map-overlay .map-overlay-inner {
+background-color: #fff;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+border-radius: 3px;
+padding: 10px;
+margin-bottom: 10px;
+}
+ 
+.map-overlay-inner fieldset {
+border: none;
+padding: 0;
+margin: 0 0 10px;
+}
+ 
+.map-overlay-inner fieldset:last-child {
+margin: 0;
+}
+ 
+.map-overlay-inner select {
+width: 100%;
+}
+ 
+.map-overlay-inner label {
+display: block;
+font-weight: bold;
+margin: 0 0 5px;
+}
+ 
+.map-overlay-inner button {
+display: inline-block;
+width: 36px;
+height: 20px;
+border: none;
+cursor: pointer;
+}
+ 
+.map-overlay-inner button:focus {
+outline: none;
+}
+ 
+.map-overlay-inner button:hover {
+box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+</style>
 </head>
 <body>
 	<a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button">Start the demo</a>
+
+  <div class="map-overlay top">
+<div class="map-overlay-inner">
+<fieldset>
+<label>Select layer</label>
+<select id="layer" name="layer">
+<option value="water">Water</option>
+<option value="building">Buildings</option>
+</select>
+</fieldset>
+<fieldset>
+<label>Choose a color</label>
+<div id="swatches"></div>
+</fieldset>
+</div>
+</div>
 
 	<div id="map"></div>
 	
@@ -44,7 +116,7 @@ var map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
 center: [-0.93875203281641,51.005568447565174],
-zoom: 19,
+zoom: 20,
 pitch: 60,
 bearing: 20,
 antialias: true
@@ -360,10 +432,17 @@ map.on('load', function() {
                 doors.features.push(bufferedDoor);
               }
               if (result.properties.tags.building === 'yes') {
+                if (result.properties.tags['building:levels'] === '2') {
+                  result.properties.floor = 2;
+                }
+                if (result.properties.tags['building:levels'] === '3') {
+                  result.properties.floor = 3;
+                }
                 var line = turf.polygonToLine(result);
                 outlines.features.push(line);
                 var bufferedLine = turf.buffer(line, 0.0001, {units: 'kilometers'});
                 outlinesPoly.features.push(bufferedLine);
+
               }
             });
 
@@ -403,9 +482,9 @@ map.on('load', function() {
           'source': 'buildings',
           'paint': {
             'fill-extrusion-color': 'grey',
-            'fill-extrusion-height': 0,
+            'fill-extrusion-height': 5,
             'fill-extrusion-base': 0,
-            'fill-extrusion-opacity': 0.5
+            'fill-extrusion-opacity': 0.4
           }
         });
 
@@ -416,22 +495,279 @@ map.on('load', function() {
           'data': outlinesPoly
         });
         map.addLayer({
-          'id': 'walls',
+          'id': 'floor-zero',
           'type': 'fill-extrusion',
           'source': 'walls',
           'paint': {
-            'fill-extrusion-color': 'red',
+            'fill-extrusion-color': '#2c7fb8',
             'fill-extrusion-height': 5,
             'fill-extrusion-base': 0,
             'fill-extrusion-opacity': 0.5
           }
         });
 
+        map.addLayer({
+          'id': 'floor-one',
+          'type': 'fill-extrusion',
+          'source': 'walls',
+          'paint': {
+            'fill-extrusion-color': '#2c7fb8',
+            'fill-extrusion-height': 15,
+            'fill-extrusion-base': 10,
+            'fill-extrusion-opacity': 0.5
+          },
+          'filter': ['>=', 'floor', 2]
+        });
+
+        map.addLayer({
+          'id': 'floor-two',
+          'type': 'fill-extrusion',
+          'source': 'walls',
+          'paint': {
+            'fill-extrusion-color': '#2c7fb8',
+            'fill-extrusion-height': 25,
+            'fill-extrusion-base': 20,
+            'fill-extrusion-opacity': 0.5
+          },
+          'filter': ['>=', 'floor', 3]
+        });
+
+
+var swatches = document.getElementById('swatches');
+var colors = [
+'#ffffcc',
+'#a1dab4',
+'#41b6c4',
+'#2c7fb8',
+'#253494',
+'#fed976',
+'#feb24c',
+'#fd8d3c',
+'#f03b20',
+'#bd0026'
+];
+var heights = [
+'0',
+'10',
+'20',
+'30'
+];
+var floors = [
+'Building',
+'0',
+'1',
+'2'
+];
+
+        colors.forEach(function(color) {
+          var swatch = document.createElement('button');
+          swatch.style.backgroundColor = color;
+          swatch.addEventListener('click', function() {
+            map.setPaintProperty('floor-one', 'fill-extrusion-color', color);
+          });
+          swatches.appendChild(swatch);
+        });
+
+        heights.forEach(function(height) {
+          var swatch = document.createElement('button');
+          swatch.innerHTML = height;
+          var extHeight = parseInt(height) + 5;
+          var extBase = parseInt(height);
+          swatch.addEventListener('click', function() {
+            map.setPaintProperty('floor-one', 'fill-extrusion-height', extHeight);
+            map.setPaintProperty('floor-one', 'fill-extrusion-base', extBase);
+          });
+          swatches.appendChild(swatch);
+        });
+
+        floors.forEach(function(floor) {
+          var swatch = document.createElement('button');
+          swatch.innerHTML = floor;
+          swatch.addEventListener('click', function() {
+            if (floor === 'Building') {
+              building();
+            }
+            if (floor === '0') {
+              floorZero();
+            }
+            if (floor === '1') {
+              floorOne();
+            }
+            if (floor === '2') {
+              floorTwo()
+              
+            }
+            
+          });
+          swatches.appendChild(swatch);
+        });
+
+
+        map.on('click', 'buildings', function(e) {
+          building();
+        });
+        map.on('click', 'floor-zero', function(e) {
+          floorZero();
+        });
+        map.on('click', 'floor-one', function(e) {
+          floorOne();
+        });
+        map.on('click', 'floor-two', function(e) {
+          floorTwo();
+        });
+
+        function building() {
+
+          map.setPaintProperty('buildings', 'fill-extrusion-height', 10);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-opacity', 0);
+          map.setPaintProperty('floor-one', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-one', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-one', 'fill-extrusion-opacity', 0);
+          map.setPaintProperty('floor-two', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-two', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-two', 'fill-extrusion-opacity', 0);
+
+          if (map.getLayer('footprint')) {
+            map.removeLayer('footprint');
+          }
+        }
+
+
+        function floorZero() {
+
+          map.setPaintProperty('buildings', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-height', 5);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-opacity', 1);
+          map.setPaintProperty('floor-one', 'fill-extrusion-height', 35);
+          map.setPaintProperty('floor-one', 'fill-extrusion-base', 30);
+          map.setPaintProperty('floor-one', 'fill-extrusion-opacity', 0.2);
+          map.setPaintProperty('floor-two', 'fill-extrusion-height', 45);
+          map.setPaintProperty('floor-two', 'fill-extrusion-base', 40);
+          map.setPaintProperty('floor-two', 'fill-extrusion-opacity', 0.2);
+
+          if (map.getLayer('footprint')) {
+            map.removeLayer('footprint');
+          }
+          map.addLayer({
+            'id': 'footprint',
+            'type': 'fill-extrusion',
+            'source': 'buildings',
+            'paint': {
+              'fill-extrusion-color': 'grey',
+              'fill-extrusion-height': 0,
+              'fill-extrusion-base': 0,
+              'fill-extrusion-opacity': 1
+            }
+          });
+        }
+
+        function floorOne() {
+
+          map.setPaintProperty('buildings', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-height', 2);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-opacity', 0.2);
+          map.setPaintProperty('floor-one', 'fill-extrusion-height', 15);
+          map.setPaintProperty('floor-one', 'fill-extrusion-base', 10);
+          map.setPaintProperty('floor-one', 'fill-extrusion-opacity', 1);
+          map.setPaintProperty('floor-two', 'fill-extrusion-height', 35);
+          map.setPaintProperty('floor-two', 'fill-extrusion-base', 30);
+          map.setPaintProperty('floor-two', 'fill-extrusion-opacity', 0.2);
+
+          if (map.getLayer('footprint')) {
+            map.removeLayer('footprint');
+          }
+          map.addLayer({
+            'id': 'footprint',
+            'type': 'fill-extrusion',
+            'source': 'buildings',
+            'paint': {
+              'fill-extrusion-color': 'grey',
+              'fill-extrusion-height': 10,
+              'fill-extrusion-base': 10,
+              'fill-extrusion-opacity': 1
+            },
+            'filter': ['>=', 'floor', 2]
+          });
+        }
+
+        function floorTwo() {
+          map.setPaintProperty('buildings', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-height', 2);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-opacity', 0.1);
+          map.setPaintProperty('floor-one', 'fill-extrusion-height', 7);
+          map.setPaintProperty('floor-one', 'fill-extrusion-base', 5);
+          map.setPaintProperty('floor-one', 'fill-extrusion-opacity', 0.2);
+          map.setPaintProperty('floor-two', 'fill-extrusion-height', 17);
+          map.setPaintProperty('floor-two', 'fill-extrusion-base', 12);
+          map.setPaintProperty('floor-two', 'fill-extrusion-opacity', 1);
+
+          if (map.getLayer('footprint')) {
+            map.removeLayer('footprint');
+          }
+          map.addLayer({
+            'id': 'footprint',
+            'type': 'fill-extrusion',
+            'source': 'buildings',
+            'paint': {
+              'fill-extrusion-color': 'grey',
+              'fill-extrusion-height': 12,
+              'fill-extrusion-base': 12,
+              'fill-extrusion-opacity': 1
+            },
+            'filter': ['>=', 'floor', 3]
+          });
+        }
+
+        /*
+        outlinesPoly.features.forEach(function(feature) {
+
+          console.log(feature.properties.tags['building:levels']);
+
+          if (feature.properties.tags['building:levels'] === '2') {
+            console.log('hi');
+            map.addLayer({
+              'id': 'walls',
+              'type': 'fill-extrusion',
+              'source': 'walls',
+              'paint': {
+                'fill-extrusion-color': 'red',
+                'fill-extrusion-height': 5,
+                'fill-extrusion-base': 10,
+                'fill-extrusion-opacity': 0.5
+              }
+            });
+          }
+
+        });
+        */
+
+
+
+        var doorWays = {
+          "type":"FeatureCollection",
+          "features":[]
+        };
+
+        doors.features.forEach(function(door) {
+
+          //var snapped = turf.nearestPointOnLine(outlines, door, {units: 'miles'});
+          //doorWays.features.push(snapped);
+
+          var intersects = turf.lineIntersect(outlines, door);
+          doorWays.features.push(intersects);
+        });
+
+        console.log(doorWays);
 
 
         map.addSource('doors', {
           'type': 'geojson',
-          'data': doors
+          'data': doorWays
         });
         map.addLayer({
           'id': 'doors',
@@ -459,7 +795,7 @@ map.on('load', function() {
             "source": "osmline",
             "paint": {
               //"line-color": "#F3F139",
-              "line-opacity": 1,
+              "line-opacity": 0,
               "line-width": 10,
                "line-color": '#71433E'
             },
