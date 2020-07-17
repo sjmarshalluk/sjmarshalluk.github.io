@@ -139,7 +139,7 @@ var map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
 center: [-0.93875203281641,51.005568447565174],
-zoom: 18,
+zoom: 20,
 pitch: 88,
 bearing: 20,
 antialias: true
@@ -149,11 +149,14 @@ antialias: true
 
 
 const video = document.getElementById('video');
-
-const constraints = {
-    video: true,
+const videoConstraints = {
+    facingMode: 'environment'
+  };
+  const constraints = {
+    video: videoConstraints,
     audio: false
   };
+
   navigator.mediaDevices
     .getUserMedia(constraints)
     .then(stream => {
@@ -168,11 +171,15 @@ const constraints = {
  
 map.on('load', function() {
 
+
+  var bufferedLine = turf.buffer(route, 0.0003, {units: 'kilometers'});
+
   map.addSource('directions', {
     'type': 'geojson',
     'data': route
   });
 
+  /*
   map.addLayer({
       "id": "directions-layer",
       "type": "line",
@@ -187,6 +194,19 @@ map.on('load', function() {
         'line-cap': 'round',
         'line-join': 'round'
       }
+  });
+  */
+
+  map.addLayer({
+    'id': 'directions',
+    'type': 'fill-extrusion',
+    'source': 'directions',
+    'paint': {
+      'fill-extrusion-color': '#2c7fb8',
+      'fill-extrusion-height': 2,
+      'fill-extrusion-base': 1,
+      'fill-extrusion-opacity': 0.5
+    }
   });
 
 
