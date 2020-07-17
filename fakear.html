@@ -140,7 +140,7 @@ container: 'map',
 style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
 center: [-0.93875203281641,51.005568447565174],
 zoom: 22,
-pitch: 88,
+pitch: 58,
 bearing: 20,
 antialias: true
 });
@@ -203,8 +203,8 @@ map.on('load', function() {
     'source': 'directions',
     'paint': {
       'fill-extrusion-color': '#2c7fb8',
-      'fill-extrusion-height': 0.8,
-      'fill-extrusion-base': 0.5,
+      'fill-extrusion-height': 0.4,
+      'fill-extrusion-base': 0.2,
       'fill-extrusion-opacity': 0.5
     }
   });
@@ -223,9 +223,9 @@ map.on('load', function() {
 
       
       setTimeout(function(){ 
-        window.removeEventListener("deviceorientation", handleOrientation);
+        
         getLocation();
-        window.addEventListener("deviceorientation", handleOrientation);
+        
       }, 3000);
       
     } else {
@@ -236,7 +236,9 @@ map.on('load', function() {
   function showPosition(position) {
     console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
 
+    window.removeEventListener("deviceorientation", handleOrientation);
     map.jumpTo({ center: [position.coords.longitude,position.coords.latitude] });
+    window.addEventListener("deviceorientation", handleOrientation);
 
     
 
