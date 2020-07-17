@@ -172,7 +172,7 @@ const videoConstraints = {
 map.on('load', function() {
 
 
-  var bufferedLine = turf.buffer(route, 0.0003, {units: 'kilometers'});
+  var bufferedLine = turf.buffer(route, 0.003, {units: 'kilometers'});
 
   map.addSource('directions', {
     'type': 'geojson',
@@ -221,11 +221,13 @@ map.on('load', function() {
       navigator.geolocation.getCurrentPosition(showPosition);
       map.jumpTo({ center: [-0.9389139711856842,51.00538912205625] });
 
-      /*
+      
       setTimeout(function(){ 
+        window.removeEventListener("deviceorientation", handleOrientation);
         getLocation();
+        window.addEventListener("deviceorientation", handleOrientation);
       }, 3000);
-      */
+      
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
