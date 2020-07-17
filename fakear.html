@@ -176,7 +176,7 @@ map.on('load', function() {
 
   map.addSource('directions', {
     'type': 'geojson',
-    'data': route
+    'data': bufferedLine
   });
 
   /*
@@ -203,8 +203,8 @@ map.on('load', function() {
     'source': 'directions',
     'paint': {
       'fill-extrusion-color': '#2c7fb8',
-      'fill-extrusion-height': 2,
-      'fill-extrusion-base': 1,
+      'fill-extrusion-height': 0.8,
+      'fill-extrusion-base': 0.5,
       'fill-extrusion-opacity': 0.5
     }
   });
