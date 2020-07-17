@@ -139,7 +139,7 @@ var map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
 center: [-0.93875203281641,51.005568447565174],
-zoom: 20,
+zoom: 22,
 pitch: 88,
 bearing: 20,
 antialias: true
@@ -219,7 +219,7 @@ map.on('load', function() {
   function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
-      map.jumpTo({ center: [-0.9389139711856842,51.00538912205625] });
+      //map.jumpTo({ center: [-0.9389139711856842,51.00538912205625] });
 
       
       setTimeout(function(){ 
@@ -236,7 +236,7 @@ map.on('load', function() {
   function showPosition(position) {
     console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
 
-    //map.jumpTo({ center: [position.coords.longitude,position.coords.latitude], zoom: 19 });
+    map.jumpTo({ center: [position.coords.longitude,position.coords.latitude] });
 
     
 
