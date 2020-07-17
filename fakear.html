@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 
-<script src="mapbox.js"></script>
+<script src="mapbox-ar.js"></script>
   <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
@@ -137,7 +137,9 @@ var route = {
 	mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
 var map = new mapboxgl.Map({
 container: 'map',
-style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
+
+        style: 'mapbox://styles/mapbox/satellite-v9',
+//style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
 center: [-0.93875203281641,51.005568447565174],
 zoom: 22,
 pitch: 58,
