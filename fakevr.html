@@ -83,21 +83,6 @@ box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
 <body>
 	<a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button">Start the demo</a>
 
-  <div class="map-overlay top">
-<div class="map-overlay-inner">
-<fieldset>
-<label>Select layer</label>
-<select id="layer" name="layer">
-<option value="water">Water</option>
-<option value="building">Buildings</option>
-</select>
-</fieldset>
-<fieldset>
-<label>Choose a color</label>
-<div id="swatches"></div>
-</fieldset>
-</div>
-</div>
 
 	<div id="map"></div>
 	
@@ -128,13 +113,18 @@ antialias: true
  
 map.on('load', function() {
 
-  //getLocation();
-  map.jumpTo({ center: [-0.9389139711856842,51.00538912205625], zoom: 19 });
+  getLocation();
+  //map.jumpTo({ center: [-0.9389139711856842,51.00538912205625], zoom: 19 });
   getOsmBbox();
 
   function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
+      map.jumpTo({ center: [-0.9389139711856842,51.00538912205625], zoom: 19 });
+
+      setTimeout(function(){ 
+        getLocation();
+      }, 3000);
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
@@ -147,9 +137,11 @@ map.on('load', function() {
 
     
 
+    /*
     var marker = new mapboxgl.Marker()
       .setLngLat([position.coords.longitude, position.coords.latitude])
       .addTo(map);
+    */
 
   }
 
