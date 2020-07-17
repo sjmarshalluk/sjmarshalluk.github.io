@@ -201,9 +201,11 @@ map.on('load', function() {
       navigator.geolocation.getCurrentPosition(showPosition);
       map.jumpTo({ center: [-0.9389139711856842,51.00538912205625] });
 
+      /*
       setTimeout(function(){ 
         getLocation();
       }, 3000);
+      */
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
