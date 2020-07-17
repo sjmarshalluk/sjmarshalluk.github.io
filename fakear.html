@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Extrude polygons for 3D indoor mapping</title>
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script src="mapbox.js"></script>
+  <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; }
+	#map { position: absolute; top: 30px; bottom: 0; width: 100%; z-index: 10 }
+	.mapboxgl-popup {
+max-width: 400px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+
+}
+
+
+</style>
+
+<style>
+.map-overlay {
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+position: absolute;
+width: 200px;
+top: 0;
+right: 0;
+padding: 10px;
+z-index: 1000;
+}
+ 
+.map-overlay .map-overlay-inner {
+background-color: #fff;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+border-radius: 3px;
+padding: 10px;
+margin-bottom: 10px;
+}
+ 
+.map-overlay-inner fieldset {
+border: none;
+padding: 0;
+margin: 0 0 10px;
+}
+ 
+.map-overlay-inner fieldset:last-child {
+margin: 0;
+}
+ 
+.map-overlay-inner select {
+width: 100%;
+}
+ 
+.map-overlay-inner label {
+display: block;
+font-weight: bold;
+margin: 0 0 5px;
+}
+ 
+.map-overlay-inner button {
+display: inline-block;
+width: 36px;
+height: 20px;
+border: none;
+cursor: pointer;
+}
+ 
+.map-overlay-inner button:focus {
+outline: none;
+}
+ 
+.map-overlay-inner button:hover {
+box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+</style>
+</head>
+<body>
+	<a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button">Start the demo</a>
+
+  <video id="video" autoplay playsinline style="width: 100%; height: calc(100% - 30px); z-index: 0; top: 30px; left: 0; position: absolute"></video>
+
+	<div id="map"></div>
+	
+  </body>
+
+	
+<script>
+
+
+
+var route = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.9404683113098143,
+            51.00570473448831
+          ],
+          [
+            -0.9403663873672484,
+            51.006076040482725
+          ],
+          [
+            -0.94032883644104,
+            51.00607941597813
+          ],
+          [
+            -0.938381552696228,
+            51.00512414097645
+          ],
+          [
+            -0.938435196876526,
+            51.00486084617501
+          ]
+        ]
+      }
+    }
+  ]
+}
+
+
+
+	// TO MAKE THE MAP APPEAR YOU MUST
+	// ADD YOUR ACCESS TOKEN FROM
+	// https://account.mapbox.com
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
+center: [-0.93875203281641,51.005568447565174],
+zoom: 18,
+pitch: 88,
+bearing: 20,
+antialias: true
+});
+
+
+
+
+const video = document.getElementById('video');
+
+const constraints = {
+    video: true,
+    audio: false
+  };
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(stream => {
+      video.srcObject = stream;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
+
+
+ 
+map.on('load', function() {
+
+  map.addSource('directions', {
+    'type': 'geojson',
+    'data': route
+  });
+
+  map.addLayer({
+      "id": "directions-layer",
+      "type": "line",
+      "source": "directions",
+      "paint": {
+        //"line-color": "#F3F139",
+        "line-opacity": 1,
+        "line-width": 10,
+         "line-color": '#dddddd'
+      },
+      "layout": {
+        'line-cap': 'round',
+        'line-join': 'round'
+      }
+  });
+
+
+
+
+  getLocation();
+  //map.jumpTo({ center: [-0.9389139711856842,51.00538912205625], zoom: 19 });
+  getOsmBbox();
+
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+      map.jumpTo({ center: [-0.9389139711856842,51.00538912205625] });
+
+      setTimeout(function(){ 
+        getLocation();
+      }, 3000);
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }
+
+  function showPosition(position) {
+    console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
+
+    //map.jumpTo({ center: [position.coords.longitude,position.coords.latitude], zoom: 19 });
+
+    
+
+    /*
+    var marker = new mapboxgl.Marker()
+      .setLngLat([position.coords.longitude, position.coords.latitude])
+      .addTo(map);
+    */
+
+  }
+
+
+  
+  
+
+      function getOsmBbox() {
+        var bounds = map.getBounds();
+        window.searchBboxOld = bounds._sw.lat + ',' + bounds._sw.lng + ',' + bounds._ne.lat + ',' + bounds._ne.lng;
+
+        console.log(searchBboxOld);
+
+
+        var point = turf.point([-0.9389139711856842,51.00538912205625]);
+        var buffered = turf.buffer(point, 0.1, {units: 'miles'});
+        var bbox = turf.bbox(buffered);
+        var bboxPolygon = turf.bboxPolygon(bbox);
+
+        console.log(bbox);
+
+        window.searchBbox = bbox[1] + ',' + bbox[0] + ',' + bbox[3] + ',' + bbox[2];
+
+        console.log(searchBbox);
+
+        //window.searchBbox = bbox;
+
+        //queryOsm();
+      }
+        
+
+
+      function queryOsm() {
+        if (map.getLayer('features-point')) {
+          map.removeLayer('features-point');
+        }
+        if (map.getLayer('features-polygon')) {
+          map.removeLayer('features-polygon');
+        }
+        if (map.getLayer('features-line')) {
+          map.removeLayer('features-line');
+        }
+        if (map.getSource('feats')) {
+          map.removeSource('feats');
+        }
+        showFeature()
+      }
+
+        function buildOverpassApiUrlFeat() {
+
+          var nodeQuery = '';
+          var wayQuery = '';
+          var relationQuery = '';
+
+          wayQuery += 'way[building](' + searchBbox + ');'
+
+          wayQuery += 'node[entrance](' + searchBbox + ');'
+
+
+
+          //var nodeQuery = 'node[' + overpassQuery + '](' + searchBbox + ');';
+          //var nodeQuery = 'node[tourism=attraction](' + searchBbox + ');node[natural=peak](' + searchBbox + ');';
+          //var wayQuery = 'way[' + overpassQuery + '](' + searchBbox + ');';
+          //var relationQuery = 'relation[' + overpassQuery + '](' + searchBbox + ');';
+          var query = '?data=[out:json][timeout:15];(' + nodeQuery + wayQuery + relationQuery + ');out body geom;';
+          var baseUrl = 'https://z.overpass-api.de/api/interpreter';
+          var resultUrl = baseUrl + query;
+          return resultUrl;
+        }
+
+        
+
+        /*
+        function addShowFunction(type,feature) {
+          var button = document.getElementById('show_' + feature);
+          button.addEventListener('click', function() {
+            showFeature(type,feature)
+          })
+        }
+        */
+
+
+
+        function showFeature(type,feature,shape){
+
+          //var queryFeatures = type + '=' + feature;
+          //var queryFeatures = 'tourism=attraction;natural=peak';
+          var overpassApiUrlFeat = buildOverpassApiUrlFeat();
+          $.get(overpassApiUrlFeat, function (osmDataAsJson) {
+            var resultAsGeojson = osmtogeojson(osmDataAsJson);
+            console.log(resultAsGeojson);
+
+
+            var outlines = {
+              "type":"FeatureCollection",
+              "features":[]
+            };
+
+            var outlinesPoly = {
+              "type":"FeatureCollection",
+              "features":[]
+            }
+
+            var doors = {
+              "type":"FeatureCollection",
+              "features":[]
+            }
+
+            resultAsGeojson.features.forEach(function(result) {
+              if (result.properties.tags.entrance === 'yes') {
+                var bufferedDoor = turf.buffer(result, 0.0003, {units: 'kilometers'});
+                doors.features.push(bufferedDoor);
+              }
+              if (result.properties.tags.building === 'yes') {
+                if (result.properties.tags['building:levels'] === '2') {
+                  result.properties.floor = 2;
+                }
+                if (result.properties.tags['building:levels'] === '3') {
+                  result.properties.floor = 3;
+                }
+                var line = turf.polygonToLine(result);
+                outlines.features.push(line);
+                var bufferedLine = turf.buffer(line, 0.0001, {units: 'kilometers'});
+                outlinesPoly.features.push(bufferedLine);
+
+              }
+            });
+
+
+
+
+            
+
+
+
+            paintOsm(resultAsGeojson,outlines,outlinesPoly,doors);
+
+
+          });   
+        }
+
+
+      function paintOsm(resultAsGeojson,outlines,outlinesPoly,doors) {
+        if (map.getLayer('osmline-layer')) {
+          map.removeLayer('osmline-layer');
+        }
+        if (map.getLayer('trunk-layer')) {
+          map.removeLayer('trunk-layer');
+        }
+        if (map.getSource('osmline')) {
+          map.removeSource('osmline');
+        }
+
+
+        map.addSource('buildings', {
+          'type': 'geojson',
+          'data': resultAsGeojson
+        });
+        map.addLayer({
+          'id': 'buildings',
+          'type': 'fill-extrusion',
+          'source': 'buildings',
+          'paint': {
+            'fill-extrusion-color': 'grey',
+            'fill-extrusion-height': 5,
+            'fill-extrusion-base': 0,
+            'fill-extrusion-opacity': 0.4
+          }
+        });
+
+
+        /*
+        outlinesPoly.features.forEach(function(feature) {
+
+          console.log(feature.properties.tags['building:levels']);
+
+          if (feature.properties.tags['building:levels'] === '2') {
+            console.log('hi');
+            map.addLayer({
+              'id': 'walls',
+              'type': 'fill-extrusion',
+              'source': 'walls',
+              'paint': {
+                'fill-extrusion-color': 'red',
+                'fill-extrusion-height': 5,
+                'fill-extrusion-base': 10,
+                'fill-extrusion-opacity': 0.5
+              }
+            });
+          }
+
+        });
+        */
+
+
+
+        var doorWays = {
+          "type":"FeatureCollection",
+          "features":[]
+        };
+
+        doors.features.forEach(function(door) {
+
+          //var snapped = turf.nearestPointOnLine(outlines, door, {units: 'miles'});
+          //doorWays.features.push(snapped);
+
+          var intersects = turf.lineIntersect(outlines, door);
+          doorWays.features.push(intersects);
+        });
+
+        console.log(doorWays);
+
+
+        map.addSource('doors', {
+          'type': 'geojson',
+          'data': doorWays
+        });
+        map.addLayer({
+          'id': 'doors',
+          'type': 'fill-extrusion',
+          'source': 'doors',
+          'paint': {
+            'fill-extrusion-color': 'white',
+            'fill-extrusion-height': 3,
+            'fill-extrusion-base': 0,
+            'fill-extrusion-opacity': 1
+          }
+        });
+
+
+
+
+
+        map.addSource('osmline', {
+            "type": "geojson",
+            "data": outlines
+        });
+        map.addLayer({
+            "id": "trunk-layer",
+            "type": "line",
+            "source": "osmline",
+            "paint": {
+              //"line-color": "#F3F139",
+              "line-opacity": 0,
+              "line-width": 10,
+               "line-color": '#71433E'
+            },
+            "layout": {
+              'line-cap': 'round',
+              'line-join': 'round'
+            }
+        });
+        
+      }
+
+
+
+/*
+
+	//$.getJSON(link)
+    //.done(function(data){
+		map.addSource('floorplan', {
+  		'type': 'geojson',
+  		'data': flat
+		});
+		map.addLayer({
+  		'id': 'room-extrusion',
+  		'type': 'fill-extrusion',
+  		'source': 'floorplan',
+  		'paint': {
+    		'fill-extrusion-color': ['get', 'color'],
+    		'fill-extrusion-height': ['get', 'height'],
+    		'fill-extrusion-base': ['get', 'base_height'],
+    		'fill-extrusion-opacity': 0.5
+		  }
+		});
+    */
+
+		map.on('click', 'room-extrusion', function(e) {
+new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML(e.features[0].properties.name)
+.addTo(map);
+});
+ 
+// Change the cursor to a pointer when the mouse is over the states layer.
+map.on('mouseenter', 'states-layer', function() {
+map.getCanvas().style.cursor = 'pointer';
+});
+ 
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'states-layer', function() {
+map.getCanvas().style.cursor = '';
+});
+	//});
+
+
+function handleOrientation(event) {
+
+
+	map.setPitch(event.beta);
+
+  //var bearing = event.gamma - (event.gamma * 2);
+	//map.setBearing(bearing);
+
+	/*
+    map.lookAt({ tilt: event.beta });
+
+    //var rotation = event.gamma - (event.gamma * 2);
+    map.lookAt({ heading: event.gamma });
+	*/
+
+  if (event.webkitCompassHeading) {
+        absoluteHeading = event.webkitCompassHeading;
+    } else {
+        absoluteHeading = event.alpha;
+    }
+    console.log(absoluteHeading);
+    map.setBearing(absoluteHeading);
+
+
+    
+  updateFieldIfNotNull('Orientation_a', event.alpha);
+  updateFieldIfNotNull('Orientation_b', event.beta);
+  updateFieldIfNotNull('Orientation_g', event.gamma);
+    
+  
+}
+
+function manageCompass(event) {
+    
+}
+
+
+let is_running = false;
+let demo_button = document.getElementById("start_demo");
+demo_button.onclick = function(e) {
+  e.preventDefault();
+
+  if (
+    DeviceMotionEvent &&
+    typeof DeviceMotionEvent.requestPermission === "function"
+  ) {
+    DeviceMotionEvent.requestPermission();
+  }
+  
+  if (is_running){
+    //window.removeEventListener("devicemotion", handleMotion);
+    window.removeEventListener("deviceorientation", handleOrientation);
+    //window.removeEventListener('deviceorientation', manageCompass);
+    demo_button.innerHTML = "Start demo";
+    demo_button.classList.add('btn-success');
+    demo_button.classList.remove('btn-danger');
+    is_running = false;
+  }else{
+    //window.addEventListener("devicemotion", handleMotion);
+    window.addEventListener("deviceorientation", handleOrientation);
+    //window.addEventListener('deviceorientation', manageCompass);
+    document.getElementById("start_demo").innerHTML = "Stop demo";
+    demo_button.classList.remove('btn-success');
+    demo_button.classList.add('btn-danger');
+    is_running = true;
+  }
+};
+
+});
+
+
+
+
+
+</script>
+ 
+</body>
+</html>
