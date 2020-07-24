@@ -1,0 +1,292 @@
+    * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+            height: 100%;
+        }
+ body { margin:0; padding:0; font-family: sans-serif; background: #fafafa; }
+        #map { position:absolute; top:0; bottom:0; width:100%; left: 0; height: 100%; }
+        #map.half { height: 55% }
+
+button {
+  border: 0;
+  border-radius: 5px;
+  height: 48px;
+  background-color: #fff;
+      width: 100%;
+}
+
+button.cta {
+  background-color: #05CB63;
+}
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.marker {
+display: block;
+border: none;
+border-radius: 50%;
+cursor: pointer;
+padding: 0;
+}
+
+.meta-item {
+  padding: 20px 0;
+}
+
+.geocoder {
+z-index: 2000;
+width: 100%;
+}
+.mapboxgl-ctrl-geocoder {
+width: 100%;
+}
+
+.osm_buttons {
+  margin-bottom: 50px;
+  overflow: hidden;
+}
+.osm_buttons li {
+  float: left;
+  list-style-type: none;
+  margin-right: 10px;
+}
+.osm_buttons .btn-tertiary.active { background: #333; color: #fff }
+
+#show-ways.active { background: #333; color: #fff }
+
+
+
+.object.faded { opacity: 0.2 }
+.object:hover { cursor: pointer; }
+
+
+        .image-wrapper { width: 100%; z-index: 1000; position: relative; display: block; background: #fff; bottom: 0; overflow-y: scroll; right: 0; height: 100%}
+
+        
+
+        
+
+
+        .AttributionContainer { display: none; }
+        .BearingIndicatorContainer  { display: none; }
+        .ZoomContainer  { display: none; }
+        #signbox { position: absolute; height: 30px; background: #000; color: #fff; top: 225px; width: 400px; opacity: 0.8; display: none }
+        #signbox.visible { display: block; }
+        #signbox img, #signbox p { float: left; margin: 0 }
+        .TagSymbol.hidden { display: none }
+        #close-sign { float: right; }
+        .image-viewer .button-bar { position: relative; top: 250px; }
+
+
+        .list-wrapper { width: 600px; overflow-x: scroll; position: absolute; bottom: 10px; display: none; }
+        #object-images { width: 10000px; }
+        #object-images li { float: left; width: 140px; margin-left: 10px; }
+        #object-images img { width: 140px; }
+
+
+        #panel-wrap { position:absolute; top:60px; width:400px; left: 0; background: #fff; bottom: 0; z-index: 1000; overflow: hidden; }
+
+        #panel-wrap > div { position: absolute; width: 400px; transition: 0.2s; left: 0; }
+
+        #panel-wrap > div.right { left: 400px; }
+        #panel-wrap > div.left { left: -400px; }
+
+        #object-details { position:relative; width:100%; background: #fff; z-index: 1001; padding: 10px; height: 60px; display: block; }
+
+
+        label { font-size: 13px; }
+
+
+        .object.hidden { opacity: 0 }
+
+.mapboxgl-ctrl-geocoder, .mapboxgl-ctrl-geocoder .suggestions { box-shadow: none; border: 1px solid #ddd; }
+.mapboxgl-ctrl-geocoder { max-width: 100%; }
+
+
+
+
+.object--support--utility-pole { background-image: url('/images/marker--object--support--utility-pole--mly.svg'); }
+.object--support--utility-pole.verified { background-image: url('/images/marker--object--support--utility-pole--on.svg'); }
+.object--support--utility-pole.osm { background-image: url('/images/marker--object--support--utility-pole--on.svg'); }
+
+
+#map-wrapper { width: calc(100% - 350px); position: absolute; right: 0; top: 0; height: 100%;  }
+    #image-wrapper { width: 100%; position: absolute; left: -100%; top: 0; height: 100%; overflow: scroll; background-color: #ffffff; z-index: 4000; }
+    .grid-mly { width: 100%; height: 300px; float: left; margin-bottom: 10px; position: relative; border-radius: 5px;  }
+
+
+
+    #header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+      z-index: 3000;
+    }
+    #header button {
+      width: 100px;
+    }
+
+    
+
+
+    #panel {
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      padding: 20px;
+      position: absolute;
+      z-index: 8000;
+      top: 0;
+      left: 0;
+      transition: 0.2s;
+    }
+
+    #panel.closed {
+      left: -100%;
+    }
+
+
+
+
+    #mly { position: absolute; height: 100%; width: 100%; bottom: 0; z-index: 4000 }
+
+
+
+
+    .header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 8px;
+      z-index: 5000;
+      display: none;
+    }
+    .header button {
+      width: 80px;
+      position: absolute;
+    }
+    .header button.left {
+      left: 8px
+    }
+    .header button.right {
+      right: 8px
+    }
+
+
+    .ui {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 8px;
+      z-index: 5000;
+      background-color: #ffffff;
+      border-radius: 20px 20px 0 0;
+    }
+    .ui.full-screen {
+      height: 100%;
+      transition: 0.2s;
+    }
+    
+    .actions {
+      padding: 8px;
+    }
+    .actions button {
+      float: left;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+    }
+    .actions button.cta {
+      background-color: #05CB63;
+      color: #ffffff;
+      width: 200px;
+      font-size: 20px;
+    }
+    .actions button.side {
+      width: calc(50% - 100px);
+      text-indent: -9999px;
+    }
+    .actions button.remove {
+      background-image: url('/images/trash.svg');
+    }
+    .actions button.skip {
+      background-image: url('/images/chevright.svg');
+    }
+    .actions button.inactive {
+      opacity: 0.3;
+    }
+
+    #mly-wrapper {
+      width: 100%;
+      height: 340px;
+      border-radius: 15px 15px 0 0;
+      overflow: hidden;
+      position: relative;
+      transition: 0.2s;
+    }
+    #mly-wrapper.full-screen {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      border-radius: 0;
+      top: 0;
+      left: 0;
+    }
+
+    .mly-actions {
+      width: 200px;
+      position: absolute;
+      bottom: 16px;
+      left: calc(50% - 100px);
+      z-index: 5000;
+    }
+    .mly-actions button {
+      background-color: #000000;
+      float: left;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      width: calc(33.3333% - 8px);
+      margin-right: 8px;
+      text-indent: -9999px;
+    }
+    .mly-actions button.false {
+      background-image: url('/images/thumbsdown.svg');
+    }
+    .mly-actions button.positive {
+      background-image: url('/images/thumbsup.svg');
+    }
+    .mly-actions button.unsure {
+    }
+    #grow {
+      background-color: transparent;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      width: 36px;
+      height: 36px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      text-indent: -9999px;
+      background-image: url('/images/grow.svg');
+      z-index: 5000;
+    }
+
+
+
+    .ca-icon {
+      background-image: url('/images/ca-green.png');
+    }
+
+
