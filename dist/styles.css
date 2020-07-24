@@ -114,9 +114,9 @@ width: 100%;
 
 
 
-.object--support--utility-pole { background-image: url('/images/marker--object--support--utility-pole--mly.svg'); }
-.object--support--utility-pole.verified { background-image: url('/images/marker--object--support--utility-pole--on.svg'); }
-.object--support--utility-pole.osm { background-image: url('/images/marker--object--support--utility-pole--on.svg'); }
+.object--support--utility-pole { background-image: url('./images/marker--object--support--utility-pole--mly.svg'); }
+.object--support--utility-pole.verified { background-image: url('./images/marker--object--support--utility-pole--on.svg'); }
+.object--support--utility-pole.osm { background-image: url('./images/marker--object--support--utility-pole--on.svg'); }
 
 
 #map-wrapper { width: calc(100% - 350px); position: absolute; right: 0; top: 0; height: 100%;  }
@@ -214,18 +214,25 @@ width: 100%;
       width: 200px;
       font-size: 20px;
     }
+    .actions button#start {
+
+      margin-left: calc(50% - 100px);
+    }
     .actions button.side {
       width: calc(50% - 100px);
       text-indent: -9999px;
     }
     .actions button.remove {
-      background-image: url('/images/trash.svg');
+      background-image: url('./images/trash.svg');
     }
     .actions button.skip {
-      background-image: url('/images/chevright.svg');
+      background-image: url('./images/chevright.svg');
     }
     .actions button.inactive {
       opacity: 0.3;
+    }
+    .actions button.back {
+      background-image: url('./images/chevleft.svg');
     }
 
     #mly-wrapper {
@@ -262,10 +269,10 @@ width: 100%;
       text-indent: -9999px;
     }
     .mly-actions button.false {
-      background-image: url('/images/thumbsdown.svg');
+      background-image: url('./images/thumbsdown.svg');
     }
     .mly-actions button.positive {
-      background-image: url('/images/thumbsup.svg');
+      background-image: url('./images/thumbsup.svg');
     }
     .mly-actions button.unsure {
     }
@@ -279,14 +286,34 @@ width: 100%;
       top: 0;
       right: 0;
       text-indent: -9999px;
-      background-image: url('/images/grow.svg');
+      background-image: url('./images/grow.svg');
       z-index: 5000;
     }
 
 
-
-    .ca-icon {
-      background-image: url('/images/ca-green.png');
+    .task-details {
+      padding: 16px;
+      text-align: center;
     }
 
 
+    .ca-icon {
+      background-image: url('./images/ca-green.png');
+    }
+
+
+    .object-mly div.active {
+      background-image: url('./images/marker--object--support--utility-pole--on.svg');
+    }
+
+
+    #position {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: 0;
+      background-color: #ffffff;
+    }
+    #position.hidden {
+      display: none;
+    }

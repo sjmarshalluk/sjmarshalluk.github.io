@@ -3,18 +3,18 @@
   <head>
     <title>Sierra Leone</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
     <script src='https://unpkg.com/mapillary-js@2.20.0/dist/mapillary.min.js'></script>
     <link href='https://unpkg.com/mapillary-js@2.20.0/dist/mapillary.min.css' rel='stylesheet' />
       <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
   <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css"/>
-  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
   <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
 
   <link href="styles.css" rel="stylesheet">
   </head>
-  <body>
+  <body style="overflow: hidden;">
     <div>
     	<div id="geocoder" class="geocoder" style="display: none;"></div>
     	
@@ -30,21 +30,24 @@
 	    </div>
 
 	    <div id="panel">
-	    	<h4>Features</h4>
-	    	<div id="osm-btns-wrap"></div>
+	    	
+	    	<div id="osm-btns-wrap" style="display: none"></div>
 
-	    	<h4>Region</h4>
+
 	    	<div id="region-list"></div>
 
-	    	<button id="go" class="cta">Go</button>
 	    </div>
 
 
       <div id='map'></div>
 
       <div id="map-ui" class="ui" style="display: none;">
-    		<h4 id="region-name"></h4>
-    		<h6 id="unverified-count"></h6>
+      	<div class="task-details">
+	    		<h4 id="region-name"></h4>
+	    		<h6 id="unverified-count"></h6>
+	    		<h6 id="main-added-count"></h6>
+	    		<h6 id="main-removed-count"></h6>
+	    	</div>
 
     		<div class="actions">
     			<button id='start' class="cta">Start</button>
@@ -67,6 +70,11 @@
     			<button id="remove" class="side remove inactive">Bin</button>
     			<button id="add" class="cta inactive">Add</button>
     			<button id="skip" class="side skip">Skip</button>
+    		</div>
+
+    		<div id="position" class="actions hidden">
+    			<button id="cancel" class="side back">Cancel</button>
+    			<button id="confirm" class="cta">Confirm position</button>
     		</div>
     	</div>
 
