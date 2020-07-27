@@ -131,7 +131,7 @@ width: 100%;
 
     .grid-mly { width: 350px; height: 300px; float: left; position: relative; border-radius: 5px;  }
 
-    .mly-container:before {
+    .grid-mly:before {
       position: absolute;
       top: 0;
       left: 0;
@@ -280,6 +280,7 @@ width: 100%;
       bottom: 16px;
       left: calc(50% - 100px);
       z-index: 5000;
+      display: none;
     }
     .mly-actions button {
       background-repeat: no-repeat;
@@ -302,7 +303,7 @@ width: 100%;
     .mly-actions .btn-wrap {
       background-color: #000000;
       float: left;
-      width: calc(33.3333% - 8px);
+      width: calc(50% - 8px);
       margin-right: 8px;
       border-radius: 5px;
     }
@@ -351,3 +352,31 @@ width: 100%;
       display: none;
     }
 
+
+
+
+    #image-wrapper.full-screen {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      border-radius: 0;
+      top: 0;
+      left: 0;
+    }
+    #image-wrapper div.full-screen {
+      height: 100%;
+      width: 100%;
+    }
+
+
+
+
+
+    .big-btn {
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: absolute;
+      z-index: 8000;
+      background-color: transparent;
+    }
