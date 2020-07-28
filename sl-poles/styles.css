@@ -12,6 +12,7 @@ html, body {
  body { margin:0; padding:0; font-family: sans-serif; background: #fafafa; }
         #map { position:absolute; top:0; bottom:0; width:100%; left: 0; height: 100%; }
         #map.half { height: 55% }
+        #map.slim { height: 25%!important }
 
 button {
   border: 0;
@@ -23,6 +24,21 @@ button {
 
 button.cta {
   background-color: #05CB63;
+}
+
+button.active {
+  background-color: #333333;
+}
+
+button.hidden {
+  display: none;
+}
+button.inactive {
+  opacity: 0.3;
+}
+
+.content {
+  height: 100%;
 }
 
 .mapboxgl-popup {
@@ -168,6 +184,7 @@ width: 100%;
       top: 0;
       left: 0;
       transition: 0.2s;
+      overflow: hidden;
     }
 
     #panel.closed {
@@ -195,7 +212,7 @@ width: 100%;
       display: none;
     }
     .header button {
-      width: 80px;
+      width: 48px;
       position: absolute;
     }
     .header button.left {
@@ -203,6 +220,30 @@ width: 100%;
     }
     .header button.right {
       right: 8px
+    }
+    .header button.exit {
+      background-image: url('./images/close.svg');
+      background-repeat: no-repeat;
+      background-size: 20px;
+      background-position: 50% 50%;
+      text-indent: -9999px;
+    }
+    .header button.menu {
+      background-image: url('./images/hamburger.svg');
+      background-repeat: no-repeat;
+      background-size: 20px;
+      background-position: 50% 50%;
+      text-indent: -9999px;
+    }
+    .header button.upload {
+      background-image: url('./images/upload.svg');
+      background-repeat: no-repeat;
+      background-size: 20px;
+      background-position: 50% 50%;
+      text-indent: -9999px;
+    }
+    .header.hidden {
+      display: none!important;
     }
 
 
@@ -215,15 +256,22 @@ width: 100%;
       z-index: 5000;
       background-color: #ffffff;
       border-radius: 20px 20px 0 0;
+      width: 100%;
     }
     .ui.full-screen {
-      height: 100%;
-      transition: 0.2s;
+      height: 80%;
     }
     
     .actions {
       padding: 8px 8px 24px;
       overflow: hidden;
+    }
+    .actions.float {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 16px 32px;
     }
     .actions button {
       float: left;
@@ -236,8 +284,7 @@ width: 100%;
       width: 200px;
       font-size: 20px;
     }
-    .actions button#start {
-
+    .actions.single button {
       margin-left: calc(50% - 100px);
     }
     .actions button.side {
@@ -267,7 +314,7 @@ width: 100%;
     }
     #mly-wrapper.full-screen {
       width: 100%;
-      height: 100%;
+      height: 80%;
       position: absolute;
       border-radius: 0;
       top: 0;
@@ -280,7 +327,6 @@ width: 100%;
       bottom: 16px;
       left: calc(50% - 100px);
       z-index: 5000;
-      display: none;
     }
     .mly-actions button {
       background-repeat: no-repeat;
@@ -304,8 +350,10 @@ width: 100%;
       background-color: #000000;
       float: left;
       width: calc(50% - 8px);
-      margin-right: 8px;
       border-radius: 5px;
+    }
+    .mly-actions .btn-wrap:first-of-type {
+      margin-right: 16px;
     }
 
 
@@ -356,16 +404,30 @@ width: 100%;
 
 
     #image-wrapper.full-screen {
-      width: 100%;
       height: 100%;
-      position: absolute;
-      border-radius: 0;
-      top: 0;
-      left: 0;
     }
     #image-wrapper div.full-screen {
       height: 100%;
       width: 100%;
+    }
+
+
+
+
+    .target {
+      position: absolute;
+      z-index: 8000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 55%;
+      background-image: url('./images/target.svg');
+      background-color: transparent;
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+    }
+    .target.hidden {
+      display: none;
     }
 
 
@@ -379,4 +441,72 @@ width: 100%;
       position: absolute;
       z-index: 8000;
       background-color: transparent;
+      top: 0;
+      display: none;
     }
+
+
+
+
+    .main-btn-wrap {
+
+    }
+
+
+    .sheet {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 300px;
+      padding: 16px;
+      background-color: #ffffff;
+      border-radius: 20px;
+      display: none;
+      z-index: 9999;
+    }
+    .sheet:before {
+      content: ' ';
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      display: block;
+      background-color: #000;
+      opacity: 0.5;
+      z-index: -1;
+    }
+    .sheet:after {
+      content: ' ';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      display: block;
+      background-color: #fff;
+      z-index: -1;
+    }
+    .sheet button {
+      background: #fafafa;
+    }
+
+
+
+    .icons {
+      margin: 0!important;
+    }
+
+    .icons button {
+      background-repeat: no-repeat;
+      background-position: 50% 35%;
+      background-size: 40px;
+      height: auto;
+      border-radius: 10px;
+      margin: 10px 0;
+      padding: 80px 20px 20px;
+    }
+    .icons button.pole {
+      background-image: url('./images/icon-pole.svg')!important;
+    }
+
