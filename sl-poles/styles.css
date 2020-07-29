@@ -77,6 +77,19 @@ width: 100%;
 }
 .osm_buttons .btn-tertiary.active { background: #333; color: #fff }
 
+#userlogin {
+  display: none;
+}
+
+#osmlogin {
+  color: #05CB63;
+}
+
+#osmlogout {
+  display: none;
+  color: #FF5733;
+}
+
 #show-ways.active { background: #333; color: #fff }
 
 
@@ -87,9 +100,9 @@ width: 100%;
 
         .image-wrapper { width: 100%; z-index: 1000; position: relative; display: block; background: #fff; bottom: 0; overflow-y: scroll; right: 0; height: 100%}
 
-        
 
-        
+
+
 
 
         .AttributionContainer { display: none; }
@@ -136,11 +149,11 @@ width: 100%;
 
 
 #map-wrapper { width: calc(100% - 350px); position: absolute; right: 0; top: 0; height: 100%;  }
-    
-    #image-wrapper { 
-      width: 100%; 
-      overflow: scroll; 
-      background-color: #ffffff; 
+
+    #image-wrapper {
+      width: 100%;
+      overflow: scroll;
+      background-color: #ffffff;
       height: 300px;
       border-radius: 15px 15px 0 0;
     }
@@ -171,20 +184,33 @@ width: 100%;
       width: 100px;
     }
 
-    
+
 
 
     #panel {
       width: 100%;
       height: 100%;
       background-color: #fff;
-      padding: 20px;
       position: absolute;
       z-index: 8000;
       top: 0;
       left: 0;
       transition: 0.2s;
       overflow: hidden;
+    }
+
+    #panel .swiper-slide {
+      padding: 32px;
+      height: 100vh;
+      overflow: scroll;
+    }
+
+    #panel #osm-btns-wrap.swiper-slide {
+      height: inherit;
+    }
+
+    #region-list button {
+      margin-bottom: 16px;
     }
 
     #panel.closed {
@@ -261,7 +287,7 @@ width: 100%;
     .ui.full-screen {
       height: 80%;
     }
-    
+
     .actions {
       padding: 8px 8px 24px;
       overflow: hidden;
@@ -332,7 +358,7 @@ width: 100%;
       background-repeat: no-repeat;
       background-position: 50% 50%;
       text-indent: -9999px;
-      
+
     }
     .mly-actions button.false {
       background-image: url('./images/thumbsdown.svg');
@@ -509,4 +535,95 @@ width: 100%;
     .icons button.pole {
       background-image: url('./images/icon-pole.svg')!important;
     }
+    .icons button.crossing {
+      background-image: url('./images/icon-crossing.svg')!important;
+    }
+    .icons button.fire_hydrant {
+      background-image: url('./images/icon-hydrant.svg')!important;
+      background-size: 26px;
+    }
+    .icons button.telephone {
+      background-image: url('./images/icon-phone.svg')!important;
+    }
+    .icons button.bench {
+      background-image: url('./images/icon-bench.svg')!important;
+    }
+    .icons button.bicycle_parking {
+      background-image: url('./images/icon-bike.svg')!important;
+    }
+
+
+
+
+    .map-btns {
+      position: absolute;
+      top: 10px;
+      left: calc(50% - 15px);
+      z-index: 10;
+    }
+    .map-btns button {
+      width: 30px;
+      height: 30px;
+      border-radius: 30px;
+      background-color: #ffffff;
+      background-image: url('./images/basemap.svg');
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      text-indent: -9999px;
+    }
+
+
+    .upload-panel {
+      display: none; 
+      position: absolute; 
+      z-index: 9000; 
+      background-color: #fff; 
+      width: 100%; 
+      top: 0;
+      padding-top: 60px;
+    }
+
+    .upload-panel header {
+      display: block;
+    }
+
+    .upload-panel table {
+      width: 100%; 
+      height: calc(100% - 400px); 
+      padding: 16px; 
+      overflow: scroll; 
+      display: block;
+    }
+
+    .upload-summary {
+      padding: 16px;
+    }
+
+    #upload-header.header {
+      display: block;
+    }
+
+
+
+@media only screen and (min-width: 800px) {
+  #panel {
+    width: 400px;
+  }
+  .ui {
+    bottom: 8px;
+    left: 8px;
+    width: 384px;
+  }
+  #map.half {
+    height: 100%;
+  }
+  #map.slim {
+    height: 100%;
+  }
+  .map-btns {
+    right: 10px;
+    left: auto;
+  }
+}
+
 

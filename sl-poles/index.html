@@ -20,7 +20,7 @@
   <body>
     <div class="content">
     	<div id="geocoder" class="geocoder" style="display: none;"></div>
-    	
+
 
 
     	<div id="map-header" class="header">
@@ -40,37 +40,62 @@
           <div class="swiper-wrapper">
             <div id="welcome" class="swiper-slide">
               <h1>Mapillary</h1>
-              <button>Log in to OSM</button>
-              <button>Log in to Mapillary</button>
+              <button id="osmlogin">Log in to OSM</button>
+              
             </div>
             <div id="osm-btns-wrap" class="icons row swiper-slide"></div>
-            <div id="region-list" class="swiper-slide"></div>
+            <div id="location" class="swiper-slide">
+              <div id="sequence-list"></div>
+              <div id="region-list"></div>
+            </div>
+            <div id="session-summary" class="swiper-slide">
+
+
+
+              <ul class="list-group list-group-horizontal" id="userlogin">
+                <li class="list-group-item"><b>Logged in as: </b><span id='display_name'></span></li>
+                <li class="list-group-item"><b>Changesets: </b><span id='count'></span></li>
+              </ul>
+
+              <button id="osmlogout" class="btn btn-light" style="margin: 16px 0 32px 0;">Logout</button>
+
+
+              <ul class="list-group list-group-horizontal">
+                <li class="list-group-item">Feature: <span id="session-feature"></span></li>
+                <li class="list-group-item">Region: <span id="session-region"></span></li>
+              </ul>
+              <button id="menu-edit" class="btn btn-light" style="margin: 16px 0 32px 0;">Change search</button>
+
+              <div id="get-started-wrap" class="actions single float">
+                <button id='menu-next' class="cta inactive">Next</button>
+                <button id="get-started" class="cta hidden inactive">Go</button>
+              </div>
+            </div>
           </div>
 
         </div>
-	    	
-	    	
-	    	
-        <div id="get-started-wrap" class="actions single float">
-          <button id='menu-next' class="cta inactive">Next</button>
-          <button id="get-started" class="cta hidden inactive">Go</button>
-        </div>
+
+
+
+        
 
 	    </div>
 
 
-      <div id="target" class="target hidden"></div>
+      <div class="map-btns">
+        <button id="basemap-switch" class="baselayer">BL</button>
+      </div>
       <div id='map'></div>
 
       <div id="map-ui" class="ui" style="display: none;">
-        
+
 
 
       	<div class="task-details">
 	    		<h4 id="region-name"></h4>
           <ul class="list-group list-group-horizontal">
-            <li class="list-group-item">0 OSM</li>
-            <li class="list-group-item">158 Mapillary</li>
+            <li class="list-group-item"><span id="osm-feature-count"></span> OSM</li>
+            <li class="list-group-item"><span id="mly-feature-count"></span> Mapillary</li>
           </ul>
 	    		<h6 id="main-waiting-count"></h6>
 	    		<h6 id="main-added-count"></h6>
@@ -86,7 +111,7 @@
     	<div id="verify-ui" class="ui" style="left: -100%">
     		<div id="mly-wrapper" style="display: none">
 
-	      	
+
     			<div id='mly'></div>
     		</div>
 
@@ -105,9 +130,9 @@
 
     		<div class="actions">
           <div id="remove-btn-wrap"></div>
-          
+
     			<button id="add" class="cta inactive">Add</button>
-          
+
           <div id="skip-btn-wrap"></div>
     		</div>
 
@@ -118,16 +143,31 @@
     		</div>
     	</div>
 
-      
+
     </div>
-    <div id="upload-panel" style="display: none; position: absolute; z-index: 9000; background-color: #fff; width: 100%; padding: 16px; top: 0;">
-    	<button id="upload-close">Close</button>
-    	<table style="width:100%" id="upload-table" class="table table-sm">
-			  
-			</table>
-      <div id="confirm-upload-wrap" class="actions single float">
-        <button id="confirm-upload" class="cta">Upload changes</button>
+    <div id="upload-panel" class="upload-panel">
+      <div id="upload-header" class="header">
+        <button id="upload-close" class="right exit btn btn-light">Close</button>
       </div>
+
+      <div class="upload-summary">
+
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item">Features approved: <span id=""></span></li>
+          <li class="list-group-item">Features rejected: <span id=""></span></li>
+          <li class="list-group-item">Features skipped: <span id=""></span></li>
+          <li class="list-group-item">Detections approved: <span id=""></span></li>
+          <li class="list-group-item">Detections rejected: <span id=""></span></li>
+        </ul>
+
+        <button id="confirm-upload" class="cta" style="margin: 16px 0 32px">Upload changes</button>
+        <p class="small">(as <span id=""></span>)</p>
+      </div>
+
+    	<table id="upload-table" class="table table-sm">
+
+			</table>
+
    	</div>
 
     <div id="bottom-sheet" class="sheet">
