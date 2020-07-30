@@ -36,6 +36,21 @@ button.hidden {
 button.inactive {
   opacity: 0.3;
 }
+.btn:disabled {
+  opacity: 0.3;
+}
+
+
+h1.logo {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: 200px;
+  background-image: url('./images/logo.svg');
+  text-indent: -9999px;
+}
 
 .content {
   height: 100%;
@@ -200,7 +215,7 @@ width: 100%;
     }
 
     #panel .swiper-slide {
-      padding: 32px;
+      padding: 80px 32px;
       height: 100vh;
       overflow: scroll;
     }
@@ -235,7 +250,6 @@ width: 100%;
       right: 0;
       padding: 8px;
       z-index: 5000;
-      display: none;
     }
     .header button {
       width: 48px;
@@ -605,6 +619,14 @@ width: 100%;
 
 
 
+
+    .mapboxgl-ctrl-geocoder--button {
+      width: auto;
+      height: auto;
+    }
+
+
+
 @media only screen and (min-width: 800px) {
   #panel {
     width: 400px;
@@ -623,6 +645,9 @@ width: 100%;
   .map-btns {
     right: 10px;
     left: auto;
+  }
+  #image-wrapper {
+    height: 380px;
   }
 }
 

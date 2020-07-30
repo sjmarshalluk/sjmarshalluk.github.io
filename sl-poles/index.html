@@ -19,18 +19,16 @@
   </head>
   <body>
     <div class="content">
-    	<div id="geocoder" class="geocoder" style="display: none;"></div>
+    	
 
-
-
-    	<div id="map-header" class="header">
-      	<button id="nav" class="left menu">Menu</button>
-      	<button id="upload" class="right upload">Upload</button>
-	    </div>
 
 	    <div id="verify-header" class="header">
-      	<button id="exit-verify" class="left exit">Close</button>
-      	<button id="stats" class="right"><span id="added-count">0</span>/<span id="removed-count">0</span></button>
+        <button id="nav" class="left menu">Menu</button>
+        <button id="upload" class="right upload">Upload</button>
+
+
+      	<button id="exit-verify" class="left exit" style="display: none">Close</button>
+      	<button id="stats" class="right" style="display: none"><span id="added-count">0</span>/<span id="removed-count">0</span></button>
 	    </div>
 
 	    <div id="panel">
@@ -39,18 +37,30 @@
           <!-- Additional required wrapper -->
           <div class="swiper-wrapper">
             <div id="welcome" class="swiper-slide">
-              <h1>Mapillary</h1>
-              <button id="osmlogin">Log in to OSM</button>
+              <h1 class="logo">Mapillary</h1>
               
+              
+              <div class="actions single float">
+                <button class="btn btn-light" style="width: 200px" id="osmlogin">Log in with OSM</button>
+              </div>
             </div>
             <div id="osm-btns-wrap" class="icons row swiper-slide"></div>
             <div id="location" class="swiper-slide">
+              <div id="geocoder" class="geocoder"></div>
               <div id="sequence-list"></div>
               <div id="region-list"></div>
+
+              <div id="get-started-wrap" class="actions single float">
+                <button id='menu-next' class="cta inactive" style="display: none">Next</button>
+                <button id="get-started" class="cta inactive">Go</button>
+              </div>
             </div>
             <div id="session-summary" class="swiper-slide">
+              <div class="header">
+                <button id="close-nav" class="right exit btn btn-light" style="display: none">Close</button>
+              </div>
 
-
+              
 
               <ul class="list-group list-group-horizontal" id="userlogin">
                 <li class="list-group-item"><b>Logged in as: </b><span id='display_name'></span></li>
@@ -66,10 +76,7 @@
               </ul>
               <button id="menu-edit" class="btn btn-light" style="margin: 16px 0 32px 0;">Change search</button>
 
-              <div id="get-started-wrap" class="actions single float">
-                <button id='menu-next' class="cta inactive">Next</button>
-                <button id="get-started" class="cta hidden inactive">Go</button>
-              </div>
+              
             </div>
           </div>
 
@@ -131,7 +138,7 @@
     		<div class="actions">
           <div id="remove-btn-wrap"></div>
 
-    			<button id="add" class="cta inactive">Add</button>
+          <div id="add-btn-wrap"></div>
 
           <div id="skip-btn-wrap"></div>
     		</div>
