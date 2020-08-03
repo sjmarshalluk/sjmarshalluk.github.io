@@ -8,18 +8,18 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
     <script src='https://unpkg.com/mapillary-js@2.20.0/dist/mapillary.min.js'></script>
     <link href='https://unpkg.com/mapillary-js@2.20.0/dist/mapillary.min.css' rel='stylesheet' />
-      <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css"/>
-  <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
-
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link href="styles.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css"/>
+    <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
+    <link rel='shortcut icon' type='image/x-icon' href='./assets/favicon.png'>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="styles.css" rel="stylesheet">
   </head>
   <body>
     <div class="content">
-    	
+
 
 
 	    <div id="verify-header" class="header">
@@ -33,20 +33,24 @@
 
 	    <div id="panel">
 
+
         <div class="swiper-menu">
           <!-- Additional required wrapper -->
           <div class="swiper-wrapper">
             <div id="welcome" class="swiper-slide">
               <h1 class="logo">Mapillary</h1>
-              
-              
+
+
               <div class="actions single float">
                 <button class="btn btn-light" style="width: 200px" id="osmlogin">Log in with OSM</button>
               </div>
             </div>
             <div id="osm-btns-wrap" class="icons row swiper-slide"></div>
             <div id="location" class="swiper-slide">
-              <div id="geocoder" class="geocoder"></div>
+
+              <div id="geocoder" class="geocoder swiper-no-swiping"></div>
+              <div id="geolocater" class="geolocater">Find location</div>
+
               <div id="sequence-list"></div>
               <div id="region-list"></div>
 
@@ -60,7 +64,7 @@
                 <button id="close-nav" class="right exit btn btn-light" style="display: none">Close</button>
               </div>
 
-              
+
 
               <ul class="list-group list-group-horizontal" id="userlogin">
                 <li class="list-group-item"><b>Logged in as: </b><span id='display_name'></span></li>
@@ -76,7 +80,7 @@
               </ul>
               <button id="menu-edit" class="btn btn-light" style="margin: 16px 0 32px 0;">Change search</button>
 
-              
+
             </div>
           </div>
 
@@ -84,7 +88,7 @@
 
 
 
-        
+
 
 	    </div>
 
@@ -92,63 +96,104 @@
       <div class="map-btns">
         <button id="basemap-switch" class="baselayer">BL</button>
       </div>
+
       <div id='map'></div>
 
-      <div id="map-ui" class="ui" style="display: none;">
+      <div id="mly-wrapper">
+        <div id="detection-bar">
+          <div id="detection-label"></div>
+        </div>
+        <div id='mly'></div>
+      </div>
+
+      <div id="ui-wrapper" class="ui">
+
+        <div id="map-ui" style="display: none;">
+
+        	<div class="task-details">
+  	    		<h4 id="region-name"></h4>
+            <ul class="list-group list-group-horizontal">
+              <li class="list-group-item"><span id="osm-feature-count"></span> OSM</li>
+              <li class="list-group-item"><span id="mly-feature-count"></span> Mapillary</li>
+            </ul>
+  	    		<h6 id="main-waiting-count"></h6>
+  	    		<h6 id="main-added-count"></h6>
+  	    		<h6 id="main-removed-count"></h6>
+  	    	</div>
+
+      		<div class="actions single">
+      			<button id='start' class="cta">Start</button>
+      		</div>
+      	</div>
 
 
+      	<div id="verify-ui" style="opacity: 0;">
+      		
 
-      	<div class="task-details">
-	    		<h4 id="region-name"></h4>
-          <ul class="list-group list-group-horizontal">
-            <li class="list-group-item"><span id="osm-feature-count"></span> OSM</li>
-            <li class="list-group-item"><span id="mly-feature-count"></span> Mapillary</li>
-          </ul>
-	    		<h6 id="main-waiting-count"></h6>
-	    		<h6 id="main-added-count"></h6>
-	    		<h6 id="main-removed-count"></h6>
-	    	</div>
-
-    		<div class="actions single">
-    			<button id='start' class="cta">Start</button>
-    		</div>
-    	</div>
-
-
-    	<div id="verify-ui" class="ui" style="left: -100%">
-    		<div id="mly-wrapper" style="display: none">
-
-
-    			<div id='mly'></div>
-    		</div>
-
-    		<p style="position: absolute; z-index: 5000; display: none;"># Detections</p>
-    		<div id="image-wrapper" class="swiper-container">
-    			<button id="grow">Grow</button>
-      		<div class="mly-actions">
-      			<div id="reject-wrap" class="btn-wrap"></div>
-      			<div id="approve-wrap" class="btn-wrap"></div>
-	      	</div>
-		      <div id="mly-grid" class="swiper-wrapper"></div>
-		      <div class="swiper-button-prev" style="display: none"></div>
-    			<div class="swiper-button-next" style="display: none"></div>
-
-		    </div>
-
-    		<div class="actions">
-          <div id="remove-btn-wrap"></div>
-
-          <div id="add-btn-wrap"></div>
-
-          <div id="skip-btn-wrap"></div>
-    		</div>
-
-    		<div id="position" class="actions hidden">
-    			<button id="cancel-add" class="side back">Cancel</button>
-          <div id="confirm-btn-wrap">
+          <div id="detections-loading" class="loading">
+            <div class="loading-svg">
+              <svg width="20" height="20" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" style="position: absolute;">
+                <defs>
+                    <linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a">
+                        <stop stop-color="#fff" stop-opacity="0" offset="0%"/>
+                        <stop stop-color="#fff" stop-opacity=".631" offset="63.146%"/>
+                        <stop stop-color="#fff" offset="100%"/>
+                    </linearGradient>
+                </defs>
+                <g fill="none" fill-rule="evenodd">
+                    <g transform="translate(1 1)">
+                        <path d="M36 18c0-9.94-8.06-18-18-18" id="Oval-2" stroke="url(#a)" stroke-width="2">
+                            <animateTransform
+                                attributeName="transform"
+                                type="rotate"
+                                from="0 18 18"
+                                to="360 18 18"
+                                dur="0.9s"
+                                repeatCount="indefinite" />
+                        </path>
+                        <circle fill="#fff" cx="36" cy="18" r="1">
+                            <animateTransform
+                                attributeName="transform"
+                                type="rotate"
+                                from="0 18 18"
+                                to="360 18 18"
+                                dur="0.9s"
+                                repeatCount="indefinite" />
+                        </circle>
+                    </g>
+                </g>
+              </svg> 
+            </div>
+            <p>Loading detections</p>
           </div>
-    		</div>
-    	</div>
+      		<p style="position: absolute; z-index: 5000; display: none;"># Detections</p>
+      		<div id="image-wrapper" class="swiper-container">
+      			<button id="grow">Grow</button>
+        		<div class="mly-actions">
+        			<div id="reject-wrap" class="btn-wrap"></div>
+        			<div id="approve-wrap" class="btn-wrap"></div>
+  	      	</div>
+  		      <div id="mly-grid" class="swiper-wrapper"></div>
+  		      <div class="swiper-button-prev" style="display: none"></div>
+      			<div class="swiper-button-next" style="display: none"></div>
+
+  		    </div>
+
+      		<div class="actions">
+            <div id="remove-btn-wrap"></div>
+
+            <div id="add-btn-wrap"></div>
+
+            <div id="skip-btn-wrap"></div>
+      		</div>
+
+      		<div id="position" class="actions hidden">
+      			<button id="cancel-add" class="side back">Cancel</button>
+            <div id="confirm-btn-wrap">
+            </div>
+      		</div>
+      	</div>
+      </div>
 
 
     </div>
