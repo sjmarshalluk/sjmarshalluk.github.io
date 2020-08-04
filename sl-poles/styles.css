@@ -86,16 +86,16 @@ padding: 0;
 
 .geocoder {
 z-index: 2000;
-width: 95%;
+width: calc(100% - 50px);
 height: 15px;
 float: left;
 }
 .mapboxgl-ctrl-geocoder {
-width: 95%;
+  width: 100%;
 }
 .geolocater {
 z-index: 2000;
-width: 5%;
+width: 40px;
 height: 40px;
 float: right;
 background-image: url('./images/location.svg');
@@ -103,6 +103,24 @@ background-position: 50% 50%;
 background-size: 20px;
 background-repeat: no-repeat;
 text-indent: -9999px;
+}
+#loading-location {
+  position: absolute;
+  bottom: 100px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  display: none;
+}
+
+
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
 }
 
 
@@ -241,9 +259,15 @@ text-indent: -9999px;
     }
 
     #panel .swiper-slide {
-      padding: 80px 32px;
+      padding: 32px;
       height: 100vh;
       overflow: scroll;
+    }
+    #welcome.swiper-slide {
+      padding: 80px 32px;
+    }
+    #session-summary.swiper-slide {
+      padding: 80px 32px;
     }
 
     #panel #osm-btns-wrap.swiper-slide {
@@ -563,7 +587,7 @@ text-indent: -9999px;
       z-index: -1;
     }
     .sheet button {
-      background: #fafafa;
+      margin-bottom: 10px;
     }
 
 
@@ -581,7 +605,7 @@ text-indent: -9999px;
       margin: 10px 0;
       padding: 80px 20px 20px;
     }
-    .icons button.pole {
+    .icons button.utility_pole {
       background-image: url('./images/icon-pole.svg')!important;
     }
     .icons button.crossing {
@@ -654,7 +678,7 @@ text-indent: -9999px;
 
 
     .loading {
-      position: absolute; 
+      position: absolute;
       z-index: 5000;
       display: none;
     }
@@ -680,29 +704,63 @@ text-indent: -9999px;
     }
 
     #detection-bar {
-      position: absolute;
-      left: 0px;
-      bottom: 332px;
-      left: 16px;
-      background: #fff;
       z-index: 9000;
-      display: block;
-      border-radius: 10px;
-      width: 400px;
-      height: 200px;
-      display: none;
+      transition: 0.2s;
+
+    }
+    #detection-bar .mly-actions {
+      bottom: auto;
+    }
+
+    .nav {
+      margin-bottom: 16px;
     }
 
 
 
 @media only screen and (min-width: 800px) {
+  .content {
+    width: 400px;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    height: 600px;
+    background: #ffffff;
+    overflow: hidden;
+    border-radius: 20px;
+    z-index: 4000
+  }
+  .content.seq {
+    height: 60px;
+  }
   #panel {
     width: 400px;
   }
+  #panel .swiper-slide {
+    height: 600px;
+  }
   .ui {
-    bottom: 8px;
+    top: 60px;
     left: 8px;
     width: 384px;
+  }
+  .ui.verify-view,
+  .ui.map-view {
+    height: 532px;
+  }
+  .ui.seq-view {
+    height: 200px;
+  }
+  .ui .actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px 16px 32px;
+  }
+  #map-ui,
+  #verify-ui {
+    height: 100%;
   }
   #map.half {
     height: 100%;
@@ -716,5 +774,14 @@ text-indent: -9999px;
   }
   #image-wrapper {
     height: 380px;
+    background-color: #eeeeee;
+    border-radius: 15px;
+  }
+  .sheet {
+    width: 300px;
+    position: absolute;
+    left: calc(50% - 150px);
+    bottom: calc(50% - 150px);
+    border-radius: 20px;
   }
 }
