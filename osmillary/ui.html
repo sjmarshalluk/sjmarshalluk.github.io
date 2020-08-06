@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OSMillary</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" sizes="192x192" href="/images/app-icon.png">
+    <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://unpkg.com/mapillary-js@2.20.0/dist/mapillary.min.js'></script>
+    <link href='https://unpkg.com/mapillary-js@2.20.0/dist/mapillary.min.css' rel='stylesheet' />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css"/>
+    <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
+    <link rel='shortcut icon' type='image/x-icon' href='./images/favicon.png'>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="styles.css" rel="stylesheet">
+  </head>
+  <body class="big">
+    <div id='map'>
+      <div class="map-btns">
+        <button id="basemap-switch" class="baselayer">BL</button>
+      </div>
+    </div>
+    
+    <div id="mly-wrapper">
+
+        <div id='mly'></div>
+      </div>
+
+
+    <div id="panel">
+
+
+        <div class="swiper-menu">
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper">
+            <div id="welcome" class="swiper-slide">
+              <h1 class="logo">Mapillary</h1>
+              <h2>Add features to OSM using Mapillary data</h2>
+
+              <div class="actions single float">
+                <button class="btn btn-light" style="width: 200px" id="osmlogin">Log in with OSM</button>
+              </div>
+            </div>
+            <div id="feature-type" class="swiper-slide">
+              <h3>Select feature type</h3>
+              <div id="osm-btns-wrap" class="icons row"></div>
+            </div>
+            <div id="location" class="swiper-slide">
+
+              <ul class="nav nav-pills nav-justified">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#" id="by-location-btn">By location</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="by-sequence-btn">By Sequence</a>
+                </li>
+              </ul>
+
+              <div id="by-location">
+                <div id="geocoder" class="geocoder swiper-no-swiping"></div>
+                <button id="geolocater" class="geolocater btn btn-light">Find location</button>
+                <div id="loading-location" class="blink_me">Loading location</div>
+              </div>
+
+              <div id="by-sequence" style="display: none">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" placeholder="Mapillary username" aria-label="Mapillary username" aria-describedby="button-addon2" id="mly-user">
+                  <div class="input-group-append">
+                    <button id="mly-user-btn" class="btn btn-outline-secondary" type="button">Search</button>
+                  </div>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="seq-mode">
+                  <label class="form-check-label" for="seq-mode">
+                    Add features via images
+                  </label>
+                </div>
+
+                <div id="sequence-list" style="height: 300px; overflow: scroll; margin-top: 10px;"></div>
+              </div>
+
+              <div id="region-list"></div>
+
+              <div id="get-started-wrap" class="actions float">
+                <button id="panel-back" class="side back">Back</button>
+                <button id="get-started" class="cta inactive">Go</button>
+                <button id='menu-next' class="cta inactive" style="display: none">Next</button>
+              </div>
+            </div>
+            <div id="session-summary" class="swiper-slide">
+              <div class="header">
+                <button id="close-nav" class="right exit btn btn-light" style="display: none">Close</button>
+              </div>
+
+
+
+              <ul class="list-group list-group-horizontal" id="userlogin">
+                <li class="list-group-item"><b>Logged in as: </b><span id='display_name'></span></li>
+                <li class="list-group-item"><b>Changesets: </b><span id='count'></span></li>
+              </ul>
+
+              <button id="osmlogout" class="btn btn-light" style="margin: 16px 0 32px 0;">Logout</button>
+
+
+              <ul class="list-group list-group-horizontal">
+                <li class="list-group-item">Feature: <span id="session-feature"></span></li>
+                <li class="list-group-item">Region: <span id="session-region"></span></li>
+              </ul>
+              <button id="menu-edit" class="btn btn-light" style="margin: 16px 0 32px 0;">Change search</button>
+
+
+            </div>
+          </div>
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+     <div id="verify-alert" class="alert alert-warning text-center" role="alert">
+        Verify at least one image of this Utility Pole to continue
+      </div>
+
+    <div class="content">
+
+
+
+	    <div id="verify-header" class="header">
+        <button id="nav" class="left menu">Menu</button>
+        <button id="upload" class="right upload">Upload</button>
+
+
+      	<button id="exit-verify" class="left exit" style="display: none">Close</button>
+      	<button id="stats" class="right" style="display: none"><span id="added-count">0</span>/<span id="removed-count">0</span></button>
+	    </div>
+
+
+
+	    
+
+
+
+
+
+
+
+
+      <div id="ui-wrapper" class="ui">
+
+        <div id="detection-bar">
+          <div class="mly-actions">
+            <div id="seq-reject-wrap" class="btn-wrap"></div>
+            <div id="seq-approve-wrap" class="btn-wrap"></div>
+             <div id="seq-add-to-osm" class="btn-wrap" style="width: 100%; margin-top: 8px;"></div>
+          </div>
+          <div id="detection-label"></div>
+        </div>
+
+        <div id="map-ui" style="display: none;">
+
+        	<div class="task-details">
+  	    		<h4 id="region-name"></h4>
+            <ul class="list-group list-group-horizontal">
+              <li class="list-group-item"><span id="osm-feature-count"></span> Utility Poles already on OSM</li>
+              <li class="list-group-item"><span id="mly-feature-count"></span> Utility Poles detection by Mapillary</li>
+            </ul>
+  	    		<h6 id="main-waiting-count"></h6>
+  	    		<h6 id="main-added-count"></h6>
+  	    		<h6 id="main-removed-count"></h6>
+  	    	</div>
+
+      		<div class="actions single">
+      			<button id='start' class="cta">Get started</button>
+      		</div>
+      	</div>
+
+
+      	<div id="verify-ui" style="opacity: 0;">
+
+
+          <div id="detections-loading" class="loading">
+            <div class="loading-svg">
+              <svg width="20" height="20" viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" style="position: absolute;">
+                <defs>
+                    <linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a">
+                        <stop stop-color="#fff" stop-opacity="0" offset="0%"/>
+                        <stop stop-color="#fff" stop-opacity=".631" offset="63.146%"/>
+                        <stop stop-color="#fff" offset="100%"/>
+                    </linearGradient>
+                </defs>
+                <g fill="none" fill-rule="evenodd">
+                    <g transform="translate(1 1)">
+                        <path d="M36 18c0-9.94-8.06-18-18-18" id="Oval-2" stroke="url(#a)" stroke-width="2">
+                            <animateTransform
+                                attributeName="transform"
+                                type="rotate"
+                                from="0 18 18"
+                                to="360 18 18"
+                                dur="0.9s"
+                                repeatCount="indefinite" />
+                        </path>
+                        <circle fill="#fff" cx="36" cy="18" r="1">
+                            <animateTransform
+                                attributeName="transform"
+                                type="rotate"
+                                from="0 18 18"
+                                to="360 18 18"
+                                dur="0.9s"
+                                repeatCount="indefinite" />
+                        </circle>
+                    </g>
+                </g>
+              </svg>
+            </div>
+            <p>Loading detections</p>
+          </div>
+      		<p style="position: absolute; z-index: 5000; display: none;"># Detections</p>
+      		<div id="image-wrapper" class="swiper-container">
+      			<button id="grow">Grow</button>
+
+        		<div class="mly-actions">
+        			<div id="reject-wrap" class="btn-wrap"></div>
+        			<div id="approve-wrap" class="btn-wrap"></div>
+  	      	</div>
+  		      <div id="mly-grid" class="swiper-wrapper"></div>
+  		      <div class="swiper-button-prev" style="display: none"></div>
+      			<div class="swiper-button-next" style="display: none"></div>
+
+  		    </div>
+
+
+          <div id="action-panel">
+
+            
+
+            <!-- remove popup -->
+            <div id="removePopup" class="mpopup">
+              <div class="radio-options">
+                <div class="radio-wrap">
+                  <input type="radio" name="removeoption" id="not-exist" value="Does not exist" class="radio" />
+                  <label for="not-exist">Does not exist</label>
+                </div>
+                <div class="radio-wrap">
+                  <input type="radio" name="removeoption" id="duplicate-object" value="Duplicate object" class="radio" />
+                  <label for="duplicate-object">Duplicate object</label>
+                </div>
+                <div class="radio-wrap">
+                  <input type="radio" name="removeoption" id="wrong-object" value="Wrong object type" class="radio" />
+                  <label for="wrong-object">Wrong object type</label>
+                </div>
+                <div class="actions">
+                  <button id="cancel-remove" class="side back">Cancel</button>
+                  <div id="confirm-remove-btn-wrap">
+                    <button id='removeSubmit' type="submit" value="Submit" class="btn cta">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="skipPopup" class="mpopup">
+              <div class="radio-options">
+                <div class="radio-wrap">
+                  <input type="radio" name="skipoption" id="photos-unclear" value="Photos unclear" class="radio" />
+                  <label for="photos-unclear">Photos unclear</label>
+                </div>
+                <div class="radio-wrap">
+                  <input type="radio" name="skipoption" id="basemap-unclear" value="Basemap unclear" class="radio" />
+                  <label for="duplicate-object">Basemap unclear</label>
+                </div>
+                <div class="radio-wrap">
+                  <input type="radio" name="skipoption" id="other" value="Other" class="radio" />
+                  <label for="other">Other</label>
+                </div>
+                <div class="actions">
+                  <button id="cancel-skip" class="side back">Cancel</button>
+                  <div id="confirm-skip-btn-wrap">
+                    <button id='skipSubmit' type="submit" value="Submit" class="btn cta">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="position" class="mpopup">
+              <div class="radio-options">
+                <p>Is the position correct? Drag marker if needed</p>
+                <div class="actions">
+                  <button id="cancel-add" class="side back">Cancel</button>
+                  <div id="confirm-btn-wrap">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="actions inactive">
+              <div id="remove-btn-wrap"></div>
+
+              <div id="add-btn-wrap"></div>
+
+              <div id="skip-btn-wrap"></div>
+            </div>
+
+           
+
+          </div>
+
+
+
+      		
+
+      		
+      	</div>
+      </div>
+
+
+
+      <div id="upload-panel" class="upload-panel">
+        <div id="upload-header" class="header">
+          <button id="upload-close" class="right exit btn btn-light">Close</button>
+        </div>
+
+        <div class="upload-summary">
+
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">Total verified: <span id="profile-verified-all-time"></span></li>
+            <li class="list-group-item">Total rejected: <span id="profile-removed-all-time"></span></li>
+          </ul>
+
+
+          <ul class="list-group list-group-horizontal" style="display: none">
+            <li class="list-group-item">Features processed (all time): <span id="profile-features-this-session"></span></li>
+            <li class="list-group-item">Features rejected: <span id="profile-features-this-session"></span></li>
+            <li class="list-group-item">Features rejected: <span id="profile-features-this-session"></span></li>
+            <li class="list-group-item">Features skipped: <span id="profile-features-this-session"></span></li>
+            <li class="list-group-item">Detections approved: <span id=""></span></li>
+            <li class="list-group-item">Detections rejected: <span id=""></span></li>
+          </ul>
+
+          <button id="confirm-upload" class="cta" style="margin: 16px 0 32px; display: none">Upload changes</button>
+        </div>
+
+      	<table id="upload-table" class="table table-sm">
+
+  			</table>
+
+     	</div>
+    </div>
+
+    <div id="bottom-sheet" class="sheet">
+      <p>Any unsaved changes will be lost</p>
+      <button id="proceed-start" class="btn btn-light">Proceed</button>
+      <button id="cancel-start" class="btn btn-light">Cancel</button>
+    </div>
+    <script src="./bundle.js"></script>
+
+    
+
+  </body>
+</html>
