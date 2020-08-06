@@ -401,7 +401,7 @@ text-indent: -9999px;
       border-radius: 10px;
       margin-top: 10px;
       overflow: hidden;
-      height: 50px;
+      height: 60px;
     }
     #action-panel .actions.inactive {
       opacity: 0.2;
@@ -783,17 +783,37 @@ text-indent: -9999px;
     height: 120px
   }
 
-  #ui-wrapper.expand {
-    height: 396px
+  
+
+   #ui-wrapper.expand {
+    height: 446px
   }
 
   #ui-wrapper.expand #action-panel {
     height: 120px
   }
 
+  .alert {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: none;
+    z-index: 9000;
+    border-radius: 0;
+    margin-bottom: 0;
+  }
+
+  .m-hide {
+    display: none;
+  }
+
 
 @media only screen and (min-width: 800px) {
 
+  .m-hide {
+    display: block;
+  }
 
   #action-panel {
     height: 150px;
@@ -803,12 +823,14 @@ text-indent: -9999px;
   }
 
   #ui-wrapper.expand {
-    height: 446px
+    height: 396px
   }
 
   #ui-wrapper.expand #action-panel {
-    height: 50px
+    height: 150px
   }
+
+ 
 
   .overview {
     width: 300px;
