@@ -928,6 +928,7 @@ text-indent: -9999px;
     width: 500px;
     position: absolute;
     top: 586px;
+    bottom: auto;
     left: 16px;
     display: none;
     z-index: 9000;
