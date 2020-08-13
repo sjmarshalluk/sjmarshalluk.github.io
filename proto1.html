@@ -1101,8 +1101,14 @@ map.getCanvas().style.cursor = '';
 
 function handleOrientationPath(event) {
 
-  document.getElementById('path-wrap').style.perspective = event.beta;
+  /*
+  var OldRange = (90 - 0);
+  var NewRange = (200 - 110);
+  var NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin;
+  */
 
+
+  document.getElementById('path-wrap').style.perspective = event.beta + 100;
     
   
 }
