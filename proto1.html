@@ -179,10 +179,20 @@ box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
   border-radius: 60px;
   background-color: #fff;
 }
+
+#video {
+  z-index: 0;
+  left: calc(-50% - 188px);
+  bottom: 0px;
+  position: fixed;
+  opacity: 1;
+  min-width: 100%;
+  min-height: 100%;
+}
 </style>
 </head>
 <body>
-	<a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button">Start the demo</a>
+	<a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 1">Start the demo</a>
 
   <div class="map-overlay top">
 <div class="map-overlay-inner">
@@ -213,7 +223,7 @@ box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
    <div id="path"></div>
   </div>
 
-  <video id="video" autoplay playsinline style="width: 100%; height: calc(100% - 30px); z-index: 0; top: 30px; left: 0; position: absolute"></video>
+  <video id="video" autoplay playsinline></video>
 	
   </body>
 
