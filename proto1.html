@@ -15,7 +15,7 @@
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
 <style>
 	body { margin: 0; padding: 0; }
-	#map-wrap { position: absolute; top: 30px; bottom: 0; width: 100%; height: 100%; z-index: 10; transition: 0.5s; }
+	#map-wrap { position: absolute; top: 30px; bottom: 0; width: 100%; height: 100%; z-index: 10; transition: 0.5s; background-color: #fff }
   #path-wrapOLDOLD { position: absolute; top: 30px; bottom: 0; width: 100%; height: 100%; z-index: 10; transition: 0.5s;  }
   #path-wrap.hidden { display: none }
   #map-wrap.hidden { display: none }
@@ -1101,33 +1101,8 @@ map.getCanvas().style.cursor = '';
 
 function handleOrientationPath(event) {
 
-  document.getElementById('path-wrap').perspective = event.beta;
+  document.getElementById('path-wrap').style.perspective = event.beta;
 
-  map.setPitch(event.beta);
-
-  //var bearing = event.gamma - (event.gamma * 2);
-  //map.setBearing(bearing);
-
-  /*
-    map.lookAt({ tilt: event.beta });
-
-    //var rotation = event.gamma - (event.gamma * 2);
-    map.lookAt({ heading: event.gamma });
-  */
-
-  if (event.webkitCompassHeading) {
-        absoluteHeading = event.webkitCompassHeading;
-    } else {
-        absoluteHeading = event.alpha;
-    }
-    console.log(absoluteHeading);
-    map.setBearing(absoluteHeading);
-
-
-    
-  updateFieldIfNotNull('Orientation_a', event.alpha);
-  updateFieldIfNotNull('Orientation_b', event.beta);
-  updateFieldIfNotNull('Orientation_g', event.gamma);
     
   
 }
