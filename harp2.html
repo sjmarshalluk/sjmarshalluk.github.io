@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+        />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>harp.gl - map bundle example</title>
+        <style>
+            body {
+                background: #fff;
+                padding: 0;
+                margin: 0;
+                font-weight: bold;
+                overflow: hidden;
+            }
+
+            #mapCanvas {
+                position: absolute;
+                border: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                z-index: -1;
+            }
+
+            #copyrightNotice {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                background-color: #f0fef1;
+                z-index: 100;
+                padding: 2px 5px;
+                font-family: sans-serif;
+                font-size: 0.8em;
+                font-weight: normal;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="mapCanvas"></canvas>
+        <div id="app"></div>
+        <div id="copyrightNotice"></div>
+
+        <a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button">Start the demo</a>
+
+<p style="margin-top:1rem;">Num. of datapoints: <span class="badge badge-warning" id="num-observed-events">0</span></p>
+
+        <h4 style="margin-top:0.75rem;">Orientation</h4>
+<ul>
+  <li>X-axis (&beta;): <span id="Orientation_b">0</span><span>&deg;</span></li>
+  <li>Y-axis (&gamma;): <span id="Orientation_g">0</span><span>&deg;</span></li>
+  <li>Z-axis (&alpha;): <span id="Orientation_a">0</span><span>&deg;</span></li>
+</ul>
+
+<!--
+<h4>Accelerometer</h4>
+<ul>
+  <li>X-axis: <span id="Accelerometer_x">0</span><span> m/s<sup>2</sup></span></li>
+  <li>Y-axis: <span id="Accelerometer_y">0</span><span> m/s<sup>2</sup></span></li>
+  <li>Z-axis: <span id="Accelerometer_z">0</span><span> m/s<sup>2</sup></span></li>
+  <li>Data Interval: <span id="Accelerometer_i">0</span><span> ms</span></li>
+</ul>
+
+<h4>Accelerometer including gravity</h4>
+
+<ul>
+  <li>X-axis: <span id="Accelerometer_gx">0</span><span> m/s<sup>2</sup></span></li>
+  <li>Y-axis: <span id="Accelerometer_gy">0</span><span> m/s<sup>2</sup></span></li>
+  <li>Z-axis: <span id="Accelerometer_gz">0</span><span> m/s<sup>2</sup></span></li>
+</ul>
+
+<h4>Gyroscope</h4>
+<ul>
+  <li>X-axis: <span id="Gyroscope_x">0</span><span>&deg;/s</span></li>
+  <li>Y-axis: <span id="Gyroscope_y">0</span><span>&deg;/s</span></li>
+  <li>Z-axis: <span id="Gyroscope_z">0</span><span>&deg;/s</span></li>
+</ul>
+-->
+
+        <!--
+            These paths are to be used by clients, when using map bundle from CDN.
+        -->
+      
+            <script src="https://unpkg.com/three/build/three.min.js"></script>
+            <script src="https://unpkg.com/@here/harp.gl/dist/harp.js"></script>
+    
+        <!--
+            These paths are used here to be compatible with harp.gl CI.
+        
+        <script src="credentials.js"></script>
+        <script src="three.min.js"></script>
+        <script src="harp.js"></script>
+        -->
+
+        <script>
+            const canvas = document.getElementById("mapCanvas");
+
+            // Look at New York.
+            const NY = new harp.GeoCoordinates(40.707, -74.01);
+            const LDN = new harp.GeoCoordinates(51.507, -0.127);
+            const map = new harp.MapView({
+                canvas,
+                // This, is relative URL only to make example work in CI environment.
+                // Clients, may use CDN url like:
+                //   https://unpkg.com/@here/harp-map-theme/resources/berlin_tilezen_base.json
+                theme: "https://unpkg.com/@here/harp-map-theme/resources/berlin_tilezen_base.json",
+                target: LDN,
+                tilt: 85,
+                heading: -20,
+                zoomLevel: 18.1
+            });
+
+            harp.CopyrightElementHandler.install("copyrightNotice", map);
+
+            const mapControls = new harp.MapControls(map);
+            mapControls.maxTiltAngle = 50;
+
+            const ui = new harp.MapControlsUI(mapControls, { zoomLevel: "input" });
+            canvas.parentElement.appendChild(ui.domElement);
+
+            map.resize(window.innerWidth, window.innerHeight);
+
+            window.addEventListener("resize", () => {
+                map.resize(window.innerWidth, window.innerHeight);
+            });
+
+            const hereCopyrightInfo = {
+                id: "here.com",
+                year: new Date().getFullYear(),
+                label: "HERE",
+                link: "https://legal.here.com/terms"
+            };
+            const copyrights = [hereCopyrightInfo];
+
+            const omvDataSource = new harp.OmvDataSource({
+                baseUrl: "https://vector.hereapi.com/v2/vectortiles/base/mc",
+                apiFormat: harp.APIFormat.XYZOMV,
+                styleSetName: "tilezen",
+                authenticationCode: "NArg_UpAiSGsoA_se-_KME_uKZbzknxpAtGsgcPAErY",
+                authenticationMethod: {
+                    method: harp.AuthenticationMethod.QueryString,
+                    name: "apikey"
+                },
+                copyrightInfo: copyrights
+            });
+
+            map.addDataSource(omvDataSource);
+
+
+
+
+
+function handleOrientation(event) {
+    map.lookAt({ tilt: event.beta });
+
+    //var rotation = event.gamma - (event.gamma * 2);
+    map.lookAt({ heading: event.gamma });
+
+
+    /*
+  updateFieldIfNotNull('Orientation_a', event.alpha);
+  updateFieldIfNotNull('Orientation_b', event.beta);
+  updateFieldIfNotNull('Orientation_g', event.gamma);
+  incrementEventCount();
+    */
+
+
+}
+
+/*
+function incrementEventCount(){
+  let counterElement = document.getElementById("num-observed-events")
+  let eventCount = parseInt(counterElement.innerHTML)
+  counterElement.innerHTML = eventCount + 1;
+}
+
+function updateFieldIfNotNull(fieldName, value, precision=10){
+  if (value != null)
+    document.getElementById(fieldName).innerHTML = value.toFixed(precision);
+}
+
+function handleMotion(event) {
+  updateFieldIfNotNull('Accelerometer_gx', event.accelerationIncludingGravity.x);
+  updateFieldIfNotNull('Accelerometer_gy', event.accelerationIncludingGravity.y);
+  updateFieldIfNotNull('Accelerometer_gz', event.accelerationIncludingGravity.z);
+
+  updateFieldIfNotNull('Accelerometer_x', event.acceleration.x);
+  updateFieldIfNotNull('Accelerometer_y', event.acceleration.y);
+  updateFieldIfNotNull('Accelerometer_z', event.acceleration.z);
+
+  updateFieldIfNotNull('Accelerometer_i', event.interval, 2);
+
+  updateFieldIfNotNull('Gyroscope_z', event.rotationRate.alpha);
+  updateFieldIfNotNull('Gyroscope_x', event.rotationRate.beta);
+  updateFieldIfNotNull('Gyroscope_y', event.rotationRate.gamma);
+  incrementEventCount();
+}
+*/
+
+let is_running = false;
+let demo_button = document.getElementById("start_demo");
+demo_button.onclick = function(e) {
+  e.preventDefault();
+  //map.setCameraGeolocationAndZoom(new harp.GeoCoordinates(1.278676, 103.850216),16)
+  //map.toggleTilt(new harp.tiltAngle(0));
+
+
+  // Request permission for iOS 13+ devices
+  if (
+    DeviceMotionEvent &&
+    typeof DeviceMotionEvent.requestPermission === "function"
+  ) {
+    DeviceMotionEvent.requestPermission();
+  }
+  
+  if (is_running){
+    //window.removeEventListener("devicemotion", handleMotion);
+    window.removeEventListener("deviceorientation", handleOrientation);
+    demo_button.innerHTML = "Start demo";
+    demo_button.classList.add('btn-success');
+    demo_button.classList.remove('btn-danger');
+    is_running = false;
+  }else{
+    //window.addEventListener("devicemotion", handleMotion);
+    window.addEventListener("deviceorientation", handleOrientation);
+    document.getElementById("start_demo").innerHTML = "Stop demo";
+    demo_button.classList.remove('btn-success');
+    demo_button.classList.add('btn-danger');
+    is_running = true;
+  }
+};
+
+/*
+Light and proximity are not supported anymore by mainstream browsers.
+window.addEventListener('devicelight', function(e) {
+   document.getElementById("DeviceLight").innerHTML="AmbientLight current Value: "+e.value+" Max: "+e.max+" Min: "+e.min;
+});
+
+window.addEventListener('lightlevel', function(e) {
+   document.getElementById("Lightlevel").innerHTML="Light level: "+e.value;
+});
+
+window.addEventListener('deviceproximity', function(e) {
+   document.getElementById("DeviceProximity").innerHTML="DeviceProximity current Value: "+e.value+" Max: "+e.max+" Min: "+e.min;
+});
+
+window.addEventListener('userproximity', function(event) {
+   document.getElementById("UserProximity").innerHTML="UserProximity: "+event.near;
+});
+*/
+
+        </script>
+    </body>
+</html>
