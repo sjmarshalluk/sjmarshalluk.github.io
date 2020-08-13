@@ -397,7 +397,7 @@ function switchToPath() {
   var pathWrap = document.getElementById('path-wrap')
   pathWrap.addEventListener('click', function() {
     //pathWrap.classList.add('big');
-    document.getElementById('ar-map').style.display('block')
+    document.getElementById('ar-map').style.display = 'block';
     //video.style.opacity = 0;
 
     var modeBtnWrap = document.getElementById('mode-btn-wrap');
@@ -405,7 +405,7 @@ function switchToPath() {
     var exitPathBtn = modeBtnWrap.appendChild(document.createElement('button'));
     exitPathBtn.innerHTML = 'x';
     exitPathBtn.addEventListener('click', function() {
-      document.getElementById('ar-map').style.display('none')
+      document.getElementById('ar-map').style.display = 'none';
       //pathWrap.classList.remove('big');
       switchToDollBtn();
     });
@@ -641,7 +641,6 @@ arMap.on('load', function() {
 
 
 
-  getOsmBbox();
   getLocation();
 
   function getLocation() {
