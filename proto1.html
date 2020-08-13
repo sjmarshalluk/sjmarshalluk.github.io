@@ -633,8 +633,8 @@ arMap.on('load', function() {
     'source': 'directions',
     'paint': {
       'fill-extrusion-color': '#2c7fb8',
-      'fill-extrusion-height': 0.4,
-      'fill-extrusion-base': 0.2,
+      'fill-extrusion-height': 0.2,
+      'fill-extrusion-base': 0,
       'fill-extrusion-opacity': 0.5
     }
   });
@@ -654,6 +654,7 @@ arMap.on('load', function() {
   }
 
   function showPosition(position) {
+    arMap.flyto([position.coords.longitude, position.coords.latitude]);
     console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
 
     var marker = new mapboxglar.Marker()
@@ -711,6 +712,7 @@ map.on('load', function() {
   }
 
   function showPosition(position) {
+    map.flyto([position.coords.longitude, position.coords.latitude]);
     console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
 
     var marker = new mapboxglar.Marker()
