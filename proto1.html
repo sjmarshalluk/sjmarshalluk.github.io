@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-
+<script src="mapbox-ar.js"></script>
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
   <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
@@ -27,9 +27,10 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
 
-</style>
+#ar-map { position: absolute; top: 0; width: 100%; height: 400px; z-index: 9000; transition: 0.5s; background-color: rgba(255,255,255,0.7); }
 
-<style>
+
+
 .map-overlay {
 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 position: absolute;
@@ -211,6 +212,7 @@ box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
 </style>
 </head>
 <body>
+  <div id="ar-map"></div>
 	<a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 1">Start the demo</a>
 
   <div class="map-overlay top">
@@ -250,6 +252,49 @@ box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
 <script>
 
 
+
+
+var route = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.9404683113098143,
+            51.00570473448831
+          ],
+          [
+            -0.9403663873672484,
+            51.006076040482725
+          ],
+          [
+            -0.94032883644104,
+            51.00607941597813
+          ],
+          [
+            -0.938381552696228,
+            51.00512414097645
+          ],
+          [
+            -0.938435196876526,
+            51.00486084617501
+          ]
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
 const video = document.getElementById('video');
 const videoConstraints = {
     facingMode: 'environment'
@@ -270,13 +315,20 @@ const videoConstraints = {
 
 
 
+  mapboxglar.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+var arMap = new mapboxglar.Map({
+container: 'ar-map',
+style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
+center: [-0.93875203281641,51.005568447565174],
+zoom: 18,
+pitch: 70,
+bearing: 20,
+antialias: true
+});
 
 
 
 
-	// TO MAKE THE MAP APPEAR YOU MUST
-	// ADD YOUR ACCESS TOKEN FROM
-	// https://account.mapbox.com
 	mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
 var map = new mapboxgl.Map({
 container: 'map',
@@ -565,9 +617,28 @@ var flat = {
 }
 
 
+arMap.on('load', function() {
+  var bufferedLine = turf.buffer(route, 0.003, {units: 'kilometers'});
 
- 
-map.on('load', function() {
+  arMap.addSource('directions', {
+    'type': 'geojson',
+    'data': bufferedLine
+  });
+
+  arMap.addLayer({
+    'id': 'directions',
+    'type': 'fill-extrusion',
+    'source': 'directions',
+    'paint': {
+      'fill-extrusion-color': '#2c7fb8',
+      'fill-extrusion-height': 0.4,
+      'fill-extrusion-base': 0.2,
+      'fill-extrusion-opacity': 0.5
+    }
+  });
+
+
+
   getOsmBbox();
   getLocation();
 
@@ -584,7 +655,256 @@ map.on('load', function() {
   function showPosition(position) {
     console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
 
-    var marker = new mapboxgl.Marker()
+    var marker = new mapboxglar.Marker()
+      .setLngLat([position.coords.longitude, position.coords.latitude])
+      .addTo(arMap);
+
+  }
+
+      function getOsmBbox() {
+        var bounds = arMap.getBounds();
+        window.searchBbox = bounds._sw.lat + ',' + bounds._sw.lng + ',' + bounds._ne.lat + ',' + bounds._ne.lng;
+        queryOsm();
+      }
+        
+
+
+      function queryOsm() {
+        if (arMap.getLayer('features-point')) {
+          arMap.removeLayer('features-point');
+        }
+        if (arMap.getLayer('features-polygon')) {
+          arMap.removeLayer('features-polygon');
+        }
+        if (arMap.getLayer('features-line')) {
+          arMap.removeLayer('features-line');
+        }
+        if (arMap.getSource('feats')) {
+          arMap.removeSource('feats');
+        }
+        showFeature()
+      }
+
+        function buildOverpassApiUrlFeat() {
+
+          var nodeQuery = '';
+          var wayQuery = '';
+          var relationQuery = '';
+
+          wayQuery += 'way[building](' + searchBbox + ');'
+
+          wayQuery += 'node[entrance](' + searchBbox + ');'
+
+
+
+          //var nodeQuery = 'node[' + overpassQuery + '](' + searchBbox + ');';
+          //var nodeQuery = 'node[tourism=attraction](' + searchBbox + ');node[natural=peak](' + searchBbox + ');';
+          //var wayQuery = 'way[' + overpassQuery + '](' + searchBbox + ');';
+          //var relationQuery = 'relation[' + overpassQuery + '](' + searchBbox + ');';
+          var query = '?data=[out:json][timeout:15];(' + nodeQuery + wayQuery + relationQuery + ');out body geom;';
+          var baseUrl = 'https://z.overpass-api.de/api/interpreter';
+          var resultUrl = baseUrl + query;
+          return resultUrl;
+        }
+
+        
+
+        /*
+        function addShowFunction(type,feature) {
+          var button = document.getElementById('show_' + feature);
+          button.addEventListener('click', function() {
+            showFeature(type,feature)
+          })
+        }
+        */
+
+
+
+        function showFeature(type,feature,shape){
+
+          //var queryFeatures = type + '=' + feature;
+          //var queryFeatures = 'tourism=attraction;natural=peak';
+          var overpassApiUrlFeat = buildOverpassApiUrlFeat();
+          $.get(overpassApiUrlFeat, function (osmDataAsJson) {
+            var resultAsGeojson = osmtogeojson(osmDataAsJson);
+            console.log(resultAsGeojson);
+
+
+            var outlines = {
+              "type":"FeatureCollection",
+              "features":[]
+            };
+
+            var outlinesPoly = {
+              "type":"FeatureCollection",
+              "features":[]
+            }
+
+            var doors = {
+              "type":"FeatureCollection",
+              "features":[]
+            }
+
+            resultAsGeojson.features.forEach(function(result) {
+              if (result.properties.tags.entrance === 'yes') {
+                var bufferedDoor = turf.buffer(result, 0.0003, {units: 'kilometers'});
+                doors.features.push(bufferedDoor);
+              }
+              if (result.properties.tags.building === 'yes') {
+                if (result.properties.tags['building:levels'] === '2') {
+                  result.properties.floor = 2;
+                }
+                if (result.properties.tags['building:levels'] === '3') {
+                  result.properties.floor = 3;
+                }
+                var line = turf.polygonToLine(result);
+                outlines.features.push(line);
+                var bufferedLine = turf.buffer(line, 0.0001, {units: 'kilometers'});
+                outlinesPoly.features.push(bufferedLine);
+
+              }
+            });
+
+
+
+
+            
+
+
+
+            paintOsm(resultAsGeojson,outlines,outlinesPoly,doors);
+
+
+          });   
+        }
+
+
+      function paintOsm(resultAsGeojson,outlines,outlinesPoly,doors) {
+        if (arMap.getLayer('osmline-layer')) {
+          arMap.removeLayer('osmline-layer');
+        }
+        if (arMap.getLayer('trunk-layer')) {
+          arMap.removeLayer('trunk-layer');
+        }
+        if (arMap.getSource('osmline')) {
+          arMap.removeSource('osmline');
+        }
+
+
+        arMap.addSource('buildings', {
+          'type': 'geojson',
+          'data': resultAsGeojson
+        });
+        arMap.addLayer({
+          'id': 'buildings',
+          'type': 'fill-extrusion',
+          'source': 'buildings',
+          'paint': {
+            'fill-extrusion-color': 'grey',
+            'fill-extrusion-height': 5,
+            'fill-extrusion-base': 0,
+            'fill-extrusion-opacity': 0.4
+          }
+        });
+
+
+
+        arMap.addSource('walls', {
+          'type': 'geojson',
+          'data': outlinesPoly
+        });
+        arMap.addLayer({
+          'id': 'floor-zero',
+          'type': 'fill-extrusion',
+          'source': 'walls',
+          'paint': {
+            'fill-extrusion-color': '#2c7fb8',
+            'fill-extrusion-height': 5,
+            'fill-extrusion-base': 0,
+            'fill-extrusion-opacity': 0.5
+          }
+        });
+
+        arMap.addLayer({
+          'id': 'floor-one',
+          'type': 'fill-extrusion',
+          'source': 'walls',
+          'paint': {
+            'fill-extrusion-color': '#2c7fb8',
+            'fill-extrusion-height': 15,
+            'fill-extrusion-base': 10,
+            'fill-extrusion-opacity': 0.5
+          },
+          'filter': ['>=', 'floor', 2]
+        });
+
+        arMap.addLayer({
+          'id': 'floor-two',
+          'type': 'fill-extrusion',
+          'source': 'walls',
+          'paint': {
+            'fill-extrusion-color': '#2c7fb8',
+            'fill-extrusion-height': 25,
+            'fill-extrusion-base': 20,
+            'fill-extrusion-opacity': 0.5
+          },
+          'filter': ['>=', 'floor', 3]
+        });
+      }
+
+
+
+});
+
+
+
+
+
+
+
+ 
+map.on('load', function() {
+  var bufferedLine = turf.buffer(route, 0.003, {units: 'kilometers'});
+
+  map.addSource('directions', {
+    'type': 'geojson',
+    'data': bufferedLine
+  });
+
+  map.addLayer({
+    'id': 'directions',
+    'type': 'fill-extrusion',
+    'source': 'directions',
+    'paint': {
+      'fill-extrusion-color': '#2c7fb8',
+      'fill-extrusion-height': 0.4,
+      'fill-extrusion-base': 0.2,
+      'fill-extrusion-opacity': 0.5
+    }
+  });
+
+
+
+
+
+
+  getOsmBbox();
+  getLocation();
+
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+
+      
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }
+
+  function showPosition(position) {
+    console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
+
+    var marker = new mapboxglar.Marker()
       .setLngLat([position.coords.longitude, position.coords.latitude])
       .addTo(map);
 
@@ -1118,6 +1438,7 @@ function handleOrientation(event) {
 
 
 	map.setPitch(event.beta);
+  arMap.setPitch(event.beta);
 
   //var bearing = event.gamma - (event.gamma * 2);
 	//map.setBearing(bearing);
@@ -1136,6 +1457,7 @@ function handleOrientation(event) {
     }
     console.log(absoluteHeading);
     map.setBearing(absoluteHeading);
+    arMap.setBearing(absoluteHeading);
 
 
     
