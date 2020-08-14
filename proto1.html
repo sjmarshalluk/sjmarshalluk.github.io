@@ -685,9 +685,12 @@ arMap.on('load', function() {
   }
 
 
-  arMap.on('click', 'currentPoint', function(e) {
-    arMap.setPaintProperty('directions', 'fill-extrusion-opacity', 0.5);
-    arMap.setPaintProperty('currentPoint', 'fill-extrusion-opacity', 0);
+  arMap.on('click', function(e) {
+
+    arMap.getSource('currentPoint').setData(bufferedLine);
+
+    //arMap.setPaintProperty('directions', 'fill-extrusion-opacity', 0.5);
+    //arMap.setPaintProperty('currentPoint', 'fill-extrusion-opacity', 0);
   });
 
   arMap.on('click', 'directions', function(e) {
@@ -1285,7 +1288,7 @@ function handleOrientation(event) {
 	map.setPitch(event.beta);
 
 
-  if (event.beta < 85) {
+  if (event.beta < 83) {
     arMap.setPitch(event.beta);
   }
   
