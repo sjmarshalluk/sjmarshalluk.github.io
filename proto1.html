@@ -1094,9 +1094,12 @@ var floors = [
           swatches.appendChild(swatch);
         });
 
+        map.on('click', function(e) {
+          building();
+        });
 
         map.on('click', 'buildings', function(e) {
-          building();
+          floorZero();
         });
         map.on('click', 'floor-zero', function(e) {
           floorZero();
