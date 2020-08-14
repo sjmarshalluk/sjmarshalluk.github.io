@@ -637,7 +637,7 @@ arMap.on('load', function() {
       'fill-extrusion-color': '#286412',
       'fill-extrusion-height': 0.2,
       'fill-extrusion-base': 0,
-      'fill-extrusion-opacity': 0.5
+      'fill-extrusion-opacity': 0
     }
   });
 
@@ -683,6 +683,19 @@ arMap.on('load', function() {
 
 
   }
+
+
+  arMap.on('click', 'currentPoint', function(e) {
+    arMap.setPaintProperty('directions', 'fill-extrusion-opacity', 0.5);
+    arMap.setPaintProperty('currentPoint', 'fill-extrusion-opacity', 0);
+  });
+
+  arMap.on('click', 'directions', function(e) {
+    arMap.setPaintProperty('directions', 'fill-extrusion-opacity', 0);
+    arMap.setPaintProperty('currentPoint', 'fill-extrusion-opacity', 0.5);
+  });
+
+          
 
 
 });
