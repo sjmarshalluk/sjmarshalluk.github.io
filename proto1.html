@@ -390,9 +390,11 @@ function switchToDollBtn () {
 
 function switchToPath() {
   document.getElementById('map-wrap').classList.add('hidden');
-  document.getElementById('path-wrap').classList.remove('hidden');
+  //document.getElementById('path-wrap').classList.remove('hidden');
   document.getElementById('path').innerHTML = '25m';
   switchToDollBtn();
+
+  document.getElementById('ar-map').style.display = 'block';
 
   var pathWrap = document.getElementById('path-wrap')
   pathWrap.addEventListener('click', function() {
@@ -632,7 +634,7 @@ arMap.on('load', function() {
     'type': 'fill-extrusion',
     'source': 'directions',
     'paint': {
-      'fill-extrusion-color': '#2c7fb8',
+      'fill-extrusion-color': '#286412',
       'fill-extrusion-height': 0.2,
       'fill-extrusion-base': 0,
       'fill-extrusion-opacity': 0.5
@@ -654,12 +656,31 @@ arMap.on('load', function() {
   }
 
   function showPosition(position) {
-    arMap.flyto([position.coords.longitude, position.coords.latitude]);
+    arMap.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
     console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
 
-    var marker = new mapboxglar.Marker()
-      .setLngLat([position.coords.longitude, position.coords.latitude])
-      .addTo(arMap);
+
+    var point = turf.point([position.coords.longitude, position.coords.latitude]);
+    var bufferedPoint = turf.buffer(point, 0.002, {units: 'kilometers'});
+
+    arMap.addSource('currentPoint', {
+      'type': 'geojson',
+      'data': bufferedPoint
+    });
+
+    arMap.addLayer({
+      'id': 'currentPoint',
+      'type': 'fill-extrusion',
+      'source': 'currentPoint',
+      'paint': {
+        'fill-extrusion-color': '#286412',
+        'fill-extrusion-height': 0.2,
+        'fill-extrusion-base': 0,
+        'fill-extrusion-opacity': 0.5
+      }
+    });
+
+
 
   }
 
@@ -712,7 +733,7 @@ map.on('load', function() {
   }
 
   function showPosition(position) {
-    map.flyto([position.coords.longitude, position.coords.latitude]);
+    map.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
     console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
 
     var marker = new mapboxglar.Marker()
