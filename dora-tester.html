@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Dora</title>
+
+
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+      <script src='https://unpkg.com/mapillary-js@2.20.0/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.20.0/dist/mapillary.min.css' rel='stylesheet' />
+
+<script src="mapbox-ar-renamed.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+  <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<style>
+	body { margin: 0; padding: 0; font-family: sans-serif; }
+	#map-wrap { 
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
+    z-index: 10; 
+    background-color: rgba(255,255,255,1); 
+    border-radius: 20px; 
+    overflow: hidden; 
+    transition: 0.4s 
+  }
+
+  #map { width: 100%; height: 100%; }
+
+
+#mly { 
+  position: absolute; 
+  top: 0; 
+  width: 100%; 
+  height: 70%; 
+  z-index: 1; 
+  transition: 0.5s;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+
+#map-wrap.small {
+  width: 100%;
+  height: 35%;
+  top: auto;
+  bottom: 0;
+  overflow: hidden;
+}
+
+#sidebar {
+  position: absolute;
+  width: 300px;
+  height: 100%;
+  display:  none;
+}
+
+#viewport-wrapper {
+  perspective: 0;
+  position: absolute;
+  z-index: 1;
+  width: 395px;
+  height: 832px;
+  border-radius: 30px;
+  left: 50px;
+  top: 50px;
+  background-color: #000;
+  padding: 10px;
+}
+
+#viewport {
+  position: absolute;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+#directions {
+  width: 355px;
+  height: 100px;
+  border-radius: 10px;
+  left: 10px;
+  top: 10px;
+  background-color: #fff;
+  position: absolute;
+  z-index: 2000;
+}
+
+#view {
+  position: absolute; top: 0; width: 100%; height: 100%; z-index: 0;
+}
+#mly2 {
+  position: absolute; top: 0; width: 100%; height: 100%; z-index: 0;
+}
+
+.AttributionContainer { display: none; }
+        .BearingIndicatorContainer  { display: none; }
+        .ZoomContainer  { display: none; }
+
+
+#get-started {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  height: 44px;
+  z-index: 1000;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 30px;
+  background-color: '#333';
+}
+
+#view-mode {
+  position: absolute;
+  bottom: 30px;
+  width: 315px;
+  left: 30px;
+  height: 50px;
+  z-index: 1000;
+}
+
+.slidecontainer {
+  position: absolute;
+  z-index: 1000;
+}
+
+
+#video {
+  z-index: -1;
+  left: 0;
+  bottom: 0px;
+  position: fixed;
+  opacity: 1;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+
+
+
+@media only screen and (max-width: 800px) {
+
+  #mly,
+  #mly2 {
+    display: none;
+  }
+  #viewport-wrapper {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+  #viewport {
+
+  }
+
+}
+
+</style>
+</head>
+<body>
+  <div class="slidecontainer">
+    <input type="range" min="0" max="1000" value="50" class="slider" id="tilt">
+  </div>
+  
+
+  <div id="viewport-wrapper">
+    <div id="viewport">
+
+      
+
+      <div id="mly"></div>
+      <video id="video" autoplay playsinline></video>
+  
+
+
+      <div id="map-wrap">
+    	 <div id="map"></div>
+      </div>
+
+      <div id="directions">
+        <button id="get-started">Start</button>
+        <button id="start_demo">start demo</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="view">
+    <div id="mly2"></div>
+  </div>
+
+
+	
+  </body>
+
+	
+<script>
+
+
+var slider = document.getElementById("tilt");
+var output = document.getElementById("viewport-wrapper");
+var mapWrap = document.getElementById("map-wrap");
+slider.oninput = function() {
+  var perspective = 2000 - this.value;
+  var rotate = this.value / 20;
+  var pitch = 60 - (this.value / 15);
+  var mapHeight = 35 + (this.value / 15);
+  output.style.transform = 'perspective(' + perspective + 'px) rotateX(' + rotate + 'deg)';
+  map.setPitch(pitch);
+  if (mapMode === '3D') {
+    mapWrap.style.maxHeight = '100%';
+    mapWrap.style.height = mapHeight + '%';
+    map.resize();
+  }
+}
+
+
+var sfmArea = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -71.08126670122147,
+              42.36638620076747
+            ],
+            [
+              -71.08134716749191,
+              42.36620982456547
+            ],
+            [
+              -71.07985317707062,
+              42.36602353905039
+            ],
+            [
+              -71.07980757951736,
+              42.366207842807604
+            ],
+            [
+              -71.08126670122147,
+              42.36638620076747
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -71.08178436756134,
+              42.36618009819054
+            ],
+            [
+              -71.08144640922545,
+              42.36688758209768
+            ],
+            [
+              -71.08189970254898,
+              42.36697477844229
+            ],
+            [
+              -71.08232349157333,
+              42.36628909482989
+            ],
+            [
+              -71.08178436756134,
+              42.36618009819054
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
+
+
+
+var navRoute = {
+  "distance": 237,
+  "duration": 169,
+  "geometry": "etqaG|_zpLS~COIA@AA}Aq@EJCPA??@A?GCYbE",
+  "legs": [
+    {
+      "distance": 237,
+      "duration": 169,
+      "summary": "",
+      "steps": [
+        {
+          "distance": 67,
+          "duration": 47,
+          "geometry": "etqaG|_zpLS~C",
+          "maneuver": "DEPART",
+          "instruction": "Walk west on Rogers Street.",
+          "location": {
+            "latitude": 42.366268,
+            "longitude": -71.081109
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 9,
+          "duration": 6,
+          "geometry": "ytqaG|dzpLOI",
+          "maneuver": "TURN_RIGHT",
+          "instruction": "Turn right onto the walkway.",
+          "location": {
+            "latitude": 42.366371,
+            "longitude": -71.08191
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 1,
+          "duration": 0,
+          "geometry": "iuqaGrdzpLA@",
+          "maneuver": "TURN_LEFT",
+          "instruction": "Turn left onto the walkway.",
+          "location": {
+            "latitude": 42.366447,
+            "longitude": -71.081864
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 58,
+          "duration": 40,
+          "geometry": "kuqaGtdzpLAA}Aq@",
+          "maneuver": "TURN_RIGHT",
+          "instruction": "Turn right onto the walkway.",
+          "location": {
+            "latitude": 42.366458,
+            "longitude": -71.081872
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 17,
+          "duration": 14,
+          "geometry": "kxqaG`czpLEJCPA??@A?",
+          "maneuver": "TURN_LEFT",
+          "instruction": "Turn left onto the walkway.",
+          "location": {
+            "latitude": 42.366943,
+            "longitude": -71.081605
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 4,
+          "duration": 2,
+          "geometry": "yxqaG`dzpLGC",
+          "maneuver": "TURN_RIGHT",
+          "instruction": "Turn right onto the walkway.",
+          "location": {
+            "latitude": 42.367012,
+            "longitude": -71.081772
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 82,
+          "duration": 57,
+          "geometry": "ayqaG|czpLYbE",
+          "maneuver": "TURN_LEFT",
+          "instruction": "Turn left onto Bent Street.",
+          "location": {
+            "latitude": 42.367046,
+            "longitude": -71.081749
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 0,
+          "duration": 0,
+          "geometry": "{yqaG`jzpL",
+          "maneuver": "ARRIVE",
+          "instruction": "You have arrived at your destination.",
+          "location": {
+            "latitude": 42.367179,
+            "longitude": -71.082726
+          },
+          "mode": "pedestrian"
+        }
+      ]
+    }
+  ]
+}
+
+
+
+var navRouteEdited = {
+  "distance": 237,
+  "duration": 169,
+  "geometry": "etqaG|_zpLS~COIA@AA}Aq@EJCPA??@A?GCYbE",
+  "legs": [
+    {
+      "distance": 237,
+      "duration": 169,
+      "summary": "",
+      "steps": [
+        {
+          "distance": 67,
+          "duration": 47,
+          "geometry": "etqaG|_zpLS~C",
+          "maneuver": "DEPART",
+          "instruction": "Continue on Rogers St",
+          "location": {
+            "latitude": 42.366305939748194,
+            "longitude": -71.08095824718475
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 9,
+          "duration": 6,
+          "geometry": "ytqaG|dzpLOI",
+          "maneuver": "TURN_RIGHT",
+          "instruction": "Turn right onto Rogers St",
+          "location": {
+            "latitude": 42.366352510969406,
+            "longitude": -71.08128279447556
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 9,
+          "duration": 6,
+          "geometry": "ytqaG|dzpLOI",
+          "maneuver": "TURN_RIGHT",
+          "instruction": "Turn right onto the walkway.",
+          "location": {
+            "latitude": 42.366294049218105,
+            "longitude": -71.0813096165657
+          },
+          "mode": "pedestrian"
+        },
+
+
+
+
+
+        {
+          "distance": 9,
+          "duration": 6,
+          "geometry": "ytqaG|dzpLOI",
+          "maneuver": "TURN_RIGHT",
+          "instruction": "Turn right onto the walkway.",
+          "location": {
+            "latitude": 42.366345574832266,
+            "longitude": -71.08170658349991
+          },
+          "mode": "pedestrian"
+        },
+
+        {
+          "distance": 9,
+          "duration": 6,
+          "geometry": "ytqaG|dzpLOI",
+          "maneuver": "TURN_RIGHT",
+          "instruction": "Turn right onto the walkway.",
+          "location": {
+            "latitude": 42.36639412777617,
+            "longitude": -71.08168244361877
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 9,
+          "duration": 6,
+          "geometry": "ytqaG|dzpLOI",
+          "maneuver": "TURN_RIGHT",
+          "instruction": "Turn right onto the walkway.",
+          "location": {
+            "latitude": 42.366420881423075,
+            "longitude": -71.08188092708588
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 1,
+          "duration": 0,
+          "geometry": "iuqaGrdzpLA@",
+          "maneuver": "TURN_LEFT",
+          "instruction": "Turn left onto the walkway.",
+          "location": {
+            "latitude": 42.366447,
+            "longitude": -71.081864
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 58,
+          "duration": 40,
+          "geometry": "kuqaGtdzpLAA}Aq@",
+          "maneuver": "TURN_RIGHT",
+          "instruction": "Turn right onto the walkway.",
+          "location": {
+            "latitude": 42.366458,
+            "longitude": -71.081872
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 17,
+          "duration": 14,
+          "geometry": "kxqaG`czpLEJCPA??@A?",
+          "maneuver": "TURN_LEFT",
+          "instruction": "Turn left onto the walkway.",
+          "location": {
+            "latitude": 42.366943,
+            "longitude": -71.081605
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 4,
+          "duration": 2,
+          "geometry": "yxqaG`dzpLGC",
+          "maneuver": "TURN_RIGHT",
+          "instruction": "Turn right onto the walkway.",
+          "location": {
+            "latitude": 42.367012,
+            "longitude": -71.081772
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 82,
+          "duration": 57,
+          "geometry": "ayqaG|czpLYbE",
+          "maneuver": "TURN_LEFT",
+          "instruction": "Turn left onto Bent Street.",
+          "location": {
+            "latitude": 42.367046,
+            "longitude": -71.081749
+          },
+          "mode": "pedestrian"
+        },
+        {
+          "distance": 0,
+          "duration": 0,
+          "geometry": "{yqaG`jzpL",
+          "maneuver": "ARRIVE",
+          "instruction": "You have arrived at your destination.",
+          "location": {
+            "latitude": 42.367179,
+            "longitude": -71.082726
+          },
+          "mode": "pedestrian"
+        }
+      ]
+    }
+  ]
+}
+
+
+var route = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": []
+      }
+    }
+  ]
+}
+
+
+
+
+navRoute.legs[0].steps.forEach(function(step) {
+
+  var coords = [step.location.longitude,step.location.latitude];
+
+  /*
+  var feature = {
+    "type": "Feature",
+    "properties": {
+      "instruction": step.instruction
+    },
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [coords]
+    }
+  }
+  */
+
+  route.features[0].geometry.coordinates.push(coords);
+  
+});
+
+
+console.log(JSON.stringify(route))
+
+
+
+
+var legs = {
+  "type": "FeatureCollection",
+  "features": []
+}
+
+
+
+
+navRoute.legs[0].steps.forEach(function(step,index) {
+
+  if (index < (navRoute.legs[0].steps.length - 1)) {
+
+    var legStartCoords = [step.location.longitude,step.location.latitude];
+    var legEndCoords = [navRoute.legs[0].steps[index + 1].location.longitude,navRoute.legs[0].steps[index + 1].location.latitude];
+
+
+    var line = turf.lineString([legStartCoords,legEndCoords]);
+    var bufferedLine = turf.buffer(line, 0.003, {units: 'kilometers'});
+
+    bufferedLine.properties.instruction = step.instruction;
+    legs.features.push(bufferedLine);
+
+    /*
+    var feature = {
+      "type": "Feature",
+      "properties": {
+        "instruction": step.instruction
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          legStartCoords,
+          legEndCoords
+        ]
+      }
+    }
+    
+
+    legs.features.push(feature);
+    */
+
+    console.log(legs)
+  }
+    
+});
+
+
+
+
+
+/*
+
+var route = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -71.082749,
+            42.366481
+          ],
+          [
+            -71.082284,
+            42.365032
+          ]
+        ]
+      }
+    }
+  ]
+}
+*/
+
+
+var mly = new Mapillary.Viewer(
+    'mly',
+    'ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh',
+    null,
+    {
+      component: {
+          cover: false,
+          marker: true,
+          direction: false,
+          sequence: false,
+          popup: true
+      },
+    });
+
+
+var mly2 = new Mapillary.Viewer(
+    'mly2',
+    'ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh',
+    null,
+    {
+      component: {
+          cover: false,
+          marker: true,
+          sequence: false,
+      },
+    });
+
+
+
+
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+var map = new mapboxgl.Map({
+container: 'map',
+//style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
+//style: 'mapbox://styles/mapbox/satellite-v9',
+style: 'mapbox://styles/mapbox/streets-v11',
+center: route.features[0].geometry.coordinates[0],
+zoom: 18,
+pitch: 0,
+bearing: 20,
+antialias: true
+});
+
+window.mapMode = '3D';
+
+
+
+function switchTo2D(originalLatLng) {
+  window.mapMode = '2D';
+
+
+  map.setPitch(60);
+  //map.setStyle('mapbox://styles/mapbox/streets-v11');
+  document.getElementById('map-wrap').classList.remove('small');
+  document.getElementById('map-wrap').style.height = '100%';
+  document.getElementById('map').style.height = '100%';
+
+
+
+
+  map.resize();
+  setTimeout(function(){
+    map.resize();
+    map.flyTo({ center: originalLatLng });
+  },400);
+  
+
+  if (map.getLayer('buildings')) {
+    map.removeLayer('buildings');
+  }
+  if (map.getLayer('highways')) {
+    map.removeLayer('highways');
+  }
+  if (map.getSource('buildings')) {
+    map.removeSource('buildings');
+  }
+  if (map.getSource('highways')) {
+    map.removeSource('highways');
+  }
+}
+function switchTo3D(originalLatLng) {
+  window.mapMode = '3D';
+  map.setPitch(60);
+  //map.setStyle('mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2');
+  document.getElementById('map-wrap').classList.add('small');
+  document.getElementById('map-wrap').style.height = '35%';
+  
+  setTimeout(function(){
+    map.resize();
+    map.flyTo({ center: originalLatLng });
+  },500);
+
+  if (map.getLayer('buildings')) {
+    map.removeLayer('buildings');
+  }
+  if (map.getLayer('highways')) {
+    map.removeLayer('highways');
+  }
+  if (map.getSource('buildings')) {
+    map.removeSource('buildings');
+  }
+  if (map.getSource('highways')) {
+    map.removeSource('highways');
+  }
+
+  map.addSource('buildings', {
+    'type': 'geojson',
+    'data': buildings
+  });
+  map.addLayer({
+    'id': 'buildings',
+    'type': 'fill-extrusion',
+    'source': 'buildings',
+    'paint': {
+      'fill-extrusion-color': 'grey',
+      'fill-extrusion-height': 5,
+      'fill-extrusion-base': 0,
+      'fill-extrusion-opacity': 0.4
+    }
+  });
+
+  map.addSource('highways', {
+    'type': 'geojson',
+    'data': osmLines
+  });
+  map.addLayer({
+      "id": "highways",
+      "type": "line",
+      "source": "highways",
+      "paint": {
+        //"line-color": "#F3F139",
+        "line-opacity": 1,
+        "line-width": 10,
+         "line-color": '#dddddd'
+      },
+      "layout": {
+        'line-cap': 'round',
+        'line-join': 'round'
+      }
+  });
+  
+}
+
+
+
+
+var startBtn = document.getElementById('get-started');
+startBtn.addEventListener('click', function() {
+  switchTo3D(route.features[0].geometry.coordinates[0]);
+  startRoute();
+  startBtn.style.display = 'none';
+  document.getElementById('directions').innerHTML = legs.features[0].properties.instruction;
+})
+
+
+ 
+map.on('load', function() {
+  console.log(route);
+  var bufferedLine = turf.buffer(route, 0.003, {units: 'kilometers'});
+
+
+
+  map.addSource('directions', {
+    'type': 'geojson',
+    'lineMetrics': true,
+    'data': route
+  });
+
+  map.addLayer({
+      "id": "directions",
+      "type": "line",
+      "source": "directions",
+      "paint": {
+        //"line-color": "#F3F139",
+        "line-opacity": 1,
+        "line-width": 10,
+         "line-color": 'cyan',
+      },
+      "layout": {
+        'line-cap': 'round',
+        'line-join': 'round'
+      }
+  });
+
+  var coordinates = route.features[0].geometry.coordinates;
+  /*
+  var bounds = coordinates.reduce(function(bounds, coord) {
+  return bounds.extend(coord);
+  }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+   
+  map.fitBounds(bounds, {
+  padding: 20
+  });
+  */
+
+
+  map.addSource('sfm', {
+    'type': 'geojson',
+    'data': sfmArea
+  });
+  map.addLayer({
+  'id': 'sfm',
+  'type': 'fill',
+  'source': 'sfm',
+  'layout': {},
+  'paint': {
+    'fill-color': '#088',
+    'fill-opacity': 0.2
+  }
+  },
+'waterway-label');
+
+
+
+
+
+  /*
+  map.addSource('directions', {
+    'type': 'geojson',
+    'data': bufferedLine
+  });
+
+  map.addLayer({
+    'id': 'directions',
+    'type': 'fill-extrusion',
+    'source': 'directions',
+    'paint': {
+      'fill-extrusion-color': '#2c7fb8',
+      'fill-extrusion-height': 0.4,
+      'fill-extrusion-base': 0.2,
+      'fill-extrusion-opacity': 0.5
+    }
+  });
+  */
+
+
+
+
+
+
+  getOsmBbox();
+  getLocation();
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+  function getLocation() {
+
+    var startPoint = route.features[0].geometry.coordinates[0];
+    var startLatLon = route.features[0].geometry.coordinates[0][0] + ',' + route.features[0].geometry.coordinates[0][1];
+
+    var nextPoint = route.features[0].geometry.coordinates[0][1];
+    var nextLatLon = route.features[0].geometry.coordinates[1][0] + ',' + route.features[0].geometry.coordinates[1][1];
+
+
+    var link = 'https://a.mapillary.com/v3/images?client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh&per_page=1&lookat=' + nextLatLon + '&closeto=' + startLatLon;
+
+    $.getJSON(link)
+      .done(function(data){
+      console.log(data)
+          
+
+      mly.moveToKey(data.features[0].properties.key).then(
+        function(node) { setArPath(node) },
+        function(error) { console.error('mly2 error:', error); });
+
+      mly2.moveToKey(data.features[0].properties.key).then(
+        function(node) { },
+        function(error) { console.error('mly1 error:', error); });
+    });
+
+      
+
+      
+
+
+  }
+
+  function showPosition(position) {
+
+    map.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
+    console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
+
+    var marker = new mapboxglar.Marker()
+      .setLngLat([position.coords.longitude, position.coords.latitude])
+      .addTo(map);
+
+  }
+
+  function getOsmBbox() {
+    var bounds = map.getBounds();
+    window.searchBbox = bounds._sw.lat + ',' + bounds._sw.lng + ',' + bounds._ne.lat + ',' + bounds._ne.lng;
+    queryOsm();
+  }
+    
+
+
+  function queryOsm() {
+    if (map.getLayer('features-point')) {
+      map.removeLayer('features-point');
+    }
+    if (map.getLayer('features-polygon')) {
+      map.removeLayer('features-polygon');
+    }
+    if (map.getLayer('features-line')) {
+      map.removeLayer('features-line');
+    }
+    if (map.getSource('feats')) {
+      map.removeSource('feats');
+    }
+    showFeature()
+  }
+
+  function buildOverpassApiUrlFeat() {
+
+    var nodeQuery = '';
+    var wayQuery = '';
+    var relationQuery = '';
+
+    wayQuery += 'way[building](' + searchBbox + ');'
+
+    //wayQuery += 'way[highway](' + searchBbox + ');'
+
+    wayQuery += 'node[entrance](' + searchBbox + ');'
+
+
+
+    //var nodeQuery = 'node[' + overpassQuery + '](' + searchBbox + ');';
+    //var nodeQuery = 'node[tourism=attraction](' + searchBbox + ');node[natural=peak](' + searchBbox + ');';
+    //var wayQuery = 'way[' + overpassQuery + '](' + searchBbox + ');';
+    //var relationQuery = 'relation[' + overpassQuery + '](' + searchBbox + ');';
+    var query = '?data=[out:json][timeout:15];(' + nodeQuery + wayQuery + relationQuery + ');out body geom;';
+    var baseUrl = 'https://z.overpass-api.de/api/interpreter';
+    var resultUrl = baseUrl + query;
+    return resultUrl;
+  }
+
+  
+
+  /*
+  function addShowFunction(type,feature) {
+    var button = document.getElementById('show_' + feature);
+    button.addEventListener('click', function() {
+      showFeature(type,feature)
+    })
+  }
+  */
+
+
+
+  function showFeature(type,feature,shape){
+
+    //var queryFeatures = type + '=' + feature;
+    //var queryFeatures = 'tourism=attraction;natural=peak';
+    var overpassApiUrlFeat = buildOverpassApiUrlFeat();
+    $.get(overpassApiUrlFeat, function (osmDataAsJson) {
+      var resultAsGeojson = osmtogeojson(osmDataAsJson);
+      console.log(resultAsGeojson);
+
+
+      var outlines = {
+        "type":"FeatureCollection",
+        "features":[]
+      };
+
+      var outlinesPoly = {
+        "type":"FeatureCollection",
+        "features":[]
+      }
+
+      window.osmLines = {
+        "type":"FeatureCollection",
+        "features":[]
+      };
+      
+      window.buildings = {
+        "type":"FeatureCollection",
+        "features":[]
+      }
+
+
+      resultAsGeojson.features.forEach(function(result) {
+        if (result.properties.tags.entrance === 'yes') {
+          var bufferedDoor = turf.buffer(result, 0.0003, {units: 'kilometers'});
+          doors.features.push(bufferedDoor);
+        }
+        if (result.properties.tags.building === 'yes' || result.properties.tags.building === 'parking' || result.properties.tags.building === 'commercial' || result.properties.tags.building === 'office' || result.properties.tags.building === 'apartments') {
+          if (result.properties.tags['building:levels'] === '2') {
+            result.properties.floor = 2;
+          }
+          if (result.properties.tags['building:levels'] === '3') {
+            result.properties.floor = 3;
+          }
+          buildings.features.push(result);
+          var line = turf.polygonToLine(result);
+          outlines.features.push(line);
+          var bufferedLine = turf.buffer(line, 0.0001, {units: 'kilometers'});
+          outlinesPoly.features.push(bufferedLine);
+
+        }
+
+        if(result.geometry.type == 'LineString') {
+          if (result.properties.tags.highway == 'motorway') {
+            result.properties.roadcolour = '#CF2081';
+            osmLines.features.push(result);
+          }
+          if (result.properties.tags.highway == 'primary') {
+            result.properties.roadcolour = '#F99906';
+            osmLines.features.push(result);
+          }
+          if (result.properties.tags.highway == 'secondary') {
+            result.properties.roadcolour = '#F3F313';
+            osmLines.features.push(result);
+          }
+          if (result.properties.tags.highway == 'tertiary') {
+            result.properties.roadcolour = '#FFF9B3';
+            osmLines.features.push(result);
+          }
+          if (result.properties.tags.highway == 'residential') {
+            result.properties.roadcolour = '#ffffff';
+            osmLines.features.push(result);
+          }
+          if (result.properties.tags.highway == 'pedestrian') {
+            result.properties.roadcolour = '#ffffff';
+            osmLines.features.push(result);
+          }
+        }
+      });
+
+      paintOsm(resultAsGeojson,outlines,outlinesPoly,osmLines,buildings);
+
+    });   
+  }
+
+
+
+
+
+
+
+
+});
+
+
+
+function setArDirections(key) {
+  var popupComponent = mly.getComponent('popup');
+
+  var endOf3D = 'XKVFh0kswrjTmOs6DGWJXQ';
+  var endOf3D2 = 'NUtPlpVxvlgOzErAHr-cPg';
+  var turnRight = '-Hozns78XdcsgnHRclXaxQ';
+
+
+  if (key === endOf3D) {
+    popupComponent.removeAll();
+    var span = document.createElement('span');
+    span.innerHTML = 'Approaching end of SfM';
+    var popup = new Mapillary.PopupComponent.Popup();
+    popup.setDOMContent(span);
+    popup.setBasicPoint([0.32, 0.523]);
+    popupComponent.add([popup]);
+  } else if (key === endOf3D2) {
+    popupComponent.removeAll();
+    var span = document.createElement('span');
+    span.innerHTML = 'End of SfM';
+    var popup = new Mapillary.PopupComponent.Popup();
+    popup.setDOMContent(span);
+    popup.setBasicPoint([0.32, 0.523]);
+    popupComponent.add([popup]);
+  } else if (key === turnRight) {
+    popupComponent.removeAll();
+    var span = document.createElement('span');
+    span.innerHTML = 'Right right onto walkway';
+    var popup = new Mapillary.PopupComponent.Popup();
+    popup.setDOMContent(span);
+    popup.setBasicPoint([0.32, 0.523]);
+    popupComponent.add([popup]);
+  } else {
+    popupComponent.removeAll();
+  }
+
+
+  
+}
+
+
+
+function setArPath(){
+
+  
+
+
+
+
+  var markerComponent = mly.getComponent("marker");
+  var markers = [];
+
+
+  /* TURN MARKERS
+  for(i=0; i < navRoute.legs[0].steps.length; i++) {
+    var lat = navRoute.legs[0].steps[i].location.latitude;
+    var lon = navRoute.legs[0].steps[i].location.longitude;
+    console.log(lat)
+
+    var marker = new Mapillary.MarkerComponent.SimpleMarker(
+        i.toString(), 
+        { lat: lat, lon: lon, }, 
+        {
+          ballColor: '#ffff00',
+          ballOpacity: 1,
+          color: 0xffff00,
+          opacity: 1,
+          interactive: true,
+          radius: 0.8,
+      });
+
+    markers.push(marker);
+  };
+  */
+
+
+
+              
+
+  var arPathPoints = {
+    "type":"FeatureCollection",
+    "features":[]
+  };
+
+
+              
+
+  var routeLength = turf.length(route.features[0], {units: 'kilometers'});
+  var options = {units: 'kilometers'};
+
+
+  var lengthMetres = routeLength * 1000;
+
+  var i;
+  for (i = 0; i < lengthMetres; i++) {
+    var distanceAlong = i * 0.001;
+    var along = turf.along(route.features[0], distanceAlong, options);
+    arPathPoints.features.push(along)
+
+    if (i === lengthMetres || i > lengthMetres) {
+      //console.log(arPathPoints)
+    }
+  }
+
+  var ptsWithin = turf.pointsWithinPolygon(arPathPoints, sfmArea);
+
+
+  
+  for(i=0; i < ptsWithin.features.length; i++) {
+    var lat = ptsWithin.features[i].geometry.coordinates[1];
+    var lon = ptsWithin.features[i].geometry.coordinates[0];
+    console.log(lat)
+
+    var marker = new Mapillary.MarkerComponent.SimpleMarker(
+        i.toString(), 
+        { lat: lat, lon: lon, }, 
+        {
+          ballColor: '#ffff00',
+          ballOpacity: 0.6,
+          color: 0xffff00,
+          opacity: 0,
+          interactive: false,
+          radius: 0.4,
+      });
+
+    markers.push(marker);
+  };
+  
+
+  setTimeout(function(){
+    markerComponent.add(markers);
+  },3000);
+     
+  
+}
+
+
+
+
+
+
+
+
+function paintOsm(resultAsGeojson,outlines,outlinesPoly,osmLines,buildings) {
+  if (map.getLayer('osmline-layer')) {
+    map.removeLayer('osmline-layer');
+  }
+  if (map.getLayer('trunk-layer')) {
+    map.removeLayer('trunk-layer');
+  }
+  if (map.getSource('osmline')) {
+    map.removeSource('osmline');
+  }
+
+  
+  map.addSource('buildings', {
+    'type': 'geojson',
+    'data': buildings
+  });
+  map.addLayer({
+    'id': 'buildings',
+    'type': 'fill-extrusion',
+    'source': 'buildings',
+    'paint': {
+      'fill-extrusion-color': 'grey',
+      'fill-extrusion-height': 5,
+      'fill-extrusion-base': 0,
+      'fill-extrusion-opacity': 0.4
+    }
+  });
+  
+
+
+
+  map.addSource('walls', {
+    'type': 'geojson',
+    'data': outlinesPoly
+  });
+  map.addLayer({
+    'id': 'floor-zero',
+    'type': 'fill-extrusion',
+    'source': 'walls',
+    'paint': {
+      'fill-extrusion-color': '#2c7fb8',
+      'fill-extrusion-height': 5,
+      'fill-extrusion-base': 0,
+      'fill-extrusion-opacity': 0.5
+    }
+  });
+
+  map.addLayer({
+    'id': 'floor-one',
+    'type': 'fill-extrusion',
+    'source': 'walls',
+    'paint': {
+      'fill-extrusion-color': '#2c7fb8',
+      'fill-extrusion-height': 15,
+      'fill-extrusion-base': 10,
+      'fill-extrusion-opacity': 0.5
+    },
+    'filter': ['>=', 'floor', 2]
+  });
+
+  map.addLayer({
+    'id': 'floor-two',
+    'type': 'fill-extrusion',
+    'source': 'walls',
+    'paint': {
+      'fill-extrusion-color': '#2c7fb8',
+      'fill-extrusion-height': 25,
+      'fill-extrusion-base': 20,
+      'fill-extrusion-opacity': 0.5
+    },
+    'filter': ['>=', 'floor', 3]
+  });
+
+
+        map.on('click', 'buildings', function(e) {
+          floorTwo();
+        });
+        map.on('click', 'floor-zero', function(e) {
+          floorZero();
+        });
+        map.on('click', 'floor-one', function(e) {
+          floorOne();
+        });
+        map.on('click', 'floor-two', function(e) {
+          floorTwo();
+        });
+
+        function building() {
+
+          map.setPaintProperty('buildings', 'fill-extrusion-height', 10);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-opacity', 0);
+          map.setPaintProperty('floor-one', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-one', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-one', 'fill-extrusion-opacity', 0);
+          map.setPaintProperty('floor-two', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-two', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-two', 'fill-extrusion-opacity', 0);
+
+          if (map.getLayer('footprint')) {
+            map.removeLayer('footprint');
+          }
+        }
+
+
+        function floorZero() {
+
+          map.setPaintProperty('buildings', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-height', 5);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-opacity', 1);
+          map.setPaintProperty('floor-one', 'fill-extrusion-height', 35);
+          map.setPaintProperty('floor-one', 'fill-extrusion-base', 30);
+          map.setPaintProperty('floor-one', 'fill-extrusion-opacity', 0.2);
+          map.setPaintProperty('floor-two', 'fill-extrusion-height', 45);
+          map.setPaintProperty('floor-two', 'fill-extrusion-base', 40);
+          map.setPaintProperty('floor-two', 'fill-extrusion-opacity', 0.2);
+
+          if (map.getLayer('footprint')) {
+            map.removeLayer('footprint');
+          }
+          map.addLayer({
+            'id': 'footprint',
+            'type': 'fill-extrusion',
+            'source': 'buildings',
+            'paint': {
+              'fill-extrusion-color': 'grey',
+              'fill-extrusion-height': 0,
+              'fill-extrusion-base': 0,
+              'fill-extrusion-opacity': 1
+            }
+          });
+        }
+
+        function floorOne() {
+
+          map.setPaintProperty('buildings', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-height', 2);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-opacity', 0.2);
+          map.setPaintProperty('floor-one', 'fill-extrusion-height', 15);
+          map.setPaintProperty('floor-one', 'fill-extrusion-base', 10);
+          map.setPaintProperty('floor-one', 'fill-extrusion-opacity', 1);
+          map.setPaintProperty('floor-two', 'fill-extrusion-height', 35);
+          map.setPaintProperty('floor-two', 'fill-extrusion-base', 30);
+          map.setPaintProperty('floor-two', 'fill-extrusion-opacity', 0.2);
+
+          if (map.getLayer('footprint')) {
+            map.removeLayer('footprint');
+          }
+          map.addLayer({
+            'id': 'footprint',
+            'type': 'fill-extrusion',
+            'source': 'buildings',
+            'paint': {
+              'fill-extrusion-color': 'grey',
+              'fill-extrusion-height': 10,
+              'fill-extrusion-base': 10,
+              'fill-extrusion-opacity': 1
+            },
+            'filter': ['>=', 'floor', 2]
+          });
+        }
+
+        function floorTwo() {
+          map.setPaintProperty('buildings', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-height', 2);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-opacity', 0.1);
+          map.setPaintProperty('floor-one', 'fill-extrusion-height', 7);
+          map.setPaintProperty('floor-one', 'fill-extrusion-base', 5);
+          map.setPaintProperty('floor-one', 'fill-extrusion-opacity', 0.2);
+          map.setPaintProperty('floor-two', 'fill-extrusion-height', 17);
+          map.setPaintProperty('floor-two', 'fill-extrusion-base', 12);
+          map.setPaintProperty('floor-two', 'fill-extrusion-opacity', 1);
+
+          if (map.getLayer('footprint')) {
+            map.removeLayer('footprint');
+          }
+          map.addLayer({
+            'id': 'footprint',
+            'type': 'fill-extrusion',
+            'source': 'buildings',
+            'paint': {
+              'fill-extrusion-color': 'grey',
+              'fill-extrusion-height': 12,
+              'fill-extrusion-base': 12,
+              'fill-extrusion-opacity': 1
+            },
+            'filter': ['>=', 'floor', 3]
+          });
+        }
+
+  map.addSource('highways', {
+    'type': 'geojson',
+    'data': osmLines
+  });
+
+  map.addLayer({
+      "id": "highways",
+      "type": "line",
+      "source": "highways",
+      "paint": {
+        //"line-color": "#F3F139",
+        "line-opacity": 1,
+        "line-width": 10,
+         "line-color": '#dddddd'
+      },
+      "layout": {
+        'line-cap': 'round',
+        'line-join': 'round'
+      }
+  });
+
+
+
+  /*
+  outlinesPoly.features.forEach(function(feature) {
+
+    console.log(feature.properties.tags['building:levels']);
+
+    if (feature.properties.tags['building:levels'] === '2') {
+      console.log('hi');
+      map.addLayer({
+        'id': 'walls',
+        'type': 'fill-extrusion',
+        'source': 'walls',
+        'paint': {
+          'fill-extrusion-color': 'red',
+          'fill-extrusion-height': 5,
+          'fill-extrusion-base': 10,
+          'fill-extrusion-opacity': 0.5
+        }
+      });
+    }
+
+  });
+  */
+
+
+
+
+  map.addSource('osmline', {
+      "type": "geojson",
+      "data": outlines
+  });
+  map.addLayer({
+      "id": "trunk-layer",
+      "type": "line",
+      "source": "osmline",
+      "paint": {
+        //"line-color": "#F3F139",
+        "line-opacity": 0,
+        "line-width": 10,
+         "line-color": '#71433E'
+      },
+      "layout": {
+        'line-cap': 'round',
+        'line-join': 'round'
+      }
+  });
+  
+}
+
+
+mly2.on(Mapillary.Viewer.nodechanged, function (node) {
+  console.log(node);
+  updateView(node);
+  var originalLatLng = [node.originalLatLon.lon, node.originalLatLon.lat];
+  map.flyTo({ center: originalLatLng });
+
+  var point = turf.point([node.originalLatLon.lon, node.originalLatLon.lat]);
+
+
+  if (map.getLayer('currentPoint')) {
+    map.removeLayer('currentPoint');
+  }
+  if (map.getSource('currentPoint')) {
+    map.removeSource('currentPoint');
+  }
+  map.addSource('currentPoint', {
+    'type': 'geojson',
+    'data': point
+  });
+
+  map.addLayer({
+    'id': 'currentPoint',
+    'type': 'circle',
+    'source': 'currentPoint',
+    'paint': {
+      'circle-color': '#286412',
+      'circle-radius': 10,
+    }
+  });
+});
+
+
+
+function updateView(node) {
+
+  
+
+
+  mly.moveToKey(node.key).then(
+    function(node) { console.log('mly2 loaded key:', node.key); },
+    function(error) { console.error('mly2 error:', error); });
+      
+
+  
+}
+
+
+function startRoute() {
+
+
+
+
+
+
+
+  mly.getBearing()
+  .then(function (bearing) {
+    map.setBearing(bearing);
+  });
+  
+  mly.on(Mapillary.Viewer.bearingchanged, function(bearing) {
+   map.setBearing(bearing);
+       //console.log(bearing)
+  });
+
+  mly.on(Mapillary.Viewer.nodechanged, function (node) {
+
+
+    
+    console.log(node.key)
+    var originalLatLng = [node.originalLatLon.lon, node.originalLatLon.lat];
+    map.flyTo({ center: originalLatLng });
+
+    var point = turf.point([node.originalLatLon.lon, node.originalLatLon.lat]);
+    var ptsWithin = turf.pointsWithinPolygon(point, sfmArea);
+
+    if (ptsWithin.features.length === 0 && mapMode === '3D') {
+      switchTo2D(originalLatLng);
+    }
+    if (ptsWithin.features.length === 1 && mapMode === '2D') {
+      switchTo3D(originalLatLng);
+    }
+
+
+
+    var snapped = turf.nearestPointOnLine(route.features[0], point, {units: 'miles'});
+
+    legs.features.forEach(function(leg,index) {
+
+      var ptsWithin = turf.pointsWithinPolygon(snapped, leg);
+
+      if (ptsWithin.features.length === 1) {
+        document.getElementById('directions').innerHTML = legs.features[index + 1].properties.instruction;
+
+
+
+      }
+
+      /*
+      var isPointOnLine = turf.booleanPointOnLine(snapped, leg);
+      console.log(isPointOnLine);
+      if (isPointOnLine === true) {
+        console.log(leg.properties.instruction)
+      }
+      */
+    });
+
+
+
+    setArDirections(node.key);
+
+    /*
+    if (node.key === 'KohYKt_4cUTxohz94riDHg' && mapMode === '3D') {
+      switchTo2D();
+    }
+    if (node.key === '65sNZErrxBH0fvziTPtKnw' && mapMode === '2D') {
+      switchTo3D();
+    }
+    */
+
+  });
+}
+
+
+
+
+let is_running = false;
+let demo_button = document.getElementById("start_demo");
+demo_button.onclick = function(e) {
+  e.preventDefault();
+  demo_button.style.display = 'none';
+  if (
+    DeviceMotionEvent &&
+    typeof DeviceMotionEvent.requestPermission === "function"
+  ) {
+    DeviceMotionEvent.requestPermission();
+  }
+  
+  if (is_running){
+    //window.removeEventListener("devicemotion", handleMotion);
+    window.removeEventListener("deviceorientation", handleOrientation);
+    //window.removeEventListener('deviceorientation', manageCompass);
+    demo_button.innerHTML = "Start demo";
+    demo_button.classList.add('btn-success');
+    demo_button.classList.remove('btn-danger');
+    is_running = false;
+  }else{
+    //window.addEventListener("devicemotion", handleMotion);
+    window.addEventListener("deviceorientation", handleOrientation);
+    //window.addEventListener('deviceorientation', manageCompass);
+    document.getElementById("start_demo").innerHTML = "Stop demo";
+    demo_button.classList.remove('btn-success');
+    demo_button.classList.add('btn-danger');
+    is_running = true;
+  }
+
+  const video = document.getElementById('video');
+  const videoConstraints = {
+      facingMode: 'environment'
+    };
+    const constraints = {
+      video: videoConstraints,
+      audio: false
+    };
+
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+};
+
+function handleOrientation(event) {
+
+
+  map.setPitch(event.beta);
+
+  //var bearing = event.gamma - (event.gamma * 2);
+  //map.setBearing(bearing);
+
+  /*
+    map.lookAt({ tilt: event.beta });
+
+    //var rotation = event.gamma - (event.gamma * 2);
+    map.lookAt({ heading: event.gamma });
+  */
+
+  if (event.webkitCompassHeading) {
+        absoluteHeading = event.webkitCompassHeading;
+    } else {
+        absoluteHeading = event.alpha;
+    }
+    console.log(absoluteHeading);
+    map.setBearing(absoluteHeading);
+
+
+    
+  updateFieldIfNotNull('Orientation_a', event.alpha);
+  updateFieldIfNotNull('Orientation_b', event.beta);
+  updateFieldIfNotNull('Orientation_g', event.gamma);
+    
+  
+}
+
+
+
+
+
+
+</script>
+ 
+</body>
+</html>
