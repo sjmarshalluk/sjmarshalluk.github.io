@@ -1747,14 +1747,30 @@ function handleOrientation(event) {
   map.setPitch(event.beta);
 
 
-  if (event.beta < 65 && mapMode === '3D') {
-    var mapHeight = 100 - event.beta;
-
-    mapWrap.style.maxHeight = '100%';
-    mapWrap.style.height = mapHeight + '%';
+  if (mapMode === '3D' && event.beta > 65) {
+    mapWrap.style.height = '35%';
     map.resize();
-
-
+  } else if (mapMode === '3D' && event.beta > 55 && event.beta < 65) {
+    mapWrap.style.height = '45%';
+    map.resize();
+  } else if (mapMode === '3D' && event.beta > 45 && event.beta < 55) {
+    mapWrap.style.height = '55%';
+    map.resize();
+  } else if (mapMode === '3D' && event.beta > 35 && event.beta < 45) {
+    mapWrap.style.height = '65%';
+    map.resize();
+  } else if (mapMode === '3D' && event.beta > 25 && event.beta < 35) {
+    mapWrap.style.height = '75%';
+    map.resize();
+  } else if (mapMode === '3D' && event.beta > 15 && event.beta < 25) {
+    mapWrap.style.height = '85%';
+    map.resize();
+  } else if (mapMode === '3D' && event.beta > 5 && event.beta < 15) {
+    mapWrap.style.height = '95%';
+    map.resize();
+  } else if (mapMode === '3D' && event.beta < 5) {
+    mapWrap.style.height = '100%';
+    map.resize();
   }
   
 
