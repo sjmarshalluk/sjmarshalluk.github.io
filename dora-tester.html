@@ -228,6 +228,7 @@ slider.oninput = function() {
     mapWrap.style.height = mapHeight + '%';
     map.resize();
   }
+
 }
 
 
@@ -1744,6 +1745,18 @@ function handleOrientation(event) {
 
 
   map.setPitch(event.beta);
+
+
+  if (event.beta < 65 && mapMode === '3D') {
+    var mapHeight = 100 - event.beta;
+
+    mapWrap.style.maxHeight = '100%';
+    mapWrap.style.height = mapHeight + '%';
+    map.resize();
+
+
+  }
+  
 
   //var bearing = event.gamma - (event.gamma * 2);
   //map.setBearing(bearing);
