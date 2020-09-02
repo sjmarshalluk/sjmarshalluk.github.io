@@ -19,6 +19,9 @@
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
 
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css"/>
+
 
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
@@ -26,20 +29,35 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 <style>
-	body { margin: 0; padding: 0; font-family: sans-serif; }
+	body { 
+    margin: 0; padding: 0; font-family: sans-serif; 
+  }
 	#map-wrap { 
     position: absolute; 
     width: 100%; 
-    height: 100%; 
+    height: 35%; 
     z-index: 10; 
     background-color: rgba(255,255,255,1); 
     border-radius: 20px; 
     overflow: hidden; 
-    transition: 0.4s 
+    transition: 0.4s ;
+    bottom: 0;
   }
 
   #map { width: 100%; height: 100%; }
 
+  
+.geocoder {
+z-index: 2000;
+width: 100%;
+height: 15px;
+float: left;
+}
+.mapboxgl-ctrl-geocoder {
+  width: 100%;
+  line-height: 60px;
+  border-radius: 10px;
+}
 
 #mly { 
   position: absolute; 
@@ -54,11 +72,13 @@
 
 
 #map-wrap.small {
-  width: 100%;
   height: 35%;
-  top: auto;
-  bottom: 0;
-  overflow: hidden;
+}
+#map-wrap.full {
+  height: 100%;
+}
+#map-wrap.closed {
+  height: 0%;
 }
 
 #sidebar {
@@ -100,6 +120,30 @@
   z-index: 2000;
 }
 
+#search {
+  width: 355px;
+  height: 100px;
+  border-radius: 10px;
+  left: 10px;
+  top: 10px;
+  background-color: #fff;
+  position: absolute;
+  z-index: 2000;
+  display: none;
+}
+
+#place {
+  width: 375px;
+  height: 100px;
+  border-radius: 10px;
+  left: 0;
+  bottom: 0;
+  background-color: #fff;
+  position: absolute;
+  z-index: 2000;
+  display: none;
+}
+
 #view {
   position: absolute; top: 0; width: 100%; height: 100%; z-index: 0;
 }
@@ -111,11 +155,16 @@
         .BearingIndicatorContainer  { display: none; }
         .ZoomContainer  { display: none; }
 
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib {
+  display: none!important
+}
+
 
 #get-started {
   position: absolute;
-  top: 30px;
-  left: 30px;
+  bottom: 10px;
+  right: 10px;
   height: 44px;
   z-index: 1000;
   border: none;
@@ -147,6 +196,161 @@
   opacity: 1;
   min-width: 100%;
   min-height: 100%;
+  display: none;
+}
+
+#steps {
+  position: absolute;
+  width: 100%;
+  height: 0%;
+  overflow: hidden;
+  bottom: 0;
+  background-color: #fff;
+  z-index: 1;
+  transition: 0.4s;
+}
+
+
+
+
+
+
+
+
+#full-screen {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+#view-steps {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1000;
+  display: none;
+}
+#exit-nav {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1000;
+  background-color: #FF0000;
+  color: #fff;
+  display: none;
+}
+
+
+
+#close-btn-wrap {
+  width: 44px;
+  height: 44px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+}
+#close-btn-wrap button {
+  width: 100%;
+  height: 100%;
+  border-radius: 44px;
+  background-color: #ffffff;
+  border: none;
+}
+
+
+#mode-btn-wrap {
+  position: absolute;
+  top: 120px;
+  right: 10px;
+  z-index: 1000;
+}
+
+#ar-btn-wrap {
+  position: absolute;
+  top: 174px;
+  right: 10px;
+  z-index: 1000;
+}
+
+#map-toggle-wrap {
+  position: absolute;
+  bottom: 10px;
+  left: calc(50% - 44px);
+  width: 88px;
+  z-index: 1000;
+}
+#exit-floorplan-btn {
+  position: absolute;
+  bottom: 10px;
+  left: calc(50% - 44px);
+  width: 88px;
+  z-index: 1000;
+  display: none;
+}
+
+
+
+button.round {
+  width: 44px;
+  height: 44px;
+  border-radius: 44px;
+  background-color: #ffffff;
+  border: none;
+}
+
+
+
+.steps-view #map-wrap {
+  border-radius: 20px 20px 0 0;
+  height: 35%;
+  bottom: 65%;
+}
+.steps-view #steps {
+  height: 65%;
+}
+.steps-view #directions {
+  display: none;
+}
+
+.full-view #map-wrap {
+  height: 100%;
+  bottom: 0;
+}
+.full-view #directions {
+  display: block;
+}
+
+.search-view #directions {
+  display: none;
+}
+.search-view #search {
+  display: block;
+}
+
+.nav-mode #view-steps {
+  display: block;
+}
+.nav-mode #exit-nav {
+  display: block;
+}
+
+
+
+.ar-arrows-right {
+  width: 200px;
+  height: 200px;
+  display: block;
+  background-image: url('images/right-arrows.png');
+  background-size: 200px;
+}
+.ar-directions {
+  width: 100px;
+  height: 100px;
+  background-color: rgba(37,122,201,0.8);
+  padding: 20px;
+  border-radius: 20px;
+  color: #fff;
 }
 
 
@@ -180,7 +384,7 @@
   
 
   <div id="viewport-wrapper">
-    <div id="viewport">
+    <div id="viewport" class="search-view full-view">
 
       
 
@@ -188,14 +392,43 @@
       <video id="video" autoplay playsinline></video>
   
 
+      <div id="close-btn-wrap"></div>
+      <div id="mode-btn-wrap">
+        <button id="mode-btn" class="round">3D</button>
+      </div>
+      <div id="ar-btn-wrap">
+        <button id="ar-btn" class="round">AR</button>
+      </div>
+
+      <div id="map-toggle-wrap" style="display: none">
+        <button id="map-btn" class="round">M</button>
+        <button id="flooplan-btn" class="round">F</button>
+      </div>
+
+      <button id="exit-floorplan-btn" class="round">Exit Floorplan</button>
+
+      <button id="exit-nav" class="round">x</button>
 
       <div id="map-wrap">
-    	 <div id="map"></div>
+        <button id="view-steps" class="round">=</button>
+        
+    	  <div id="map"></div>
+      </div>
+
+      <div id="search">
+        <div id="geocoder" class="geocoder"></div>
+      </div>
+
+      <div id="place">
+        <button id="get-started">Start</button>
       </div>
 
       <div id="directions">
-        <button id="get-started">Start</button>
-        <button id="start_demo">start demo</button>
+        
+        <button id="start_demo" style="display: none">start demo</button>
+      </div>
+
+      <div id="steps">
       </div>
 
     </div>
@@ -213,6 +446,40 @@
 <script>
 
 
+
+var stepsBtn = document.getElementById("view-steps");
+stepsBtn.addEventListener('click', function() {
+
+  stepsBtn.style.display = 'none';
+
+  document.getElementById("viewport").classList.remove('full-view');
+  document.getElementById("viewport").classList.add('steps-view');
+
+  var closeBtnWrap = document.getElementById("close-btn-wrap");
+  var closeBtn = closeBtnWrap.appendChild(document.createElement('button'));
+  closeBtn.innerHTML = 'x';
+  closeBtn.addEventListener('click', function() {
+    document.getElementById("viewport").classList.remove('steps-view');
+    closeBtnWrap.innerHTML = '';
+    stepsBtn.style.display = 'block';
+  })
+
+
+})
+
+
+var modeBtn = document.getElementById("mode-btn");
+modeBtn.addEventListener('click', function() {
+  document.getElementById("viewport").classList.toggle("full-view");
+});
+
+
+
+
+
+
+
+
 var slider = document.getElementById("tilt");
 var output = document.getElementById("viewport-wrapper");
 var mapWrap = document.getElementById("map-wrap");
@@ -223,12 +490,98 @@ slider.oninput = function() {
   var mapHeight = 35 + (this.value / 15);
   output.style.transform = 'perspective(' + perspective + 'px) rotateX(' + rotate + 'deg)';
   map.setPitch(pitch);
+  if (pitch < 10) {
+    document.getElementById('directions').style.display = 'block';
+  } else {
+    document.getElementById('directions').style.display = 'none';
+  }
+  
   if (mapMode === '3D') {
     mapWrap.style.maxHeight = '100%';
     mapWrap.style.height = mapHeight + '%';
     map.resize();
   }
 
+}
+
+
+
+
+var fakeBuilding = {
+  "type": "FeatureCollection",
+  "features": [
+  
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -71.08110845088959,
+              42.36636241973541
+            ],
+            [
+              -71.08135253190994,
+              42.3664060182873
+            ],
+            [
+              -71.08145713806152,
+              42.366227660383686
+            ],
+            [
+              -71.08117818832397,
+              42.36619000698374
+            ],
+            [
+              -71.08110845088959,
+              42.36636241973541
+            ]
+          ]
+        ]
+      }
+    }
+  
+  
+  ]
+}
+
+var blackout = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -71.08472943305968,
+              42.363792033451034
+            ],
+            [
+              -71.07742309570312,
+              42.363792033451034
+            ],
+            [
+              -71.07742309570312,
+              42.36916653771024
+            ],
+            [
+              -71.08472943305968,
+              42.36916653771024
+            ],
+            [
+              -71.08472943305968,
+              42.363792033451034
+            ]
+          ]
+        ]
+      }
+    }
+  ]
 }
 
 
@@ -597,6 +950,8 @@ var route = {
 
 
 
+var steps = document.getElementById('steps');
+var stepsList = steps.appendChild(document.createElement('ul'));
 
 navRoute.legs[0].steps.forEach(function(step) {
 
@@ -616,6 +971,13 @@ navRoute.legs[0].steps.forEach(function(step) {
   */
 
   route.features[0].geometry.coordinates.push(coords);
+
+
+  var stepsItem = stepsList.appendChild(document.createElement('li'));
+  stepsItem.innerHTML = step.instruction;
+
+
+
   
 });
 
@@ -746,6 +1108,25 @@ bearing: 20,
 antialias: true
 });
 
+
+
+var geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl
+});
+
+document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+
+geocoder.on('results', function(results) {
+   console.log(results);
+})
+
+geocoder.on('result', function(ev) {
+  var point = turf.point([-71.082726,42.367179]);
+  map.flyTo({ center:[-71.082726,42.367179] });
+  document.getElementById('place').style.display = 'block';
+})
+
 window.mapMode = '3D';
 
 
@@ -753,12 +1134,9 @@ window.mapMode = '3D';
 function switchTo2D(originalLatLng) {
   window.mapMode = '2D';
 
-
   map.setPitch(60);
   //map.setStyle('mapbox://styles/mapbox/streets-v11');
-  document.getElementById('map-wrap').classList.remove('small');
-  document.getElementById('map-wrap').style.height = '100%';
-  document.getElementById('map').style.height = '100%';
+  document.getElementById('viewport').classList.add('full-view');
 
 
 
@@ -787,8 +1165,8 @@ function switchTo3D(originalLatLng) {
   window.mapMode = '3D';
   map.setPitch(60);
   //map.setStyle('mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2');
-  document.getElementById('map-wrap').classList.add('small');
-  document.getElementById('map-wrap').style.height = '35%';
+  document.getElementById('viewport').classList.remove('full-view');
+  console.log('3d')
   
   setTimeout(function(){
     map.resize();
@@ -851,15 +1229,27 @@ function switchTo3D(originalLatLng) {
 
 var startBtn = document.getElementById('get-started');
 startBtn.addEventListener('click', function() {
-  switchTo3D(route.features[0].geometry.coordinates[0]);
+  map.flyTo({ center: route.features[0].geometry.coordinates[0]})
+  //switchTo3D(route.features[0].geometry.coordinates[0]);
+  setArPath();
   startRoute();
   startBtn.style.display = 'none';
   document.getElementById('directions').innerHTML = legs.features[0].properties.instruction;
+  document.getElementById('viewport').classList.remove('search-view');
+  document.getElementById('viewport').classList.add('nav-mode');
+  document.getElementById('place').style.display = 'none';
 })
 
 
  
 map.on('load', function() {
+
+
+
+
+
+
+
   console.log(route);
   var bufferedLine = turf.buffer(route, 0.003, {units: 'kilometers'});
 
@@ -971,15 +1361,18 @@ map.on('load', function() {
 
     $.getJSON(link)
       .done(function(data){
-      console.log(data)
-          
-
-      mly.moveToKey(data.features[0].properties.key).then(
-        function(node) { setArPath(node) },
-        function(error) { console.error('mly2 error:', error); });
 
       mly2.moveToKey(data.features[0].properties.key).then(
-        function(node) { },
+        function(node) { 
+
+          mly2.on(Mapillary.Viewer.nodechanged, function (node) {
+            updateView(node);
+          });
+
+          mly.moveToKey(data.features[0].properties.key).then(
+            function(node) {  },
+            function(error) { console.error('mly2 error:', error); });
+        },
         function(error) { console.error('mly1 error:', error); });
     });
 
@@ -1093,11 +1486,22 @@ map.on('load', function() {
       }
 
 
+      fakeBuilding.features.forEach(function(result) {
+        result.properties.floor = 2;
+        buildings.features.push(result);
+        var line = turf.polygonToLine(result);
+        outlines.features.push(line);
+        var bufferedLine = turf.buffer(line, 0.0001, {units: 'kilometers'});
+        outlinesPoly.features.push(bufferedLine);
+      })
+
+
       resultAsGeojson.features.forEach(function(result) {
         if (result.properties.tags.entrance === 'yes') {
           var bufferedDoor = turf.buffer(result, 0.0003, {units: 'kilometers'});
           doors.features.push(bufferedDoor);
         }
+        /*
         if (result.properties.tags.building === 'yes' || result.properties.tags.building === 'parking' || result.properties.tags.building === 'commercial' || result.properties.tags.building === 'office' || result.properties.tags.building === 'apartments') {
           if (result.properties.tags['building:levels'] === '2') {
             result.properties.floor = 2;
@@ -1112,6 +1516,7 @@ map.on('load', function() {
           outlinesPoly.features.push(bufferedLine);
 
         }
+        */
 
         if(result.geometry.type == 'LineString') {
           if (result.properties.tags.highway == 'motorway') {
@@ -1163,6 +1568,7 @@ function setArDirections(key) {
   var endOf3D = 'XKVFh0kswrjTmOs6DGWJXQ';
   var endOf3D2 = 'NUtPlpVxvlgOzErAHr-cPg';
   var turnRight = '-Hozns78XdcsgnHRclXaxQ';
+  var test = 'jRijDQZyaxMjN4mlEPI-dA';
 
 
   if (key === endOf3D) {
@@ -1189,8 +1595,33 @@ function setArDirections(key) {
     popup.setDOMContent(span);
     popup.setBasicPoint([0.32, 0.523]);
     popupComponent.add([popup]);
+  } else if (key === test) {
+    popupComponent.removeAll();
+    var div = document.createElement('div');
+    div.classList.add('ar-arrows-right');
+    var popup = new Mapillary.PopupComponent.Popup({
+      clean: true,
+      float: Mapillary.Alignment.Left,
+      offset: 10,
+      opacity: 0.7,
+    });
+    popup.setDOMContent(div);
+    popup.setBasicPoint([0.32, 0.223]);
+    popupComponent.add([popup]);
   } else {
     popupComponent.removeAll();
+    var div = document.createElement('div');
+    div.classList.add('ar-directions');
+    div.innerHTML = 'Turn right onto the walkway';
+    var popup = new Mapillary.PopupComponent.Popup({
+      clean: true,
+      float: Mapillary.Alignment.Left,
+      offset: 10,
+      opacity: 0.7,
+    });
+    popup.setDOMContent(div);
+    popup.setBasicPoint([0.8, 0.2]);
+    popupComponent.add([popup]);
   }
 
 
@@ -1329,7 +1760,7 @@ function paintOsm(resultAsGeojson,outlines,outlinesPoly,osmLines,buildings) {
   });
   
 
-
+  console.log(outlinesPoly)
 
   map.addSource('walls', {
     'type': 'geojson',
@@ -1375,7 +1806,8 @@ function paintOsm(resultAsGeojson,outlines,outlinesPoly,osmLines,buildings) {
 
 
         map.on('click', 'buildings', function(e) {
-          floorTwo();
+          floorOne();
+          console.log('hello')
         });
         map.on('click', 'floor-zero', function(e) {
           floorZero();
@@ -1568,7 +2000,6 @@ function paintOsm(resultAsGeojson,outlines,outlinesPoly,osmLines,buildings) {
 
 mly2.on(Mapillary.Viewer.nodechanged, function (node) {
   console.log(node);
-  updateView(node);
   var originalLatLng = [node.originalLatLon.lon, node.originalLatLon.lat];
   map.flyTo({ center: originalLatLng });
 
@@ -1633,7 +2064,7 @@ function startRoute() {
 
   mly.on(Mapillary.Viewer.nodechanged, function (node) {
 
-
+    mly.setZoom(1);
     
     console.log(node.key)
     var originalLatLng = [node.originalLatLon.lon, node.originalLatLon.lat];
@@ -1685,6 +2116,56 @@ function startRoute() {
       switchTo3D();
     }
     */
+
+
+
+    if (map.getLayer('blackout')) {
+      map.removeLayer('blackout');
+    }
+    if (map.getSource('blackout')) {
+      map.removeSource('blackout');
+    }
+
+
+    var inFloorplan = turf.pointsWithinPolygon(point, fakeBuilding);
+    if (inFloorplan.features.length === 1) {
+
+      var exitFloorplanBtn = document.getElementById('exit-floorplan-btn');
+      exitFloorplanBtn.style.display = 'block';
+      exitFloorplanBtn.addEventListener('click', function() {
+        if (map.getLayer('blackout')) {
+          map.removeLayer('blackout');
+        }
+        if (map.getSource('blackout')) {
+          map.removeSource('blackout');
+        }
+        map.flyTo({ center: originalLatLng, zoom: 18 });
+        exitFloorplanBtn.style.display = 'none';
+      })
+
+      map.flyTo({ center: originalLatLng, zoom: 20 });
+      map.addSource('blackout', {
+        'type': 'geojson',
+        'data': blackout
+      });
+      map.addLayer({
+      'id': 'blackout',
+      'type': 'fill',
+      'source': 'blackout',
+      'layout': {},
+      'paint': {
+        'fill-color': '#fff',
+        'fill-opacity': 1
+      }
+      },
+    'waterway-label');
+    } else {
+      map.flyTo({ center: originalLatLng, zoom: 18 });
+
+    }
+
+
+
 
   });
 }
