@@ -50,13 +50,14 @@
 .geocoder {
 z-index: 2000;
 width: 100%;
-height: 15px;
+height: 60px;
 float: left;
 }
 .mapboxgl-ctrl-geocoder {
   width: 100%;
-  line-height: 60px;
   border-radius: 10px;
+  height: 60px;
+  padding: 10px;
 }
 
 #mly { 
@@ -118,11 +119,12 @@ float: left;
   background-color: #fff;
   position: absolute;
   z-index: 2000;
+  display: none;
 }
 
 #search {
   width: 355px;
-  height: 100px;
+  height: 60px;
   border-radius: 10px;
   left: 10px;
   top: 10px;
@@ -132,10 +134,49 @@ float: left;
   display: none;
 }
 
-#place {
-  width: 375px;
+#sfm-cta {
+  width: 355px;
   height: 100px;
   border-radius: 10px;
+  left: 10px;
+  bottom: 10px;
+  background-color: #fff;
+  position: absolute;
+  z-index: 2000;
+  padding: 10px;
+}
+
+#place {
+  width: 375px;
+  height: 160px;
+  padding: 10px;
+  border-radius: 20px;
+  left: 0;
+  bottom: 0;
+  background-color: #fff;
+  position: absolute;
+  z-index: 2000;
+  display: none;
+}
+
+#floorplan {
+  width: 375px;
+  height: 160px;
+  padding: 10px;
+  border-radius: 20px;
+  left: 0;
+  bottom: 0;
+  background-color: #fff;
+  position: absolute;
+  z-index: 2000;
+  display: none;
+}
+
+#sfm {
+  width: 375px;
+  height: 160px;
+  padding: 10px;
+  border-radius: 20px;
   left: 0;
   bottom: 0;
   background-color: #fff;
@@ -206,8 +247,9 @@ float: left;
   overflow: hidden;
   bottom: 0;
   background-color: #fff;
-  z-index: 1;
+  z-index: 1000;
   transition: 0.4s;
+  border-radius: 20px 20px 0 0;
 }
 
 
@@ -261,16 +303,44 @@ float: left;
 
 #mode-btn-wrap {
   position: absolute;
-  top: 120px;
+  top: 10px;
   right: 10px;
   z-index: 1000;
 }
+#sfm-available {
+  position: absolute;
+  top: 10px;
+  right: 68px;
+  z-index: 1000;
+  width: calc(100% - 78px);
+  height: 44px;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+}
+#sfm-available::after {
+  position: absolute;
+  bottom: calc(50% - 5px);
+  right: -5px;
+  margin-left: -5px;
+  width: 0;
+  border-left: 5px solid #000;
+  border-left: 5px solid hsla(0, 0%, 20%, 0.9);
+  border-bottom: 5px solid transparent;
+  border-top: 5px solid transparent;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+}
+
 
 #ar-btn-wrap {
   position: absolute;
-  top: 174px;
+  top: 194px;
   right: 10px;
   z-index: 1000;
+  display: none;
 }
 
 #map-toggle-wrap {
@@ -307,7 +377,7 @@ button.round {
   bottom: 65%;
 }
 .steps-view #steps {
-  height: 65%;
+  height: 70%;
 }
 .steps-view #directions {
   display: none;
@@ -319,6 +389,12 @@ button.round {
 }
 .full-view #directions {
   display: block;
+}
+.full-view #mode-btn-wrap {
+  top: 120px;
+}
+.full-view #sfm-available {
+  top: 120px;
 }
 
 .search-view #directions {
@@ -333,6 +409,13 @@ button.round {
 }
 .nav-mode #exit-nav {
   display: block;
+}
+
+.search-view #mode-btn-wrap {
+  top: 80px;
+}
+.search-view #sfm-available {
+  top: 80px;
 }
 
 
@@ -353,6 +436,10 @@ button.round {
   color: #fff;
 }
 
+
+#geocoder-from {
+  display: none;
+}
 
 
 
@@ -393,6 +480,9 @@ button.round {
   
 
       <div id="close-btn-wrap"></div>
+
+      <div id="sfm-available">3D/AR is available at your location</div>
+
       <div id="mode-btn-wrap">
         <button id="mode-btn" class="round">3D</button>
       </div>
@@ -405,22 +495,47 @@ button.round {
         <button id="flooplan-btn" class="round">F</button>
       </div>
 
-      <button id="exit-floorplan-btn" class="round">Exit Floorplan</button>
 
+      <button id="view-steps" class="round">=</button>
+      <button id="exit-floorplan-btn" class="round">Exit Floorplan</button>
       <button id="exit-nav" class="round">x</button>
 
       <div id="map-wrap">
-        <button id="view-steps" class="round">=</button>
+        
         
     	  <div id="map"></div>
       </div>
 
       <div id="search">
+        <div id="geocoder-from" class="geocoder"></div>
         <div id="geocoder" class="geocoder"></div>
       </div>
 
+
+      <div id="sfm-cta">
+        <p>There are no 3D mapped areas nearby - map an area</p>
+      </div>
+
       <div id="place">
+        <h2>0.3m / 456 steps / 4 mns</h2>
+        <p>3D/AR is available on part of your route (?)</p>
+        <button>See steps</button>
         <button id="get-started">Start</button>
+      </div>
+
+      <div id="floorplan">
+        <button class="round" style="position: absolute; right: 10px; top: 10px; background-color: #eee;" id="close-floorplan">x</button>
+        <h2>Boston Office</h2>
+        <p>Something something</p>
+        <button id="explore-floorplan-btn">Explore flooplan</button>
+        <button>Nav here</button>
+      </div>
+
+      <div id="sfm">
+        <h2>SfM Area</h2>
+        <p>Something something mapped by someone</p>
+        <button>Explore area</button>
+        <button>Nav here</button>
       </div>
 
       <div id="directions">
@@ -429,6 +544,7 @@ button.round {
       </div>
 
       <div id="steps">
+        <button class="round" style="position: absolute; right: 10px; top: 10px; background-color: #eee;" id="close-steps">x</button>
       </div>
 
     </div>
@@ -445,6 +561,42 @@ button.round {
 	
 <script>
 
+window.mode = 'browse';
+window.floorplanMode = 'false';
+
+
+
+
+document.getElementById('sfm-cta').addEventListener('click', function() {
+  document.getElementById('sfm-cta').style.display = 'none';
+})
+
+
+var closeFloorplanBtn = document.getElementById("close-floorplan");
+closeFloorplanBtn.addEventListener('click', function() {
+  document.getElementById('floorplan').style.display = 'none';
+  if (map.getLayer('blackout')) {
+    map.removeLayer('blackout');
+  }
+  if (map.getSource('blackout')) {
+    map.removeSource('blackout');
+  }
+  map.flyTo({ center: currentCoords, zoom: 18 });
+  map.setPitch(0);
+})
+
+var closeStepsBtn = document.getElementById("close-steps");
+closeStepsBtn.addEventListener('click', function() {
+  document.getElementById("viewport").classList.remove('steps-view');
+  document.getElementById("viewport").classList.add('full-view');
+  stepsBtn.style.display = 'block';
+  setTimeout(function(){
+    map.resize();
+    map.flyTo({ center: currentCoords });
+  },400);
+})
+
+
 
 
 var stepsBtn = document.getElementById("view-steps");
@@ -455,6 +607,7 @@ stepsBtn.addEventListener('click', function() {
   document.getElementById("viewport").classList.remove('full-view');
   document.getElementById("viewport").classList.add('steps-view');
 
+  /*
   var closeBtnWrap = document.getElementById("close-btn-wrap");
   var closeBtn = closeBtnWrap.appendChild(document.createElement('button'));
   closeBtn.innerHTML = 'x';
@@ -463,7 +616,7 @@ stepsBtn.addEventListener('click', function() {
     closeBtnWrap.innerHTML = '';
     stepsBtn.style.display = 'block';
   })
-
+  */
 
 })
 
@@ -471,6 +624,10 @@ stepsBtn.addEventListener('click', function() {
 var modeBtn = document.getElementById("mode-btn");
 modeBtn.addEventListener('click', function() {
   document.getElementById("viewport").classList.toggle("full-view");
+  setTimeout(function(){
+    map.resize();
+    map.flyTo({ center: currentCoords });
+  },400);
 });
 
 
@@ -1114,8 +1271,13 @@ var geocoder = new MapboxGeocoder({
   accessToken: mapboxgl.accessToken,
   mapboxgl: mapboxgl
 });
-
 document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+
+var geocoderFrom = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl
+});
+document.getElementById('geocoder-from').appendChild(geocoderFrom.onAdd(map));
 
 geocoder.on('results', function(results) {
    console.log(results);
@@ -1123,8 +1285,40 @@ geocoder.on('results', function(results) {
 
 geocoder.on('result', function(ev) {
   var point = turf.point([-71.082726,42.367179]);
-  map.flyTo({ center:[-71.082726,42.367179] });
+  //map.flyTo({ center:[-71.082726,42.367179] });
   document.getElementById('place').style.display = 'block';
+  document.getElementById('geocoder-from').style.display = 'block';
+
+  document.getElementById('sfm-available').classList.add('from-active');
+  document.getElementById('mode-btn-wrap').classList.add('from-active');
+
+  setRoute();
+
+  if (map.getLayer('destination')) {
+    map.removeLayer('destination');
+  }
+  if (map.getSource('destination')) {
+    map.removeSource('destination');
+  }
+
+  map.addSource('destination', {
+    'type': 'geojson',
+    'data': point
+  });
+
+  map.addLayer({
+    'id': 'destination',
+    'type': 'circle',
+    'source': 'destination',
+    'paint': {
+      'circle-color': '#286412',
+      'circle-radius': 10,
+    }
+  });
+
+
+})
+geocoderFrom.on('result', function(ev) {
 })
 
 window.mapMode = '3D';
@@ -1225,30 +1419,7 @@ function switchTo3D(originalLatLng) {
 }
 
 
-
-
-var startBtn = document.getElementById('get-started');
-startBtn.addEventListener('click', function() {
-  map.flyTo({ center: route.features[0].geometry.coordinates[0]})
-  //switchTo3D(route.features[0].geometry.coordinates[0]);
-  setArPath();
-  startRoute();
-  startBtn.style.display = 'none';
-  document.getElementById('directions').innerHTML = legs.features[0].properties.instruction;
-  document.getElementById('viewport').classList.remove('search-view');
-  document.getElementById('viewport').classList.add('nav-mode');
-  document.getElementById('place').style.display = 'none';
-})
-
-
- 
-map.on('load', function() {
-
-
-
-
-
-
+function setRoute() {
 
   console.log(route);
   var bufferedLine = turf.buffer(route, 0.003, {units: 'kilometers'});
@@ -1276,9 +1447,8 @@ map.on('load', function() {
         'line-join': 'round'
       }
   });
-
   var coordinates = route.features[0].geometry.coordinates;
-  /*
+  
   var bounds = coordinates.reduce(function(bounds, coord) {
   return bounds.extend(coord);
   }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
@@ -1286,7 +1456,41 @@ map.on('load', function() {
   map.fitBounds(bounds, {
   padding: 20
   });
-  */
+  
+}
+
+
+
+
+
+window.currentCoords = route.features[0].geometry.coordinates[0];
+
+ 
+map.on('load', function() {
+
+
+
+  var startBtn = document.getElementById('get-started');
+  startBtn.addEventListener('click', function() {
+    window.mode = 'nav';
+    map.flyTo({ center: route.features[0].geometry.coordinates[0]})
+    switchTo3D(currentCoords);
+    
+    setArPath();
+    startRoute();
+    startBtn.style.display = 'none';
+    document.getElementById('directions').innerHTML = legs.features[0].properties.instruction;
+    document.getElementById('viewport').classList.remove('search-view');
+    document.getElementById('viewport').classList.add('nav-mode');
+    document.getElementById('place').style.display = 'none';
+    document.getElementById('sfm-available').style.display = 'none';
+  })
+
+
+
+
+
+  
 
 
   map.addSource('sfm', {
@@ -1806,16 +2010,61 @@ function paintOsm(resultAsGeojson,outlines,outlinesPoly,osmLines,buildings) {
 
 
         map.on('click', 'buildings', function(e) {
-          floorOne();
-          console.log('hello')
+          console.log('uo');
+          if (mode === 'nav') {
+            floorOne();
+          }
+          if (mode === 'browse') {
+            document.getElementById('floorplan').style.display = 'block';
+
+            var exploreFloorplanBtn = document.getElementById('explore-floorplan-btn');
+            exploreFloorplanBtn.style.display = 'block';
+            exploreFloorplanBtn.addEventListener('click', function() {
+              if (map.getLayer('blackout')) {
+                map.removeLayer('blackout');
+              }
+              if (map.getSource('blackout')) {
+                map.removeSource('blackout');
+              }
+              map.addSource('blackout', {
+                'type': 'geojson',
+                'data': blackout
+              });
+              map.addLayer({
+              'id': 'blackout',
+              'type': 'fill',
+              'source': 'blackout',
+              'layout': {},
+              'paint': {
+                'fill-color': '#fff',
+                'fill-opacity': 0.8
+              }
+              },'buildings');
+              map.flyTo({ center: currentCoords, zoom: 20 });
+              map.setPitch(60);
+            })
+
+            
+
+
+
+
+          }
         });
         map.on('click', 'floor-zero', function(e) {
+          console.log('zero');
           floorZero();
         });
         map.on('click', 'floor-one', function(e) {
-          floorOne();
+          if (mode === 'nav') {
+            floorOne();
+          }
+          if (mode === 'browse') {
+            document.getElementById('floorplan').style.display = 'block';
+          }
         });
         map.on('click', 'floor-two', function(e) {
+          console.log('two');
           floorTwo();
         });
 
