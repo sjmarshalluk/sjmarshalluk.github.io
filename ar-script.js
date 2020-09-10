@@ -90,7 +90,8 @@
                   */
 
                   model.setAttribute('gltf-model', './arrows.gltf');
-                  model.setAttribute('gps-projected-entity-place', 'latitude: 41.892590; longitude: 12.489820;');
+                  model.setAttribute("gps-entity-place", "latitude: 41.892590; longitude: 12.489820;");
+                  console.log(model);
                   model.setAttribute("rotation", '0 45 0');
                   model.setAttribute("color", "#4CC3D9");
                   model.setAttribute('scale', '0.5 0.5 0.5');
@@ -103,5 +104,8 @@
                   scene.appendChild(model);
 
                 })
+
+
+                console.log(scene);
 
             }
