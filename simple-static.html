@@ -14,31 +14,11 @@
   </head>
 
   <body style="margin: 0; overflow: hidden;">
-    <a-scene
-      vr-mode-ui="enabled: false"
-      embedded
-      arjs="sourceType: webcam; debugUIEnabled: false;"
-    >
 
-      <!--
-      <a-text value="Head North along Lavant St" look-at="[gps-camera]" scale="20 20 20" gps-entity-place="latitude: 51.00544819406518; longitude: -0.9389340877532959;"
-      ></a-text>
-      -->
-
-      
-      <a-entity gps-entity-place="latitude: 51.00544819406518; longitude: -0.9389340877532959;" gltf-model="./arrows.gltf" rotation="0 135 0" scale="0.5 0.5 0.5"></a-entity>
-
-      <!--
-      <a-text value="Turn left onto Charles St" look-at="[gps-camera]" scale="20 20 20" gps-entity-place="latitude: 51.00611992190385; longitude: -0.9402644634246827;"
-      ></a-text>
-      -->
-      <a-entity gps-entity-place="latitude: 51.00611992190385; longitude: -0.9402644634246827;" gltf-model="./arrows.gltf" rotation="0 225 0" scale="0.5 0.5 0.5"></a-entity>
-
-      <a-entity gps-entity-place="latitude: 51.00601528152339; longitude: -0.9403073787689209;" gltf-model="./arrows.gltf" rotation="0 315 0" scale="0.5 0.5 0.5"></a-entity>
-
-
-
-      <a-camera gps-camera rotation-reader> </a-camera>
-    </a-scene>
+    <a-scene vr-mode-ui="enabled: false" embedded="" arjs="sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;">
+        <a-camera gps-camera="" rotation-reader="">
+    </a-camera>
+  <a-entity rotation="0 -51.25525078323523 0" gltf-model="./arrows.gltf" gps-entity-place="latitude: 51.00544819406518;longitude: -0.9389340877532959" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity><a-entity rotation="0 -165.52968922081124 0" gltf-model="./arrows.gltf" gps-entity-place="latitude: 51.00611992190385;longitude: -0.9402644634246827" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity><a-entity rotation="0 -168.61607498976684 0" gltf-model="./arrows.gltf" gps-entity-place="latitude: 51.00601528152339;longitude: -0.9403073787689209" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity><a-entity rotation="0 -170.3518483677383 0" gltf-model="./arrows.gltf" gps-entity-place="latitude: 51.00551232930397;longitude: -0.9404683113098143" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity><a-entity rotation="0 -74.05454573981469 0" gltf-model="./arrows.gltf" gps-entity-place="latitude: 51.00449965728553;longitude: -0.9407418966293336" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity><a-entity rotation="0 -175.91438113429007 0" gltf-model="./arrows.gltf" gps-entity-place="latitude: 51.00452666215957;longitude: -0.9408921003341675" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity><a-entity rotation="0 -164.0545874234274 0" gltf-model="./arrows.gltf" gps-entity-place="latitude: 51.004479403619676;longitude: -0.9408974647521973" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity><a-entity rotation="0 -79.14710681338133 0" gltf-model="./arrows.gltf" gps-entity-place="latitude: 51.004384886395414;longitude: -0.9409403800964355" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity><a-entity rotation="0 -83.58615802947944 0" gltf-model="./arrows.gltf" gps-entity-place="latitude: 51.00450978411512;longitude: -0.9419757127761841" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity><a-entity rotation="0 -175.8150776209368 0" gltf-model="./arrows.gltf" gps-entity-place="latitude: 51.004607676687414;longitude: -0.9433597326278687" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity><a-entity gltf-model="./arrows.gltf" gps-entity-place="latitude: 51.00446927678342;longitude: -0.943375825881958" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity></a-scene>
+  
   </body>
 </html>
