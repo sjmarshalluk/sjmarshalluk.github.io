@@ -9,6 +9,26 @@ var map = new mapboxgl.Map({
   zoom: 18
 });
  
+var draw = new MapboxDraw({
+displayControlsDefault: false,
+controls: {
+line_string: true,
+trash: true
+}
+});
+map.addControl(draw);
+
+map.on('draw.create', updateArea);
+map.on('draw.delete', updateArea);
+map.on('draw.update', updateArea);
+
+function updateArea(e) {
+  var route = draw.getAll();
+  renderPlaces(route);
+  console.log(route);
+}
+
+
 
 
 var goBtn = document.getElementById('gobtn');
@@ -16,11 +36,13 @@ goBtn.addEventListener('click', function () {
   window.location.href = 'simple-static-viewer.html';
 })
 
+/*
 var checkBtn = document.getElementById('checkbtn');
 checkBtn.addEventListener('click', function () {
   var code = localStorage.getItem("code");
   console.log(code)
 })
+*/
 
 
 /*
