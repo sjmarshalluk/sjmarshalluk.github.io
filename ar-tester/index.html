@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>AR js</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+<script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.js"></script>
+<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css" type="text/css" />
+
+<style type="text/css">
+  
+  #map { position: absolute; top: 0; bottom: 0; width: 100%; left: 0; z-index: 10; }
+  #arrows-btn {
+    position: absolute;
+    z-index: 100;
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+    padding: 20px 40px;
+    width: calc(100% - 40px);
+  }
+  #path-btn {
+    position: absolute;
+    z-index: 100;
+    bottom: 80px;
+    right: 20px;
+    left: 20px;
+    padding: 20px 40px;
+    width: calc(100% - 40px);
+  }
+
+</style>
+
+</head>
+
+
+<body style='margin: 0; overflow: hidden;'>
+
+  <div id="map"></div>
+
+  <div id="content">
+    <a-scene
+       vr-mode-ui="enabled: false"
+    embedded
+        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+        <a-camera gps-camera rotation-reader>
+    </a-camera>
+  </a-scene>
+  </div>
+
+
+  <button id="checkbtn" style="display: none">Check</button>
+  <button id="arrows-btn">Arrows</button>
+  <button id="path-btn">Path</button>
+
+  <script src="./ar-creator.js"></script>
+
+
+
+
+  <script type="text/javascript">
+    
+
+            
+
+
+  </script>
+</body>
+
+</html>
