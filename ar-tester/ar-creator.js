@@ -195,7 +195,22 @@ function renderPlaces(route) {
 
 
 
+  var html = document.getElementById('content').innerHTML;
+  console.log(html);
 
+
+  function htmlToText(html) {
+      var temp = document.getElementById('content');
+      temp.innerHTML = html;
+      return temp; // Or return temp.innerText if you need to return only visible text. It's slower.
+  }
+
+
+  if (typeof(Storage) !== "undefined") {
+    localStorage.setItem("code", html);
+  } else {
+    // Sorry! No Web Storage support..
+  }
 
 
 
