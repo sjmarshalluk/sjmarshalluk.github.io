@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Dora</title>
+
+
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+      <script src='https://unpkg.com/mapillary-js@2.20.0/dist/mapillary.min.js'></script>
+  <link href='https://unpkg.com/mapillary-js@2.20.0/dist/mapillary.min.css' rel='stylesheet' />
+
+<script src="mapbox-ar-renamed.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+  <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css"/>
+
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<style>
+	body { 
+    margin: 0; padding: 0; font-family: sans-serif; 
+  }
+	#map-wrap { 
+    position: absolute; 
+    width: 100%; 
+    z-index: 10; 
+    background-color: rgba(255,255,255,1); 
+    border-radius: 20px; 
+    overflow: hidden; 
+    transition: 0.4s ;
+    bottom: 0;
+  }
+
+  #map-wrap.half {
+    height: 35%; 
+  }
+  #map-wrap.full {
+    height: 100%; 
+  }
+  #map-wrap.thumb {
+    height: 180px; 
+    width: 120px;
+    left: 10px;
+    bottom: 10px;
+  }
+
+  #map { 
+    width: 100%; 
+    height: 100%; 
+  }
+
+  
+.geocoder {
+z-index: 2000;
+width: 100%;
+height: 40px;
+}
+.mapboxgl-ctrl-geocoder {
+  width: 100%;
+  border-radius: 5px;
+  height: 40px;
+  padding: 10px;
+  box-shadow: none;
+}
+
+#mly { 
+  position: absolute; 
+  top: 0; 
+  width: 100%; 
+  height: 100%; 
+  z-index: 1; 
+  transition: 0.5s;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+
+#sidebar {
+  position: absolute;
+  width: 300px;
+  height: 100%;
+  overflow: scroll;
+  background-color: #eee;
+  padding: 20px;
+}
+
+#sidebar h4 {
+  margin-top: 40px;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+
+
+
+
+
+#viewport-wrapper {
+  perspective: 0;
+  position: absolute;
+  z-index: 1;
+  width: 395px;
+  height: 832px;
+  border-radius: 30px;
+  left: 350px;
+  top: 50px;
+  background-color: #000;
+  padding: 10px;
+}
+
+#viewport {
+  position: absolute;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+
+#search {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #fff;
+  z-index: 2000;
+}
+
+#view {
+  position: absolute; top: 0; width: 100%; height: 100%; z-index: 0;
+}
+
+.AttributionContainer { display: none; }
+        .BearingIndicatorContainer  { display: none; }
+        .ZoomContainer  { display: none; }
+
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib {
+  display: none!important
+}
+
+
+
+#video {
+  z-index: -1;
+  left: 0;
+  bottom: 0px;
+  position: fixed;
+  opacity: 1;
+  min-width: 100%;
+  min-height: 100%;
+  display: none;
+}
+
+
+.ar-arrows-right {
+  width: 200px;
+  height: 200px;
+  display: block;
+  background-image: url('images/right-arrows.png');
+  background-size: 200px;
+}
+
+
+@media only screen and (max-width: 800px) {
+
+  #mly,
+  #mly2 {
+    display: none;
+  }
+  #viewport-wrapper {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+  #viewport {
+
+  }
+
+}
+
+</style>
+</head>
+<body>
+  
+  <div id="sidebar">
+    <div id="search">
+      <div id="geocoder" class="geocoder"></div>
+    </div>
+
+    <h4>Map type</h4>
+    <div id="map-size">
+      <input id="thumb" type="radio" name="mapsize" value="thumb" />
+      <label for="thumb">thumb</label><br/>
+      <input id="half" type="radio" name="mapsize" value="half" checked="checked" />
+      <label for="half">half</label><br/>
+      <input id="full" type="radio" name="mapsize" value="full" />
+      <label for="full">full</label>
+    </div>
+
+
+    <h4>Map opacity</h4>
+    <div class="slidecontainer">
+      <input type="range" min="0" max="100" value="0" class="slider" id="opacity">
+    </div>
+
+    <h4>Map pitch &amp; orientation</h4>
+    <div class="slidecontainer">
+      <input type="range" min="0" max="60" value="0" class="slider" id="pitch">
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="orientation" onclick="mapOrientation()">
+      <label class="form-check-label" for="orientation">
+        User orientated
+      </label>
+    </div>
+
+    <h4>Basemap</h4>
+    <div id="basemaps">
+      <input id="none" type="radio" name="rtoggle" value="none" checked="checked" />
+      <label for="none">none</label><br/>
+      <input id="land" type="radio" name="rtoggle" value="land" />
+      <label for="land">land</label><br/>
+      <input id="streets-v11" type="radio" name="rtoggle" value="streets" />
+      <label for="streets-v11">Mapbox (streets)</label><br/>
+      <input id="light-v10" type="radio" name="rtoggle" value="light" />
+      <label for="light-v10">Mapbox (light)</label>
+
+      <!--
+      <input id="dark-v10" type="radio" name="rtoggle" value="dark" />
+      <label for="dark-v10">dark</label>
+      <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors" />
+      <label for="outdoors-v11">outdoors</label>
+      <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" />
+      <label for="satellite-v9">satellite</label>
+    -->
+    </div>
+
+
+    <div id="map-features">
+      <h4>Map Features</h4>
+
+      <div id="osm-btns-wrap" style="margin-top: 20px;"></div>
+    </div>
+
+  </div>
+  
+
+  <div id="viewport-wrapper">
+    <div id="viewport" class="search-view full-view">
+
+      
+
+      <div id="mly"></div>
+      <video id="video" autoplay playsinline></video>
+  
+
+
+      <div id="map-wrap" class="half">
+        
+        
+    	  <div id="map"></div>
+      </div>
+
+      
+
+
+    </div>
+  </div>
+
+
+
+	
+  </body>
+
+	
+<script>
+
+
+var osmFeatures = [
+  /*
+  {
+    "type": "amenity",
+    "feature": "bench",
+    "shape": "point",
+    "status": "inactive",
+    "mly": "object--bench"
+  },
+  {
+    "type": "amenity",
+    "feature": "telephone",
+    "shape": "point",
+    "status": "inactive",
+    "mly": "object--phone-booth"
+  },
+  {
+    "type": "amenity",
+    "feature": "post_box",
+    "shape": "point",
+    "status": "inactive",
+    "mly": "object--mailbox"
+  },
+  */
+  {
+    "type": "building",
+    "feature": "buildings",
+    "shape": "line",
+    "status": "inactive",
+    "mly": "object--parking-meter"
+  },
+  {
+    "type": "highway",
+    "feature": "roads",
+    "shape": "line",
+    "status": "inactive",
+    "mly": "object--parking-meter"
+  },
+  {
+    "type": "highway",
+    "feature": "sidewalks",
+    "shape": "line",
+    "status": "inactive",
+    "mly": "object--parking-meter"
+  },
+  {
+    "type": "highway",
+    "feature": "footpaths",
+    "shape": "line",
+    "status": "inactive",
+    "mly": "object--parking-meter"
+  }
+];
+
+
+window.osmLines = {
+  "type":"FeatureCollection",
+  "features":[]
+};
+
+window.buildings = {
+  "type":"FeatureCollection",
+  "features":[]
+}
+
+window.paths = {
+  "type":"FeatureCollection",
+  "features":[]
+}
+
+window.sidewalks = {
+  "type":"FeatureCollection",
+  "features":[]
+}
+window.water = {
+  "type":"FeatureCollection",
+  "features":[]
+}
+
+
+var osmBtns = document.getElementById('osm-btns-wrap');
+osmBtns.innerHTML = '';
+
+
+osmFeatures.forEach(function(feat) {
+  var button = osmBtns.appendChild(document.createElement('button'));
+  button.id = 'show_' + feat.feature;
+  button.className = 'btn btn-light btn-block';
+  button.innerHTML = feat.feature;
+  button.style.padding = '1rem';
+  button.addEventListener('click', function() {
+    if (button.className == 'btn btn-light btn-block active') {
+      feat.status = 'inactive';
+      button.classList.remove('active');
+      $('.object-mly').remove();
+    } else {
+      feat.status = 'active';
+      button.classList.add('active');
+    }
+    getOsmBbox();
+  });
+});
+
+
+
+var mapWrap = document.getElementById("map-wrap");
+
+
+var layerList = document.getElementById('basemaps');
+var inputs = layerList.getElementsByTagName('input');
+ 
+function switchLayer(layer) {
+  var layerId = layer.target.id;
+  if (layerId === 'none') {
+    map.setStyle('mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2');
+
+  } else if (layerId === 'land') {
+    map.setStyle('mapbox://styles/sjmarshalluk/ckevgybqk0lau19t98sm15n2g');
+
+  } else {
+    map.setStyle('mapbox://styles/mapbox/' + layerId);
+  }
+
+  
+}
+for (var i = 0; i < inputs.length; i++) {
+  inputs[i].onclick = switchLayer;
+}
+
+
+
+
+
+
+
+
+var opacitySlider = document.getElementById("opacity");
+opacitySlider.oninput = function() {
+  var opacity = (100 - this.value) / 100;
+  mapWrap.style.opacity = opacity;
+}
+
+var pitchSlider = document.getElementById("pitch");
+pitchSlider.oninput = function() {
+  map.setPitch(this.value);
+}
+
+function mapOrientation() {
+  var checkBox = document.getElementById("orientation");
+  if (checkBox.checked == true){
+    mly.getBearing()
+    .then(function (bearing) {
+      map.setBearing(bearing);
+    });
+  } else {
+    map.setBearing(0)
+  }
+}
+
+
+
+
+var mapSize = document.getElementById('map-size');
+var sizeInputs = mapSize.getElementsByTagName('input');
+function switchSize(layer) {
+  mapWrap.classList.remove('full');
+  mapWrap.classList.remove('half');
+  mapWrap.classList.remove('thumb');
+  var size = layer.target.id;
+  mapWrap.classList.add(size);
+  setTimeout(function(){
+    map.resize();
+    //map.flyTo({ center: originalLatLng });
+  },400);
+}
+for (var i = 0; i < sizeInputs.length; i++) {
+  sizeInputs[i].onclick = switchSize;
+}
+
+
+
+
+var mly = new Mapillary.Viewer(
+    'mly',
+    'ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh',
+    null,
+    {
+      component: {
+          cover: false,
+          marker: true,
+          direction: false,
+          sequence: false,
+          popup: true
+      },
+    });
+
+
+//setArInfo();
+//setArArrow();
+
+function setArInfo() {
+  var popupComponent = mly.getComponent('popup');
+  var span = document.createElement('span');
+  span.innerHTML = 'This is some info';
+  var popup = new Mapillary.PopupComponent.Popup();
+  popup.setDOMContent(span);
+  popup.setBasicPoint([0.32, 0.523]);
+  popupComponent.add([popup]);
+}
+function setArArrow() {
+  var popupComponent = mly.getComponent('popup');
+  var div = document.createElement('div');
+  div.classList.add('ar-arrows-right');
+  var popup = new Mapillary.PopupComponent.Popup({
+    clean: true,
+    float: Mapillary.Alignment.Left,
+    offset: 10,
+    opacity: 0.7,
+  });
+  popup.setDOMContent(div);
+  popup.setBasicPoint([0.72, 0.53]);
+  popupComponent.add([popup]);
+}
+
+var exmouth = [-0.11034621511771547,51.52502520887623];
+var orlando = [-81.38619520882588,28.541790792135473];
+var brighton = [-0.149986,50.821067];
+var stratford = [-0.012799,51.539831];
+
+window.currentLocation = stratford;
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
+center: currentLocation,
+zoom: 18,
+pitch: 0,
+bearing: 20,
+antialias: true
+});
+
+getView(currentLocation);
+
+var geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl
+});
+document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+
+
+geocoder.on('results', function(results) {
+   console.log(results);
+})
+
+/*
+geocoder.on('result', function(ev) {
+  console.log(ev.result.center);
+  map.jumpTo({ center: ev.result.center, zoom: 17 });
+  clearLayers();
+  $('.mapboxgl-marker').css('display','none');
+  var activeFeatures = osmFeatures.filter(d => d.status === 'active');
+  if (activeFeatures.length == 0) {
+  } else {
+    getOsmBbox();
+  }
+  
+})
+*/
+
+geocoder.on('result', function(ev) {
+  console.log(ev.result.center);
+  getView(ev.result.center);
+  
+
+  map.jumpTo({ center: ev.result.center, zoom: 17 });
+
+  getOsmBbox();
+})
+
+
+function getView(latLon) {
+
+  var link = 'https://a.mapillary.com/v3/images?client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh&per_page=1&closeto=' + latLon;
+
+  $.getJSON(link)
+    .done(function(data){
+
+      mly.moveToKey(data.features[0].properties.key).then(
+          function(node) { 
+            window.currentLocation = [node.originalLatLon.lon, node.originalLatLon.lat];
+            map.flyTo({ center: currentLocation }); 
+            var point = turf.point([node.originalLatLon.lon, node.originalLatLon.lat]);
+
+
+            if (map.getLayer('currentPoint')) {
+              map.removeLayer('currentPoint');
+            }
+            if (map.getSource('currentPoint')) {
+              map.removeSource('currentPoint');
+            }
+            map.addSource('currentPoint', {
+              'type': 'geojson',
+              'data': point
+            });
+
+            map.addLayer({
+              'id': 'currentPoint',
+              'type': 'circle',
+              'source': 'currentPoint',
+              'paint': {
+                'circle-color': '#286412',
+                'circle-radius': 10,
+              }
+            });
+          },
+          function(error) { console.error('mly2 error:', error); });
+
+
+  });
+
+    
+
+    
+
+
+}
+
+
+
+
+map.on('style.load', function () {
+  
+  var mapFeatures = document.getElementById('map-features');
+  var currentStyle = map.getStyle();
+  //console.log(currentStyle)
+  if (currentStyle.sprite === 'mapbox://sprites/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2/ck2u8j60r58fu0sgyxrigm3cu' || currentStyle.sprite === 'mapbox://sprites/sjmarshalluk/ckevgybqk0lau19t98sm15n2g/af0yubblkb5tlt5nqv5pgmqmp') {
+    mapFeatures.style.opacity = 1;
+    paintOsm();
+  } else {
+    mapFeatures.style.opacity = 0.3;
+  }
+
+
+  var point = turf.point(currentLocation);
+  if (map.getLayer('currentPoint')) {
+    map.removeLayer('currentPoint');
+  }
+  if (map.getSource('currentPoint')) {
+    map.removeSource('currentPoint');
+  }
+  map.addSource('currentPoint', {
+    'type': 'geojson',
+    'data': point
+  });
+
+  map.addLayer({
+    'id': 'currentPoint',
+    'type': 'circle',
+    'source': 'currentPoint',
+    'paint': {
+      'circle-color': '#286412',
+      'circle-radius': 10,
+    }
+  });
+});
+
+ 
+map.on('load', function() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+});
+
+
+
+
+  
+
+
+
+
+function getOsmBbox() {
+  var bounds = map.getBounds();
+  window.searchBbox = bounds._sw.lat + ',' + bounds._sw.lng + ',' + bounds._ne.lat + ',' + bounds._ne.lng;
+  queryOsm();
+}
+  
+
+
+function queryOsm() {
+  if (map.getLayer('features-point')) {
+    map.removeLayer('features-point');
+  }
+  if (map.getLayer('features-polygon')) {
+    map.removeLayer('features-polygon');
+  }
+  if (map.getLayer('features-line')) {
+    map.removeLayer('features-line');
+  }
+  if (map.getSource('feats')) {
+    map.removeSource('feats');
+  }
+  showFeature()
+}
+
+function buildOverpassApiUrlFeat() {
+
+  var nodeQuery = '';
+  var wayQuery = '';
+  var relationQuery = '';
+
+  //wayQuery += 'way[building](' + searchBbox + ');'
+
+  //wayQuery += 'way[highway](' + searchBbox + ');'
+
+  //wayQuery += 'node[entrance](' + searchBbox + ');'
+
+
+
+  osmFeatures.forEach(function(feat) {
+    if (feat.status === 'active' && feat.shape === 'point') {
+      nodeQuery += 'node[' + feat.type + '=' + feat.feature + '](' + searchBbox + ');'
+    }
+    if (feat.status === 'active' && feat.feature === 'roads') {
+      wayQuery += 'way[highway=motorway](' + searchBbox + ');'
+      wayQuery += 'way[highway=primary](' + searchBbox + ');'
+      wayQuery += 'way[highway=secondary](' + searchBbox + ');'
+      wayQuery += 'way[highway=tertiary](' + searchBbox + ');'
+      wayQuery += 'way[highway=residential](' + searchBbox + ');'
+      wayQuery += 'way[highway=pedestrian](' + searchBbox + ');'
+      wayQuery += 'way[highway=unclassified](' + searchBbox + ');'
+      //wayQuery += 'way[' + feat.type + '](' + searchBbox + ');'
+    }
+    if (feat.status === 'active' && feat.feature === 'paths') {
+      wayQuery += 'way[highway=footway](' + searchBbox + ');'
+      //wayQuery += 'way[' + feat.type + '](' + searchBbox + ');'
+    }
+    if (feat.status === 'active' && feat.feature === 'sidewalks') {
+      wayQuery += 'way[highway=footway](' + searchBbox + ');'
+      //wayQuery += 'way[' + feat.type + '](' + searchBbox + ');'
+    }
+    if (feat.status === 'active' && feat.feature === 'buildings') {
+      wayQuery += 'way[building](' + searchBbox + ');'
+      //wayQuery += 'way[' + feat.type + '](' + searchBbox + ');'
+    }
+
+    if (feat.status === 'active' && feat.feature === 'water') {
+      wayQuery += 'way[waterway](' + searchBbox + ');'
+      //wayQuery += 'way[' + feat.type + '](' + searchBbox + ');'
+    }
+    /*
+    if (osmWays) {
+      wayQuery += 'way[highway](' + searchBbox + ');'
+    }
+    */
+
+
+    /*
+    if (feat.status === 'active' && feat.shape === 'polygon') {
+      wayQuery += 'way[' + feat.type + '=' + feat.feature + '](' + searchBbox + ');'
+      relationQuery += 'relation[' + feat.type + '=' + feat.feature + '](' + searchBbox + ');'
+    }
+    if (feat.status === 'active' && feat.shape === 'way') {
+      wayQuery += 'way[' + feat.type + '=' + feat.feature + '](' + searchBbox + ');'
+      relationQuery += 'relation[' + feat.type + '=' + feat.feature + '](' + searchBbox + ');'
+    }
+    */
+  });
+
+
+  //var nodeQuery = 'node[' + overpassQuery + '](' + searchBbox + ');';
+  //var nodeQuery = 'node[tourism=attraction](' + searchBbox + ');node[natural=peak](' + searchBbox + ');';
+  //var wayQuery = 'way[' + overpassQuery + '](' + searchBbox + ');';
+  //var relationQuery = 'relation[' + overpassQuery + '](' + searchBbox + ');';
+  var query = '?data=[out:json][timeout:15];(' + nodeQuery + wayQuery + relationQuery + ');out body geom;';
+  var baseUrl = 'https://z.overpass-api.de/api/interpreter';
+  var resultUrl = baseUrl + query;
+  return resultUrl;
+}
+
+
+
+function showFeature(type,feature,shape){
+
+  //var queryFeatures = type + '=' + feature;
+  //var queryFeatures = 'tourism=attraction;natural=peak';
+  var overpassApiUrlFeat = buildOverpassApiUrlFeat();
+  $.get(overpassApiUrlFeat, function (osmDataAsJson) {
+    var resultAsGeojson = osmtogeojson(osmDataAsJson);
+    console.log(resultAsGeojson);
+
+
+    var outlines = {
+      "type":"FeatureCollection",
+      "features":[]
+    };
+
+    var outlinesPoly = {
+      "type":"FeatureCollection",
+      "features":[]
+    }
+
+    
+
+
+
+    resultAsGeojson.features.forEach(function(result) {
+      if (result.properties.tags.entrance === 'yes') {
+        var bufferedDoor = turf.buffer(result, 0.0003, {units: 'kilometers'});
+        doors.features.push(bufferedDoor);
+      }
+      
+      if (result.properties.tags.building === 'yes' || result.properties.tags.building === 'parking' || result.properties.tags.building === 'commercial' || result.properties.tags.building === 'office' || result.properties.tags.building === 'apartments') {
+        
+        buildings.features.push(result);
+        console.log(buildings)
+      }
+      
+
+
+
+      if(result.geometry.type == 'LineString') {
+        if (result.properties.tags.highway == 'motorway') {
+          result.properties.roadcolour = '#CF2081';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'primary') {
+          result.properties.roadcolour = '#F99906';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'secondary') {
+          result.properties.roadcolour = '#F3F313';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'tertiary') {
+          result.properties.roadcolour = '#FFF9B3';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'residential') {
+          result.properties.roadcolour = '#ffffff';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'pedestrian') {
+          result.properties.roadcolour = '#ffffff';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'unclassified') {
+          result.properties.roadcolour = '#ffffff';
+          osmLines.features.push(result);
+        }
+
+
+
+        if (result.properties.tags.highway == 'footway' && result.properties.tags.footway == 'sidewalk' ) {
+          result.properties.roadcolour = '#ffffff';
+          sidewalks.features.push(result);
+        } else if (result.properties.tags.highway == 'footway') {
+          result.properties.roadcolour = '#ffffff';
+          paths.features.push(result);
+        }
+
+
+
+        if (result.properties.tags.waterway == 'river') {
+          water.features.push(result);
+          console.log(water);
+        }
+      }
+    });
+
+    paintOsm();
+
+  });   
+}
+
+
+
+
+
+function paintOsm() {
+  if (map.getLayer('osmline-layer')) {
+    map.removeLayer('osmline-layer');
+  }
+  if (map.getLayer('trunk-layer')) {
+    map.removeLayer('trunk-layer');
+  }
+  if (map.getSource('osmline')) {
+    map.removeSource('osmline');
+  }
+  if (map.getLayer('buildings')) {
+    map.removeLayer('buildings');
+  }
+  if (map.getSource('buildings')) {
+    map.removeSource('buildings');
+  }
+  if (map.getLayer('highways')) {
+    map.removeLayer('highways');
+  }
+  if (map.getSource('highways')) {
+    map.removeSource('highways');
+  }
+  if (map.getLayer('paths')) {
+    map.removeLayer('paths');
+  }
+  if (map.getSource('paths')) {
+    map.removeSource('paths');
+  }
+  if (map.getLayer('sidewalks')) {
+    map.removeLayer('sidewalks');
+  }
+  if (map.getSource('sidewalks')) {
+    map.removeSource('sidewalks');
+  }
+
+  /*
+  if (map.getLayer('water')) {
+    map.removeLayer('water');
+  }
+  if (map.getSource('water')) {
+    map.removeSource('water');
+  }
+  */
+
+  
+  map.addSource('buildings', {
+    'type': 'geojson',
+    'data': buildings
+  });
+  map.addLayer({
+    'id': 'buildings',
+    'type': 'fill-extrusion',
+    'source': 'buildings',
+    'paint': {
+      'fill-extrusion-color': 'grey',
+      'fill-extrusion-height': 5,
+      'fill-extrusion-base': 0,
+      'fill-extrusion-opacity': 0.4
+    }
+  });
+  
+
+
+  map.addSource('highways', {
+    'type': 'geojson',
+    'data': osmLines
+  });
+
+  map.addLayer({
+      "id": "highways",
+      "type": "line",
+      "source": "highways",
+      "paint": {
+        //"line-color": "#F3F139",
+        "line-opacity": 1,
+        "line-width": 10,
+         "line-color": '#dddddd'
+      },
+      "layout": {
+        'line-cap': 'round',
+        'line-join': 'round'
+      }
+  });
+
+  map.addSource('paths', {
+    'type': 'geojson',
+    'data': paths
+  });
+  map.addLayer({
+      "id": "paths",
+      "type": "line",
+      "source": "paths",
+      "paint": {
+        //"line-color": "#F3F139",
+        "line-opacity": 1,
+        "line-width": 5,
+         "line-color": '#dddddd'
+      },
+      "layout": {
+        'line-cap': 'round',
+        'line-join': 'round'
+      }
+  });
+  map.addSource('sidewalks', {
+    'type': 'geojson',
+    'data': sidewalks
+  });
+  map.addLayer({
+      "id": "sidewalks",
+      "type": "line",
+      "source": "sidewalks",
+      "paint": {
+        //"line-color": "#F3F139",
+        "line-opacity": 1,
+        "line-width": 5,
+         "line-color": '#dddddd'
+      },
+      "layout": {
+        'line-cap': 'round',
+        'line-join': 'round'
+      }
+  });
+
+
+  /*
+  map.addSource('water', {
+    'type': 'geojson',
+    'data': water
+  });
+  map.addLayer({
+      "id": "water",
+      "type": "line",
+      "source": "water",
+      "paint": {
+        //"line-color": "#F3F139",
+        "line-opacity": 1,
+        "line-width": 5,
+         "line-color": '#0000FF'
+      },
+      "layout": {
+        'line-cap': 'round',
+        'line-join': 'round'
+      }
+  });
+  */
+
+
+}
+
+
+
+
+function updateView(node) {
+
+  
+
+
+  mly.moveToKey(node.key).then(
+    function(node) { console.log('mly2 loaded key:', node.key); },
+    function(error) { console.error('mly2 error:', error); });
+      
+
+  
+}
+
+
+
+
+
+
+
+</script>
+ 
+</body>
+</html>
