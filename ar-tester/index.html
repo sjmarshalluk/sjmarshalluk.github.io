@@ -43,8 +43,18 @@
 
   <div id="map"></div>
 
-  <div id="content">
-    <a-scene
+  <div id="arrows-code">
+    <a-scene id="arrows-scene"
+       vr-mode-ui="enabled: false"
+    embedded
+        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+        <a-camera gps-camera rotation-reader>
+    </a-camera>
+  </a-scene>
+  </div>
+
+  <div id="path-code">
+    <a-scene id="path-scene"
        vr-mode-ui="enabled: false"
     embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>

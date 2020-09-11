@@ -48,97 +48,13 @@ function updateArea(e) {
 
 
 
-var arrowsBtn = document.getElementById('arrows-btn');
-arrowsBtn.addEventListener('click', function () {
-  window.location.href = 'simple-static-viewer.html';
-})
-
-var pathBtn = document.getElementById('path-btn');
-pathBtn.addEventListener('click', function () {
-  window.location.href = 'simple-static-viewer.html';
-})
-
-/*
-var checkBtn = document.getElementById('checkbtn');
-checkBtn.addEventListener('click', function () {
-  var code = localStorage.getItem("code");
-  console.log(code)
-})
-*/
-
-
-/*
-
-            var route = {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            -0.9389340877532959,
-            51.00544819406518
-          ],
-          [
-            -0.9402644634246827,
-            51.00611992190385
-          ],
-          [
-            -0.9403073787689209,
-            51.00601528152339
-          ],
-          [
-            -0.9404683113098143,
-            51.00551232930397
-          ],
-          [
-            -0.9407418966293336,
-            51.00449965728553
-          ],
-          [
-            -0.9408921003341675,
-            51.00452666215957
-          ],
-          [
-            -0.9408974647521973,
-            51.004479403619676
-          ],
-          [
-            -0.9409403800964355,
-            51.004384886395414
-          ],
-          [
-            -0.9419757127761841,
-            51.00450978411512
-          ],
-          [
-            -0.9433597326278687,
-            51.004607676687414
-          ],
-          [
-            -0.943375825881958,
-            51.00446927678342
-          ]
-        ]
-      }
-    }
-  ]
-}
-*/
-
-
-
 
 
 function renderPlaces(route) {
-  let scene = document.querySelector('a-scene');
 
+  let pathScene = document.getElementById('path-scene');
 
-
-
+  //let scene = document.querySelector('a-scene');
 
   var arPathPoints = {
     "type":"FeatureCollection",
@@ -162,21 +78,13 @@ function renderPlaces(route) {
 
   for(i=0; i < arPathPoints.features.length; i++) {
 
-
-
-
-
-
-
-
-
     let latitude = arPathPoints.features[i].geometry.coordinates[1];
     let longitude = arPathPoints.features[i].geometry.coordinates[0];
     var latlng = "latitude: " + String(latitude) + ";longitude: " + String(longitude);
 
     let model = document.createElement('a-entity');
 
-    model.setAttribute('gltf-model', './arrows.gltf');
+    model.setAttribute('gltf-model', './path.gltf');
     model.setAttribute("gps-entity-place", latlng);
     
     model.setAttribute("color", "#4CC3D9");
@@ -187,41 +95,14 @@ function renderPlaces(route) {
         window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
     });
 
-    scene.appendChild(model);
+    pathScene.appendChild(model);
 
 
   };
 
 
+  let arrowsScene = document.getElementById('arrows-scene');
 
-
-  var html = document.getElementById('content').innerHTML;
-  console.log(html);
-
-
-  function htmlToText(html) {
-      var temp = document.getElementById('content');
-      temp.innerHTML = html;
-      return temp; // Or return temp.innerText if you need to return only visible text. It's slower.
-  }
-
-
-  if (typeof(Storage) !== "undefined") {
-    localStorage.setItem("code", html);
-  } else {
-    // Sorry! No Web Storage support..
-  }
-
-
-
-
-
-}
-
-
-
-
-function arrows() {
     route.features[0].geometry.coordinates.forEach(function(turn,index) {
     let latitude = turn[1];
     let longitude = turn[0];
@@ -280,20 +161,36 @@ function arrows() {
         window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
     });
 
-    scene.appendChild(model);
+    arrowsScene.appendChild(model);
 
   })
 
 
-  var html = document.getElementById('content').innerHTML;
+  
+
+}
+
+
+
+var arrowsBtn = document.getElementById('arrows-btn');
+arrowsBtn.addEventListener('click', function () {
+  var html = document.getElementById('arrows-code').innerHTML;
   console.log(html);
 
 
-  function htmlToText(html) {
-      var temp = document.getElementById('content');
-      temp.innerHTML = html;
-      return temp; // Or return temp.innerText if you need to return only visible text. It's slower.
+  if (typeof(Storage) !== "undefined") {
+    localStorage.setItem("code", html);
+  } else {
+    // Sorry! No Web Storage support..
   }
+  window.location.href = 'simple-static-viewer.html';
+})
+
+var pathBtn = document.getElementById('path-btn');
+pathBtn.addEventListener('click', function () {
+  var html = document.getElementById('path-code').innerHTML;
+  console.log(html);
+
 
 
   if (typeof(Storage) !== "undefined") {
@@ -302,7 +199,9 @@ function arrows() {
     // Sorry! No Web Storage support..
   }
 
-}
+  window.location.href = 'simple-static-viewer.html';
 
+
+})
 
             
