@@ -43,6 +43,21 @@ function updateArea(e) {
   var route = draw.getAll();
   renderPlaces(route);
   console.log(route);
+
+
+
+
+  var arrowsCode = document.getElementById('arrows-code').innerHTML;
+  var pathCode = document.getElementById('path-code').innerHTML;
+
+  if (typeof(Storage) !== "undefined") {
+    localStorage.setItem("arrowsCode", arrowsCode);
+    localStorage.setItem("pathCode", pathCode);
+  } else {
+    // Sorry! No Web Storage support..
+  }
+ 
+
 }
 
 
@@ -96,6 +111,7 @@ function renderPlaces(route) {
     });
 
     pathScene.appendChild(model);
+
 
 
   };
@@ -172,32 +188,18 @@ function renderPlaces(route) {
 
 
 
+
 var arrowsBtn = document.getElementById('arrows-btn');
 arrowsBtn.addEventListener('click', function () {
-  var html = document.getElementById('arrows-code').innerHTML;
-  console.log(html);
+  
+   window.location.href = 'simple-static-viewer.html';
 
-
-  if (typeof(Storage) !== "undefined") {
-    localStorage.setItem("code", html);
-  } else {
-    // Sorry! No Web Storage support..
-  }
-  window.location.href = 'simple-static-viewer.html';
+  
 })
 
 var pathBtn = document.getElementById('path-btn');
 pathBtn.addEventListener('click', function () {
-  var html = document.getElementById('path-code').innerHTML;
-  console.log(html);
-
-
-
-  if (typeof(Storage) !== "undefined") {
-    localStorage.setItem("code", html);
-  } else {
-    // Sorry! No Web Storage support..
-  }
+  
 
   window.location.href = 'simple-static-viewer.html';
 

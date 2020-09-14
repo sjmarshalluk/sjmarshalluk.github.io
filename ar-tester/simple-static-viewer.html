@@ -15,11 +15,28 @@
   </head>
 
   <body style="margin: 0; overflow: hidden;">
+    <button id="arrows">Arrows</button>
+    <button id="path">Path</button>
 
   </body>
 
 
   <script type="text/javascript">
-    document.body.innerHTML = localStorage.getItem("code");
+
+    var arrowsCode = localStorage.getItem("arrowsCode");
+    var pathCode = localStorage.getItem("pathCode");
+
+    document.getElementById('arrows').addEventListener('click', function() {
+      document.body.innerHTML = arrowsCode;
+    })
+    document.getElementById('path').addEventListener('click', function() {
+      document.body.innerHTML = pathCode;
+    })
+
+    
+
+
+
+
   </script>
 </html>
