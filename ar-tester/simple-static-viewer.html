@@ -15,8 +15,16 @@
   </head>
 
   <body style="margin: 0; overflow: hidden;">
-    <button id="arrows">Arrows</button>
-    <button id="path">Path</button>
+
+    <div id="buttons">
+      <div style="position: absolute; z-index: 1000; top: 0; left: 0">
+        <button id="arrows">Arrows</button>
+        <button id="path">Path</button>
+      </div>
+    </div>
+
+
+  </a-scene>
 
   </body>
 
@@ -26,11 +34,13 @@
     var arrowsCode = localStorage.getItem("arrowsCode");
     var pathCode = localStorage.getItem("pathCode");
 
+    var buttons = document.getElementById('buttons').innerHTML;
+
     document.getElementById('arrows').addEventListener('click', function() {
-      document.body.innerHTML = arrowsCode;
+      document.body.innerHTML = buttons + arrowsCode;
     })
     document.getElementById('path').addEventListener('click', function() {
-      document.body.innerHTML = pathCode;
+      document.body.innerHTML = buttons + pathCode;
     })
 
     
