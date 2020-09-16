@@ -34,13 +34,13 @@
     var arrowsCode = localStorage.getItem("arrowsCode");
     var pathCode = localStorage.getItem("pathCode");
 
-    var buttons = document.getElementById('buttons').innerHTML;
+    //var buttons = document.getElementById('buttons').innerHTML;
 
     document.getElementById('arrows').addEventListener('click', function() {
-      document.body.innerHTML = buttons + arrowsCode;
+      document.body.innerHTML = arrowsCode;
     })
     document.getElementById('path').addEventListener('click', function() {
-      document.body.innerHTML = buttons + pathCode;
+      document.body.innerHTML = pathCode;
     })
 
     

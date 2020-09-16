@@ -14,24 +14,51 @@
 
 <style type="text/css">
   
-  #map { position: absolute; top: 0; bottom: 0; width: 100%; left: 0; z-index: 10; }
-  #arrows-btn {
+  #map { 
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    width: 100%; 
+    left: 0; 
+    z-index: 10; 
+  }
+  #go {
     position: absolute;
     z-index: 100;
     bottom: 20px;
-    right: 20px;
     left: 20px;
     padding: 20px 40px;
-    width: calc(100% - 40px);
+    display: none;
   }
-  #path-btn {
-    position: absolute;
-    z-index: 100;
-    bottom: 80px;
-    right: 20px;
-    left: 20px;
-    padding: 20px 40px;
-    width: calc(100% - 40px);
+  #go.show {
+    display: block;
+  }
+  .panel {
+    display: none
+  }
+  .mapboxgl-ctrl-logo,
+  .mapboxgl-ctrl-attrib {
+    display: none!important
+  }
+
+
+  @media only screen and (min-width: 800px) {
+    #go.show {
+      display: none;
+    }
+    #map { 
+      width: calc(100% - 500px); 
+    }
+    .panel {
+      display: block;
+      height: 100%;
+      width: 500px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: rgba(255, 255, 255, 0.9);
+      overflow-y: scroll;
+    }
   }
 
 </style>
@@ -40,6 +67,10 @@
 
 
 <body style='margin: 0; overflow: hidden;'>
+
+  <div class="panel">
+    <div id="calculated-area" style="padding: 15px; width: 100%"></div>
+  </div>
 
   <div id="map"></div>
 
@@ -63,23 +94,10 @@
   </a-scene>
   </div>
 
-
-  <button id="checkbtn" style="display: none">Check</button>
-  <button id="arrows-btn">Arrows</button>
-  <button id="path-btn">Path</button>
+  <button id="go">Go</button>
 
   <script src="./ar-creator.js"></script>
 
-
-
-
-  <script type="text/javascript">
-    
-
-            
-
-
-  </script>
 </body>
 
 </html>
