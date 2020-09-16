@@ -19,11 +19,23 @@
   margin: 0;
   height: 100%;
 }
-#c {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
+
+  #map { 
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    width: 50%; 
+    left: 0; 
+    z-index: 10; 
+  }
+
+  #c {
+    width: 50%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    right: 0;
+  }
 
 
 </style>
@@ -32,11 +44,46 @@
 
 
 <body style='margin: 0; overflow: hidden;'>
-
+  <div id="map"></div>
   <canvas id="c"></canvas>
-  
+
 
   <script type="module">
+
+
+
+
+
+
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v11',
+  center: [-0.93875203281641,51.005568447565174],
+  zoom: 18
+});
+
+
+var draw = new MapboxDraw({
+  displayControlsDefault: false,
+  controls: {
+    line_string: true,
+    trash: true
+  }
+});
+map.addControl(draw);
+
+
+
+
+
+map.on('draw.create', updateArea);
+map.on('draw.delete', updateArea);
+map.on('draw.update', updateArea);
+    
+
+
     // Three.js - Load .OBJ ?
 // from https://threejsfundamentals.org/threejs/threejs-load-obj-no-materials.html
 
@@ -60,7 +107,7 @@ function main() {
   controls.target.set(0, 5, 0);
   controls.update();
 
-  const scene = new THREE.Scene();
+  window.scene = new THREE.Scene();
   scene.background = new THREE.Color('white');
 
   {
@@ -102,6 +149,7 @@ function main() {
     scene.add(light.target);
   }
 
+  /*
   {
     var manager = new THREE.LoadingManager();
     var textureLoader = new THREE.TextureLoader(manager);
@@ -112,7 +160,7 @@ function main() {
                 opacity: 0.5
        });
     const objLoader = new OBJLoader2();
-    objLoader.load('./arrows.obj', (root) => {
+    objLoader.load('https://sjmarshalluk.github.io/model-maker/arrows.obj', (root) => {
       root.traverse(function(child) {
                         if (child instanceof THREE.Mesh) {
                             child.material = toon;
@@ -126,6 +174,7 @@ function main() {
       
     });
   }
+  */
 
   function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement;
@@ -155,6 +204,170 @@ function main() {
 }
 
 main();
+
+
+
+
+
+
+
+
+function updateArea(e) {
+  var route = draw.getAll();
+  var center = turf.centerOfMass(route);
+
+  
+
+  renderPlaces(route,center);
+
+}
+
+
+function renderPlaces(route,center) {
+
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+
+
+  
+
+  var arPathPoints = {
+    "type":"FeatureCollection",
+    "features":[]
+  };
+
+  var routeLength = turf.length(route.features[0], {units: 'kilometers'});
+  var options = {units: 'kilometers'};
+  var lengthMetres = routeLength * 1000;
+
+  var i;
+  for (i = 0; i < lengthMetres; i++) {
+    var distanceAlong = i * 0.001;
+    var along = turf.along(route.features[0], distanceAlong, options);
+    arPathPoints.features.push(along)
+
+    if (i === lengthMetres || i > lengthMetres) {
+      //console.log(arPathPoints)
+    }
+  }
+
+  for(i=0; i < arPathPoints.features.length; i++) {
+
+    let latitude = arPathPoints.features[i].geometry.coordinates[1];
+    let longitude = arPathPoints.features[i].geometry.coordinates[0];
+
+    // threejs json
+    var pointX = turf.point([longitude,centerLat]);
+    var pointY = turf.point([centerLng,latitude]);
+    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+    var offsetX = (longitude - centerLng) * 10000;
+    var offsetY = (latitude - centerLat) * 10000;
+
+    addPathPoint(offsetX,offsetY);
+
+
+
+  };
+  
+
+
+
+  route.features[0].geometry.coordinates.forEach(function(turn,index) {
+    let latitude = turn[1];
+    let longitude = turn[0];
+
+
+    var latlng = "latitude: " + String(turn[1]) + ";longitude: " + String(turn[0]);
+
+
+
+    if (index < route.features[0].geometry.coordinates.length - 1) {
+      var thisCoords = route.features[0].geometry.coordinates[index];
+      var thisPoint = turf.point(thisCoords);
+
+      var next = route.features[0].geometry.coordinates[index + 1];
+      console.log(next)
+      var nextPoint = turf.point(next);
+
+      var bearing = turf.bearing(thisPoint, nextPoint);
+      
+
+      
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (thisCoords[0] - centerLng) * 10000;
+      var offsetY = (thisCoords[1] - centerLat) * 10000;
+
+      addTurn(offsetX,offsetY,bearing);
+    }
+
+
+
+  })
+
+
+
+
+  function addTurn(offsetX,offsetY,bearing) {
+    var manager = new THREE.LoadingManager();
+    var textureLoader = new THREE.TextureLoader(manager);
+
+            var texture = textureLoader.load('https://cdn.shopify.com/s/files/1/0558/2081/products/Batman_Returns_FC_1024x1024.jpg?v=1541685585');
+    var toon = new THREE.MeshDepthMaterial({
+                transparent: true,
+                opacity: 0.5
+       });
+    const objLoader = new OBJLoader2();
+    objLoader.load('https://sjmarshalluk.github.io/model-maker/arrows.obj', (root) => {
+      root.traverse(function(child) {
+                        if (child instanceof THREE.Mesh) {
+                            child.material = toon;
+                            // child.material.shininess=0;
+                            // child.material.specular=0xffffff;
+                            //child.material.normalMap = texture;
+                        }
+                    });
+      root.position.set(offsetY,2,offsetX);
+      scene.add(root);
+      
+    });
+  }
+
+  function addPathPoint(offsetX,offsetY) {
+    var manager = new THREE.LoadingManager();
+    var textureLoader = new THREE.TextureLoader(manager);
+
+            var texture = textureLoader.load('https://cdn.shopify.com/s/files/1/0558/2081/products/Batman_Returns_FC_1024x1024.jpg?v=1541685585');
+    var toon = new THREE.MeshDepthMaterial({
+                transparent: true,
+                opacity: 0.5
+       });
+    const objLoader = new OBJLoader2();
+    objLoader.load('https://sjmarshalluk.github.io/model-maker/path.obj', (root) => {
+      root.traverse(function(child) {
+                        if (child instanceof THREE.Mesh) {
+                            child.material = toon;
+                            // child.material.shininess=0;
+                            // child.material.specular=0xffffff;
+                            //child.material.normalMap = texture;
+                        }
+                    });
+      root.position.set(offsetY,2,offsetX);
+      scene.add(root);
+      
+    });
+  }
+
+
+}
 
   </script>
 
