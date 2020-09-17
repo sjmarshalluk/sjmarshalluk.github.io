@@ -1,0 +1,200 @@
+{
+  "asset": {
+    "version": "2.0",
+    "generator": "GLTFExporter"
+  },
+  "scenes": [
+    {
+      "name": "Scene",
+      "nodes": [
+        2
+      ]
+    }
+  ],
+  "scene": 0,
+  "nodes": [
+    {
+      "matrix": [
+        0.1,
+        0,
+        0,
+        0,
+        0,
+        2.2204460492503132e-17,
+        0.1,
+        0,
+        0,
+        -0.1,
+        2.2204460492503132e-17,
+        0,
+        -7.80782246063743,
+        0,
+        -8.009795190848575,
+        1
+      ],
+      "name": "mesh_0",
+      "mesh": 0
+    },
+    {
+      "matrix": [
+        0.1,
+        0,
+        0,
+        0,
+        0,
+        -0.1,
+        0,
+        0,
+        0,
+        0,
+        0.1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "children": [
+        0
+      ]
+    },
+    {
+      "name": "path.gltf",
+      "children": [
+        1
+      ]
+    }
+  ],
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteOffset": 0,
+      "byteLength": 300,
+      "target": 34962,
+      "byteStride": 12
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 300,
+      "byteLength": 300,
+      "target": 34962,
+      "byteStride": 12
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 600,
+      "byteLength": 200,
+      "target": 34962,
+      "byteStride": 8
+    },
+    {
+      "buffer": 0,
+      "byteOffset": 800,
+      "byteLength": 140,
+      "target": 34963
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 940,
+      "uri": "data:application/octet-stream;base64,AAAeQwAAnkIAAAAA4k4bQ5M2akIAAAAAf2oTQwAAHkIAAAAAh9wGQ8gbuUEAAAAAAADtQglYKUEAAAAAtuTGQm5HLEAAAAAAAACeQgAAAAAAAAAAkzZqQm5HLEAAAAAAAAAeQglYKUEAAAAAyBu5QcgbuUEAAAAACVgpQQAAHkIAAAAAbkcsQJM2akIAAAAAAAAAAAAAnkIAAAAAbkcsQLbkxkIAAAAACVgpQQAA7UIAAAAAyBu5QYfcBkMAAAAAAAAeQn9qE0MAAAAAkzZqQuJOG0MAAAAAAACeQgAAHkMAAAAAtuTGQuJOG0MAAAAAAADtQn9qE0MAAAAAh9wGQ4fcBkMAAAAAf2oTQwAA7UIAAAAA4k4bQ7bkxkIAAAAAAAAeQwAAnkIAAAAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAeQwAAnkLiThtDkzZqQn9qE0MAAB5Ch9wGQ8gbuUEAAO1CCVgpQbbkxkJuRyxAAACeQgAAAACTNmpCbkcsQAAAHkIJWClByBu5QcgbuUEJWClBAAAeQm5HLECTNmpCAAAAAAAAnkJuRyxAtuTGQglYKUEAAO1CyBu5QYfcBkMAAB5Cf2oTQ5M2akLiThtDAACeQgAAHkO25MZC4k4bQwAA7UJ/ahNDh9wGQ4fcBkN/ahNDAADtQuJOG0O25MZCAAAeQwAAnkIBAAAAGAAYABcAFgAWABUAFAAUABMAEgASABEAEAAQAA8ADgAOAA0ADAAMAAsACgAKAAkACAAIAAcABgAGAAUABAAEAAMAAgACAAEAGAAYABYAFAAUABIAEAAQAA4ADAAMAAoACAAIAAYABAAEAAIAGAAYABQAEAAQAAwACAAIAAQAGAAYABAACAAAAA=="
+    }
+  ],
+  "accessors": [
+    {
+      "bufferView": 0,
+      "componentType": 5126,
+      "count": 25,
+      "max": [
+        158,
+        158,
+        0
+      ],
+      "min": [
+        0,
+        0,
+        0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 25,
+      "max": [
+        0,
+        0,
+        1
+      ],
+      "min": [
+        0,
+        0,
+        1
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 25,
+      "max": [
+        158,
+        158
+      ],
+      "min": [
+        0,
+        0
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5123,
+      "count": 69,
+      "max": [
+        24
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "materials": [
+    {
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          0.9254901960784314,
+          0.23529411764705882,
+          0.23529411764705882,
+          0.8
+        ],
+        "metallicFactor": 0,
+        "roughnessFactor": 0.9
+      },
+      "extensions": {
+        "KHR_materials_unlit": {}
+      },
+      "alphaMode": "BLEND"
+    }
+  ],
+  "meshes": [
+    {
+      "primitives": [
+        {
+          "mode": 4,
+          "attributes": {
+            "POSITION": 0,
+            "NORMAL": 1,
+            "TEXCOORD_0": 2
+          },
+          "indices": 3,
+          "material": 0
+        }
+      ]
+    }
+  ],
+  "extensionsUsed": [
+    "KHR_materials_unlit"
+  ]
+}
