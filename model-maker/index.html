@@ -6,6 +6,8 @@
     <title>Model Maker</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
     <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js"></script>
@@ -207,6 +209,61 @@ var map = new mapboxgl.Map({
 });
 
 
+
+map.on('load', function() {
+
+
+  if (map.getLayer('generatedRoute')) {
+    map.removeLayer('generatedRoute');
+  }
+  if (map.getSource('generatedRoute')) {
+    map.removeSource('generatedRoute');
+  }
+  if (map.getLayer('actualRoute')) {
+    map.removeLayer('actualRoute');
+  }
+  if (map.getSource('actualRoute')) {
+    map.removeSource('actualRoute');
+  }
+  map.addSource('generatedRoute', {
+      "type": "geojson",
+      "data": generatedRoute
+  });
+  map.addLayer({
+      "id": "generatedRoute",
+      "type": "line",
+      "source": "generatedRoute",
+      "paint": {
+        "line-color": "blue",
+        "line-opacity": 1,
+        "line-width": 4
+      },
+      "layout": {
+        'line-cap': 'round',
+        'line-join': 'round'
+      }
+  });
+  map.addSource('actualRoute', {
+      "type": "geojson",
+      "data": actualRoute
+  });
+  map.addLayer({
+      "id": "actualRoute",
+      "type": "line",
+      "source": "actualRoute",
+      "paint": {
+        "line-color": "red",
+        "line-opacity": 1,
+        "line-width": 4
+      },
+      "layout": {
+        'line-cap': 'round',
+        'line-join': 'round'
+      }
+  });
+})
+
+
 var draw = new MapboxDraw({
   displayControlsDefault: false,
   controls: {
@@ -234,7 +291,6 @@ import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threej
 import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/controls/OrbitControls.js';
 import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/loaders/GLTFLoader.js';
 
-function main() {
 
 
   const canvas = document.querySelector('#c');
@@ -248,7 +304,7 @@ function main() {
   camera.position.set(0, 10, 20);
 
   const controls = new OrbitControls(camera, canvas);
-  controls.target.set(0, 5, 0);
+  controls.target.set(0, 1, 0);
   controls.update();
 
   window.scene = new THREE.Scene();
@@ -353,9 +409,7 @@ function main() {
   }
 
   requestAnimationFrame(render);
-}
 
-main();
 
 
 
@@ -374,8 +428,258 @@ function updateArea(e) {
 
 }
 
-var center = turf.centerOfMass(actualRoute);
+window.center = turf.centerOfMass(actualRoute);
 renderPlaces(generatedRoute,actualRoute,center)
+
+
+
+
+window.osmLines = {
+  "type":"FeatureCollection",
+  "features":[]
+};
+window.osmBuildings = {
+  "type":"FeatureCollection",
+  "features":[]
+};
+
+
+
+getOsmBbox();
+function getOsmBbox() {
+  var bounds = map.getBounds();
+  window.searchBbox = bounds._sw.lat + ',' + bounds._sw.lng + ',' + bounds._ne.lat + ',' + bounds._ne.lng;
+  showFeature()
+}
+
+function queryOsm() {
+  if (map.getLayer('features-point')) {
+    map.removeLayer('features-point');
+  }
+  if (map.getLayer('features-polygon')) {
+    map.removeLayer('features-polygon');
+  }
+  if (map.getLayer('features-line')) {
+    map.removeLayer('features-line');
+  }
+  if (map.getSource('feats')) {
+    map.removeSource('feats');
+  }
+  showFeature()
+}
+
+function buildOverpassApiUrlFeat() {
+
+  var nodeQuery = '';
+  var wayQuery = '';
+  var relationQuery = '';
+
+  wayQuery += 'way[building](' + searchBbox + ');'
+
+  wayQuery += 'way[highway](' + searchBbox + ');'
+
+  //wayQuery += 'node[entrance](' + searchBbox + ');'
+
+
+
+      
+
+
+  //var nodeQuery = 'node[' + overpassQuery + '](' + searchBbox + ');';
+  //var nodeQuery = 'node[tourism=attraction](' + searchBbox + ');node[natural=peak](' + searchBbox + ');';
+  //var wayQuery = 'way[' + overpassQuery + '](' + searchBbox + ');';
+  //var relationQuery = 'relation[' + overpassQuery + '](' + searchBbox + ');';
+  var query = '?data=[out:json][timeout:15];(' + nodeQuery + wayQuery + relationQuery + ');out body geom;';
+  var baseUrl = 'https://z.overpass-api.de/api/interpreter';
+  var resultUrl = baseUrl + query;
+  return resultUrl;
+}
+
+
+function showFeature(type,feature,shape){
+
+  //var queryFeatures = type + '=' + feature;
+  //var queryFeatures = 'tourism=attraction;natural=peak';
+  var overpassApiUrlFeat = buildOverpassApiUrlFeat();
+  $.get(overpassApiUrlFeat, function (osmDataAsJson) {
+    var resultAsGeojson = osmtogeojson(osmDataAsJson);
+    console.log(resultAsGeojson);
+
+
+    var outlines = {
+      "type":"FeatureCollection",
+      "features":[]
+    };
+
+    var outlinesPoly = {
+      "type":"FeatureCollection",
+      "features":[]
+    }
+
+    
+
+
+
+    resultAsGeojson.features.forEach(function(result) {
+      if (result.properties.tags.entrance === 'yes') {
+        var bufferedDoor = turf.buffer(result, 0.0003, {units: 'kilometers'});
+        doors.features.push(bufferedDoor);
+      }
+      
+      if (result.properties.tags.building === 'yes' || result.properties.tags.building === 'parking' || result.properties.tags.building === 'commercial' || result.properties.tags.building === 'office' || result.properties.tags.building === 'apartments') {
+        
+        osmBuildings.features.push(result);
+        console.log(osmBuildings)
+      }
+      
+
+
+
+      if(result.geometry.type == 'LineString') {
+        if (result.properties.tags.highway == 'motorway') {
+          result.properties.roadcolour = '#CF2081';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'primary') {
+          result.properties.roadcolour = '#F99906';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'secondary') {
+          result.properties.roadcolour = '#F3F313';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'tertiary') {
+          result.properties.roadcolour = '#FFF9B3';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'residential') {
+          result.properties.roadcolour = '#ffffff';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'pedestrian') {
+          result.properties.roadcolour = '#ffffff';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'unclassified') {
+          result.properties.roadcolour = '#ffffff';
+          osmLines.features.push(result);
+        }
+
+
+      }
+    });
+
+    console.log(osmLines)
+    renderOsm()
+
+  });   
+}
+
+
+
+function renderOsm() {
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+
+
+  osmLines.features.forEach(function(road,index) {
+
+    var material = new THREE.LineBasicMaterial({
+      color: 0xCCCCCC,
+      linewidth: 5
+    });
+
+    var points = [];
+
+    osmLines.features[index].geometry.coordinates.forEach(function(turn,index) {
+      let latitude = turn[1];
+      let longitude = turn[0];
+
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (longitude - centerLng) * 10000;
+      var offsetY = (latitude - centerLat) * 10000;
+
+      //addTurn(offsetX,offsetY,bearing);
+
+
+      points.push( new THREE.Vector3( offsetY,0,offsetX ) );
+
+
+
+    })
+
+
+
+    var geometry = new THREE.BufferGeometry().setFromPoints( points );
+
+    var line = new THREE.Line( geometry, material );
+    scene.add( line );
+    
+  });
+
+
+
+
+  
+
+  osmBuildings.features.forEach(function(building,index) {
+
+    var building = new THREE.Shape();
+
+    var buildingPoints = [];
+
+    osmBuildings.features[index].geometry.coordinates[0].forEach(function(turn,index) {
+      let latitude = turn[1];
+      let longitude = turn[0];
+
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (longitude - centerLng) * 10000;
+      var offsetY = (latitude - centerLat) * 10000;
+
+      //addTurn(offsetX,offsetY,bearing);
+
+
+      buildingPoints.push( new THREE.Vector3( offsetY,offsetX ) );
+
+
+
+    })
+
+
+    var shape = new THREE.Shape( buildingPoints );
+
+
+    var extrudeSettings = { amount: 1, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+    console.log(buildingPoints)
+    var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+
+    var material2 = new THREE.MeshLambertMaterial( { color: 0xff8000, wireframe: false } );
+    var mesh = new THREE.Mesh( geometry, material2 );
+
+    mesh.position.set( 0, 1, 0 );
+    mesh.rotation.set(1.56,0,0);
+
+    scene.add( mesh );
+    
+    
+  });
+  
+
+}
+
 
 
 function renderPlaces(route,actualRoute,center) {
@@ -421,7 +725,13 @@ function renderPlaces(route,actualRoute,center) {
     var offsetY = (latitude - centerLat) * 10000;
 
     addPathPoint(offsetX,offsetY);
+
+    if (i === 0) {
+      //camera.position.set(offsetX, 1, offsetY);
+    }
+
   };
+
 
 
 
@@ -489,7 +799,33 @@ function renderPlaces(route,actualRoute,center) {
 
 
 
-    if (index < route.features[0].geometry.coordinates.length - 1) {
+    if (index === 0) {
+      var thisCoords = route.features[0].geometry.coordinates[index];
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (thisCoords[0] - centerLng) * 10000;
+      var offsetY = (thisCoords[1] - centerLat) * 10000;
+
+      addMarker(offsetX,offsetY);
+    }
+
+    if (index === route.features[0].geometry.coordinates.length - 1) {
+      var thisCoords = route.features[0].geometry.coordinates[index];
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (thisCoords[0] - centerLng) * 10000;
+      var offsetY = (thisCoords[1] - centerLat) * 10000;
+
+      addMarker(offsetX,offsetY);
+    }
+
+    if (index > 0 && index < route.features[0].geometry.coordinates.length - 1) {
       var thisCoords = route.features[0].geometry.coordinates[index];
       var thisPoint = turf.point(thisCoords);
 
@@ -528,9 +864,9 @@ function renderPlaces(route,actualRoute,center) {
     gltfLoader.load(url, (gltf) => {
       const root = gltf.scene;
 
-      root.position.set(offsetY,0,offsetX);
-      root.scale.set(0.1,0.1,0.1);
-      root.rotation.set(0,0,0);
+      root.position.set(offsetY,0.3,offsetX);
+      root.scale.set(0.04,0.04,0.04);
+      root.rotation.set(0,bearing,0);
       scene.add(root);
 
     });
@@ -552,12 +888,26 @@ function renderPlaces(route,actualRoute,center) {
 
   function addActualPathPoint(offsetX,offsetY) {
     const gltfLoader = new GLTFLoader();
-    const url = 'https://sjmarshalluk.github.io/ar-tester/path.gltf';
+    const url = 'https://sjmarshalluk.github.io/model-maker/actual-path.gltf';
     gltfLoader.load(url, (gltf) => {
       const root = gltf.scene;
 
       root.position.set(offsetY,0,offsetX);
       root.scale.set(0.1,0.1,0.1);
+      root.rotation.set(0,0,0);
+      scene.add(root);
+
+    });
+  }
+
+  function addMarker(offsetX,offsetY) {
+    const gltfLoader = new GLTFLoader();
+    const url = 'https://sjmarshalluk.github.io/ar-tester/path.gltf';
+    gltfLoader.load(url, (gltf) => {
+      const root = gltf.scene;
+
+      root.position.set(offsetY,0,offsetX);
+      root.scale.set(0.3,0.1,0.3);
       root.rotation.set(0,0,0);
       scene.add(root);
 
