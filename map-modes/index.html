@@ -17,14 +17,14 @@
 	#map-wrap { 
     position: absolute; top: 30px; bottom: 0; width: 100%; height: 800px; z-index: 10; transition: 0.5s;
 
-    perspective: 0;
+    perspective: 450px;
   }
   #path-wrapOLDOLD { position: absolute; top: 30px; bottom: 0; width: 100%; height: 100%; z-index: 10; transition: 0.5s;  }
   #path-wrap.hidden { display: none }
   #map-wrap.hidden { display: none }
   #map { width: 100%; height: 100%; 
   transform-style: preserve-3d;
-  transform: rotateX(88deg);}
+  transform: rotateX(45deg);}
 	.mapboxgl-popup {
 max-width: 400px;
 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -442,9 +442,9 @@ function handleOrientationPath(event) {
   var NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin;
   */
 
-  var perspective = (event.beta / 10) + 150;
+  var perspective = event.beta * 10;
 
-  document.getElementById('map-wrap').style.perspective = perspective;
+  document.getElementById('map-wrap').style.perspective = perspective + "px";
     
   
 }
