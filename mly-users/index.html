@@ -87,7 +87,14 @@
 
 <div id="panel-wrap">
 
-  
+  <div style="margin-bottom: 30px;">
+
+    <div class="form-group">
+      <input type="text" id="user-input" size="20" name="fname" placeholder="Username">
+    </div>
+    <button class="btn btn-dark" id="get-user" onclick="getUser()">Get user</button>
+
+  </div>
     
     <div class="form-group">
       <select id="country-select" class="form-control">
@@ -103,7 +110,7 @@
     </div>
 
 
-    <button class="btn btn-dark" id="get-stats" onclick="getUser()">Go</button>
+    <button class="btn btn-dark" id="get-stats" onclick="getTopUsers()">Get top contributors</button>
 
     <div id="user-btns" style="padding-top: 30px;"></div>
 
@@ -183,8 +190,30 @@
 
 
 
-
     function getUser() {
+
+      var username = document.getElementById("user-input").value;
+
+      //var userLink = "https://a.mapillary.com/v3/users?bbox=12.8873,55.4913,13.1561,55.6586&per_page=3&client_id=" + clientId;
+
+      var userLink = "https://a.mapillary.com/v3/users?usernames=" + username + "&client_id=" + clientId;
+
+      $.getJSON(userLink)
+        .done(function(data){
+        console.log(data)
+
+        getUserInfo(data[0].username,data[0].created_at,data[0].key);
+
+        
+
+      });
+
+
+    }
+
+
+
+      function getTopUsers() {
         var countrySelect = document.getElementById("country-select");
         var country = countrySelect.options[countrySelect.selectedIndex].value;
         var periodSelect = document.getElementById("period-select");
