@@ -24,7 +24,7 @@
   #map-wrap.hidden { display: none }
   #map { width: 100%; height: 100%; 
   transform-style: preserve-3d;
-  transform: rotateX(45deg);}
+  transform: rotateX(45deg);
 	.mapboxgl-popup {
 max-width: 400px;
 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -270,6 +270,11 @@ box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
 <body>
 	<a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 9999">Start the demo!</a>
 
+
+  <button id="static">Static</button>
+  <button id="world">World-locked</button>
+
+
   <div class="map-overlay top" style="display: none;">
 <div class="map-overlay-inner">
 <fieldset style="display: none;">
@@ -442,24 +447,26 @@ function handleOrientationPath(event) {
   var NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin;
   */
 
-  var perspective = event.beta * 10;
+  if (event.beta > 0 && event.beta < 90) {
+    var perspective = event.beta * 10;
 
-  document.getElementById('map-wrap').style.perspective = perspective + "px";
+    document.getElementById('map-wrap').style.perspective = perspective + "px";
     
-  
+  }
 }
 
 
 function handleOrientation(event) {
 
+  if (event.beta > 0 && event.beta < 90) {
+    //var perspective = event.beta + 100;
+    //document.getElementById('map-wrap').style.perspective = perspective;
 
-  //var perspective = event.beta + 100;
-  //document.getElementById('map-wrap').style.perspective = perspective;
-
-  document.getElementById('map').style.transform = "rotateX(" + event.beta + "deg)";
+    document.getElementById('map').style.transform = "rotateX(" + event.beta + "deg)";
 
 
-	map.setPitch(event.beta);
+  	map.setPitch(event.beta);
+  }
 
 
   
