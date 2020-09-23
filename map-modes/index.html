@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Extrude polygons for 3D indoor mapping</title>
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="mapbox-ar-renamed.js"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+  <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+<style>
+	body { margin: 0; padding: 0; font-family: sans-serif; }
+	#map-wrap { position: absolute; top: 30px; bottom: 0; width: 100%; height: 100%; z-index: 10; transition: 0.5s; background-color: rgba(255,255,255,0.7);}
+  #path-wrapOLDOLD { position: absolute; top: 30px; bottom: 0; width: 100%; height: 100%; z-index: 10; transition: 0.5s;  }
+  #path-wrap.hidden { display: none }
+  #map-wrap.hidden { display: none }
+  #map { width: 100%; height: 100%; }
+	.mapboxgl-popup {
+max-width: 400px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+
+}
+
+
+#ar-map { position: absolute; top: 0; width: 100%; height: 100%; z-index: 0; transition: 0.5s; display: none}
+#ar-map .mapboxgl-canvas { width: 100%!important; height: 100%!important; }
+
+
+.map-overlay {
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+position: absolute;
+width: 200px;
+top: 0;
+right: 0;
+padding: 10px;
+z-index: 1000;
+}
+ 
+.map-overlay .map-overlay-inner {
+background-color: #fff;
+box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+border-radius: 3px;
+padding: 10px;
+margin-bottom: 10px;
+}
+ 
+.map-overlay-inner fieldset {
+border: none;
+padding: 0;
+margin: 0 0 10px;
+}
+ 
+.map-overlay-inner fieldset:last-child {
+margin: 0;
+}
+ 
+.map-overlay-inner select {
+width: 100%;
+}
+ 
+.map-overlay-inner label {
+display: block;
+font-weight: bold;
+margin: 0 0 5px;
+}
+ 
+.map-overlay-inner button {
+display: inline-block;
+width: 36px;
+height: 20px;
+border: none;
+cursor: pointer;
+}
+ 
+.map-overlay-inner button:focus {
+outline: none;
+}
+ 
+.map-overlay-inner button:hover {
+box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+
+#map-wrap.small {
+  width: 675px;
+  height: 300px;
+  border-radius: 875px 875px 0 0;
+  top: calc(100% - 300px);
+  bottom: 0;
+  left: -150px;
+}
+
+#path-wrapOLD {
+  width: 675px;
+  height: 300px;
+  border-radius: 875px 875px 0 0;
+  top: calc(100% - 300px);
+  bottom: 0;
+  left: -150px;
+  background-color: rgba(40,100,18,0.5);
+}
+
+
+
+
+
+#directions-wrap {
+  width: 100%;
+  height: 300px;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  perspective: 1000px;
+  display: none;
+}
+#directions {
+  width: 200px;
+  height: 100px;
+  bottom: 0;
+    padding: 80px;
+    position: absolute;
+    text-align: center;
+    font-size: 40px;
+    color: #fff;
+  transform-style: preserve-3d;
+  transform: rotateX(45deg);
+
+  /*
+  padding: 80px;
+  font-size: 40px;
+  color: #fff;
+  text-align: center;
+  padding: 50px;
+  position: absolute;
+  border: 1px solid black;
+  background-color: red;
+  background: rgba(100,100,100,0.5); 
+  transform-style: preserve-3d;
+  transform: rotateX(45deg);
+  */
+}
+
+
+
+
+
+
+
+
+
+
+
+#path-wrap {
+  width: 675px;
+  height: 100%;
+  border-radius: 875px 875px 0 0;
+  top: 0;
+  bottom: 0;
+  left: -150px;
+  background-color: rgba(40,100,18,0);
+  padding-left: 60px;
+  position: absolute;
+  perspective: 1000px;
+}
+#path {
+  width: 675px;
+  height: 200px;
+  border-radius: 875px 875px 0 0;
+  bottom: 0;
+  left: -75px;
+    padding: 80px;
+    position: absolute;
+    text-align: center;
+    font-size: 40px;
+    color: #fff;
+  background-color: rgba(40,100,18,0.5);
+  transition: 0.3s;
+  transform-style: preserve-3d;
+  transform: rotateX(45deg);
+
+  /*
+  padding: 80px;
+  font-size: 40px;
+  color: #fff;
+  text-align: center;
+  padding: 50px;
+  position: absolute;
+  border: 1px solid black;
+  background-color: red;
+  background: rgba(100,100,100,0.5); 
+  transform-style: preserve-3d;
+  transform: rotateX(45deg);
+  */
+}
+
+
+#path-wrap.big {
+  width: 675px;
+  height: 100%;
+  border-radius: 875px 875px 0 0;
+  top: 0;
+  bottom: 0;
+  left: -150px;
+  background-color: rgba(40,100,18,0);
+  padding-left: 60px;
+  position: absolute;
+  perspective: 150px;
+}
+
+#path-wrap.big #path {
+  padding: 0;
+  width: 150px;
+  font-size: 40px;
+  color: #fff;
+  text-align: center;
+  /* padding: 50px; */
+  position: absolute;
+  background-color: rgba(40,100,18,0.5);
+  transform-style: preserve-3d;
+  transform: rotateX(45deg);
+  left: 280px;
+  height: 800px;
+  bottom: 0;
+}
+
+
+
+#angle {
+
+}
+
+
+#mode-btn-wrap {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 60px;
+  height: 60px;
+  z-index: 9000
+}
+
+#mode-btn-wrap button {
+  width: 100%;
+  height: 100%;
+  border-radius: 60px;
+  background-color: #fff;
+}
+
+#video {
+  z-index: -1;
+  left: 0;
+  bottom: 0px;
+  position: fixed;
+  opacity: 1;
+  min-width: 100%;
+  min-height: 100%;
+}
+</style>
+</head>
+<body>
+  <div id="ar-map"></div>
+	<a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 9999">Start the demo</a>
+
+  <div class="map-overlay top" style="display: none;">
+<div class="map-overlay-inner">
+<fieldset style="display: none;">
+<label>Select layer</label>
+<select id="layer" name="layer">
+<option value="water">Water</option>
+<option value="building">Buildings</option>
+</select>
+</fieldset>
+<fieldset>
+<div id="swatches" ></div>
+</fieldset>
+</div>
+</div>
+
+
+  <div id="mode-btn-wrap"></div>
+
+
+
+
+  <div id="map-wrap" class="small">
+	 <div id="map"></div>
+  </div>
+
+  <div id="path-wrap" class="hidden">
+   <div id="path"></div>
+  </div>
+
+
+  <div id="directions-wrap" class="hidden">
+   <div id="directions">25m<br/>Turn Right</div>
+  </div>
+
+  <video id="video" autoplay playsinline></video>
+	
+  </body>
+
+	
+<script>
+
+
+
+
+var route = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.9404683113098143,
+            51.00570473448831
+          ],
+          [
+            -0.9403663873672484,
+            51.006076040482725
+          ],
+          [
+            -0.94032883644104,
+            51.00607941597813
+          ],
+          [
+            -0.938381552696228,
+            51.00512414097645
+          ],
+          [
+            -0.938435196876526,
+            51.00486084617501
+          ]
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+const video = document.getElementById('video');
+const videoConstraints = {
+    facingMode: 'environment'
+  };
+  const constraints = {
+    video: videoConstraints,
+    audio: false
+  };
+
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(stream => {
+      video.srcObject = stream;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
+
+
+  mapboxglar.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+var arMap = new mapboxglar.Map({
+container: 'ar-map',
+style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
+center: [-0.93875203281641,51.005568447565174],
+zoom: 18,
+pitch: 70,
+bearing: 20,
+antialias: true
+});
+
+
+
+
+	mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
+center: [-0.93875203281641,51.005568447565174],
+zoom: 18,
+pitch: 70,
+bearing: 20,
+antialias: true
+});
+
+
+video.addEventListener('click', function() {
+  document.getElementById('map-wrap').classList.remove('small');
+  setTimeout(function() {
+      map.resize();
+    },500);
+  video.style.opacity = 0;
+
+  var modeBtnWrap = document.getElementById('mode-btn-wrap');
+  modeBtnWrap.innerHTML = '';
+  var exitMapBtn = modeBtnWrap.appendChild(document.createElement('button'));
+  exitMapBtn.innerHTML = 'x';
+  exitMapBtn.addEventListener('click', function() {
+    document.getElementById('map-wrap').classList.add('small');
+    setTimeout(function() {
+      map.resize();
+    },500);
+    video.style.opacity = 1;
+    switchToPathBtn();
+  });
+  
+})
+
+
+switchToPathBtn();
+
+
+
+function switchToPathBtn () {
+  var modeBtnWrap = document.getElementById('mode-btn-wrap');
+  modeBtnWrap.innerHTML = '';
+  var modePthBtn = modeBtnWrap.appendChild(document.createElement('button'));
+  modePthBtn.innerHTML = '>';
+  //modePthBtn.removeEventListener('click', switchToDoll);
+  modePthBtn.addEventListener('click', switchToPath);
+}
+
+
+function switchToDollBtn () {
+  var modeBtnWrap = document.getElementById('mode-btn-wrap');
+  modeBtnWrap.innerHTML = '';
+  var modeDollBtn = modeBtnWrap.appendChild(document.createElement('button'));
+  modeDollBtn.innerHTML = '<';
+  //modeDollBtn.removeEventListener('click', switchToPath);
+  modeDollBtn.addEventListener('click', switchToDoll);
+}
+
+
+function switchToPath() {
+  document.getElementById('map-wrap').classList.add('hidden');
+  //document.getElementById('path-wrap').classList.remove('hidden');
+  document.getElementById('path').innerHTML = '25m';
+  switchToDollBtn();
+
+  document.getElementById('directions-wrap').style.display = 'block';
+
+  document.getElementById('ar-map').style.display = 'block';
+
+  var pathWrap = document.getElementById('path-wrap')
+  pathWrap.addEventListener('click', function() {
+    //pathWrap.classList.add('big');
+    document.getElementById('ar-map').style.display = 'block';
+    //video.style.opacity = 0;
+
+    var modeBtnWrap = document.getElementById('mode-btn-wrap');
+    modeBtnWrap.innerHTML = '';
+    var exitPathBtn = modeBtnWrap.appendChild(document.createElement('button'));
+    exitPathBtn.innerHTML = 'x';
+    exitPathBtn.addEventListener('click', function() {
+      document.getElementById('ar-map').style.display = 'none';
+      document.getElementById('directions-wrap').style.display = 'none';
+      //pathWrap.classList.remove('big');
+      switchToDollBtn();
+    });
+  })
+}
+
+function switchToDoll() {
+  document.getElementById('path-wrap').classList.add('hidden');
+  document.getElementById('map-wrap').classList.remove('hidden');
+  document.getElementById('path').innerHTML = '';
+  switchToPathBtn();
+}
+
+
+
+
+
+
+var flat = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Lounge",
+        "height": 5,
+        "base_height": 0,
+        "color": "grey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.9388552978634833,
+              51.00548405917675
+            ],
+            [
+              -0.9388405457139014,
+              51.005476464214254
+            ],
+            [
+              -0.938841886818409,
+              51.005469291192995
+            ],
+            [
+              -0.9388251230120658,
+              51.00546275108438
+            ],
+            [
+              -0.9388137236237525,
+              51.00546549371067
+            ],
+            [
+              -0.9388009831309319,
+              51.005459164572834
+            ],
+            [
+              -0.9387704730033875,
+              51.00548384820557
+            ],
+            [
+              -0.9388267993927002,
+              51.005508531825186
+            ],
+            [
+              -0.9388552978634833,
+              51.00548405917675
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Bedroom",
+        "height": 5,
+        "base_height": 0,
+        "color": "grey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.9388023242354393,
+              51.00549798327142
+            ],
+            [
+              -0.9387704730033875,
+              51.00548405917675
+            ],
+            [
+              -0.9387342631816864,
+              51.00551232930397
+            ],
+            [
+              -0.9387684613466262,
+              51.005527941157865
+            ],
+            [
+              -0.9388023242354393,
+              51.00549798327142
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Kitchen / Hall",
+        "height": 5,
+        "base_height": 0,
+        "color": "grey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.9388254582881929,
+              51.00550895376729
+            ],
+            [
+              -0.9388026595115662,
+              51.005497772300295
+            ],
+            [
+              -0.938768796622753,
+              51.00552773018691
+            ],
+            [
+              -0.9387506917119026,
+              51.005520346202594
+            ],
+            [
+              -0.9387178346514703,
+              51.00555367960828
+            ],
+            [
+              -0.9387523680925368,
+              51.005568447565174
+            ],
+            [
+              -0.9387926012277603,
+              51.00553722387934
+            ],
+            [
+              -0.9387815371155739,
+              51.00553237154789
+            ],
+            [
+              -0.9388026595115662,
+              51.0055140170722
+            ],
+            [
+              -0.9388137236237525,
+              51.00551929134756
+            ],
+            [
+              -0.9388254582881929,
+              51.00550895376729
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "level": 1,
+        "name": "Bathroom",
+        "height": 5,
+        "base_height": 0,
+        "color": "grey"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -0.93875203281641,
+              51.005568447565174
+            ],
+            [
+              -0.9387171640992164,
+              51.00555367960828
+            ],
+            [
+              -0.9387017413973807,
+              51.00556697076969
+            ],
+            [
+              -0.938735269010067,
+              51.00558258260522
+            ],
+            [
+              -0.93875203281641,
+              51.005568447565174
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
+
+
+arMap.on('load', function() {
+  var bufferedLine = turf.buffer(route, 0.003, {units: 'kilometers'});
+
+  arMap.addSource('directions', {
+    'type': 'geojson',
+    'data': bufferedLine
+  });
+
+  arMap.addLayer({
+    'id': 'directions',
+    'type': 'fill-extrusion',
+    'source': 'directions',
+    'paint': {
+      'fill-extrusion-color': '#286412',
+      'fill-extrusion-height': 0.2,
+      'fill-extrusion-base': 0,
+      'fill-extrusion-opacity': 0
+    }
+  });
+
+
+
+  getLocation();
+
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+
+      
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }
+
+  function showPosition(position) {
+    arMap.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
+    console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
+
+
+    var point = turf.point([position.coords.longitude, position.coords.latitude]);
+    window.bufferedPoint = turf.buffer(point, 0.002, {units: 'kilometers'});
+
+    arMap.addSource('currentPoint', {
+      'type': 'geojson',
+      'data': bufferedPoint
+    });
+
+    arMap.addLayer({
+      'id': 'currentPoint',
+      'type': 'fill-extrusion',
+      'source': 'currentPoint',
+      'paint': {
+        'fill-extrusion-color': '#286412',
+        'fill-extrusion-height': 0.2,
+        'fill-extrusion-base': 0,
+        'fill-extrusion-opacity': 0.5
+      }
+    });
+
+
+
+  }
+
+
+  arMap.on('click', function(e) {
+
+    arMap.getSource('currentPoint').setData(bufferedLine);
+
+    document.getElementById('directions-wrap').style.display = 'none';
+
+
+    var modeBtnWrap = document.getElementById('mode-btn-wrap');
+    modeBtnWrap.innerHTML = '';
+    var exitPathBtn = modeBtnWrap.appendChild(document.createElement('button'));
+    exitPathBtn.innerHTML = 'x';
+    exitPathBtn.addEventListener('click', function() {
+      arMap.getSource('currentPoint').setData(bufferedPoint);
+      document.getElementById('directions-wrap').style.display = 'block';
+      switchToDollBtn();
+    });
+
+
+    //arMap.setPaintProperty('directions', 'fill-extrusion-opacity', 0.5);
+    //arMap.setPaintProperty('currentPoint', 'fill-extrusion-opacity', 0);
+  });
+
+  arMap.on('click', 'directions', function(e) {
+    arMap.setPaintProperty('directions', 'fill-extrusion-opacity', 0);
+    arMap.setPaintProperty('currentPoint', 'fill-extrusion-opacity', 0.5);
+  });
+
+          
+
+
+});
+
+
+
+
+
+
+
+ 
+map.on('load', function() {
+  var bufferedLine = turf.buffer(route, 0.003, {units: 'kilometers'});
+
+  map.addSource('directions', {
+    'type': 'geojson',
+    'data': bufferedLine
+  });
+
+  map.addLayer({
+    'id': 'directions',
+    'type': 'fill-extrusion',
+    'source': 'directions',
+    'paint': {
+      'fill-extrusion-color': '#2c7fb8',
+      'fill-extrusion-height': 0.4,
+      'fill-extrusion-base': 0.2,
+      'fill-extrusion-opacity': 0.5
+    }
+  });
+
+
+
+
+
+
+  getOsmBbox();
+  getLocation();
+
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+
+      
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }
+
+  function showPosition(position) {
+
+    map.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
+    console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
+
+    var marker = new mapboxglar.Marker()
+      .setLngLat([position.coords.longitude, position.coords.latitude])
+      .addTo(map);
+
+  }
+
+      function getOsmBbox() {
+        var bounds = map.getBounds();
+        window.searchBbox = bounds._sw.lat + ',' + bounds._sw.lng + ',' + bounds._ne.lat + ',' + bounds._ne.lng;
+        queryOsm();
+      }
+        
+
+
+      function queryOsm() {
+        if (map.getLayer('features-point')) {
+          map.removeLayer('features-point');
+        }
+        if (map.getLayer('features-polygon')) {
+          map.removeLayer('features-polygon');
+        }
+        if (map.getLayer('features-line')) {
+          map.removeLayer('features-line');
+        }
+        if (map.getSource('feats')) {
+          map.removeSource('feats');
+        }
+        showFeature()
+      }
+
+        function buildOverpassApiUrlFeat() {
+
+          var nodeQuery = '';
+          var wayQuery = '';
+          var relationQuery = '';
+
+          wayQuery += 'way[building](' + searchBbox + ');'
+
+          wayQuery += 'node[entrance](' + searchBbox + ');'
+
+
+
+          //var nodeQuery = 'node[' + overpassQuery + '](' + searchBbox + ');';
+          //var nodeQuery = 'node[tourism=attraction](' + searchBbox + ');node[natural=peak](' + searchBbox + ');';
+          //var wayQuery = 'way[' + overpassQuery + '](' + searchBbox + ');';
+          //var relationQuery = 'relation[' + overpassQuery + '](' + searchBbox + ');';
+          var query = '?data=[out:json][timeout:15];(' + nodeQuery + wayQuery + relationQuery + ');out body geom;';
+          var baseUrl = 'https://z.overpass-api.de/api/interpreter';
+          var resultUrl = baseUrl + query;
+          return resultUrl;
+        }
+
+        
+
+        /*
+        function addShowFunction(type,feature) {
+          var button = document.getElementById('show_' + feature);
+          button.addEventListener('click', function() {
+            showFeature(type,feature)
+          })
+        }
+        */
+
+
+
+        function showFeature(type,feature,shape){
+
+          //var queryFeatures = type + '=' + feature;
+          //var queryFeatures = 'tourism=attraction;natural=peak';
+          var overpassApiUrlFeat = buildOverpassApiUrlFeat();
+          $.get(overpassApiUrlFeat, function (osmDataAsJson) {
+            var resultAsGeojson = osmtogeojson(osmDataAsJson);
+            console.log(resultAsGeojson);
+
+
+            var outlines = {
+              "type":"FeatureCollection",
+              "features":[]
+            };
+
+            var outlinesPoly = {
+              "type":"FeatureCollection",
+              "features":[]
+            }
+
+            var doors = {
+              "type":"FeatureCollection",
+              "features":[]
+            }
+
+            resultAsGeojson.features.forEach(function(result) {
+              if (result.properties.tags.entrance === 'yes') {
+                var bufferedDoor = turf.buffer(result, 0.0003, {units: 'kilometers'});
+                doors.features.push(bufferedDoor);
+              }
+              if (result.properties.tags.building === 'yes') {
+                if (result.properties.tags['building:levels'] === '2') {
+                  result.properties.floor = 2;
+                }
+                if (result.properties.tags['building:levels'] === '3') {
+                  result.properties.floor = 3;
+                }
+                var line = turf.polygonToLine(result);
+                outlines.features.push(line);
+                var bufferedLine = turf.buffer(line, 0.0001, {units: 'kilometers'});
+                outlinesPoly.features.push(bufferedLine);
+
+              }
+            });
+
+
+
+
+            
+
+
+
+            paintOsm(resultAsGeojson,outlines,outlinesPoly,doors);
+
+
+          });   
+        }
+
+
+      function paintOsm(resultAsGeojson,outlines,outlinesPoly,doors) {
+        if (map.getLayer('osmline-layer')) {
+          map.removeLayer('osmline-layer');
+        }
+        if (map.getLayer('trunk-layer')) {
+          map.removeLayer('trunk-layer');
+        }
+        if (map.getSource('osmline')) {
+          map.removeSource('osmline');
+        }
+
+
+        map.addSource('buildings', {
+          'type': 'geojson',
+          'data': resultAsGeojson
+        });
+        map.addLayer({
+          'id': 'buildings',
+          'type': 'fill-extrusion',
+          'source': 'buildings',
+          'paint': {
+            'fill-extrusion-color': 'grey',
+            'fill-extrusion-height': 5,
+            'fill-extrusion-base': 0,
+            'fill-extrusion-opacity': 0.4
+          }
+        });
+
+
+
+        map.addSource('walls', {
+          'type': 'geojson',
+          'data': outlinesPoly
+        });
+        map.addLayer({
+          'id': 'floor-zero',
+          'type': 'fill-extrusion',
+          'source': 'walls',
+          'paint': {
+            'fill-extrusion-color': '#2c7fb8',
+            'fill-extrusion-height': 5,
+            'fill-extrusion-base': 0,
+            'fill-extrusion-opacity': 0.5
+          }
+        });
+
+        map.addLayer({
+          'id': 'floor-one',
+          'type': 'fill-extrusion',
+          'source': 'walls',
+          'paint': {
+            'fill-extrusion-color': '#2c7fb8',
+            'fill-extrusion-height': 15,
+            'fill-extrusion-base': 10,
+            'fill-extrusion-opacity': 0.5
+          },
+          'filter': ['>=', 'floor', 2]
+        });
+
+        map.addLayer({
+          'id': 'floor-two',
+          'type': 'fill-extrusion',
+          'source': 'walls',
+          'paint': {
+            'fill-extrusion-color': '#2c7fb8',
+            'fill-extrusion-height': 25,
+            'fill-extrusion-base': 20,
+            'fill-extrusion-opacity': 0.5
+          },
+          'filter': ['>=', 'floor', 3]
+        });
+
+
+var swatches = document.getElementById('swatches');
+var colors = [
+'#ffffcc',
+'#a1dab4',
+'#41b6c4',
+'#2c7fb8',
+'#253494',
+'#fed976',
+'#feb24c',
+'#fd8d3c',
+'#f03b20',
+'#bd0026'
+];
+var heights = [
+'0',
+'10',
+'20',
+'30'
+];
+var floors = [
+'Building',
+'0',
+'1',
+'2'
+];
+        /*
+        colors.forEach(function(color) {
+          var swatch = document.createElement('button');
+          swatch.style.backgroundColor = color;
+          swatch.addEventListener('click', function() {
+            map.setPaintProperty('floor-one', 'fill-extrusion-color', color);
+          });
+          swatches.appendChild(swatch);
+        });
+        
+
+        heights.forEach(function(height) {
+          var swatch = document.createElement('button');
+          swatch.innerHTML = height;
+          var extHeight = parseInt(height) + 5;
+          var extBase = parseInt(height);
+          swatch.addEventListener('click', function() {
+            map.setPaintProperty('floor-one', 'fill-extrusion-height', extHeight);
+            map.setPaintProperty('floor-one', 'fill-extrusion-base', extBase);
+          });
+          swatches.appendChild(swatch);
+        });
+        */
+
+        floors.forEach(function(floor) {
+          var swatch = document.createElement('button');
+          swatch.innerHTML = floor;
+          swatch.addEventListener('click', function() {
+            if (floor === 'Building') {
+              building();
+            }
+            if (floor === '0') {
+              floorZero();
+            }
+            if (floor === '1') {
+              floorOne();
+            }
+            if (floor === '2') {
+              floorTwo()
+              
+            }
+            
+          });
+          swatches.appendChild(swatch);
+        });
+
+        map.on('click', function(e) {
+          building();
+        });
+
+        map.on('click', 'buildings', function(e) {
+          floorZero();
+        });
+        map.on('click', 'floor-zero', function(e) {
+          floorZero();
+        });
+        map.on('click', 'floor-one', function(e) {
+          floorOne();
+        });
+        map.on('click', 'floor-two', function(e) {
+          floorTwo();
+        });
+
+        //building();
+
+        function building() {
+
+          map.setPaintProperty('buildings', 'fill-extrusion-height', 10);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-opacity', 0);
+          map.setPaintProperty('floor-one', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-one', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-one', 'fill-extrusion-opacity', 0);
+          map.setPaintProperty('floor-two', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-two', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-two', 'fill-extrusion-opacity', 0);
+
+          if (map.getLayer('footprint')) {
+            map.removeLayer('footprint');
+          }
+        }
+
+
+        function floorZero() {
+
+          map.setPaintProperty('buildings', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-height', 5);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-opacity', 1);
+          map.setPaintProperty('floor-one', 'fill-extrusion-height', 35);
+          map.setPaintProperty('floor-one', 'fill-extrusion-base', 30);
+          map.setPaintProperty('floor-one', 'fill-extrusion-opacity', 0.2);
+          map.setPaintProperty('floor-two', 'fill-extrusion-height', 45);
+          map.setPaintProperty('floor-two', 'fill-extrusion-base', 40);
+          map.setPaintProperty('floor-two', 'fill-extrusion-opacity', 0.2);
+
+          if (map.getLayer('footprint')) {
+            map.removeLayer('footprint');
+          }
+          map.addLayer({
+            'id': 'footprint',
+            'type': 'fill-extrusion',
+            'source': 'buildings',
+            'paint': {
+              'fill-extrusion-color': 'grey',
+              'fill-extrusion-height': 0,
+              'fill-extrusion-base': 0,
+              'fill-extrusion-opacity': 1
+            }
+          });
+        }
+
+        function floorOne() {
+
+          map.setPaintProperty('buildings', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-height', 2);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-opacity', 0.2);
+          map.setPaintProperty('floor-one', 'fill-extrusion-height', 15);
+          map.setPaintProperty('floor-one', 'fill-extrusion-base', 10);
+          map.setPaintProperty('floor-one', 'fill-extrusion-opacity', 1);
+          map.setPaintProperty('floor-two', 'fill-extrusion-height', 35);
+          map.setPaintProperty('floor-two', 'fill-extrusion-base', 30);
+          map.setPaintProperty('floor-two', 'fill-extrusion-opacity', 0.2);
+
+          if (map.getLayer('footprint')) {
+            map.removeLayer('footprint');
+          }
+          map.addLayer({
+            'id': 'footprint',
+            'type': 'fill-extrusion',
+            'source': 'buildings',
+            'paint': {
+              'fill-extrusion-color': 'grey',
+              'fill-extrusion-height': 10,
+              'fill-extrusion-base': 10,
+              'fill-extrusion-opacity': 1
+            },
+            'filter': ['>=', 'floor', 2]
+          });
+        }
+
+        function floorTwo() {
+          map.setPaintProperty('buildings', 'fill-extrusion-height', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-height', 2);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-base', 0);
+          map.setPaintProperty('floor-zero', 'fill-extrusion-opacity', 0.1);
+          map.setPaintProperty('floor-one', 'fill-extrusion-height', 7);
+          map.setPaintProperty('floor-one', 'fill-extrusion-base', 5);
+          map.setPaintProperty('floor-one', 'fill-extrusion-opacity', 0.2);
+          map.setPaintProperty('floor-two', 'fill-extrusion-height', 17);
+          map.setPaintProperty('floor-two', 'fill-extrusion-base', 12);
+          map.setPaintProperty('floor-two', 'fill-extrusion-opacity', 1);
+
+          if (map.getLayer('footprint')) {
+            map.removeLayer('footprint');
+          }
+          map.addLayer({
+            'id': 'footprint',
+            'type': 'fill-extrusion',
+            'source': 'buildings',
+            'paint': {
+              'fill-extrusion-color': 'grey',
+              'fill-extrusion-height': 12,
+              'fill-extrusion-base': 12,
+              'fill-extrusion-opacity': 1
+            },
+            'filter': ['>=', 'floor', 3]
+          });
+        }
+
+        /*
+        outlinesPoly.features.forEach(function(feature) {
+
+          console.log(feature.properties.tags['building:levels']);
+
+          if (feature.properties.tags['building:levels'] === '2') {
+            console.log('hi');
+            map.addLayer({
+              'id': 'walls',
+              'type': 'fill-extrusion',
+              'source': 'walls',
+              'paint': {
+                'fill-extrusion-color': 'red',
+                'fill-extrusion-height': 5,
+                'fill-extrusion-base': 10,
+                'fill-extrusion-opacity': 0.5
+              }
+            });
+          }
+
+        });
+        */
+
+
+
+        var doorWays = {
+          "type":"FeatureCollection",
+          "features":[]
+        };
+
+        doors.features.forEach(function(door) {
+
+          //var snapped = turf.nearestPointOnLine(outlines, door, {units: 'miles'});
+          //doorWays.features.push(snapped);
+
+          var intersects = turf.lineIntersect(outlines, door);
+          doorWays.features.push(intersects);
+        });
+
+        console.log(doorWays);
+
+
+        map.addSource('doors', {
+          'type': 'geojson',
+          'data': doorWays
+        });
+        map.addLayer({
+          'id': 'doors',
+          'type': 'fill-extrusion',
+          'source': 'doors',
+          'paint': {
+            'fill-extrusion-color': 'white',
+            'fill-extrusion-height': 3,
+            'fill-extrusion-base': 0,
+            'fill-extrusion-opacity': 1
+          }
+        });
+
+
+
+
+
+        map.addSource('osmline', {
+            "type": "geojson",
+            "data": outlines
+        });
+        map.addLayer({
+            "id": "trunk-layer",
+            "type": "line",
+            "source": "osmline",
+            "paint": {
+              //"line-color": "#F3F139",
+              "line-opacity": 0,
+              "line-width": 10,
+               "line-color": '#71433E'
+            },
+            "layout": {
+              'line-cap': 'round',
+              'line-join': 'round'
+            }
+        });
+        
+      }
+
+
+
+/*
+
+	//$.getJSON(link)
+    //.done(function(data){
+		map.addSource('floorplan', {
+  		'type': 'geojson',
+  		'data': flat
+		});
+		map.addLayer({
+  		'id': 'room-extrusion',
+  		'type': 'fill-extrusion',
+  		'source': 'floorplan',
+  		'paint': {
+    		'fill-extrusion-color': ['get', 'color'],
+    		'fill-extrusion-height': ['get', 'height'],
+    		'fill-extrusion-base': ['get', 'base_height'],
+    		'fill-extrusion-opacity': 0.5
+		  }
+		});
+    */
+
+		map.on('click', 'room-extrusion', function(e) {
+new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML(e.features[0].properties.name)
+.addTo(map);
+});
+ 
+// Change the cursor to a pointer when the mouse is over the states layer.
+map.on('mouseenter', 'states-layer', function() {
+map.getCanvas().style.cursor = 'pointer';
+});
+ 
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'states-layer', function() {
+map.getCanvas().style.cursor = '';
+});
+	//});
+
+
+function handleOrientationPath(event) {
+
+  /*
+  var OldRange = (90 - 0);
+  var NewRange = (200 - 110);
+  var NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin;
+  */
+
+  var perspective = event.beta + 100;
+
+  document.getElementById('directions-wrap').style.perspective = perspective;
+    
+  
+}
+
+
+function handleOrientation(event) {
+
+
+	map.setPitch(event.beta);
+
+
+  if (event.beta < 88) {
+    arMap.setPitch(event.beta);
+  }
+  
+
+  //var bearing = event.gamma - (event.gamma * 2);
+	//map.setBearing(bearing);
+
+	/*
+    map.lookAt({ tilt: event.beta });
+
+    //var rotation = event.gamma - (event.gamma * 2);
+    map.lookAt({ heading: event.gamma });
+	*/
+
+  if (event.webkitCompassHeading) {
+        absoluteHeading = event.webkitCompassHeading;
+    } else {
+        absoluteHeading = event.alpha;
+    }
+    console.log(absoluteHeading);
+    map.setBearing(absoluteHeading);
+    arMap.setBearing(absoluteHeading);
+
+
+    
+  updateFieldIfNotNull('Orientation_a', event.alpha);
+  updateFieldIfNotNull('Orientation_b', event.beta);
+  updateFieldIfNotNull('Orientation_g', event.gamma);
+    
+  
+}
+
+function manageCompass(event) {
+    
+}
+
+
+let is_running = false;
+let demo_button = document.getElementById("start_demo");
+demo_button.onclick = function(e) {
+  e.preventDefault();
+  demo_button.style.display = 'none';
+  if (
+    DeviceMotionEvent &&
+    typeof DeviceMotionEvent.requestPermission === "function"
+  ) {
+    DeviceMotionEvent.requestPermission();
+  }
+  
+  if (is_running){
+    //window.removeEventListener("devicemotion", handleMotion);
+    window.removeEventListener("deviceorientation", handleOrientation);
+    //window.removeEventListener('deviceorientation', manageCompass);
+    demo_button.innerHTML = "Start demo";
+    demo_button.classList.add('btn-success');
+    demo_button.classList.remove('btn-danger');
+    is_running = false;
+  }else{
+    //window.addEventListener("devicemotion", handleMotion);
+    window.addEventListener("deviceorientation", handleOrientation);
+    window.addEventListener("deviceorientation", handleOrientationPath);
+    //window.addEventListener('deviceorientation', manageCompass);
+    document.getElementById("start_demo").innerHTML = "Stop demo";
+    demo_button.classList.remove('btn-success');
+    demo_button.classList.add('btn-danger');
+    is_running = true;
+  }
+};
+
+});
+
+
+
+
+
+</script>
+ 
+</body>
+</html>
