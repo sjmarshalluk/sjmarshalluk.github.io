@@ -8,7 +8,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-<script src="mapbox-ar-renamed.js"></script>
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
   <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
@@ -371,17 +370,6 @@ const videoConstraints = {
 
 
 
-  mapboxglar.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
-var arMap = new mapboxglar.Map({
-container: 'ar-map',
-style: 'mapbox://styles/sjmarshalluk/ckca96uxl3avm1ile5hkj3va2',
-center: [-0.93875203281641,51.005568447565174],
-zoom: 18,
-pitch: 70,
-bearing: 20,
-antialias: true
-});
-
 
 
 
@@ -678,105 +666,6 @@ var flat = {
     }
   ]
 }
-
-
-arMap.on('load', function() {
-  var bufferedLine = turf.buffer(route, 0.003, {units: 'kilometers'});
-
-  arMap.addSource('directions', {
-    'type': 'geojson',
-    'data': bufferedLine
-  });
-
-  arMap.addLayer({
-    'id': 'directions',
-    'type': 'fill-extrusion',
-    'source': 'directions',
-    'paint': {
-      'fill-extrusion-color': '#286412',
-      'fill-extrusion-height': 0.2,
-      'fill-extrusion-base': 0,
-      'fill-extrusion-opacity': 0
-    }
-  });
-
-
-
-  getLocation();
-
-  function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
-
-      
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-  }
-
-  function showPosition(position) {
-    arMap.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
-    console.log("Latitude: " + position.coords.latitude + " | Longitude: " + position.coords.longitude);
-
-
-    var point = turf.point([position.coords.longitude, position.coords.latitude]);
-    window.bufferedPoint = turf.buffer(point, 0.002, {units: 'kilometers'});
-
-    arMap.addSource('currentPoint', {
-      'type': 'geojson',
-      'data': bufferedPoint
-    });
-
-    arMap.addLayer({
-      'id': 'currentPoint',
-      'type': 'fill-extrusion',
-      'source': 'currentPoint',
-      'paint': {
-        'fill-extrusion-color': '#286412',
-        'fill-extrusion-height': 0.2,
-        'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.5
-      }
-    });
-
-
-
-  }
-
-
-  arMap.on('click', function(e) {
-
-    arMap.getSource('currentPoint').setData(bufferedLine);
-
-    document.getElementById('directions-wrap').style.display = 'none';
-
-
-    var modeBtnWrap = document.getElementById('mode-btn-wrap');
-    modeBtnWrap.innerHTML = '';
-    var exitPathBtn = modeBtnWrap.appendChild(document.createElement('button'));
-    exitPathBtn.innerHTML = 'x';
-    exitPathBtn.addEventListener('click', function() {
-      arMap.getSource('currentPoint').setData(bufferedPoint);
-      document.getElementById('directions-wrap').style.display = 'block';
-      switchToDollBtn();
-    });
-
-
-    //arMap.setPaintProperty('directions', 'fill-extrusion-opacity', 0.5);
-    //arMap.setPaintProperty('currentPoint', 'fill-extrusion-opacity', 0);
-  });
-
-  arMap.on('click', 'directions', function(e) {
-    arMap.setPaintProperty('directions', 'fill-extrusion-opacity', 0);
-    arMap.setPaintProperty('currentPoint', 'fill-extrusion-opacity', 0.5);
-  });
-
-          
-
-
-});
-
-
 
 
 
@@ -1368,9 +1257,6 @@ function handleOrientation(event) {
 	map.setPitch(event.beta);
 
 
-  if (event.beta < 88) {
-    arMap.setPitch(event.beta);
-  }
   
 
   //var bearing = event.gamma - (event.gamma * 2);
@@ -1390,8 +1276,6 @@ function handleOrientation(event) {
     }
     console.log(absoluteHeading);
     map.setBearing(absoluteHeading);
-    arMap.setBearing(absoluteHeading);
-
 
     
   updateFieldIfNotNull('Orientation_a', event.alpha);
