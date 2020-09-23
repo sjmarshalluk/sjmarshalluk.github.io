@@ -15,16 +15,22 @@
 <style>
 	body { margin: 0; padding: 0; font-family: sans-serif; }
 	#map-wrap { 
-    position: absolute; top: 30px; bottom: 0; width: 100%; height: 800px; z-index: 10; transition: 0.5s;
+    position: absolute; bottom: 0; width: 100%; height: 800px; z-index: 10; transition: 0.5s;
 
     perspective: 450px;
   }
+  #map-wrap.static { perspective: 0!important; height: 300px; }
   #path-wrapOLDOLD { position: absolute; top: 30px; bottom: 0; width: 100%; height: 100%; z-index: 10; transition: 0.5s;  }
   #path-wrap.hidden { display: none }
   #map-wrap.hidden { display: none }
   #map { width: 100%; height: 100%; 
   transform-style: preserve-3d;
   transform: rotateX(45deg);
+
+}
+  #map-wrap.static #map {
+  transform: rotateX(0deg)!important;
+  }
 	.mapboxgl-popup {
 max-width: 400px;
 font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -270,11 +276,11 @@ box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
 <body>
 	<a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 9999">Start the demo!</a>
 
+  <div style="float: right;">
+  <button id="static-btn">Static</button>
+  <button id="world-btn" style="opacity: 0.5">World-locked</button>
 
-  <button id="static">Static</button>
-  <button id="world">World-locked</button>
-
-
+</div>
   <div class="map-overlay top" style="display: none;">
 <div class="map-overlay-inner">
 <fieldset style="display: none;">
@@ -315,10 +321,6 @@ box-shadow: inset 0 0 0 3px rgba(0, 0, 0, 0.1);
 
 	
 <script>
-
-
-
-
 
 
 const video = document.getElementById('video');
@@ -362,6 +364,29 @@ antialias: true
 
  
 map.on('load', function() {
+
+  document.getElementById('static-btn').addEventListener('click', function() {
+  document.getElementById('map-wrap').classList.add('static');
+  document.getElementById('static-btn').style.opacity = '0.5';
+  document.getElementById('world-btn').style.opacity = '1';
+  setTimeout(function(){
+    map.resize();
+  },500);
+  
+})
+
+document.getElementById('world-btn').addEventListener('click', function() {
+  document.getElementById('map-wrap').classList.remove('static');
+  document.getElementById('static-btn').style.opacity = '1';
+  document.getElementById('world-btn').style.opacity = '0.5';
+  setTimeout(function(){
+    map.resize();
+  },500);
+})
+
+
+
+
 
   // Insert the layer beneath any symbol layer.
 var layers = map.getStyle().layers;
