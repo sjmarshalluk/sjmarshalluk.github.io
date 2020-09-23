@@ -1,0 +1,477 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Mapillary -> OSM</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+
+  
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css"/>
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+  
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+  <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
+        
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+
+    
+  <script src="https://cdn.rawgit.com/lingtalfi/simpledrag/master/simpledrag.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/intro.js@2.9.3/introjs.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.min.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+
+
+  <style type="text/css">
+    body {
+      background-color: #eeeeee;
+    }
+    #panel-wrap {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 300px;
+      background-color: #ffffff;
+      padding: 20px;
+      height: 100%;
+    }
+    #dashboard {
+      width: calc(100% - 300px);
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 10px;
+      height: 100%;
+    }
+    .card {
+      position: relative;
+      width: 400px;
+      height: 350px;
+      float: left;
+      margin: 10px;
+      padding: 10px;
+    }
+    .card.map {
+      width: 1240px;
+    }
+    #map {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+
+</head>
+<body>
+
+
+
+<div id="panel-wrap">
+
+  
+    
+    <div class="form-group">
+      <select id="country-select" class="form-control">
+        <option value="SE">Sweden</option>
+        <option value="US">USA</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <select id="period-select" class="form-control">
+        <option value="2020-09-01">This month</option>
+        <option value="2020-01-01">This year</option>
+      </select>
+    </div>
+
+
+    <button class="btn btn-dark" id="get-stats" onclick="getUser()">Go</button>
+
+    <div id="user-btns" style="padding-top: 30px;"></div>
+
+
+
+</div>
+
+
+<div id="dashboard">
+
+  <div id="user-info-wrap" class="card">
+    <h4 id="username"></h4>
+
+    <ul class="list-group">
+      <li class="list-group-item" id="userstart"></li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total images
+        <span class="badge badge-primary badge-pill" id="total-images"></span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total sequences
+        <span class="badge badge-primary badge-pill" id="total-seq"></span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total distance
+        <span class="badge badge-primary badge-pill" id="total-distance"></span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Average # images / seq
+        <span class="badge badge-primary badge-pill" id="average-seq-images"></span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Average distance / seq
+        <span class="badge badge-primary badge-pill" id="average-seq-distance"></span>
+      </li>
+    </ul>
+  </div>
+
+  <div id="camera-make-wrap" class="card">
+    <h6>Number of sequences per camera type</h6>
+    <canvas id="camera-make" width="600" height="400"></canvas>
+  </div>
+  
+
+  <div id="year-seq-wrap" class="card">
+    <h6>Number of sequences per year</h6>
+    <canvas id="year-seq" width="600" height="400"></canvas>
+  </div>
+
+  <div class="card map">
+    <h6>Location of sequences</h6>
+    <div id="map"></div>
+  </div>
+
+
+
+
+
+<script>
+
+
+
+    var exmouth = [-0.11034621511771547,51.52502520887623];
+    var orlando = [-81.38619520882588,28.541790792135473];
+    var apopka = [-81.52879264921535,28.686967232178446];
+
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+    var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: [0,0],
+        zoom: 2,
+        pitch: 0
+    });
+
+    var clientId = 'ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh';
+
+
+
+
+    function getUser() {
+        var countrySelect = document.getElementById("country-select");
+        var country = countrySelect.options[countrySelect.selectedIndex].value;
+        var periodSelect = document.getElementById("period-select");
+        var periodStart = periodSelect.options[countrySelect.selectedIndex].value;
+
+        var topUserLink = "https://a.mapillary.com/v3/leaderboard/images?per_page=10&iso_countries=" + country + "&start_time=" + periodStart + "&client_id=" + clientId;
+
+        $.getJSON(topUserLink)
+          .done(function(data){
+          console.log(data)
+
+          var userBtns = document.getElementById('user-btns');
+
+          data.forEach(function(user) {
+            var userBtn = userBtns.appendChild(document.createElement('button'));
+            userBtn.innerHTML = user.username + ' - ' + user.image_count;
+            userBtn.className = 'btn btn-light btn-block';
+            userBtn.addEventListener('click', function() {
+              getUserInfo(user.username,user.created_at,user.user_key);
+            })
+          })
+
+        });
+
+      }
+
+
+      function getUserInfo(userName,userStart,userKey) {
+        var statsLink = "https://a.mapillary.com/v3/users/" + userKey + "/stats?client_id=" + clientId;
+
+        $.getJSON(statsLink)
+          .done(function(stats){
+          console.log(stats)
+          document.getElementById('username').innerHTML = userName;
+          document.getElementById('userstart').innerHTML = userStart;
+          document.getElementById('total-images').innerHTML = stats.images.total_count;
+          document.getElementById('total-seq').innerHTML = stats.sequences.total_count;
+          document.getElementById('total-distance').innerHTML = stats.sequences.total_distance;
+          document.getElementById('average-seq-images').innerHTML = Math.round(stats.images.total_count / stats.sequences.total_count);
+          document.getElementById('average-seq-distance').innerHTML = Math.round(stats.sequences.total_distance / stats.sequences.total_count);
+
+          getUserStats(userKey);
+        });
+
+      }
+
+
+      
+
+
+      function getUserStats(userKey) {
+
+
+        
+
+
+      //var user = 'sjmarhalluk';
+      //var userKey = '2BJl04nvnfW1y2GNaj7x5w';
+
+      //var link = "https://a.mapillary.com/v3/users?usernames=" + user + "&client_id=" + clientId;
+
+      //var statsLink = "https://a.mapillary.com/v3/users/2BJl04nvnfW1y2GNaj7x5w/stats?client_id=" + clientId;
+
+      //user sequences
+      var link = "https://a.mapillary.com/v3/sequences?per_page=1000&userkeys=" + userKey + "&client_id=" + clientId
+
+        $.getJSON(link)
+          .done(function(data){
+          console.log(data)
+
+
+          var cameras = [];
+          var cameraCounts = [];
+
+          var result = Object.keys(data.features).reduce(function(acc, key) {
+            var aff = data.features[key].properties.camera_make;
+            if(acc[aff]) acc[aff]++;
+            else         acc[aff] = 1;           
+            return acc;
+          }, {});
+
+          //console.log(result);
+
+
+          for (var key in result) {
+            if (result.hasOwnProperty(key)) {
+              cameras.push(key);
+              cameraCounts.push(result[key]);
+              console.log(key + " -> " + result[key]);
+              //var uniqueSpeeds = panel.appendChild(document.createElement('p'));
+              //uniqueSpeeds.innerHTML = key + " -> " + result[key];
+            }
+          }
+
+
+
+
+
+          /*
+          let unique = [...new Set(data.features.map(item => item.properties.camera_make))];
+          console.log(unique);
+
+          var cameraCounts = [];
+
+          data.features.forEach(function(seq) {
+            unique.forEach(function(camera) {
+              var cameraCount = 0;
+
+            })
+          })
+          */
+
+          var cameraOptions = {
+            type: 'bar',
+            data: {
+              labels: cameras,
+              datasets: [
+                {
+                  label: 'Seq/camera',
+                  data: cameraCounts,
+                  borderWidth: 1
+                }
+              ]
+            },
+            options: {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    reverse: false
+                  }
+                }]
+              }
+            }
+          }
+
+          var cameraChart = document.getElementById('camera-make').getContext('2d');
+          new Chart(cameraChart, cameraOptions);
+
+
+          var seq2015 = [];
+          var seq2016 = [];
+          var seq2017 = [];
+          var seq2018 = [];
+          var seq2019 = [];
+          var seq2020 = [];
+
+          var yearCounts = []
+
+
+          var start2015 = new Date("2015-01-01");
+          var end2015 = new Date("2015-12-31");
+          var start2016 = new Date("2016-01-01");
+          var end2016 = new Date("2016-12-31");
+          var start2017 = new Date("2017-01-01");
+          var end2017 = new Date("2017-12-31");
+          var start2018 = new Date("2018-01-01");
+          var end2018 = new Date("2018-12-31");
+          var start2019 = new Date("2019-01-01");
+          var end2019 = new Date("2019-12-31");
+          var start2020 = new Date("2020-01-01");
+          var end2020 = new Date("2020-12-31");
+
+          var resultYear = data.features.filter(a => {
+            var date = new Date(a.properties.captured_at);
+            if (date >= start2015 && date <= end2015) {
+              seq2015.push(a);
+            }
+            if (date >= start2016 && date <= end2016) {
+              seq2016.push(a);
+            }
+            if (date >= start2017 && date <= end2017) {
+              seq2017.push(a);
+            }
+            if (date >= start2018 && date <= end2018) {
+              seq2018.push(a);
+            }
+            if (date >= start2019 && date <= end2019) {
+              seq2019.push(a);
+            }
+            if (date >= start2020 && date <= end2020) {
+              seq2020.push(a);
+            }
+
+
+            //return (date >= start2015 && date <= end2015);
+          });
+          //console.log(resultYear)
+
+          yearCounts.push(seq2015.length);
+          yearCounts.push(seq2016.length);
+          yearCounts.push(seq2017.length);
+          yearCounts.push(seq2018.length);
+          yearCounts.push(seq2019.length);
+          yearCounts.push(seq2020.length);
+
+
+
+          var yearOptions = {
+            type: 'line',
+            data: {
+              labels: ['2015','2016','2017','2018','2019','2020'],
+              datasets: [
+                {
+                  label: 'Seq/year',
+                  data: yearCounts,
+                  borderWidth: 1
+                }
+              ]
+            },
+            options: {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    reverse: false
+                  }
+                }]
+              }
+            }
+          }
+
+          var yearChart = document.getElementById('year-seq').getContext('2d');
+          new Chart(yearChart, yearOptions);
+
+
+
+
+
+
+
+
+
+          var bbox = turf.bbox(data);
+          var bboxPolygon = turf.bboxPolygon(bbox);
+
+          if (map.getLayer('seqArea')) {
+            map.removeLayer('seqArea');
+          }
+          if (map.getSource('seqArea')) {
+            map.removeSource('seqArea');
+          }
+          map.addSource('seqArea', {
+            "type": "geojson",
+            "data": bboxPolygon
+          });
+          map.addLayer({
+            'id': 'seqArea',
+            'type': 'fill',
+            'source': "seqArea",
+            'paint': {
+              'fill-color': '#088',
+              'fill-opacity': 0.8
+            }
+          });
+          map.fitBounds(bbox, {
+            padding: {top: 100, bottom:100, left: 100, right: 100}
+          });
+
+
+      
+          data.features.forEach(function(seq) {
+
+          })
+
+
+        });
+
+
+
+      }
+
+
+    map.on('load', function() {
+
+
+
+
+
+
+      
+
+    });
+
+
+
+  
+</script>
+
+
+</body>
+</html>
