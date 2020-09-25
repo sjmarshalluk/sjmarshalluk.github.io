@@ -250,10 +250,13 @@ function showPosition(position) {
 }
 
 
-map.on('click', function(e) {
+map.on('click', setEndPoint) 
+
+
+function setEndPoint() {
   console.log(e)
   directions.setDestination([e.lngLat.lng,e.lngLat.lat]);
-})
+}
 
 
 /*
@@ -371,6 +374,7 @@ function endReloc() {
 
 
 function startVpsNav() {
+  map.off('click', setEndPoint) 
   document.getElementById('map-wrap').classList.add('half');
   
 
