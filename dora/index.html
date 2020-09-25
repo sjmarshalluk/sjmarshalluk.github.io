@@ -93,7 +93,7 @@
 
 
 
-  <a id="start_demo" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 9999">Start the demo!</a>
+  <a id="compass_button" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 9999">Orientate</a>
 
   <div id="map-wrap">
     <div id="map"></div>
@@ -251,8 +251,10 @@ directions.on('route', function(e) {
   map.setPaintProperty('directions-waypoint-point-casing', 'circle-opacity', 0);
   map.setPaintProperty('directions-waypoint-point', 'circle-opacity', 0);
   map.setPaintProperty('directions-origin-point', 'circle-opacity', 0);
+  map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
   //map.setPaintProperty('directions-origin-label', 'circle-opacity', 0);
   map.setPaintProperty('directions-destination-point', 'circle-opacity', 0);
+  map.setPaintProperty('directions-destination-point', 'circle-radius', 10);
   //map.setPaintProperty('directions-destination-label', 'circle-opacity', 0);
 
 
@@ -560,10 +562,10 @@ function manageCompass(event) {
 
 
 let is_running = false;
-let demo_button = document.getElementById("start_demo");
-demo_button.onclick = function(e) {
+let compass_button = document.getElementById("compass_button");
+compass_button.onclick = function(e) {
   e.preventDefault();
-  demo_button.style.display = 'none';
+  
   if (
     DeviceMotionEvent &&
     typeof DeviceMotionEvent.requestPermission === "function"
