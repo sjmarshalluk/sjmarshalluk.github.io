@@ -232,9 +232,10 @@ getLocation();
 
 function getLocation() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
+    
 
     if (mode === 'nav') {
+      navigator.geolocation.getCurrentPosition(showPosition);
     } else {
       navigator.geolocation.getCurrentPosition(setStart);
     }
@@ -248,7 +249,7 @@ function showPosition(position) {
 
   if (mode === 'nav') {
 
-    
+
     map.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
 
 
@@ -282,11 +283,9 @@ function showPosition(position) {
   } else {
 
 
-    map.jumpTo({ center: [position.coords.longitude, position.coords.latitude] });
+    
 
-    map.setPaintProperty('directions-origin-point', 'circle-opacity', 1);
-    map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
-    map.setPaintProperty('directions-origin-label', 'text-opacity', 0);
+    
     
 
 
@@ -301,6 +300,7 @@ function showPosition(position) {
 }
 
 function setStart(position) {
+  map.jumpTo({ center: [position.coords.longitude, position.coords.latitude] });
   window.startPosition = [position.coords.longitude, position.coords.latitude];
 
   directions.setOrigin([position.coords.longitude, position.coords.latitude]);
@@ -477,7 +477,7 @@ function startVpsNav() {
   getLocation();
   setInterval(function() { 
     getLocation();
-  },3000);
+  },1000);
 
 
 }
