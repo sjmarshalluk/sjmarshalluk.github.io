@@ -2,8 +2,10 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Display driving directions</title>
+<title>Dora</title>
+
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes">
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
@@ -11,6 +13,14 @@
 
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 <style>
+      * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
   body { margin: 0; padding: 0; }
   #map { 
     position: absolute; 
@@ -81,6 +91,8 @@
     position: absolute;
     z-index: 1000;
     transition: 0.2s;
+    padding: 20px; 
+    text-align: center;
   }
   #panel.open {
     bottom: 0!important;
@@ -107,6 +119,18 @@
     border-radius: 44px;
     text-align: center;
     background-color: #fff;
+  }
+
+  .btn {
+    height: 44px;
+    padding: 10px 30px;
+    border-radius: 44px;
+    background-color: transparent;
+    border: none;
+  }
+  .btn.start {
+    background-color: green;
+    color: #fff;
   }
 
   .AttributionContainer { display: none; }
@@ -313,6 +337,7 @@ function showPanel() {
 
   var startBtn = panel.appendChild(document.createElement('button'));
   startBtn.innerHTML = 'Start';
+  startBtn.className = 'btn start';
   startBtn.addEventListener('click', function() {
     document.getElementById('panel').classList.remove('open');
     //startReloc();
@@ -370,12 +395,21 @@ function startVpsNav() {
 
   },600);
 
-  setTimeout(function() { 
-    //getNewLocation()
-  },3000);
+  
+
+
+
+  map.setPaintProperty('directions-origin-point', 'circle-opacity', 0);
+  map.setPaintProperty('directions-destination-point', 'circle-opacity', 0);
 
   reduceLayers()
 
+
+
+  getNewLocation();
+  setInterval(function() { 
+    getNewLocation();
+  },3000);
 
 
 }
