@@ -247,8 +247,17 @@ function getLocation() {
 
 function showPosition(position) {
 
-  if (mode === 'nav') {
+  var latest = turf.point(latestLocation);
+  var current = turf.point([position.coords.longitude, position.coords.latitude]);
 
+  var options = {units: 'kilometers'};
+  var distance = turf.distance(latest, current, options);
+
+
+
+  if (distance > 0.01) {
+
+    window.latestLocation = [position.coords.longitude, position.coords.latitude];
 
     map.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
 
@@ -302,6 +311,7 @@ function showPosition(position) {
 function setStart(position) {
   map.jumpTo({ center: [position.coords.longitude, position.coords.latitude], zoom: 15 });
   window.startPosition = [position.coords.longitude, position.coords.latitude];
+  window.latestLocation = [position.coords.longitude, position.coords.latitude];
 
   directions.setOrigin([position.coords.longitude, position.coords.latitude]);
   map.setPaintProperty('directions-origin-point', 'circle-opacity', 0);
@@ -470,7 +480,7 @@ function startVpsNav() {
 
   window.mode = 'nav';
   
-  map.setPaintProperty('directions-route-line', 'line-width', 30);
+  map.setPaintProperty('directions-route-line', 'line-width', 50);
   
 
 
