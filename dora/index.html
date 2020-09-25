@@ -245,6 +245,8 @@ function getLocation() {
   }
 }
 
+window.firstTime = true;
+
 function showPosition(position) {
 
   var latest = turf.point(latestLocation);
@@ -255,7 +257,7 @@ function showPosition(position) {
 
 
 
-  if (distance > 0.01) {
+  if (firstTime === true || distance > 0.003) {
 
     window.latestLocation = [position.coords.longitude, position.coords.latitude];
 
@@ -288,6 +290,8 @@ function showPosition(position) {
         'fill-extrusion-opacity': 0.5
       }
     });
+
+    window.firstTime = false;
 
   } else {
 
