@@ -304,7 +304,9 @@ function setStart(position) {
   window.startPosition = [position.coords.longitude, position.coords.latitude];
 
   directions.setOrigin([position.coords.longitude, position.coords.latitude]);
-
+  map.setPaintProperty('directions-origin-point', 'circle-opacity', 0);
+  map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
+  map.setPaintProperty('directions-origin-label', 'text-opacity', 0);
 
   var point = turf.point([position.coords.longitude, position.coords.latitude]);
 
@@ -331,9 +333,7 @@ function setStart(position) {
 
 
 
-  map.setPaintProperty('directions-origin-point', 'circle-opacity', 0);
-  map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
-  map.setPaintProperty('directions-origin-label', 'text-opacity', 0);
+  
   
 }
 
@@ -385,6 +385,10 @@ map.on('mouseup', function(e) {
 
 
 directions.on('route', function(e) {
+  map.setPaintProperty('directions-origin-point', 'circle-opacity', 0);
+  map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
+  map.setPaintProperty('directions-origin-label', 'text-opacity', 0);
+
   map.off('click', setEndPoint) 
 
   zoomToPath(e)
@@ -466,28 +470,63 @@ function startVpsNav() {
 
   window.mode = 'nav';
   
-  document.getElementById('map-wrap').classList.add('half');
+  
   
 
-  var t = 0;
-  var id = setInterval(resize, 10);
-  function resize() {
-    if (t === 40) {
-      clearInterval(id);
-      t = 0;
-    } else {
-      t ++
-      map.resize();
-    }
-  }
-  
+
+  map.flyTo({center: startPosition, zoom: 20});
   
   setTimeout(function() { 
-    //map.resize();
-    map.setPitch(60); //change to phone sensors
-    map.setBearing(startBearing); //
-    map.flyTo({center: startPosition, zoom: 20});
 
+    setTimeout(function() { 
+      
+
+      var t = 0;
+      var id = setInterval(pitch, 10);
+      function pitch() {
+        if (t === 60) {
+          clearInterval(id);
+          t = 0;
+        } else {
+          map.setPitch(t); //change to phone sensors
+          t ++
+        }
+      }
+
+
+      setTimeout(function() { 
+        map.setBearing(startBearing); //
+        setTimeout(function() { 
+          reduceLayers();
+          //addPath();
+
+
+          setTimeout(function() { 
+            document.getElementById('map-wrap').classList.add('half');
+    
+
+            var t = 0;
+            var id = setInterval(resize, 10);
+            function resize() {
+              if (t === 40) {
+                clearInterval(id);
+                t = 0;
+              } else {
+                t ++
+                map.resize();
+              }
+            }
+          },600);
+
+
+        },600);
+      },600);
+    },600);
+    
+    
+
+
+    
   },600);
 
   
@@ -503,8 +542,7 @@ function startVpsNav() {
     map.removeSource('startPoint');
   }
 
-  reduceLayers();
-  //addPath();
+  
 
 
 
