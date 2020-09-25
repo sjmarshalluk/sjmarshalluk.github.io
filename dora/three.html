@@ -1,0 +1,526 @@
+
+
+
+  <script type="module">
+
+
+
+
+
+var generatedRoute = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.9389743208885192,
+            51.00546844730805
+          ],
+          [
+            -0.9383225440979004,
+            51.00515620883096
+          ],
+          [
+            -0.9382903575897216,
+            51.00534523994379
+          ],
+          [
+            -0.9375742077827454,
+            51.00532161109682
+          ]
+        ]
+      }
+    },
+  ]
+}
+
+var actualRoute = {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -0.9389930963516235,
+            51.005476886156636
+          ],
+          [
+            -0.938955545425415,
+            51.00543975521135
+          ],
+          [
+            -0.9388884902000427,
+            51.00541781418427
+          ],
+          [
+            -0.9388643503189087,
+            51.00542456527062
+          ],
+          [
+            -0.9388107061386108,
+            51.00537899541858
+          ],
+          [
+            -0.9387060999870299,
+            51.00534186439498
+          ],
+          [
+            -0.9386390447616576,
+            51.00531654777089
+          ],
+          [
+            -0.9385827183723449,
+            51.00526422670402
+          ],
+          [
+            -0.938604176044464,
+            51.005205154460846
+          ],
+          [
+            -0.9384486079216002,
+            51.00512414097645
+          ],
+          [
+            -0.9384432435035706,
+            51.0052220322523
+          ],
+          [
+            -0.9384030103683471,
+            51.005218656694495
+          ],
+          [
+            -0.9383144974708557,
+            51.00524734892796
+          ],
+          [
+            -0.9382849931716918,
+            51.00529629446169
+          ],
+          [
+            -0.9382984042167664,
+            51.00533511329658
+          ],
+          [
+            -0.9382957220077514,
+            51.00536380545799
+          ],
+          [
+            -0.9382018446922301,
+            51.005368868778724
+          ],
+          [
+            -0.9380596876144408,
+            51.00535199104073
+          ],
+          [
+            -0.9379148483276366,
+            51.00533511329658
+          ],
+          [
+            -0.937732458114624,
+            51.00533848884588
+          ],
+          [
+            -0.9375420212745667,
+            51.00531654777089
+          ]
+        ]
+      }
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+    // Three.js - Load .OBJ ?
+// from https://threejsfundamentals.org/threejs/threejs-load-obj-no-materials.html
+
+
+import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/build/three.module.js';
+import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/controls/OrbitControls.js';
+import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/loaders/GLTFLoader.js';
+
+
+
+  const canvas = document.querySelector('#c');
+  const renderer = new THREE.WebGLRenderer({canvas});
+
+  const fov = 45;
+  const aspect = 2;  // the canvas default
+  const near = 1;
+  const far = 100;
+  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+  camera.position.set(0, 3, 0);
+  camera.lookAt(0,0,-3);
+  
+/*
+  const controls = new OrbitControls(camera, canvas);
+  controls.target.set(0, 1, 0);
+  controls.update();
+*/
+
+  window.scene = new THREE.Scene();
+  scene.background = new THREE.Color('white');
+
+  {
+    const planeSize = 40;
+
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load('https://threejsfundamentals.org/threejs/resources/images/checker.png');
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.magFilter = THREE.NearestFilter;
+    const repeats = planeSize / 2;
+    texture.repeat.set(repeats, repeats);
+
+    const planeGeo = new THREE.PlaneBufferGeometry(planeSize, planeSize);
+    const planeMat = new THREE.MeshPhongMaterial({
+      map: texture,
+      side: THREE.DoubleSide,
+    });
+    const mesh = new THREE.Mesh(planeGeo, planeMat);
+    mesh.rotation.x = Math.PI * -.5;
+    // scene.add(mesh);
+  }
+
+  {
+    const skyColor = 0xB1E1FF;  // light blue
+    const groundColor = 0xB97A20;  // brownish orange
+    const intensity = 1;
+    const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+    scene.add(light);
+  }
+
+  {
+    const color = 0xFFFFFF;
+    const intensity = 1;
+    const light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(0, 10, 0);
+    light.target.position.set(-5, 0, 0);
+    scene.add(light);
+    scene.add(light.target);
+  }
+
+
+
+
+  /*
+  {
+    var manager = new THREE.LoadingManager();
+    var textureLoader = new THREE.TextureLoader(manager);
+
+            var texture = textureLoader.load('https://cdn.shopify.com/s/files/1/0558/2081/products/Batman_Returns_FC_1024x1024.jpg?v=1541685585');
+    var toon = new THREE.MeshDepthMaterial({
+                transparent: true,
+                opacity: 0.5
+       });
+    const objLoader = new OBJLoader2();
+    objLoader.load('https://sjmarshalluk.github.io/model-maker/arrows.obj', (root) => {
+      root.traverse(function(child) {
+                        if (child instanceof THREE.Mesh) {
+                            child.material = toon;
+                            // child.material.shininess=0;
+                            // child.material.specular=0xffffff;
+                            //child.material.normalMap = texture;
+                        }
+                    });
+      root.position.set(0,2,0);
+      scene.add(root);
+      
+    });
+  }
+  */
+
+
+
+
+
+
+  function resizeRendererToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    const needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
+  }
+
+  function render() {
+
+    if (resizeRendererToDisplaySize(renderer)) {
+      const canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+    }
+
+    renderer.render(scene, camera);
+
+    requestAnimationFrame(render);
+  }
+
+  requestAnimationFrame(render);
+
+
+
+
+
+
+
+window.center = turf.centerOfMass(actualRoute);
+renderPlaces(generatedRoute,actualRoute,center)
+
+
+
+
+
+function renderPlaces(route,actualRoute,center) {
+
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+
+  
+
+  var arPathPoints = {
+    "type":"FeatureCollection",
+    "features":[]
+  };
+
+  var routeLength = turf.length(route.features[0], {units: 'kilometers'});
+  var options = {units: 'kilometers'};
+  var lengthMetres = routeLength * 1000;
+
+  var i;
+  for (i = 0; i < lengthMetres; i++) {
+    var distanceAlong = i * 0.001;
+    var along = turf.along(route.features[0], distanceAlong, options);
+    arPathPoints.features.push(along)
+
+    if (i === lengthMetres || i > lengthMetres) {
+      //console.log(arPathPoints)
+    }
+  }
+
+  for(i=0; i < arPathPoints.features.length; i++) {
+
+    let latitude = arPathPoints.features[i].geometry.coordinates[1];
+    let longitude = arPathPoints.features[i].geometry.coordinates[0];
+
+    // threejs json
+    var pointX = turf.point([longitude,centerLat]);
+    var pointY = turf.point([centerLng,latitude]);
+    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+    var offsetX = (longitude - centerLng) * 10000;
+    var offsetY = (latitude - centerLat) * 10000;
+
+    addPathPoint(offsetX,offsetY);
+
+    if (i === 0) {
+      //camera.position.set(offsetX, 1, offsetY);
+    }
+
+  };
+
+
+
+
+
+
+
+
+  var arActualPoints = {
+    "type":"FeatureCollection",
+    "features":[]
+  };
+
+  var actualRouteLength = turf.length(actualRoute.features[0], {units: 'kilometers'});
+  var options = {units: 'kilometers'};
+  var actualLengthMetres = actualRouteLength * 1000;
+
+  var i;
+  for (i = 0; i < actualLengthMetres; i++) {
+    var distanceAlong = i * 0.001;
+    var along = turf.along(actualRoute.features[0], distanceAlong, options);
+    arActualPoints.features.push(along);
+
+
+
+    if (i === lengthMetres || i > lengthMetres) {
+      //console.log(arPathPoints)
+    }
+  }
+
+  console.log(arActualPoints);
+  console.log(arPathPoints);
+
+  for(i=0; i < arActualPoints.features.length; i++) {
+
+    console.log(arActualPoints.features[i]);
+
+    let latitude = arActualPoints.features[i].geometry.coordinates[1];
+    let longitude = arActualPoints.features[i].geometry.coordinates[0];
+
+    // threejs json
+    var pointX = turf.point([longitude,centerLat]);
+    var pointY = turf.point([centerLng,latitude]);
+    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+    var offsetX = (longitude - centerLng) * 10000;
+    var offsetY = (latitude - centerLat) * 10000;
+
+    addActualPathPoint(offsetX,offsetY);
+  };
+
+
+
+
+  
+
+
+
+  route.features[0].geometry.coordinates.forEach(function(turn,index) {
+    let latitude = turn[1];
+    let longitude = turn[0];
+
+
+    var latlng = "latitude: " + String(turn[1]) + ";longitude: " + String(turn[0]);
+
+
+
+    if (index === 0) {
+      var thisCoords = route.features[0].geometry.coordinates[index];
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (thisCoords[0] - centerLng) * 10000;
+      var offsetY = (thisCoords[1] - centerLat) * 10000;
+
+      addMarker(offsetX,offsetY);
+    }
+
+    if (index === route.features[0].geometry.coordinates.length - 1) {
+      var thisCoords = route.features[0].geometry.coordinates[index];
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (thisCoords[0] - centerLng) * 10000;
+      var offsetY = (thisCoords[1] - centerLat) * 10000;
+
+      addMarker(offsetX,offsetY);
+    }
+
+    if (index > 0 && index < route.features[0].geometry.coordinates.length - 1) {
+      var thisCoords = route.features[0].geometry.coordinates[index];
+      var thisPoint = turf.point(thisCoords);
+
+      var next = route.features[0].geometry.coordinates[index + 1];
+      console.log(next)
+      var nextPoint = turf.point(next);
+
+      var bearing = turf.bearing(thisPoint, nextPoint);
+      
+
+      
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (thisCoords[0] - centerLng) * 10000;
+      var offsetY = (thisCoords[1] - centerLat) * 10000;
+
+      addTurn(offsetX,offsetY,bearing);
+    }
+
+
+
+  })
+
+
+
+
+  function addTurn(offsetX,offsetY,bearing) {
+    
+    const gltfLoader = new GLTFLoader();
+    const url = 'https://sjmarshalluk.github.io/model-maker/arrows.gltf';
+    gltfLoader.load(url, (gltf) => {
+      const root = gltf.scene;
+
+      root.position.set(offsetY,0.3,offsetX);
+      root.scale.set(0.04,0.04,0.04);
+      root.rotation.set(0,bearing,0);
+      scene.add(root);
+
+    });
+  }
+
+  function addPathPoint(offsetX,offsetY) {
+    const gltfLoader = new GLTFLoader();
+    const url = 'https://sjmarshalluk.github.io/ar-tester/path.gltf';
+    gltfLoader.load(url, (gltf) => {
+      const root = gltf.scene;
+
+      root.position.set(offsetY,0,offsetX);
+      root.scale.set(0.1,0.1,0.1);
+      root.rotation.set(0,0,0);
+      scene.add(root);
+
+    });
+  }
+
+  function addActualPathPoint(offsetX,offsetY) {
+    const gltfLoader = new GLTFLoader();
+    const url = 'https://sjmarshalluk.github.io/model-maker/actual-path.gltf';
+    gltfLoader.load(url, (gltf) => {
+      const root = gltf.scene;
+
+      root.position.set(offsetY,0,offsetX);
+      root.scale.set(0.1,0.1,0.1);
+      root.rotation.set(0,0,0);
+      scene.add(root);
+
+    });
+  }
+
+  function addMarker(offsetX,offsetY) {
+    const gltfLoader = new GLTFLoader();
+    const url = 'https://sjmarshalluk.github.io/ar-tester/path.gltf';
+    gltfLoader.load(url, (gltf) => {
+      const root = gltf.scene;
+
+      root.position.set(offsetY,0,offsetX);
+      root.scale.set(0.3,0.1,0.3);
+      root.rotation.set(0,0,0);
+      scene.add(root);
+
+    });
+  }
+
+
+}
+
+  </script>
