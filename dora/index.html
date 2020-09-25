@@ -278,6 +278,7 @@ function showPanel() {
   var startBtn = panel.appendChild(document.createElement('button'));
   startBtn.innerHTML = 'Start';
   startBtn.addEventListener('click', function() {
+    document.getElementById('panel').classList.remove('open');
     //startReloc();
     startVpsNav();
   })
@@ -288,7 +289,7 @@ function showPanel() {
 
 
 function startReloc() {
-  document.getElementById('panel').classList.remove('open');
+  
   document.getElementById('map').style.top = '100%';
   document.getElementById('reloc').style.display = 'inline';
 
