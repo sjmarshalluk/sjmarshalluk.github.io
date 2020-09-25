@@ -503,7 +503,8 @@ function startVpsNav() {
     map.removeSource('startPoint');
   }
 
-  reduceLayers()
+  reduceLayers();
+  //addPath();
 
 
 
@@ -524,21 +525,34 @@ function reduceLayers() {
   
 
   setTimeout(function() { 
-    map.setPaintProperty('land', 'background-opacity', 0);
-    //map.setLayoutProperty('land', 'visibility', 'none');
 
-    map.setPaintProperty('road-label', 'text-opacity', 0);
+    var t = 0;
+    var id = setInterval(fadeOutFeatures, 1);
+    function fadeOutFeatures() {
+      if (t === 100) {
+        clearInterval(id);
+        t = 0;
+      } else {
+        console.log(t);
+        var opacity = 1 - (t / 100);
+        console.log(opacity);
+        map.setPaintProperty('land', 'background-opacity', opacity);
+        map.setPaintProperty('road-pedestrian', 'line-opacity', opacity);
+        map.setPaintProperty('road-path', 'line-opacity', opacity);
+        map.setPaintProperty('road-pedestrian-case', 'line-opacity', opacity);
+        map.setPaintProperty('road-label', 'text-opacity', opacity);
+        t ++
+        
+      }
+    }
 
 
+    setTimeout(function() { 
+      addBuildings();
+    },600);
+  },2000);
 
-    map.setPaintProperty('road-pedestrian', 'line-opacity', 0);
-    map.setPaintProperty('road-path', 'line-opacity', 0);
-    map.setPaintProperty('road-pedestrian-case', 'line-opacity', 0);
-  },300);
-
-  setTimeout(function() { 
-    addBuildings();
-  },600);
+  
   
 
 }
