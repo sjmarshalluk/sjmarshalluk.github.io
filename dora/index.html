@@ -32,7 +32,7 @@
     overflow: hidden;
   }
   #map-wrap.half {
-    height: 35%; 
+    height: 45%; 
   }
   #map-wrap.perspective {
     perspective: 450px;
@@ -167,9 +167,7 @@ map.on('load', function() {
 
 var directions = new MapboxDirections({
   accessToken: mapboxgl.accessToken,
-  options: {
-    interactive: false
-  }
+  interactive: false
 });
 map.addControl(directions);
 
@@ -194,20 +192,43 @@ function showPosition(position) {
 
 map.on('click', function(e) {
   console.log(e)
-  directions.setDestination(e.point);
+  directions.setDestination([e.lngLat.lng,e.lngLat.lat]);
 })
 
 
 /*
 map.on('mousedown', function(e) {
+
+  console.log('down')
   setTimeout(function() { 
     map.on('mouseup', function(e) {
+      console.log('up')
       console.log(e)
-      directions.setDestination(e.point);
+      directions.setDestination([e.lngLat.lng,e.lngLat.lat]);
     });
   },300);
   
   //console.log('A mousedown event has occurred.');
+});
+
+var time = 0;
+map.on('mousedown', function(e) {
+  setTimeout(function() { 
+    time = 1;
+
+  },500);
+
+  console.log('down')
+
+  //console.log('A mousedown event has occurred.');
+});
+map.on('mouseup', function(e) {
+  console.log('up')
+  console.log(e)
+
+  if (time > 0) {
+    directions.setDestination([e.lngLat.lng,e.lngLat.lat]);
+  }
 });
 */
 
@@ -257,7 +278,8 @@ function showPanel() {
   var startBtn = panel.appendChild(document.createElement('button'));
   startBtn.innerHTML = 'Start';
   startBtn.addEventListener('click', function() {
-    startReloc();
+    //startReloc();
+    startVpsNav();
   })
 
 }
@@ -317,6 +339,10 @@ function reduceLayers() {
   setTimeout(function() { 
     map.setPaintProperty('land', 'background-opacity', 0.2);
     //map.setLayoutProperty('land', 'visibility', 'none');
+
+    map.setPaintProperty('road-label', 'text-opacity', 0);
+
+
 
     map.setPaintProperty('road-pedestrian', 'line-opacity', 0);
     map.setPaintProperty('road-path', 'line-opacity', 0);
@@ -492,7 +518,7 @@ function handleOrientation(event) {
     //var perspective = event.beta + 100;
     //document.getElementById('map-wrap').style.perspective = perspective;
 
-    document.getElementById('map').style.transform = "rotateX(" + event.beta + "deg)";
+    //THIS IS FOR PERSPECTIVE  document.getElementById('map').style.transform = "rotateX(" + event.beta + "deg)";
 
 
     map.setPitch(event.beta);
