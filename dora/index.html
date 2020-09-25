@@ -470,7 +470,7 @@ function startVpsNav() {
 
   window.mode = 'nav';
   
-  
+  map.setPaintProperty('directions-route-line', 'line-width', 30);
   
 
 
@@ -511,11 +511,13 @@ function startVpsNav() {
               if (t === 40) {
                 clearInterval(id);
                 t = 0;
+                map.flyTo({center: startPosition, zoom: 20});
               } else {
                 t ++
                 map.resize();
               }
             }
+
           },600);
 
 
