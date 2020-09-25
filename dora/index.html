@@ -300,11 +300,38 @@ function showPosition(position) {
 }
 
 function setStart(position) {
-  map.jumpTo({ center: [position.coords.longitude, position.coords.latitude] });
+  map.jumpTo({ center: [position.coords.longitude, position.coords.latitude], zoom: 15 });
   window.startPosition = [position.coords.longitude, position.coords.latitude];
 
   directions.setOrigin([position.coords.longitude, position.coords.latitude]);
-  map.setPaintProperty('directions-origin-point', 'circle-opacity', 1);
+
+
+  var point = turf.point([position.coords.longitude, position.coords.latitude]);
+
+
+  if (map.getLayer('startPoint')) {
+    map.removeLayer('startPoint');
+  }
+  if (map.getSource('startPoint')) {
+    map.removeSource('startPoint');
+  }
+  map.addSource('startPoint', {
+    'type': 'geojson',
+    'data': point
+  });
+  map.addLayer({
+    'id': 'startPoint',
+    'type': 'circle',
+    'source': 'startPoint',
+    'paint': {
+      'circle-radius': 6,
+      'circle-color': '#B42222'
+    }
+  });
+
+
+
+  map.setPaintProperty('directions-origin-point', 'circle-opacity', 0);
   map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
   map.setPaintProperty('directions-origin-label', 'text-opacity', 0);
   
@@ -469,15 +496,23 @@ function startVpsNav() {
 
   map.setPaintProperty('directions-origin-point', 'circle-opacity', 0);
   map.setPaintProperty('directions-destination-point', 'circle-opacity', 0);
+  if (map.getLayer('startPoint')) {
+    map.removeLayer('startPoint');
+  }
+  if (map.getSource('startPoint')) {
+    map.removeSource('startPoint');
+  }
 
   reduceLayers()
 
 
 
   getLocation();
-  setInterval(function() { 
-    getLocation();
-  },1000);
+  setTimeout(function() { 
+    setInterval(function() { 
+      getLocation();
+    },1000);
+  },3000);
 
 
 }
