@@ -180,7 +180,7 @@ document.getElementById('panel').style.bottom = '-' + panelHeight;
 
 
 
-
+window.mode = 'browse';
 
 
 
@@ -228,19 +228,76 @@ var directions = new MapboxDirections({
 });
 map.addControl(directions);
 
-getStartLocation();
+getLocation();
 
-function getStartLocation() {
+function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
+
+    if (mode === 'nav') {
+    } else {
+      navigator.geolocation.getCurrentPosition(setStart);
+    }
+
   } else {
     console.log("Geolocation is not supported by this browser.");
   }
 }
 
 function showPosition(position) {
+
+  if (mode === 'nav') {
+    map.jumpTo({ center: [position.coords.longitude, position.coords.latitude] });
+
+    map.setPaintProperty('directions-origin-point', 'circle-opacity', 1);
+    map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
+    map.setPaintProperty('directions-origin-label', 'text-opacity', 0);
+  } else {
+    
+
+    map.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
+
+
+    var point = turf.point([position.coords.longitude, position.coords.latitude]);
+    window.bufferedPoint = turf.buffer(point, 0.002, {units: 'kilometers'});
+
+    if (map.getLayer('currentPoint')) {
+      map.removeLayer('currentPoint');
+    }
+    if (map.getSource('currentPoint')) {
+      map.removeSource('currentPoint');
+    }
+
+    map.addSource('currentPoint', {
+      'type': 'geojson',
+      'data': bufferedPoint
+    });
+
+    map.addLayer({
+      'id': 'currentPoint',
+      'type': 'fill-extrusion',
+      'source': 'currentPoint',
+      'paint': {
+        'fill-extrusion-color': '#286412',
+        'fill-extrusion-height': 0.2,
+        'fill-extrusion-base': 0,
+        'fill-extrusion-opacity': 0.5
+      }
+    });
+
+
+
+
+
+  }
+
+
+  
+  
+}
+
+function setStart(position) {
   window.startPosition = [position.coords.longitude, position.coords.latitude];
-  map.jumpTo({ center: [position.coords.longitude, position.coords.latitude] });
 
   directions.setOrigin([position.coords.longitude, position.coords.latitude]);
   map.setPaintProperty('directions-origin-point', 'circle-opacity', 1);
@@ -253,7 +310,7 @@ function showPosition(position) {
 map.on('click', setEndPoint) 
 
 
-function setEndPoint() {
+function setEndPoint(e) {
   console.log(e)
   directions.setDestination([e.lngLat.lng,e.lngLat.lat]);
 }
@@ -297,6 +354,7 @@ map.on('mouseup', function(e) {
 
 
 directions.on('route', function(e) {
+  map.off('click', setEndPoint) 
 
   zoomToPath(e)
 
@@ -374,7 +432,9 @@ function endReloc() {
 
 
 function startVpsNav() {
-  map.off('click', setEndPoint) 
+
+  window.mode = 'nav';
+  
   document.getElementById('map-wrap').classList.add('half');
   
 
@@ -410,9 +470,9 @@ function startVpsNav() {
 
 
 
-  getNewLocation();
+  getLocation();
   setInterval(function() { 
-    getNewLocation();
+    getLocation();
   },3000);
 
 
@@ -450,6 +510,7 @@ function reduceLayers() {
 
 
 function getNewLocation() {
+  console.log('new')
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showNewPosition);
   } else {
@@ -457,6 +518,7 @@ function getNewLocation() {
   }
 }
 function showNewPosition(position) {
+  console.log('show')
   map.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
 
 
