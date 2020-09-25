@@ -247,14 +247,8 @@ function getLocation() {
 function showPosition(position) {
 
   if (mode === 'nav') {
-    map.jumpTo({ center: [position.coords.longitude, position.coords.latitude] });
 
-    map.setPaintProperty('directions-origin-point', 'circle-opacity', 1);
-    map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
-    map.setPaintProperty('directions-origin-label', 'text-opacity', 0);
-  } else {
     
-
     map.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
 
 
@@ -284,6 +278,16 @@ function showPosition(position) {
         'fill-extrusion-opacity': 0.5
       }
     });
+
+  } else {
+
+
+    map.jumpTo({ center: [position.coords.longitude, position.coords.latitude] });
+
+    map.setPaintProperty('directions-origin-point', 'circle-opacity', 1);
+    map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
+    map.setPaintProperty('directions-origin-label', 'text-opacity', 0);
+    
 
 
 
