@@ -28,7 +28,9 @@
   margin: 0;
 }
 
-  body { margin: 0; padding: 0; }
+  body { 
+    margin: 0; padding: 0; 
+  }
   #map { 
     position: absolute; 
     top: 0; 
@@ -57,6 +59,7 @@
     z-index: 10; 
     transition: 0.5s;
     overflow: hidden;
+    left: 0;
   }
   #map-wrap.half {
     height: 45%; 
@@ -79,6 +82,7 @@
     min-width: 100%;
     min-height: 100%;
   }
+
 
 
   #ui-wrap {
@@ -158,7 +162,7 @@
       arjs="sourceType: webcam; debugUIEnabled: false;"
     >
 
-      <a-entity gltf-model="./lavantst.gltf" gps-entity-place="latitude: 51.005394607316816;longitude: -0.9388164058314601" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity>
+      <a-entity gltf-model="./pathandarrows.gltf" gps-entity-place="latitude: 51.005394607316816;longitude: -0.9388164058314601" color="#4CC3D9" scale="0.5 0.5 0.5"></a-entity>
       <a-camera gps-camera rotation-reader> </a-camera>
     </a-scene>
 
