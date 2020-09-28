@@ -68,6 +68,10 @@ map.on('draw.delete', updateArea);
 map.on('draw.update', updateArea);
 
 
+
+
+
+
 function updateArea(e) {
   var route = draw.getAll();
   var center = turf.centerOfMass(route);
@@ -75,12 +79,18 @@ function updateArea(e) {
   renderPlaces(route,center);
   console.log(route);
 
-  var arrowsCode = document.getElementById('arrows-code').innerHTML;
+  
+
+
   var pathCode = document.getElementById('path-code').innerHTML;
 
+  document.getElementById('path-scene').innerHTML = pathCode;
+
+  //document.body.innerHTML = pathCode;
+
   if (typeof(Storage) !== "undefined") {
-    localStorage.setItem("arrowsCode", arrowsCode);
-    localStorage.setItem("pathCode", pathCode);
+    //localStorage.setItem("arrowsCode", arrowsCode);
+    //localStorage.setItem("pathCode", pathCode);
   } else {
   }
 
@@ -95,12 +105,14 @@ function updateArea(e) {
 
 
 
+
+
 function renderPlaces(route,center) {
 
   var centerLng = center.geometry.coordinates[0];
   var centerLat = center.geometry.coordinates[1];
 
-  let pathScene = document.getElementById('path-scene');
+  let pathScene = document.getElementById('path-code');
 
   var arPathPoints = {
     "type":"FeatureCollection",
@@ -129,19 +141,14 @@ function renderPlaces(route,center) {
     var latlng = "latitude: " + String(latitude) + ";longitude: " + String(longitude);
 
     let model = document.createElement('a-entity');
-
-    model.setAttribute('gltf-model', './path.gltf');
-    model.setAttribute("gps-entity-place", latlng);
-    
-    model.setAttribute("color", "#4CC3D9");
-    model.setAttribute('scale', '10 10 10');
-
-
-    model.addEventListener('loaded', () => {
-        window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
-    });
+    model.id = i;
 
     pathScene.appendChild(model);
+
+
+    
+
+    
 
 
     // threejs json
@@ -160,61 +167,30 @@ function renderPlaces(route,center) {
   };
 
 
-  let arrowsScene = document.getElementById('arrows-scene');
+  setTimeout(function() { 
 
-  route.features[0].geometry.coordinates.forEach(function(turn,index) {
-    let latitude = turn[1];
-    let longitude = turn[0];
+  for(i=0; i < arPathPoints.features.length; i++) {
 
 
-    var latlng = "latitude: " + String(turn[1]) + ";longitude: " + String(turn[0]);
+    var thisModel = document.getElementById(i);
 
-    let model = document.createElement('a-entity');
-
-
-
-    if (index < route.features[0].geometry.coordinates.length - 1) {
-      var thisCoords = route.features[0].geometry.coordinates[index];
-      var thisPoint = turf.point(thisCoords);
-
-      var next = route.features[0].geometry.coordinates[index + 1];
-      console.log(next)
-      var nextPoint = turf.point(next);
-
-      var bearing = turf.bearing(thisPoint, nextPoint);
-      
-
-      model.setAttribute("rotation", '0 ' + bearing + ' 0');
-
-      // threejs json
-      var pointX = turf.point([longitude,centerLat]);
-      var pointY = turf.point([centerLng,latitude]);
-      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
-      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
-
-      var offsetX = (thisCoords[0] - centerLng) * 10000;
-      var offsetY = (thisCoords[1] - centerLat) * 10000;
-
-      addPathPoint(offsetX,offsetY,bearing);
-    }
-
-    model.setAttribute('gltf-model', './arrows.gltf');
-    model.setAttribute("gps-entity-place", latlng);
+    thisModel.setAttribute('gltf-model', './path.gltf');
+    thisModel.setAttribute("gps-entity-place", latlng);
     
-    model.setAttribute("color", "#4CC3D9");
-    model.setAttribute('scale', '0.5 0.5 0.5');
+    thisModel.setAttribute("color", "#4CC3D9");
+    thisModel.setAttribute('scale', '0.5 0.5 0.5');
 
 
-    model.addEventListener('loaded', () => {
+    thisModel.addEventListener('loaded', () => {
         window.dispatchEvent(new CustomEvent('gps-entity-place-loaded'))
     });
 
-    arrowsScene.appendChild(model);
+    console.log(thisModel)
+  }
+
+},3000);
 
 
-    
-
-  })
 
 
 
