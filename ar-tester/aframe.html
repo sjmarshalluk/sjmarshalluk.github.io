@@ -3,12 +3,42 @@
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
   </head>
   <body>
-    <a-scene>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-      <a-sky color="#ECECEC"></a-sky>
-    </a-scene>
+    <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+<script>
+  AFRAME.registerComponent("foo", {
+    init: function() {
+      var player = document.querySelector("a-camera")
+      window.addEventListener("keydown", (e) => {
+        if (e.code === "KeyR") {
+          var angle = player.getAttribute("rotation")
+          console.log(angle)
+          let theta = (angle.x * Math.PI / 180) + Math.PI / 2
+          let fi = angle.y * Math.PI / 180
+          let r = 0.1
+          let z = Math.sin(theta) * Math.cos(fi) * r
+          let x = Math.sin(theta) * Math.sin(fi) * r
+          let y = Math.cos(theta) * r
+
+          var pos = player.getAttribute("position")
+          pos.x -= x;
+          pos.y -= y;
+          pos.z -= z;
+
+          player.setAttribute("position", pos);
+        }
+      })
+    }
+  })
+
+</script>
+<a-scene>
+  <a-box position="-1 0.5 -3" rotation="0 45 0" foo color="#4CC3D9"></a-box>
+  <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+  <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+  <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+  <a-sky color="#ECECEC"></a-sky>
+  <a-camera></a-camera>
+</a-scene>
+
   </body>
 </html>
