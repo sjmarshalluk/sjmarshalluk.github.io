@@ -59,6 +59,10 @@ var draw = new MapboxDraw({
 });
 map.addControl(draw);
 
+
+
+
+
 map.on('draw.create', updateArea);
 map.on('draw.delete', updateArea);
 map.on('draw.update', updateArea);
