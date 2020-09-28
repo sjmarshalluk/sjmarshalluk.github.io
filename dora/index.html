@@ -171,6 +171,7 @@
   <canvas id="c"></canvas>
 
   <div id="map-wrap"> 
+    <button id="map-mode" class="btn" style="position: absolute; bottom: 60px; right: 10px; z-index: 1000; background-color: #fff">D</button>
     <a id="compass_button" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 9999">o</a>
     <div id="map"></div>
   </div>
@@ -883,6 +884,43 @@ function stopOrientation() {
   window.removeEventListener("deviceorientation", handleOrientation);
   is_running = false;
 }
+
+
+window.mapMode = 'half';
+document.getElementById('map-mode').addEventListener('click', function() {
+  
+  if (mapMode === 'half') {
+    document.getElementById('map-wrap').classList.remove('half');
+
+    var t = 0;
+    var id = setInterval(fadeOutFeatures, 1);
+    function fadeOutFeatures() {
+      if (t === 100) {
+        clearInterval(id);
+        t = 0;
+      } else {
+        console.log(t);
+        var opacity = t / 100;
+        console.log(opacity);
+        map.setPaintProperty('land', 'background-opacity', opacity);
+        map.setPaintProperty('road-pedestrian', 'line-opacity', opacity);
+        map.setPaintProperty('road-path', 'line-opacity', opacity);
+        map.setPaintProperty('road-pedestrian-case', 'line-opacity', opacity);
+        map.setPaintProperty('road-label', 'text-opacity', opacity);
+        t ++
+        
+      }
+    }
+  } else {
+    document.getElementById('map-wrap').classList.add('half');
+    reduceLayers();
+  }
+
+  
+
+})
+
+
  
 </script>
 
