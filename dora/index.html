@@ -876,11 +876,25 @@ document.getElementById('map-mode').addEventListener('click', function() {
     console.log(curentMapMode)
     document.getElementById('map-wrap').classList.remove('half');
 
+    var ts = 0;
+    var id = setInterval(resize, 10);
+    function resize() {
+      if (ts === 40) {
+        clearInterval(id);
+        ts = 0;
+        map.flyTo({center: startPosition, zoom: 20});
+      } else {
+        ts ++
+        map.resize();
+      }
+    }
+
+
     var t = 0;
-    var id = setInterval(fadeOutFeatures, 1);
+    var tid = setInterval(fadeOutFeatures, 1);
     function fadeOutFeatures() {
       if (t === 100) {
-        clearInterval(id);
+        clearInterval(tid);
         t = 0;
       } else {
         console.log(t);
@@ -900,6 +914,19 @@ document.getElementById('map-mode').addEventListener('click', function() {
     window.curentMapMode = 'half';
     console.log(curentMapMode)
     document.getElementById('map-wrap').classList.add('half');
+
+    var ts = 0;
+    var tid = setInterval(resize, 10);
+    function resize() {
+      if (ts === 40) {
+        clearInterval(tid);
+        ts = 0;
+        map.flyTo({center: startPosition, zoom: 20});
+      } else {
+        ts ++
+        map.resize();
+      }
+    }
     
     var t = 0;
     var id = setInterval(fadeOutFeatures, 1);
