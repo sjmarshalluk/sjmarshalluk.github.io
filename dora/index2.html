@@ -11,6 +11,12 @@
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css" />
 
+<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+
 
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 <style>
@@ -150,6 +156,17 @@
 </head>
 <body>
 
+  <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; debugUIEnabled: false;"
+    >
+
+      <a-entity gltf-model="./path.gltf" gps-entity-place="latitude: 51.005394607316816;longitude: -0.9388164058314601" color="#4CC3D9" scale="3 3 3"></a-entity>
+      <a-camera gps-camera rotation-reader> </a-camera>
+    </a-scene>
+
+
 
   <canvas id="c"></canvas>
 
@@ -189,7 +206,8 @@ window.mode = 'browse';
 
 
 
-
+/*
+VIDEO NOW DONE WITH AR JS
 const video = document.getElementById('video');
 const videoConstraints = {
     facingMode: 'environment'
@@ -207,7 +225,7 @@ const videoConstraints = {
     .catch(error => {
       console.error(error);
     });
-
+*/
 
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
@@ -463,156 +481,8 @@ function showPanel() {
 
 
 
-
-function startReloc() {
-  
-  document.getElementById('map').style.top = '100%';
-  document.getElementById('reloc').style.display = 'inline';
-
-  setTimeout(function() { 
-    endReloc();
-  },2000);
-}
-
-
-function endReloc() {
-  //document.getElementById('panel').classList.remove('open');
-  document.getElementById('map').style.top = '0';
-  document.getElementById('reloc').style.display = 'none';
-
-  startVpsNav();
-}
-
-
-
 function startVpsNav() {
 
-  window.mode = 'nav';
-  
-  map.setPaintProperty('directions-route-line', 'line-width', 50);
-  
-
-
-  map.flyTo({center: startPosition, zoom: 20});
-  
-  setTimeout(function() { 
-
-    setTimeout(function() { 
-      
-
-      var t = 0;
-      var id = setInterval(pitch, 10);
-      function pitch() {
-        if (t === 60) {
-          clearInterval(id);
-          t = 0;
-        } else {
-          map.setPitch(t); //change to phone sensors
-          t ++
-        }
-      }
-
-
-      setTimeout(function() { 
-        map.setBearing(startBearing); //
-        setTimeout(function() { 
-          reduceLayers();
-          //addPath();
-
-
-          setTimeout(function() { 
-            document.getElementById('map-wrap').classList.add('half');
-    
-
-            var t = 0;
-            var id = setInterval(resize, 10);
-            function resize() {
-              if (t === 40) {
-                clearInterval(id);
-                t = 0;
-                map.flyTo({center: startPosition, zoom: 20});
-              } else {
-                t ++
-                map.resize();
-              }
-            }
-
-          },600);
-
-
-        },600);
-      },600);
-    },600);
-    
-    
-
-
-    
-  },600);
-
-  
-
-
-
-  map.setPaintProperty('directions-origin-point', 'circle-opacity', 0);
-  map.setPaintProperty('directions-destination-point', 'circle-opacity', 0);
-  if (map.getLayer('startPoint')) {
-    map.removeLayer('startPoint');
-  }
-  if (map.getSource('startPoint')) {
-    map.removeSource('startPoint');
-  }
-
-  
-
-
-
-  getLocation();
-  setTimeout(function() { 
-    setInterval(function() { 
-      getLocation();
-    },1000);
-  },3000);
-
-
-}
-
-
-
-function reduceLayers() {
-  //map.setStyle('mapbox://styles/mapbox/light-v10');
-  
-
-  setTimeout(function() { 
-
-    var t = 0;
-    var id = setInterval(fadeOutFeatures, 1);
-    function fadeOutFeatures() {
-      if (t === 100) {
-        clearInterval(id);
-        t = 0;
-      } else {
-        console.log(t);
-        var opacity = 1 - (t / 100);
-        console.log(opacity);
-        map.setPaintProperty('land', 'background-opacity', opacity);
-        map.setPaintProperty('road-pedestrian', 'line-opacity', opacity);
-        map.setPaintProperty('road-path', 'line-opacity', opacity);
-        map.setPaintProperty('road-pedestrian-case', 'line-opacity', opacity);
-        map.setPaintProperty('road-label', 'text-opacity', opacity);
-        t ++
-        
-      }
-    }
-
-
-    setTimeout(function() { 
-      addBuildings();
-    },600);
-  },2000);
-
-  
-  
 
 }
 
@@ -621,51 +491,6 @@ function reduceLayers() {
 
 
 
-function getNewLocation() {
-  console.log('new')
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showNewPosition);
-  } else {
-    console.log("Geolocation is not supported by this browser.");
-  }
-}
-function showNewPosition(position) {
-  console.log('show')
-
-  stopOrientation();
-  map.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
-  setTimeout(function() { 
-    startOrientation();
-  },1000);
-
-  var point = turf.point([position.coords.longitude, position.coords.latitude]);
-  window.bufferedPoint = turf.buffer(point, 0.002, {units: 'kilometers'});
-
-  if (map.getLayer('currentPoint')) {
-    map.removeLayer('currentPoint');
-  }
-  if (map.getSource('currentPoint')) {
-    map.removeSource('currentPoint');
-  }
-
-  map.addSource('currentPoint', {
-    'type': 'geojson',
-    'data': bufferedPoint
-  });
-
-  map.addLayer({
-    'id': 'currentPoint',
-    'type': 'fill-extrusion',
-    'source': 'currentPoint',
-    'paint': {
-      'fill-extrusion-color': '#286412',
-      'fill-extrusion-height': 0.2,
-      'fill-extrusion-base': 0,
-      'fill-extrusion-opacity': 0.5
-    }
-  });
-
-}
 
 
 
@@ -709,223 +534,6 @@ function zoomToPath(e) {
 
 
 
-function addBuildings() {
-
-  // Insert the layer beneath any symbol layer.
-  var layers = map.getStyle().layers;
-   
-  var labelLayerId;
-  for (var i = 0; i < layers.length; i++) {
-  if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
-  labelLayerId = layers[i].id;
-  break;
-  }
-  }
-   
-  map.addLayer(
-  {
-  'id': '3d-buildings',
-  'source': 'composite',
-  'source-layer': 'building',
-  'filter': ['==', 'extrude', 'true'],
-  'type': 'fill-extrusion',
-  'minzoom': 15,
-  'paint': {
-  'fill-extrusion-color': '#aaa',
-   
-  // use an 'interpolate' expression to add a smooth transition effect to the
-  // buildings as the user zooms in
-  'fill-extrusion-height': [
-  'interpolate',
-  ['linear'],
-  ['zoom'],
-  15,
-  0,
-  15.05,
-  ['get', 'height']
-  ],
-  'fill-extrusion-base': [
-  'interpolate',
-  ['linear'],
-  ['zoom'],
-  15,
-  0,
-  15.05,
-  ['get', 'min_height']
-  ],
-  'fill-extrusion-opacity': 0.6
-  }
-  },
-  labelLayerId
-  );
-}
-
-
-function handleOrientationPath(event) {
-
-  /*
-  var OldRange = (90 - 0);
-  var NewRange = (200 - 110);
-  var NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin;
-  */
-
-  if (event.beta > 0 && event.beta < 90) {
-    var perspective = event.beta * 10;
-
-    document.getElementById('map-wrap').style.perspective = perspective + "px";
-    
-  }
-}
-
-
-function handleOrientation(event) {
-
-  if (event.beta > 0 && event.beta < 90) {
-    //var perspective = event.beta + 100;
-    //document.getElementById('map-wrap').style.perspective = perspective;
-
-    //THIS IS FOR PERSPECTIVE  document.getElementById('map').style.transform = "rotateX(" + event.beta + "deg)";
-
-
-    map.setPitch(event.beta);
-  }
-
-
-  
-
-  //var bearing = event.gamma - (event.gamma * 2);
-  //map.setBearing(bearing);
-
-  /*
-    map.lookAt({ tilt: event.beta });
-
-    //var rotation = event.gamma - (event.gamma * 2);
-    map.lookAt({ heading: event.gamma });
-  */
-
-  if (event.webkitCompassHeading) {
-        absoluteHeading = event.webkitCompassHeading;
-    } else {
-        absoluteHeading = event.alpha;
-    }
-    console.log(absoluteHeading);
-    map.setBearing(absoluteHeading);
-
-    
-  updateFieldIfNotNull('Orientation_a', event.alpha);
-  updateFieldIfNotNull('Orientation_b', event.beta);
-  updateFieldIfNotNull('Orientation_g', event.gamma);
-    
-  
-}
-
-function manageCompass(event) {
-    
-}
-
-
-let is_running = false;
-let compass_button = document.getElementById("compass_button");
-compass_button.onclick = function(e) {
-  e.preventDefault();
-  
-  if (
-    DeviceMotionEvent &&
-    typeof DeviceMotionEvent.requestPermission === "function"
-  ) {
-    DeviceMotionEvent.requestPermission();
-  }
-  
-  if (is_running){
-    stopOrientation()
-    console.log('end')
-    //window.removeEventListener("devicemotion", handleMotion);
-    //window.removeEventListener('deviceorientation', manageCompass);
-    compass_button.innerHTML = "o";
-    is_running = false;
-  }else{
-    startOrientation()
-    console.log('start')
-    //window.addEventListener("devicemotion", handleMotion);
-    
-    //window.addEventListener('deviceorientation', manageCompass);
-    compass_button.innerHTML = "x";
-    
-  }
-};
-
-function startOrientation() {
-  window.addEventListener("deviceorientation", handleOrientation);
-  window.addEventListener("deviceorientation", handleOrientationPath);
-  is_running = true;
-
-  //map.on() - ADD TO STOP ORIENTATION WHEN NAVIGATING MAP
-}
-
-function stopOrientation() {
-  window.removeEventListener("deviceorientation", handleOrientation);
-  is_running = false;
-}
-
-
-window.curentMapMode = 'half';
-document.getElementById('map-mode').addEventListener('click', function() {
-  
-  if (curentMapMode === 'half') {
-    
-    console.log(curentMapMode)
-    document.getElementById('map-wrap').classList.remove('half');
-
-    var t = 0;
-    var id = setInterval(fadeOutFeatures, 1);
-    function fadeOutFeatures() {
-      if (t === 100) {
-        clearInterval(id);
-        t = 0;
-      } else {
-        console.log(t);
-        var opacity = t / 100;
-        map.setPaintProperty('land', 'background-opacity', opacity);
-        map.setPaintProperty('road-pedestrian', 'line-opacity', opacity);
-        map.setPaintProperty('road-path', 'line-opacity', opacity);
-        map.setPaintProperty('road-pedestrian-case', 'line-opacity', opacity);
-        map.setPaintProperty('road-label', 'text-opacity', opacity);
-        t ++
-        
-      }
-    }
-    
-    window.curentMapMode = 'full';  
-  } else {
-    window.curentMapMode = 'half';
-    console.log(curentMapMode)
-    document.getElementById('map-wrap').classList.add('half');
-    
-    var t = 0;
-    var id = setInterval(fadeOutFeatures, 1);
-    function fadeOutFeatures() {
-      if (t === 100) {
-        clearInterval(id);
-        t = 0;
-      } else {
-        console.log(t);
-        var opacity = 1 - (t / 100);
-        map.setPaintProperty('land', 'background-opacity', opacity);
-        map.setPaintProperty('road-pedestrian', 'line-opacity', opacity);
-        map.setPaintProperty('road-path', 'line-opacity', opacity);
-        map.setPaintProperty('road-pedestrian-case', 'line-opacity', opacity);
-        map.setPaintProperty('road-label', 'text-opacity', opacity);
-        t ++
-        
-      }
-    }
-    
-  }
-
-  
-
-  console.log(curentMapMode)
-})
 
 
  
