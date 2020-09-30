@@ -63,6 +63,17 @@
     height: 100%;
     display: none;
   }
+  #line-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    padding: 20px;
+    z-index: 9000;
+    width: 100%;
+    height: 100%;
+    display: none;
+  }
 
   #osm-panel {
     top: 0;
@@ -149,7 +160,26 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 
      <div id="sidebar">
 
-      <div id="control-panel">
+      <div id="line-panel">
+
+          <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="0" class="slider" id="route-size-slider">
+          </div>
+
+          <div class="slidecontainer">
+            <input type="range" min="3" max="15" value="0" class="slider" id="route-dash-slider">
+          </div>
+
+          <button id="delete-btn">Delete</button>
+
+          <button id="done">Done</button>
+
+        </div>
+
+
+
+
+        <div id="control-panel">
 
           <div class="slidecontainer">
             <input type="range" min="0" max="100" value="0" class="slider" id="scale-slider">
@@ -266,7 +296,188 @@ geocoder.on('result', function(ev) {
   map.jumpTo({ center: ev.result.center, zoom: 18 });
   
   
-})
+});
+
+
+
+var draw = new MapboxDraw({
+  displayControlsDefault: false,
+  controls: {
+    line_string: true,
+    trash: true
+  }
+});
+map.addControl(draw);
+
+
+var lines = {
+  "type":"FeatureCollection",
+  "features":[]
+};
+
+var points = {
+  "type":"FeatureCollection",
+  "features":[]
+};
+
+
+map.on('load', function() {
+
+
+map.addSource('lines', {
+  'type': 'geojson',
+  'data': lines
+});
+map.addLayer({
+  'id': 'lines',
+  'type': 'line',
+  'source': 'lines',
+  'layout': {
+    'line-join': 'round',
+    'line-cap': 'round'
+  },
+  'paint': {
+    'line-color': '#888',
+    'line-width': 8
+  }
+});
+
+map.addSource('points', {
+  "type": "geojson",
+  "data": points
+});
+map.addLayer({
+  "id": "points",
+  "type": "circle",
+  "source": 'points',
+  'paint': {
+    'circle-radius': 5,
+    'circle-color': '#ffffff',
+    /*
+    'circle-stroke-width': 2,
+    'circle-stroke-color': [
+      'match',
+      ['get', 'status'],
+      'verified',
+      '#05CB63',
+      'removed',
+      '#E05643',
+      'skipped',
+      '#aaaaaa',
+      'inactive',
+      '#aaaaaa',
+      '#EA45CE'
+    ],
+    */
+  }
+});
+
+
+});
+
+/*
+var scaleSlider = document.getElementById("scale-slider");
+  scaleSlider.oninput = function() {
+    var scaleAmount = this.value / 100;
+    root.scale.set(scaleAmount,scaleAmount,scaleAmount)
+  }
+*/
+
+map.on('click', 'lines', function(e) {
+
+  var thisLine = e.features[0];
+  var featureCount = e.features[0].properties.count;
+
+  
+
+
+  document.getElementById('line-panel').style.display = 'block';
+
+  var routeSizeSlider = document.getElementById("route-size-slider");
+  routeSizeSlider.oninput = function() {
+
+    for (var i = 0; i < featureCount; i++) {
+      var object = scene.getObjectByName( "route-" + i  );
+      scene.remove( object );
+    }
+
+    //var scaleAmount = this.value / 2000;
+    //paintRoads(scaleAmount)
+    //modelSettings.roadWidth = scaleAmount;
+    //root.scale.set(scaleAmount,scaleAmount,scaleAmount)
+  }
+
+  var routeDashSlider = document.getElementById("route-dash-slider");
+  routeDashSlider.oninput = function() {
+
+    for (var i = 0; i < featureCount; i++) {
+      var object = scene.getObjectByName( "route-" + i  );
+      scene.remove( object );
+    }
+
+
+
+    var scaleAmount = this.value / 5000;
+
+    console.log(thisLine)
+    console.log(scaleAmount)
+
+    renderPlaces(thisLine,scaleAmount,model)
+  }
+
+
+  var modelSelect = document.getElementById("model-select");
+  modelSelect.addEventListener("change", function() {
+    var value = modelSelect.options[e.selectedIndex].value;
+
+    for (var i = 0; i < featureCount; i++) {
+      var object = scene.getObjectByName( "route-" + i  );
+      scene.remove( object );
+    }
+
+    renderPlaces(thisLine,scaleAmount,value)
+
+  });
+
+  
+  
+
+
+});
+
+
+
+
+map.on('draw.create', updateArea);
+map.on('draw.delete', updateArea);
+map.on('draw.update', updateArea);
+
+
+function updateArea(e) {
+  var route = draw.getAll();
+
+
+  var thisRoute = route.features[0];
+
+  renderPlaces(thisRoute,0.005,model);
+  console.log(route);
+
+  //var layers = map.getStyle().layers;
+
+
+  
+
+  map.getSource('lines').setData(lines);
+
+
+  
+}
+
+
+
+
+
+
 
 var setBtn = document.getElementById('set-btn');
 setBtn.style.display = 'block';
@@ -554,7 +765,7 @@ window.center = turf.centerOfMass(sceneExtent);
 
 getOsmBbox();
 
-map.on('click', addPoint);
+//map.on('click', addPoint);
 
 
 
@@ -782,7 +993,7 @@ function paintRoads(width) {
     //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
     var mesh = new THREE.Mesh( geometry, material );
 
-    mesh.position.set( 0, 0.01, 0 );
+    mesh.position.set( 0, 0, 0 );
     mesh.rotation.set(1.56,0,0);
     mesh.name = 'road-' + index;
 
@@ -1114,6 +1325,88 @@ function setPoint(e,type) {
 
 
 
+function renderPlaces(route,dashSize,model) {
+
+
+
+
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+
+  var arPathPoints = {
+    "type":"FeatureCollection",
+    "features":[]
+  };
+
+  var routeLength = turf.length(route, {units: 'kilometers'});
+  var options = {units: 'kilometers'};
+  var lengthMetres = routeLength * 1000;
+
+  var i;
+  for (i = 0; i < lengthMetres; i++) {
+    var distanceAlong = i * dashSize;
+    console.log(dashSize)
+    var along = turf.along(route, distanceAlong, options);
+    arPathPoints.features.push(along)
+
+    if (i === lengthMetres || i > lengthMetres) {
+      //console.log(arPathPoints)
+    }
+  }
+
+  for(i=0; i < arPathPoints.features.length; i++) {
+
+    let latitude = arPathPoints.features[i].geometry.coordinates[1];
+    let longitude = arPathPoints.features[i].geometry.coordinates[0];
+
+    // threejs json
+    var pointX = turf.point([longitude,centerLat]);
+    var pointY = turf.point([centerLng,latitude]);
+    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+    var offsetX = (longitude - centerLng) * 10000;
+    var offsetY = (latitude - centerLat) * 10000;
+
+    addNewPoint(offsetX,offsetY,'route',i,model);
+
+
+
+  };
+
+
+  route.geometry.coordinates.forEach(function(turn,index) {
+    let latitude = turn[1];
+    let longitude = turn[0];
+
+
+    if (index < route.geometry.coordinates.length - 1) {
+      var thisCoords = route.geometry.coordinates[index];
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (thisCoords[0] - centerLng) * 10000;
+      var offsetY = (thisCoords[1] - centerLat) * 10000;
+
+      addNewArrow(offsetX,offsetY);
+    }
+
+
+    
+
+  })
+
+  route.properties.count = arPathPoints.features.length;
+  lines.features.push(route);
+
+
+}
+
 
 
 function addPathPoint(offsetX,offsetY) {
@@ -1132,18 +1425,26 @@ function addPathPoint(offsetX,offsetY) {
 }
 
 
-function addNewPoint(offsetX,offsetY) {
+function addNewPoint(offsetX,offsetY,id,index,model) {
   const gltfLoader = new GLTFLoader();
-  const url = 'https://sjmarshalluk.github.io/ar-tester/path.gltf';
+
+  if (model === 'arrow') {
+    const url = 'https://sjmarshalluk.github.io/model-maker/assets/path/arrows.gltf';
+  } else {
+    const url = 'https://sjmarshalluk.github.io/model-maker/assets/path/point.gltf';
+  }
+  
   gltfLoader.load(url, (gltf) => {
     const root = gltf.scene;
 
-    root.position.set(offsetY,0,offsetX);
+    root.position.set(offsetY,0.1,offsetX);
     root.scale.set(0.1,0.1,0.1);
     root.rotation.set(0,0,0);
+    root.name = id + '-' + index;
+
     scene.add(root);
 
-    objects.push(root);
+    //objects.push(root);
     //showControls(root);
 
   });
@@ -1159,6 +1460,8 @@ function addNewArrow(offsetX,offsetY) {
     root.position.set(offsetY,0,offsetX);
     root.scale.set(0.1,0.1,0.1);
     root.rotation.set(0,0,0);
+    
+
     scene.add(root);
 
     //showControls(root);
