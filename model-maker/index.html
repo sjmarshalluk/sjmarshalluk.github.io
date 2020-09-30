@@ -17,12 +17,15 @@
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css" type="text/css" />
 
 
-    <script src="https://unpkg.com/topojson-client@3"></script>
-<script src="https://unpkg.com/d3-array@1"></script>
-<script src="https://unpkg.com/d3-collection@1"></script>
-<script src="https://unpkg.com/d3-dispatch@1"></script>
-<script src="https://unpkg.com/d3-request@1"></script>
-<script src="https://unpkg.com/d3-timer@1"></script>
+     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css"/>
+
+
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
 
 <style type="text/css">
   
@@ -41,7 +44,7 @@
   }
 
   #c {
-    width: 50%;
+    width: 50%; 
     height: 100%;
     display: block;
     position: absolute;
@@ -49,155 +52,179 @@
   }
 
 
+  #control-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    padding: 20px;
+    z-index: 9000;
+    width: 100%;
+    height: 100%;
+    display: none;
+  }
+
+  #osm-panel {
+    top: 0;
+    right: 0;
+    background-color: #333;
+    z-index: 1000;
+    width: 100%;
+    color: #fff;
+    padding-top: 20px;
+  }
+
+
+
+  #search {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #fff;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+}
+
+  #navbar {
+
+  }
+
+  #sidebar {
+    width: 200px;
+    position: absolute;
+    left: 0;
+    height: 100%;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+  }
+  #editor {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: calc(100% - 200px);
+    right: 0;
+  }
+
+
+.mapboxgl-popup {
+max-width: 400px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.AttributionContainer { display: none; }
+        .BearingIndicatorContainer  { display: none; }
+        .ZoomContainer  { display: none; }
+
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib {
+  display: none!important
+}
+
+.mapboxgl-ctrl-geocoder {
+  width: 100%!important;
+  min-width: 0;
+}
+
 </style>
 
 </head>
 
 
 <body style='margin: 0; overflow: hidden;'>
-  <div id="map"></div>
-  <canvas id="c"></canvas>
+
+  <div class="modal" tabindex="-1" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button id="dot">Dot</button><button id="arrow">Arrow</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  
+
+     <div id="sidebar">
+
+      <div id="control-panel">
+
+          <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="0" class="slider" id="scale-slider">
+          </div>
+
+          <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="0" class="slider" id="angle-slider">
+          </div>
+
+          <button id="delete-btn">Delete</button>
+
+          <button id="done">Done</button>
+
+        </div>
+
+        <div id="search">
+          <div id="geocoder" class="geocoder"></div>
+        </div>
+        
+
+        
+
+        <div id="osm-panel">
+
+          <h6>Buildings</h6>
+          <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="10" class="slider" id="building-slider">
+          </div>
+
+
+          <h6>Roads</h6>
+          <div class="slidecontainer">
+            <input type="range" min="0" max="10" value="3" class="slider" id="road-slider">
+          </div>
+
+          
+
+        </div>
+
+      <div style="position: absolute;bottom: 0; width: 100%; left: 0; padding: 10px">
+      <button id="save-settings" class="btn btn-block">Save settings</button>
+      <button id="export_scene" class="btn btn-block">Export Scene</button>
+    </div>
+    </div>
+
+
+    
+
+  <div id="editor">
+
+    <div id="map"></div>
+
+    <button id="set-btn" class="btn btn-outline-success" style="position: absolute; top: 48%; right: 20%; z-index: 1000">Create model</button>
+    <canvas id="c"></canvas>
+
+  </div>
 
 
   <script type="module">
 
 
 
-
-
-var generatedRoute = {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            -0.9389743208885192,
-            51.00546844730805
-          ],
-          [
-            -0.9383225440979004,
-            51.00515620883096
-          ],
-          [
-            -0.9382903575897216,
-            51.00534523994379
-          ],
-          [
-            -0.9375742077827454,
-            51.00532161109682
-          ]
-        ]
-      }
-    },
-  ]
+var savedSettings = localStorage.getItem("mysettings");
+if (savedSettings) {
+  var modelSettings = {
+    "buildingHeight": 1,
+    "buildingColor": 0x00afaf,
+    "roadWidth": 0.003,
+    "pathWidth": 0.001
+  }
+} else {
+  var modelSettings = JSON.parse(savedSettings);
 }
 
-var actualRoute = {
-  "type": "FeatureCollection",
-  "features": [
-    {
-      "type": "Feature",
-      "properties": {},
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            -0.9389930963516235,
-            51.005476886156636
-          ],
-          [
-            -0.938955545425415,
-            51.00543975521135
-          ],
-          [
-            -0.9388884902000427,
-            51.00541781418427
-          ],
-          [
-            -0.9388643503189087,
-            51.00542456527062
-          ],
-          [
-            -0.9388107061386108,
-            51.00537899541858
-          ],
-          [
-            -0.9387060999870299,
-            51.00534186439498
-          ],
-          [
-            -0.9386390447616576,
-            51.00531654777089
-          ],
-          [
-            -0.9385827183723449,
-            51.00526422670402
-          ],
-          [
-            -0.938604176044464,
-            51.005205154460846
-          ],
-          [
-            -0.9384486079216002,
-            51.00512414097645
-          ],
-          [
-            -0.9384432435035706,
-            51.0052220322523
-          ],
-          [
-            -0.9384030103683471,
-            51.005218656694495
-          ],
-          [
-            -0.9383144974708557,
-            51.00524734892796
-          ],
-          [
-            -0.9382849931716918,
-            51.00529629446169
-          ],
-          [
-            -0.9382984042167664,
-            51.00533511329658
-          ],
-          [
-            -0.9382957220077514,
-            51.00536380545799
-          ],
-          [
-            -0.9382018446922301,
-            51.005368868778724
-          ],
-          [
-            -0.9380596876144408,
-            51.00535199104073
-          ],
-          [
-            -0.9379148483276366,
-            51.00533511329658
-          ],
-          [
-            -0.937732458114624,
-            51.00533848884588
-          ],
-          [
-            -0.9375420212745667,
-            51.00531654777089
-          ]
-        ]
-      }
-    }
-  ]
-}
-
-
-
-
+console.log(modelSettings)
 
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
@@ -208,79 +235,48 @@ var map = new mapboxgl.Map({
   zoom: 18
 });
 
+var geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl
+});
+document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
 
-map.on('load', function() {
+geocoder.on('results', function(results) {
+   console.log(results);
+})
 
+/*
+geocoder.on('result', function(ev) {
+  console.log(ev.result.center);
+  map.jumpTo({ center: ev.result.center, zoom: 17 });
+  clearLayers();
+  $('.mapboxgl-marker').css('display','none');
+  var activeFeatures = osmFeatures.filter(d => d.status === 'active');
+  if (activeFeatures.length == 0) {
+  } else {
+    getOsmBbox();
+  }
+  
+})
+*/
 
-  if (map.getLayer('generatedRoute')) {
-    map.removeLayer('generatedRoute');
-  }
-  if (map.getSource('generatedRoute')) {
-    map.removeSource('generatedRoute');
-  }
-  if (map.getLayer('actualRoute')) {
-    map.removeLayer('actualRoute');
-  }
-  if (map.getSource('actualRoute')) {
-    map.removeSource('actualRoute');
-  }
-  map.addSource('generatedRoute', {
-      "type": "geojson",
-      "data": generatedRoute
-  });
-  map.addLayer({
-      "id": "generatedRoute",
-      "type": "line",
-      "source": "generatedRoute",
-      "paint": {
-        "line-color": "blue",
-        "line-opacity": 1,
-        "line-width": 4
-      },
-      "layout": {
-        'line-cap': 'round',
-        'line-join': 'round'
-      }
-  });
-  map.addSource('actualRoute', {
-      "type": "geojson",
-      "data": actualRoute
-  });
-  map.addLayer({
-      "id": "actualRoute",
-      "type": "line",
-      "source": "actualRoute",
-      "paint": {
-        "line-color": "red",
-        "line-opacity": 1,
-        "line-width": 4
-      },
-      "layout": {
-        'line-cap': 'round',
-        'line-join': 'round'
-      }
-  });
+geocoder.on('result', function(ev) {
+  console.log(ev.result.center);
+  map.jumpTo({ center: ev.result.center, zoom: 18 });
+  
+  
+})
+
+var setBtn = document.getElementById('set-btn');
+setBtn.style.display = 'block';
+setBtn.addEventListener('click', function() {
+  setBtn.style.display = 'none';
+  setScene();
 })
 
 
-var draw = new MapboxDraw({
-  displayControlsDefault: false,
-  controls: {
-    line_string: true,
-    trash: true
-  }
-});
-map.addControl(draw);
-
-
-
-
-
-map.on('draw.create', updateArea);
-map.on('draw.delete', updateArea);
-map.on('draw.update', updateArea);
-    
+ 
 
 
     // Three.js - Load .OBJ ?
@@ -290,6 +286,7 @@ map.on('draw.update', updateArea);
 import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/build/three.module.js';
 import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/controls/OrbitControls.js';
 import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/loaders/GLTFLoader.js';
+import {GLTFExporter} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/exporters/GLTFExporter.js';
 
 
 
@@ -301,12 +298,14 @@ import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/thre
   const near = 1;
   const far = 100;
   const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-  camera.position.set(0, 10, 20);
+  camera.position.set(5, 5, 5);
+  
 
   const controls = new OrbitControls(camera, canvas);
   controls.target.set(0, 1, 0);
   controls.update();
 
+  var objects = [];
   window.scene = new THREE.Scene();
   scene.background = new THREE.Color('white');
 
@@ -381,6 +380,122 @@ import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/thre
 
 
 
+  /*
+  document.addEventListener( 'mousedown', onDocumentMouseDown );
+
+  function onDocumentMouseDown( event ) {    
+
+    console.log(objects)
+    console.log(event)
+    event.preventDefault();
+    var mouse3D = new THREE.Vector3( ( event.clientX / canvas.width ) * 2 - 1,   
+                            -( event.clientY / canvas.height ) * 2 + 1,  
+                            0 );     
+    var raycaster =  new THREE.Raycaster();                                        
+   raycaster.setFromCamera( mouse3D, camera );
+    var intersects = raycaster.intersectObjects( objects );
+    console.log(intersects)
+    if ( intersects.length > 0 ) {
+        intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
+    }
+  }
+  */
+
+
+
+
+  
+
+  const pickPosition = {x: 0, y: 0};
+  
+  clearPickPosition();
+
+  function getCanvasRelativePosition(event) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: (event.clientX - rect.left) * canvas.width  / rect.width,
+      y: (event.clientY - rect.top ) * canvas.height / rect.height,
+    };
+  }
+
+
+
+
+  var activeObject = null;
+  var objectColor = null;
+  function setPickPosition(event) {
+    class PickHelper {
+      constructor() {
+        this.raycaster = new THREE.Raycaster();
+        //this.pickedObject = null;
+        this.pickedObjectSavedColor = 0;
+      }
+      pick(normalizedPosition, scene, camera) {
+        // restore the color if there is a picked object
+        console.log(this.pickedObject)
+        if (activeObject) {
+          console.log('active')
+          activeObject.material.color.setHex(objectColor);
+          activeObject = undefined;
+        }
+
+        // cast a ray through the frustum
+        this.raycaster.setFromCamera(normalizedPosition, camera);
+        // get the list of objects the ray intersected
+        const intersectedObjects = this.raycaster.intersectObjects(scene.children, true);
+        console.log(intersectedObjects)
+        if (intersectedObjects.length) {
+          // pick the first object. It's the closest one
+          this.pickedObject = intersectedObjects[0].object;
+          // save its color
+          this.pickedObjectSavedColor = this.pickedObject.material.color.getHex();
+
+          activeObject = this.pickedObject;
+          objectColor = this.pickedObject.material.color.getHex();
+
+          //this.pickedObject.scale.set(1,1,1);
+
+          this.pickedObject.material.color.setHex(0xFFFF00);
+
+
+
+
+          console.log(activeObject)
+          showControls(this.pickedObject);
+
+
+          // set its emissive color to flashing red/yellow
+          //this.pickedObject.material.emissive.setHex((time * 8) % 2 > 1 ? 0xFFFF00 : 0xFF0000);
+        }
+      }
+    }
+    const pickHelper = new PickHelper();
+
+    pickHelper.pick(pickPosition, scene, camera);
+
+    const pos = getCanvasRelativePosition(event);
+
+
+    pickPosition.x = (pos.x / canvas.width ) *  2 - 1; 
+    pickPosition.y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
+
+  }
+
+  function clearPickPosition() {
+    // unlike the mouse which always has a position
+    // if the user stops touching the screen we want
+    // to stop picking. For now we just pick a value
+    // unlikely to pick something
+    pickPosition.x = -100000;
+    pickPosition.y = -100000;
+  }
+
+  canvas.addEventListener('mousedown', setPickPosition);
+  canvas.addEventListener('mousup', clearPickPosition);
+  //window.addEventListener('mouseleave', clearPickPosition);
+
+
+
 
 
 
@@ -403,34 +518,48 @@ import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/thre
       camera.updateProjectionMatrix();
     }
 
+    
+
     renderer.render(scene, camera);
 
     requestAnimationFrame(render);
   }
 
-  requestAnimationFrame(render);
+  render()
+
+  //requestAnimationFrame(render);
+
+
+
+window.pointType;
+
+function setScene() {
 
 
 
 
+ var bounds = map.getBounds();
+  console.log(bounds)
+var sceneExtent = turf.polygon([[
+    [bounds._ne.lng,bounds._ne.lat],
+    [bounds._sw.lng,bounds._ne.lat],
+    [bounds._sw.lng,bounds._sw.lat],
+    [bounds._ne.lng,bounds._sw.lat],
+    [bounds._ne.lng,bounds._ne.lat]
+    ]], { name: 'poly1' });
+console.log(sceneExtent)
+
+
+window.center = turf.centerOfMass(sceneExtent);
+
+getOsmBbox();
+
+map.on('click', addPoint);
 
 
 
-
-
-function updateArea(e) {
-  var route = draw.getAll();
-  var center = turf.centerOfMass(route);
-
-  
-
-  renderPlaces(route,center);
 
 }
-
-window.center = turf.centerOfMass(actualRoute);
-renderPlaces(generatedRoute,actualRoute,center)
-
 
 
 
@@ -442,10 +571,14 @@ window.osmBuildings = {
   "type":"FeatureCollection",
   "features":[]
 };
+window.osmNodes = {
+  "type":"FeatureCollection",
+  "features":[]
+};
 
 
 
-getOsmBbox();
+
 function getOsmBbox() {
   var bounds = map.getBounds();
   window.searchBbox = bounds._sw.lat + ',' + bounds._sw.lng + ',' + bounds._ne.lat + ',' + bounds._ne.lng;
@@ -477,6 +610,8 @@ function buildOverpassApiUrlFeat() {
   wayQuery += 'way[building](' + searchBbox + ');'
 
   wayQuery += 'way[highway](' + searchBbox + ');'
+
+  nodeQuery += 'node[highway=bus_stop](' + searchBbox + ');'
 
   //wayQuery += 'node[entrance](' + searchBbox + ');'
 
@@ -533,35 +668,45 @@ function showFeature(type,feature,shape){
       }
       
 
+      if(result.geometry.type == 'Point') {
+        if (result.properties.tags.highway == 'bus_stop') {
+          osmNodes.features.push(result);
+        }
+      }
+
 
 
       if(result.geometry.type == 'LineString') {
         if (result.properties.tags.highway == 'motorway') {
-          result.properties.roadcolour = '#CF2081';
+          result.properties.linetype = 'road';
           osmLines.features.push(result);
         }
         if (result.properties.tags.highway == 'primary') {
-          result.properties.roadcolour = '#F99906';
+          result.properties.linetype = 'road';
           osmLines.features.push(result);
         }
         if (result.properties.tags.highway == 'secondary') {
-          result.properties.roadcolour = '#F3F313';
+          result.properties.linetype = 'road';
           osmLines.features.push(result);
         }
         if (result.properties.tags.highway == 'tertiary') {
-          result.properties.roadcolour = '#FFF9B3';
+          result.properties.linetype = 'road';
           osmLines.features.push(result);
         }
         if (result.properties.tags.highway == 'residential') {
-          result.properties.roadcolour = '#ffffff';
+          result.properties.linetype = 'road';
           osmLines.features.push(result);
         }
         if (result.properties.tags.highway == 'pedestrian') {
-          result.properties.roadcolour = '#ffffff';
+          result.properties.linetype = 'path';
+          osmLines.features.push(result);
+        }
+        if (result.properties.tags.highway == 'footway') {
+          result.properties.linetype = 'path';
           osmLines.features.push(result);
         }
         if (result.properties.tags.highway == 'unclassified') {
-          result.properties.roadcolour = '#ffffff';
+          result.properties.linetype = 'road';
           osmLines.features.push(result);
         }
 
@@ -577,11 +722,78 @@ function showFeature(type,feature,shape){
 
 
 
-function renderOsm() {
+function paintRoads(width) {
+
   var centerLng = center.geometry.coordinates[0];
   var centerLat = center.geometry.coordinates[1];
 
+  var roads = [];
 
+  osmLines.features.forEach(function(road,index) {
+    if(road.properties.linetype === 'road') {
+      var buffered = turf.buffer(road, width, {units: 'kilometers'});
+      roads.push(buffered);
+    }
+  })
+
+  window.roadCount = roads.length;
+
+  roads.forEach(function(rd,index) {
+
+
+    var roadPoints = [];
+
+    roads[index].geometry.coordinates[0].forEach(function(corner,index) {
+      let latitude = corner[1];
+      let longitude = corner[0];
+
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (longitude - centerLng) * 10000;
+      var offsetY = (latitude - centerLat) * 10000;
+
+      //addTurn(offsetX,offsetY,bearing);
+
+
+      roadPoints.push( new THREE.Vector3( offsetY,offsetX ) );
+
+
+
+    })
+
+
+
+
+    var shape = new THREE.Shape( roadPoints );
+
+    var extrudeSettings = { amount: 0.01, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+
+    var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+
+    var material = new THREE.MeshBasicMaterial( {
+      color: 0xCCCCCC
+    } );
+
+    //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
+    var mesh = new THREE.Mesh( geometry, material );
+
+    mesh.position.set( 0, 0.01, 0 );
+    mesh.rotation.set(1.56,0,0);
+    mesh.name = 'road-' + index;
+
+    scene.add( mesh );
+    
+    
+    
+  });
+
+
+  /*
 
   osmLines.features.forEach(function(road,index) {
 
@@ -624,14 +836,97 @@ function renderOsm() {
     
   });
 
-
+  */
 
 
   
 
+}
+
+
+function paintPaths(width) {
+
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+  var paths = [];
+
+  osmLines.features.forEach(function(path,index) {
+    if(path.properties.linetype === 'path') {
+      var buffered = turf.buffer(path, width, {units: 'kilometers'});
+      paths.push(buffered);
+    }
+  })
+
+  window.roadCount = paths.length;
+
+  paths.forEach(function(rd,index) {
+
+
+    var pathPoints = [];
+
+    paths[index].geometry.coordinates[0].forEach(function(corner,index) {
+      let latitude = corner[1];
+      let longitude = corner[0];
+
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (longitude - centerLng) * 10000;
+      var offsetY = (latitude - centerLat) * 10000;
+
+      //addTurn(offsetX,offsetY,bearing);
+
+
+      pathPoints.push( new THREE.Vector3( offsetY,offsetX ) );
+
+
+
+    })
+
+
+
+
+    var shape = new THREE.Shape( pathPoints );
+
+    var extrudeSettings = { amount: 0.01, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+
+    var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+
+    var material = new THREE.MeshBasicMaterial( {
+      color: 0xCCCCCC
+    } );
+
+    //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
+    var mesh = new THREE.Mesh( geometry, material );
+
+    mesh.position.set( 0, 0.01, 0 );
+    mesh.rotation.set(1.56,0,0);
+    mesh.name = 'path-' + index;
+
+    scene.add( mesh );
+    
+    
+  });
+
+
+}
+
+
+
+function paintBuildings(height) {
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+  window.buildingCount = osmBuildings.features.length;
+  
+
   osmBuildings.features.forEach(function(building,index) {
 
-    var building = new THREE.Shape();
 
     var buildingPoints = [];
 
@@ -662,260 +957,358 @@ function renderOsm() {
     var shape = new THREE.Shape( buildingPoints );
 
 
-    var extrudeSettings = { amount: 1, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+    var extrudeSettings = { amount: height, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
     console.log(buildingPoints)
     var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 
-    var material2 = new THREE.MeshLambertMaterial( { color: 0xff8000, wireframe: false } );
-    var mesh = new THREE.Mesh( geometry, material2 );
+    var material = new THREE.MeshBasicMaterial( {
+      color: modelSettings.buildingColor
+    } );
 
-    mesh.position.set( 0, 1, 0 );
+    //var material2 = new THREE.MeshLambertMaterial( { color: 0xaaaaaa, wireframe: false } );
+    var mesh = new THREE.Mesh( geometry, material );
+
+    mesh.position.set( 0, height, 0 );
     mesh.rotation.set(1.56,0,0);
+
+    mesh.material.transparent = true;
+    mesh.material.opacity = 0.5; 
+    mesh.name = 'building-' + index;
 
     scene.add( mesh );
     
     
   });
   
+}
+
+
+
+function paintNodes(e,type) {
+  console.log(osmNodes)
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+  osmNodes.features.forEach(function(node,index) {    console.log(e)
+
+
+    let latitude = node.geometry.coordinates[1];
+    let longitude = node.geometry.coordinates[0];
+
+    // threejs json
+    var pointX = turf.point([longitude,centerLat]);
+    var pointY = turf.point([centerLng,latitude]);
+    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+    var offsetX = (longitude - centerLng) * 10000;
+    var offsetY = (latitude - centerLat) * 10000;
+
+
+    addNewPoint(offsetX,offsetY);
+
+    
+
+  })
+
 
 }
 
 
 
-function renderPlaces(route,actualRoute,center) {
+
+
+
+
+
+
+function renderOsm() {
+  
+
+
+
+  paintRoads(modelSettings.roadWidth);
+
+  paintPaths(modelSettings.pathWidth);
+
+  paintBuildings(modelSettings.buildingHeight);
+
+  paintNodes();
+
+
+}
+  
+
+
+
+
+
+
+function addPoint(e) {
+
+
+  // ADD TO MAP
+
+
+  document.getElementById('myModal').style.display = 'block';
+
+
+  /*
+  var popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+  });
+
+  popup.setLngLat([e.lngLat.lng,e.lngLat.lat]).setHTML('<button id="dot">Dot</button><button id="arrow">Arrow</button>').addTo(map);
+  */
+
+  document.getElementById('dot').addEventListener('click', function() {
+    var type = 'dot';
+    setPoint(e,type);
+    document.getElementById('myModal').style.display = 'none';
+  })
+  document.getElementById('arrow').addEventListener('click', function() {
+    var type = 'arrow';
+    setPoint(e,type);
+    document.getElementById('myModal').style.display = 'none';
+  })
+
+}
+
+
+
+
+function setPoint(e,type) {
+  console.log(e)
+
 
   var centerLng = center.geometry.coordinates[0];
   var centerLat = center.geometry.coordinates[1];
 
 
-  
 
-  var arPathPoints = {
-    "type":"FeatureCollection",
-    "features":[]
-  };
+  let latitude = e.lngLat.lat;
+  let longitude = e.lngLat.lng;
 
-  var routeLength = turf.length(route.features[0], {units: 'kilometers'});
-  var options = {units: 'kilometers'};
-  var lengthMetres = routeLength * 1000;
+  // threejs json
+  var pointX = turf.point([longitude,centerLat]);
+  var pointY = turf.point([centerLng,latitude]);
+  var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+  var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
 
-  var i;
-  for (i = 0; i < lengthMetres; i++) {
-    var distanceAlong = i * 0.001;
-    var along = turf.along(route.features[0], distanceAlong, options);
-    arPathPoints.features.push(along)
+  var offsetX = (longitude - centerLng) * 10000;
+  var offsetY = (latitude - centerLat) * 10000;
 
-    if (i === lengthMetres || i > lengthMetres) {
-      //console.log(arPathPoints)
-    }
+
+  if (type === 'dot') {
+    addNewPoint(offsetX,offsetY);
   }
-
-  for(i=0; i < arPathPoints.features.length; i++) {
-
-    let latitude = arPathPoints.features[i].geometry.coordinates[1];
-    let longitude = arPathPoints.features[i].geometry.coordinates[0];
-
-    // threejs json
-    var pointX = turf.point([longitude,centerLat]);
-    var pointY = turf.point([centerLng,latitude]);
-    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
-    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
-
-    var offsetX = (longitude - centerLng) * 10000;
-    var offsetY = (latitude - centerLat) * 10000;
-
-    addPathPoint(offsetX,offsetY);
-
-    if (i === 0) {
-      //camera.position.set(offsetX, 1, offsetY);
-    }
-
-  };
-
-
-
-
-
-
-
-
-  var arActualPoints = {
-    "type":"FeatureCollection",
-    "features":[]
-  };
-
-  var actualRouteLength = turf.length(actualRoute.features[0], {units: 'kilometers'});
-  var options = {units: 'kilometers'};
-  var actualLengthMetres = actualRouteLength * 1000;
-
-  var i;
-  for (i = 0; i < actualLengthMetres; i++) {
-    var distanceAlong = i * 0.001;
-    var along = turf.along(actualRoute.features[0], distanceAlong, options);
-    arActualPoints.features.push(along);
-
-
-
-    if (i === lengthMetres || i > lengthMetres) {
-      //console.log(arPathPoints)
-    }
+  if (type === 'arrow') {
+    addNewArrow(offsetX,offsetY);
   }
-
-  console.log(arActualPoints);
-  console.log(arPathPoints);
-
-  for(i=0; i < arActualPoints.features.length; i++) {
-
-    console.log(arActualPoints.features[i]);
-
-    let latitude = arActualPoints.features[i].geometry.coordinates[1];
-    let longitude = arActualPoints.features[i].geometry.coordinates[0];
-
-    // threejs json
-    var pointX = turf.point([longitude,centerLat]);
-    var pointY = turf.point([centerLng,latitude]);
-    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
-    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
-
-    var offsetX = (longitude - centerLng) * 10000;
-    var offsetY = (latitude - centerLat) * 10000;
-
-    addActualPathPoint(offsetX,offsetY);
-  };
-
-
-
 
   
-
-
-
-  route.features[0].geometry.coordinates.forEach(function(turn,index) {
-    let latitude = turn[1];
-    let longitude = turn[0];
-
-
-    var latlng = "latitude: " + String(turn[1]) + ";longitude: " + String(turn[0]);
-
-
-
-    if (index === 0) {
-      var thisCoords = route.features[0].geometry.coordinates[index];
-      var pointX = turf.point([longitude,centerLat]);
-      var pointY = turf.point([centerLng,latitude]);
-      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
-      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
-
-      var offsetX = (thisCoords[0] - centerLng) * 10000;
-      var offsetY = (thisCoords[1] - centerLat) * 10000;
-
-      addMarker(offsetX,offsetY);
-    }
-
-    if (index === route.features[0].geometry.coordinates.length - 1) {
-      var thisCoords = route.features[0].geometry.coordinates[index];
-      var pointX = turf.point([longitude,centerLat]);
-      var pointY = turf.point([centerLng,latitude]);
-      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
-      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
-
-      var offsetX = (thisCoords[0] - centerLng) * 10000;
-      var offsetY = (thisCoords[1] - centerLat) * 10000;
-
-      addMarker(offsetX,offsetY);
-    }
-
-    if (index > 0 && index < route.features[0].geometry.coordinates.length - 1) {
-      var thisCoords = route.features[0].geometry.coordinates[index];
-      var thisPoint = turf.point(thisCoords);
-
-      var next = route.features[0].geometry.coordinates[index + 1];
-      console.log(next)
-      var nextPoint = turf.point(next);
-
-      var bearing = turf.bearing(thisPoint, nextPoint);
-      
-
-      
-
-      // threejs json
-      var pointX = turf.point([longitude,centerLat]);
-      var pointY = turf.point([centerLng,latitude]);
-      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
-      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
-
-      var offsetX = (thisCoords[0] - centerLng) * 10000;
-      var offsetY = (thisCoords[1] - centerLat) * 10000;
-
-      addTurn(offsetX,offsetY,bearing);
-    }
-
-
-
-  })
-
-
-
-
-  function addTurn(offsetX,offsetY,bearing) {
-    
-    const gltfLoader = new GLTFLoader();
-    const url = 'https://sjmarshalluk.github.io/model-maker/arrows.gltf';
-    gltfLoader.load(url, (gltf) => {
-      const root = gltf.scene;
-
-      root.position.set(offsetY,0.3,offsetX);
-      root.scale.set(0.04,0.04,0.04);
-      root.rotation.set(0,bearing,0);
-      scene.add(root);
-
-    });
-  }
-
-  function addPathPoint(offsetX,offsetY) {
-    const gltfLoader = new GLTFLoader();
-    const url = 'https://sjmarshalluk.github.io/ar-tester/path.gltf';
-    gltfLoader.load(url, (gltf) => {
-      const root = gltf.scene;
-
-      root.position.set(offsetY,0,offsetX);
-      root.scale.set(0.1,0.1,0.1);
-      root.rotation.set(0,0,0);
-      scene.add(root);
-
-    });
-  }
-
-  function addActualPathPoint(offsetX,offsetY) {
-    const gltfLoader = new GLTFLoader();
-    const url = 'https://sjmarshalluk.github.io/model-maker/actual-path.gltf';
-    gltfLoader.load(url, (gltf) => {
-      const root = gltf.scene;
-
-      root.position.set(offsetY,0,offsetX);
-      root.scale.set(0.1,0.1,0.1);
-      root.rotation.set(0,0,0);
-      scene.add(root);
-
-    });
-  }
-
-  function addMarker(offsetX,offsetY) {
-    const gltfLoader = new GLTFLoader();
-    const url = 'https://sjmarshalluk.github.io/ar-tester/path.gltf';
-    gltfLoader.load(url, (gltf) => {
-      const root = gltf.scene;
-
-      root.position.set(offsetY,0,offsetX);
-      root.scale.set(0.3,0.1,0.3);
-      root.rotation.set(0,0,0);
-      scene.add(root);
-
-    });
-  }
 
 
 }
+
+
+
+
+
+function addPathPoint(offsetX,offsetY) {
+  const gltfLoader = new GLTFLoader();
+  const url = 'https://sjmarshalluk.github.io/ar-tester/path.gltf';
+  gltfLoader.load(url, (gltf) => {
+    const root = gltf.scene;
+
+    root.position.set(offsetY,0,offsetX);
+    root.scale.set(0.1,0.1,0.1);
+    root.rotation.set(0,0,0);
+    scene.add(root);
+
+
+  });
+}
+
+
+function addNewPoint(offsetX,offsetY) {
+  const gltfLoader = new GLTFLoader();
+  const url = 'https://sjmarshalluk.github.io/ar-tester/path.gltf';
+  gltfLoader.load(url, (gltf) => {
+    const root = gltf.scene;
+
+    root.position.set(offsetY,0,offsetX);
+    root.scale.set(0.1,0.1,0.1);
+    root.rotation.set(0,0,0);
+    scene.add(root);
+
+    objects.push(root);
+    //showControls(root);
+
+  });
+}
+
+function addNewArrow(offsetX,offsetY) {
+  console.log('arrow')
+  const gltfLoader = new GLTFLoader();
+  const url = 'https://sjmarshalluk.github.io/model-maker/arrows.gltf';
+  gltfLoader.load(url, (gltf) => {
+    const root = gltf.scene;
+
+    root.position.set(offsetY,0,offsetX);
+    root.scale.set(0.1,0.1,0.1);
+    root.rotation.set(0,0,0);
+    scene.add(root);
+
+    //showControls(root);
+
+  });
+}
+
+function showControls(root) {
+  console.log('hello')
+
+  var controls = document.getElementById('control-panel');
+  controls.style.display = 'block';
+
+  var scaleSlider = document.getElementById("scale-slider");
+  scaleSlider.oninput = function() {
+    var scaleAmount = this.value / 100;
+    root.scale.set(scaleAmount,scaleAmount,scaleAmount)
+  }
+
+  var angleSlider = document.getElementById("angle-slider");
+  angleSlider.oninput = function() {
+    var angleAmount = this.value / 10;
+    root.rotation.set(0,angleAmount,0)
+  }
+
+
+  var deleteBtn = document.getElementById("delete-btn");
+  deleteBtn.addEventListener('click', function() {
+    //root.geometry.dispose();
+    //root.material.dispose();
+    scene.remove( root );
+    controls.style.display = 'none';
+  });
+
+
+  document.getElementById('done').addEventListener('click', function() {
+    controls.style.display = 'none';
+  })
+
+
+}
+
+
+
+
+
+  var buildingSlider = document.getElementById("building-slider");
+  buildingSlider.oninput = function() {
+    for (var i = 0; i < buildingCount; i++) {
+      var object = scene.getObjectByName( "building-" + i  );
+      scene.remove( object );
+    }
+    var scaleAmount = this.value / 20;
+    paintBuildings(scaleAmount);
+    modelSettings.buildingHeight = scaleAmount;
+    //root.scale.set(scaleAmount,scaleAmount,scaleAmount)
+  }
+
+
+
+  var roadSlider = document.getElementById("road-slider");
+  roadSlider.oninput = function() {
+    for (var i = 0; i < roadCount; i++) {
+      var object = scene.getObjectByName( "road-" + i  );
+      scene.remove( object );
+    }
+    var scaleAmount = this.value / 2000;
+    paintRoads(scaleAmount)
+    modelSettings.roadWidth = scaleAmount;
+    //root.scale.set(scaleAmount,scaleAmount,scaleAmount)
+  }
+
+
+
+
+document.getElementById( 'export_scene' ).addEventListener( 'click', function () {
+
+        exportGLTF( scene );
+
+      } );
+
+
+var link = document.createElement( 'a' );
+      link.style.display = 'none';
+      document.body.appendChild( link ); // Firefox workaround, see #6594
+
+
+function exportGLTF( input ) {
+
+        var gltfExporter = new GLTFExporter();
+
+
+        gltfExporter.parse( input, function ( result ) {
+
+          if ( result instanceof ArrayBuffer ) {
+
+            saveArrayBuffer( result, 'scene.glb' );
+
+          } else {
+
+            var output = JSON.stringify( result, null, 2 );
+            console.log( output );
+            saveString( output, 'scene.gltf' );
+
+          }
+
+        } );
+
+      }
+
+
+      function saveString( text, filename ) {
+
+        save( new Blob( [ text ], { type: 'text/plain' } ), filename );
+
+      }
+
+      function saveArrayBuffer( buffer, filename ) {
+
+        save( new Blob( [ buffer ], { type: 'application/octet-stream' } ), filename );
+
+      }
+
+
+      function save( blob, filename ) {
+
+        link.href = URL.createObjectURL( blob );
+        link.download = filename;
+        link.click();
+
+        // URL.revokeObjectURL( url ); breaks Firefox...
+
+      }
+
+
+
+document.getElementById('save-settings').addEventListener('click', saveSettings);
+function saveSettings() {
+
+  console.log(modelSettings);
+
+
+
+  if (typeof(Storage) !== "undefined") {
+    localStorage.setItem("mysettings", JSON.stringify(modelSettings));
+  } else {
+  }
+}
+
+
 
   </script>
 
