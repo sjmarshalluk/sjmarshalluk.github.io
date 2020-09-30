@@ -7,6 +7,7 @@
 
 
 <script>
+  /*
   AFRAME.registerComponent("foo", {
     init: function() {
       var player = document.querySelector("a-camera")
@@ -31,27 +32,69 @@
       })
     }
   })
+  */
 
-  AFRAME.registerComponent("plane", {
+
+
+  AFRAME.registerComponent('plane', {
     init: function() {
-      var entityEl = document.querySelector("a-plane")
-      entityEl.setAttribute('position', '1 2 3');
+      var btn = document.getElementById('btn-plane');
+      btn.addEventListener("click", function() {
+        //var entityEl = document.querySelector("a-gltf-model");
+        var entityEl = document.getElementById("path")
+        var pos = entityEl.getAttribute("position");
+        console.log(pos)
+        if (pos.y === 1000) {
+          entityEl.setAttribute('position', '0 0 -3');
+        } else {
+          entityEl.setAttribute('position', '0 1000 -3');
+        }
+        
+      });
     }
-  })
+  });
+
+
+  AFRAME.registerComponent("arrows", {
+    init: function() {
+      var btn = document.getElementById('btn-arrows');
+      btn.addEventListener("click", function() {
+        //var entityEl = document.querySelector("a-gltf-model");
+        var entityEl = document.getElementById("skull")
+        var pos = entityEl.getAttribute("position");
+        console.log(pos)
+        if (pos.y === 1000) {
+          entityEl.setAttribute('position', '0 0 -3');
+        } else {
+          entityEl.setAttribute('position', '0 1000 -3');
+        }
+        
+      });
+    }
+  });
+
+  
 
 </script>
+
+<button id="btn-plane" style="position: absolute; z-index: 9999; left: 200px">place</button>
+<button id="btn-arrows" style="position: absolute; z-index: 9999; left: 300px">arrows</button>
+
+
+
+
 <a-scene>
-  <a-box position="-1 0.5 -3" rotation="0 45 0" foo color="#4CC3D9"></a-box>
-  <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-  <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-  <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-  <a-sky color="#ECECEC"></a-sky>
+  <a-gltf-model arrows id='skull' position='0 0 -3' rotation='0 50 0' scale='0.5 0.5 0.5' src='https://sjmarshalluk.github.io/model-maker/models/lavant-test.gltf'></a-gltf-model>
+  <a-plane plane id="path" position="0 0 -4" rotation="-90 0 -90" width="100" height="4" color="#7BC8A4"></a-plane>
+
   <a-camera></a-camera>
 </a-scene>
 
 
 <script>
 
+  
+/*
     window.addEventListener("load", initAFrame);
 
     function initAFrame(){
@@ -69,6 +112,7 @@
   })
 
 }
+*/
 
 </script>
 
