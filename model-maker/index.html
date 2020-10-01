@@ -377,7 +377,11 @@ var modelSettings = {
   "pathWidth": 0.001,
   "routeStart": 'none',
   "routeEnd": 'none',
-  "routeTurn": 'none'
+  "routeTurn": 'none',
+  "routeType": 'solid',
+  "routeWidth": 0.003,
+  "routeColor": 0x00afaf,
+  "routePosZ": 0.1
 }
 
 console.log(modelSettings)
@@ -695,6 +699,23 @@ function editOsmObject(type) {
   });
 
 
+    var opacitySlider = editPanel.appendChild(document.createElement('input'));
+    opacitySlider.setAttribute("type", "range");
+    opacitySlider.setAttribute("min", "0");
+    opacitySlider.setAttribute("max", "100");
+    opacitySlider.setAttribute("value", "50");
+
+    opacitySlider.oninput = function() {
+      var scaleAmount = this.value / 100;
+      osmObjects.features.forEach(function(osm,index) {
+        if (osm.properties.type === type) {
+          var object = scene.getObjectByName( "osm-" + index  );
+          object.material.opacity = scaleAmount;
+        }
+      });
+    }
+
+
   if (type === 'building') {
     var buildingSlider = document.getElementById("building-slider");
 
@@ -759,6 +780,38 @@ function editObject(thisObject,objInd) {
     var editPanel = document.getElementById('panel');
     editPanel.innerHTML = '';
 
+
+
+    var routeTypeLabel = editPanel.appendChild(document.createElement('label'));
+    routeTypeLabel.innerHTML = 'Route Type';
+    var routeTypeSelect = editPanel.appendChild(document.createElement('select'));
+    routeTypeSelect.classList.add('form-control');
+
+    var routeSolid = routeTypeSelect.appendChild(document.createElement('option'));
+    routeSolid.innerHTML = 'Solid';
+    routeSolid.value = 'solid';
+    var routeDotted = routeTypeSelect.appendChild(document.createElement('option'));
+    routeDotted.innerHTML = 'Dotted';
+    routeDotted.value = 'dotted';
+
+    routeTypeSelect.addEventListener("change", function() {
+      var value = routeTypeSelect.value;
+      modelSettings.routeType = value;
+
+      for (var i = 0; i < featureCount; i++) {
+        var object = scene.getObjectByName( "route-" + i  );
+        scene.remove( object );
+      }
+      var object = scene.getObjectByName( "route" );
+      scene.remove( object );
+
+      renderPlaces(thisObject,0.005,value)
+
+    }); 
+
+
+    var routeSizeSliderLabel = editPanel.appendChild(document.createElement('label'));
+    routeSizeSliderLabel.innerHTML = 'Point Size';
     var routeSizeSlider = editPanel.appendChild(document.createElement('input'));
     routeSizeSlider.setAttribute("type", "range");
     routeSizeSlider.setAttribute("min", "0");
@@ -773,6 +826,9 @@ function editObject(thisObject,objInd) {
     }
 
 
+
+    var routeDashSliderLabel = editPanel.appendChild(document.createElement('label'));
+    routeDashSliderLabel.innerHTML = 'Point Distance';
     var routeDashSlider = editPanel.appendChild(document.createElement('input'));
     routeDashSlider.setAttribute("type", "range");
     routeDashSlider.setAttribute("min", "0");
@@ -790,7 +846,11 @@ function editObject(thisObject,objInd) {
     }
 
 
+
+    var modelSelectLabel = editPanel.appendChild(document.createElement('label'));
+    modelSelectLabel.innerHTML = 'Point Type';
     var modelSelect = editPanel.appendChild(document.createElement('select'));
+    modelSelect.classList.add('form-control');
 
     var modelPoint = modelSelect.appendChild(document.createElement('option'));
     modelPoint.innerHTML = 'Point';
@@ -813,7 +873,10 @@ function editObject(thisObject,objInd) {
 
 
 
+    var turnSelectLabel = editPanel.appendChild(document.createElement('label'));
+    turnSelectLabel.innerHTML = 'Turn Type';
     var turnSelect = editPanel.appendChild(document.createElement('select'));
+    turnSelect.classList.add('form-control');
 
     var turnPoint = turnSelect.appendChild(document.createElement('option'));
     turnPoint.innerHTML = 'Point';
@@ -834,6 +897,60 @@ function editObject(thisObject,objInd) {
       renderPlaces(thisObject,0.005)
 
     }); 
+
+
+
+    var routeWidthSliderLabel = editPanel.appendChild(document.createElement('label'));
+    routeWidthSliderLabel.innerHTML = 'Route Width';
+    var routeWidthSlider = editPanel.appendChild(document.createElement('input'));
+    routeWidthSlider.setAttribute("type", "range");
+    routeWidthSlider.setAttribute("min", "0");
+    routeWidthSlider.setAttribute("max", "10");
+    routeWidthSlider.setAttribute("value", "3");
+    routeWidthSlider.oninput = function() {
+      var object = scene.getObjectByName( "route");
+      scene.remove( object );
+
+      var scaleAmount = this.value / 2000;
+      modelSettings.routeWidth = scaleAmount;
+      renderPlaces(thisObject)
+    }
+
+
+    var routePosZLabel = editPanel.appendChild(document.createElement('label'));
+    routePosZLabel.innerHTML = 'Route Pos Z';
+    var routePosZ = editPanel.appendChild(document.createElement('input'));
+    routePosZ.setAttribute("type", "range");
+    routePosZ.setAttribute("min", "-10");
+    routePosZ.setAttribute("max", "10");
+    routePosZ.setAttribute("value", "1");
+    routePosZ.oninput = function() {
+      var scaleAmount = this.value / 10;
+      modelSettings.posZ = scaleAmount;
+      var object = scene.getObjectByName( "route"  );
+      object.position.y = scaleAmount;
+
+    }
+
+
+    var colorPick = editPanel.appendChild(document.createElement('input'));
+    colorPick.setAttribute("type", "text");
+    colorPick.setAttribute("name", "color1");
+    colorPick.setAttribute("value", "#333399");
+    colorPick.id = 'color1';
+
+    $('#color1').colorPicker( { 
+      onColorChange : function(id, newValue) { 
+
+        var newColor = parseInt('0x' + newValue.substring(1));
+
+        modelSettings.routeColor = newColor;
+
+        var object = scene.getObjectByName( "route"  );
+        object.material.color.setHex( newColor );
+
+      } 
+    });
 
   }
 
@@ -1447,11 +1564,9 @@ function paintBuildings(height) {
       console.log(buildingPoints)
       var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 
-      var material = new THREE.MeshStandardMaterial( {
-        color: modelSettings.buildingColor
-      } );
+      var material = new THREE.MeshStandardMaterial( { color: modelSettings.buildingColor } );
 
-      //var material2 = new THREE.MeshLambertMaterial( { color: 0xaaaaaa, wireframe: false } );
+      //var material = new THREE.MeshLambertMaterial( { color: 0xaaaaaa, wireframe: true } );
       var mesh = new THREE.Mesh( geometry, material );
 
       mesh.position.set( 0, height, 0 );
@@ -1617,60 +1732,22 @@ function renderPlaces(route,dashSize,model) {
 
 
 
+  if (modelSettings.routeType === 'solid') {
 
-  var centerLng = center.geometry.coordinates[0];
-  var centerLat = center.geometry.coordinates[1];
+    var buffered = turf.buffer(route, modelSettings.routeWidth, {units: 'kilometers'});
 
-
-  var arPathPoints = {
-    "type":"FeatureCollection",
-    "features":[]
-  };
-
-  var routeLength = turf.length(route, {units: 'kilometers'});
-  var options = {units: 'kilometers'};
-  var lengthMetres = routeLength * 1000;
-
-  var i;
-  for (i = 0; i < lengthMetres; i++) {
-    var distanceAlong = i * dashSize;
-    console.log(dashSize)
-    var along = turf.along(route, distanceAlong, options);
-    arPathPoints.features.push(along)
-
-    if (i === lengthMetres || i > lengthMetres) {
-      //console.log(arPathPoints)
-    }
-  }
-
-  for(i=0; i < arPathPoints.features.length; i++) {
-
-    let latitude = arPathPoints.features[i].geometry.coordinates[1];
-    let longitude = arPathPoints.features[i].geometry.coordinates[0];
-
-    // threejs json
-    var pointX = turf.point([longitude,centerLat]);
-    var pointY = turf.point([centerLng,latitude]);
-    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
-    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
-
-    var offsetX = (longitude - centerLng) * 10000;
-    var offsetY = (latitude - centerLat) * 10000;
-
-    addNewPoint(offsetX,offsetY,'route',i,model);
+    var centerLng = center.geometry.coordinates[0];
+    var centerLat = center.geometry.coordinates[1];
 
 
+    var routePoints = [];
 
-  };
+    buffered.geometry.coordinates[0].forEach(function(corner,index) {
+      console.log(corner)
 
+      let latitude = corner[1];
+      let longitude = corner[0];
 
-  route.geometry.coordinates.forEach(function(turn,index) {
-    let latitude = turn[1];
-    let longitude = turn[0];
-
-
-    if (index < route.geometry.coordinates.length - 1) {
-      var thisCoords = route.geometry.coordinates[index];
 
       // threejs json
       var pointX = turf.point([longitude,centerLat]);
@@ -1678,26 +1755,128 @@ function renderPlaces(route,dashSize,model) {
       var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
       var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
 
-      var offsetX = (thisCoords[0] - centerLng) * 10000;
-      var offsetY = (thisCoords[1] - centerLat) * 10000;
+      var offsetX = (longitude - centerLng) * 10000;
+      var offsetY = (latitude - centerLat) * 10000;
 
-      console.log(modelSettings.routeTurn);
-      if (modelSettings.routeTurn === 'arrow') {
-        addNewArrow(offsetX,offsetY);
-      }
-      if (modelSettings.routeTurn === 'point') {
-        addNewPoint(offsetX,offsetY);
-      }
+      //addTurn(offsetX,offsetY,bearing);
+
+
+      routePoints.push( new THREE.Vector3( offsetY,offsetX ) );
+
+
+
+    })
+
+
+
+
+    var shape = new THREE.Shape( routePoints );
+
+    var extrudeSettings = { amount: 0, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+
+    var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+
+    var material = new THREE.MeshBasicMaterial( {
+      color: modelSettings.routeColor
+    } );
+
+    //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
+    var mesh = new THREE.Mesh( geometry, material );
+
+    mesh.position.set( 0, modelSettings.routePosZ, 0 );
+    mesh.rotation.set(1.56,0,0);
+    mesh.name = 'route';
+
+    scene.add( mesh );
       
+
+  } else {
+
+
+    var centerLng = center.geometry.coordinates[0];
+    var centerLat = center.geometry.coordinates[1];
+
+
+    var arPathPoints = {
+      "type":"FeatureCollection",
+      "features":[]
+    };
+
+    var routeLength = turf.length(route, {units: 'kilometers'});
+    var options = {units: 'kilometers'};
+    var lengthMetres = routeLength * 1000;
+
+    var i;
+    for (i = 0; i < lengthMetres; i++) {
+      var distanceAlong = i * dashSize;
+      console.log(dashSize)
+      var along = turf.along(route, distanceAlong, options);
+      arPathPoints.features.push(along)
+
+      if (i === lengthMetres || i > lengthMetres) {
+        //console.log(arPathPoints)
+      }
     }
 
+    for(i=0; i < arPathPoints.features.length; i++) {
 
-    
+      let latitude = arPathPoints.features[i].geometry.coordinates[1];
+      let longitude = arPathPoints.features[i].geometry.coordinates[0];
 
-  })
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (longitude - centerLng) * 10000;
+      var offsetY = (latitude - centerLat) * 10000;
+
+      addNewPoint(offsetX,offsetY,'route',i,model);
 
 
-  route.properties.count = arPathPoints.features.length;
+
+    };
+
+
+    route.geometry.coordinates.forEach(function(turn,index) {
+      let latitude = turn[1];
+      let longitude = turn[0];
+
+
+      if (index < route.geometry.coordinates.length - 1) {
+        var thisCoords = route.geometry.coordinates[index];
+
+        // threejs json
+        var pointX = turf.point([longitude,centerLat]);
+        var pointY = turf.point([centerLng,latitude]);
+        var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+        var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+        var offsetX = (thisCoords[0] - centerLng) * 10000;
+        var offsetY = (thisCoords[1] - centerLat) * 10000;
+
+        console.log(modelSettings.routeTurn);
+        if (modelSettings.routeTurn === 'arrow') {
+          addNewArrow(offsetX,offsetY);
+        }
+        if (modelSettings.routeTurn === 'point') {
+          addNewPoint(offsetX,offsetY);
+        }
+        
+      }
+
+
+      
+
+    })
+
+    route.properties.count = arPathPoints.features.length;
+
+  }
+
+
+  
   myObjects.features.push(route);
 
 
