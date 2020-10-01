@@ -1,6 +1,28 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+
+    <style type="text/css">
+      .a-enter-vr { display: none; }
+
+      .buttons {
+        position: absolute;
+        width: 44px;
+        height: 94px;
+        bottom: 10px;
+        right: 10px;
+        z-index: 9999;
+      }
+      button {
+        width: 44px;
+        height: 44px;
+        border-radius: 44px;
+        background-color: #fff;
+        margin-bottom: 10px;
+        border: none;
+      }
+    </style>
   </head>
   <body>
 
@@ -55,19 +77,45 @@
   });
 
 
-  AFRAME.registerComponent("arrows", {
+  AFRAME.registerComponent("path", {
     init: function() {
-      var btn = document.getElementById('btn-arrows');
+      var btn = document.getElementById('btn-path');
+      btn.addEventListener("click", function() {
+        var path = document.getElementById("path");
+        path.setAttribute('position', '-23.7 0 20');
+
+
+        var dollhouse = document.getElementById("dollhouse");
+        dollhouse.setAttribute('position', '-0.5 1000 -4');
+        
+      });
+    }
+  });
+
+
+  AFRAME.registerComponent("dollhouse", {
+    init: function() {
+      var btn = document.getElementById('btn-doll');
       btn.addEventListener("click", function() {
         //var entityEl = document.querySelector("a-gltf-model");
-        var entityEl = document.getElementById("skull")
+
+        var path = document.getElementById("path");
+        path.setAttribute('position', '-23.7 1000 20');
+
+
+        var dollhouse = document.getElementById("dollhouse");
+        dollhouse.setAttribute('position', '-0.5 0 -4');
+
+        /*
+        var entityEl = document.getElementById("dollhouse")
         var pos = entityEl.getAttribute("position");
         console.log(pos)
         if (pos.y === 1000) {
-          entityEl.setAttribute('position', '0 0 -3');
+          entityEl.setAttribute('position', '-0.5 0 -1');
         } else {
-          entityEl.setAttribute('position', '0 1000 -3');
+          entityEl.setAttribute('position', '-0.5 1000 -1');
         }
+        */
         
       });
     }
@@ -77,15 +125,18 @@
 
 </script>
 
-<button id="btn-plane" style="position: absolute; z-index: 9999; left: 200px">place</button>
-<button id="btn-arrows" style="position: absolute; z-index: 9999; left: 300px">arrows</button>
+<div class="buttons">
 
+<button id="btn-path">path</button>
+<button id="btn-doll">doll</button>
+</div>
 
 
 
 <a-scene>
-  <a-gltf-model arrows id='skull' position='0 0 -3' rotation='0 50 0' scale='0.5 0.5 0.5' src='https://sjmarshalluk.github.io/model-maker/models/lavant-test.gltf'></a-gltf-model>
-  <a-plane plane id="path" position="0 0 -4" rotation="-90 0 -90" width="100" height="4" color="#7BC8A4"></a-plane>
+  <a-gltf-model dollhouse id='dollhouse' position='-0.5 0 -4' rotation='0 205 0' scale='0.5 0.5 0.5' src='https://sjmarshalluk.github.io/model-maker/models/lavant-test.gltf'></a-gltf-model>
+
+  <a-gltf-model path id='path' position='-23.7 0 20' rotation='0 205 0' scale='10 10 10' src='https://sjmarshalluk.github.io/model-maker/models/lavant-path-test.gltf'></a-gltf-model>
 
   <a-camera></a-camera>
 </a-scene>
