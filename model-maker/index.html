@@ -25,6 +25,10 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+  <script language="javascript" type="text/javascript" src="js/jquery.colorPicker.min.js"/></script>
+  <link rel="stylesheet" href="css/colorPicker.css" type="text/css" />
+
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
 
 
 <style type="text/css">
@@ -43,6 +47,11 @@
     z-index: 10; 
   }
 
+  #c:focus,
+  #map:focus {
+    outline: none;
+  }
+
   #c {
     width: 50%; 
     height: 100%;
@@ -52,37 +61,56 @@
   }
 
 
+  #object-list {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #CCC;
+  }
+
+  #object-list ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #object-list ul li:hover {
+    cursor: pointer;
+    background-color: #fafafa;
+  }
+  
+
+
   #control-panel {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #333;
     padding: 20px;
     z-index: 9000;
     width: 100%;
     height: 100%;
     display: none;
+    background-color: #fff;
   }
   #line-panel {
     position: absolute;
     top: 0;
     left: 0;
-    background-color: #333;
     padding: 20px;
     z-index: 9000;
     width: 100%;
     height: 100%;
     display: none;
+    background-color: #fff;
   }
 
   #osm-panel {
     top: 0;
     right: 0;
-    background-color: #333;
+    background-color: #fff;
     z-index: 1000;
     width: 100%;
-    color: #fff;
     padding-top: 20px;
+    display: none;
   }
 
 
@@ -95,6 +123,7 @@
   z-index: 2000;
   top: 0;
   left: 0;
+  margin-bottom: 10px;
 }
 
   #navbar {
@@ -107,15 +136,35 @@
     left: 0;
     height: 100%;
     padding: 10px;
-    background-color: #333;
-    color: #fff;
+    background-color: #fff;
+    border-right: 1px solid #CCC;
+  }
+  #panel {
+    width: 200px;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    padding: 10px;
+    background-color: #fff;
+    border-left: 1px solid #CCC;
   }
   #editor {
     height: 100%;
     position: absolute;
     top: 0;
-    width: calc(100% - 200px);
-    right: 0;
+    width: calc(100% - 400px);
+    right: 200px;
+  }
+
+  #editor.canvas-view #map {
+    width: 0;
+  }
+  #editor.canvas-view #c {
+    width: 100%;
+  }
+
+  input[type="range"] {
+    width: 100%;
   }
 
 
@@ -137,6 +186,19 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
   width: 100%!important;
   min-width: 0;
 }
+.mapboxgl-ctrl-group {
+  box-shadow: none!important;
+}
+.mapbox-gl-draw_line {
+  width: 100%!important;
+  background-color: #f0f0f0!important;
+  padding: .75rem .75rem!important;
+  border-radius: .25rem!important;
+  line-height: 1.5!important;
+  margin-bottom: 10px;
+}
+.mapboxgl-ctrl-directions { display: none }
+
 
 </style>
 
@@ -154,25 +216,51 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
     </div>
   </div>
 </div>
-
-
   
 
-     <div id="sidebar">
+  <div id="panel">
+    
+        <div id="line-panel">
 
-      <div id="line-panel">
+          <label for="route-size-slider">Size</label>
+          <input type="range" min="0" max="100" value="0" class="custom-range" id="route-size-slider">
 
-          <div class="slidecontainer">
-            <input type="range" min="0" max="100" value="0" class="slider" id="route-size-slider">
-          </div>
 
+          <label for="route-size-slider">Distance</label>
           <div class="slidecontainer">
             <input type="range" min="3" max="15" value="0" class="slider" id="route-dash-slider">
           </div>
 
-          <button id="delete-btn">Delete</button>
 
-          <button id="done">Done</button>
+          <label for="route-size-slider">Style</label>
+          <select name="models" class="form-control" id="model-select">
+            <option value="point">Point</option>
+            <option value="arrow">Arrow</option>
+          </select>
+
+          <label for="turn-select">Turns</label>
+          <select name="models" class="form-control" id="turn-select">
+            <option value="arrow">Arrow</option>
+            <option value="point">Point</option>
+          </select>
+
+          <label for="start-select">Start</label>
+          <select name="models" class="form-control" id="start-select">
+            <option>Select</option>
+            <option value="point">Point</option>
+            <option value="arrow">Arrow</option>
+          </select>
+
+          <label for="end-select">End</label>
+          <select name="models" class="form-control" id="end-select">
+            <option>Select</option>
+            <option value="point">Point</option>
+            <option value="arrow">Arrow</option>
+          </select>
+
+          <button id="delete-btn" class="btn btn-block">Delete</button>
+
+          <button id="done" class="btn btn-block">Done</button>
 
         </div>
 
@@ -189,40 +277,58 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
             <input type="range" min="0" max="100" value="0" class="slider" id="angle-slider">
           </div>
 
-          <button id="delete-btn">Delete</button>
+          <button id="delete-btn" class="btn btn-block">Delete</button>
 
-          <button id="done">Done</button>
+          <button id="done" class="btn btn-block">Done</button>
 
         </div>
 
-        <div id="search">
-          <div id="geocoder" class="geocoder"></div>
-        </div>
-        
-
-        
 
         <div id="osm-panel">
 
-          <h6>Buildings</h6>
-          <div class="slidecontainer">
-            <input type="range" min="0" max="100" value="10" class="slider" id="building-slider">
-          </div>
+          <h6>OSM</h6>
+
+          <label for="building-slider">Building Height</label>
+          <input type="range" min="0" max="100" value="10" class="custom-range" id="building-slider">
 
 
-          <h6>Roads</h6>
-          <div class="slidecontainer">
-            <input type="range" min="0" max="10" value="3" class="slider" id="road-slider">
-          </div>
+          <label for="road-slider">Road Width</label>
+
+          <div id="line-width-slider"></div>
+
+
 
           
 
         </div>
+    </div>
+  
+
+     <div id="sidebar">
+
+      
+
+        <div id="search">
+          <div id="geocoder" class="geocoder"></div>
+        </div>
+
+        <button id="set-btn" class="btn btn-block btn-outline-success">Create model</button>
+        
+
+        <div id="add-features" style="display: none;">
+          <button id="add-point" class="btn btn-block">Add point</button>
+          <button id="add-route" class="btn btn-block" style="margin-bottom: 10px">Add route</button>
+          <div id="drawline"></div>
+          
+        </div>
+
+        <div id="object-list"></div>
+        
 
       <div style="position: absolute;bottom: 0; width: 100%; left: 0; padding: 10px">
-      <button id="save-settings" class="btn btn-block">Save settings</button>
-      <button id="export_scene" class="btn btn-block">Export Scene</button>
-    </div>
+        <button id="save-settings" class="btn btn-block">Save settings</button>
+        <button id="export_scene" class="btn btn-block">Export Scene</button>
+      </div>
     </div>
 
 
@@ -230,9 +336,11 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 
   <div id="editor">
 
+    <button id="toggle-map" class="btn" style="position: absolute; bottom: 10px; left: 10px; z-index: 1000"><</button>
+
     <div id="map"></div>
 
-    <button id="set-btn" class="btn btn-outline-success" style="position: absolute; top: 48%; right: 20%; z-index: 1000">Create model</button>
+    
     <canvas id="c"></canvas>
 
   </div>
@@ -242,6 +350,13 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 
 
 
+
+document.getElementById('toggle-map').addEventListener('click', function() {
+  var editor = document.getElementById("editor");
+  editor.classList.toggle("canvas-view");
+})
+
+/*
 var savedSettings = localStorage.getItem("mysettings");
 if (savedSettings) {
   var modelSettings = {
@@ -252,6 +367,17 @@ if (savedSettings) {
   }
 } else {
   var modelSettings = JSON.parse(savedSettings);
+}
+*/
+
+var modelSettings = {
+  "buildingHeight": 1,
+  "buildingColor": 0x00afaf,
+  "roadWidth": 0.003,
+  "pathWidth": 0.001,
+  "routeStart": 'none',
+  "routeEnd": 'none',
+  "routeTurn": 'none'
 }
 
 console.log(modelSettings)
@@ -299,39 +425,45 @@ geocoder.on('result', function(ev) {
 });
 
 
+var directions = new MapboxDirections({
+  accessToken: mapboxgl.accessToken,
+  interactive: false
+});
+map.addControl(directions);
+
+
 
 var draw = new MapboxDraw({
   displayControlsDefault: false,
   controls: {
     line_string: true,
-    trash: true
+    trash: false
   }
 });
-map.addControl(draw);
+//map.addControl(draw);
+document.getElementById('drawline').appendChild(draw.onAdd(map));
 
 
-var lines = {
+
+
+var myObjects = {
   "type":"FeatureCollection",
   "features":[]
 };
 
-var points = {
-  "type":"FeatureCollection",
-  "features":[]
-};
 
 
 map.on('load', function() {
 
 
-map.addSource('lines', {
+map.addSource('objects', {
   'type': 'geojson',
-  'data': lines
+  'data': myObjects
 });
 map.addLayer({
-  'id': 'lines',
+  'id': 'line-objects',
   'type': 'line',
-  'source': 'lines',
+  'source': 'objects',
   'layout': {
     'line-join': 'round',
     'line-cap': 'round'
@@ -339,20 +471,18 @@ map.addLayer({
   'paint': {
     'line-color': '#888',
     'line-width': 8
-  }
+  },
+  'filter': ['==', '$type', 'LineString']
 });
 
-map.addSource('points', {
-  "type": "geojson",
-  "data": points
-});
+
 map.addLayer({
   "id": "points",
   "type": "circle",
-  "source": 'points',
+  "source": 'objects',
   'paint': {
     'circle-radius': 5,
-    'circle-color': '#ffffff',
+    'circle-color': '#000',
     /*
     'circle-stroke-width': 2,
     'circle-stroke-color': [
@@ -369,7 +499,8 @@ map.addLayer({
       '#EA45CE'
     ],
     */
-  }
+  },
+  'filter': ['==', '$type', 'Point']
 });
 
 
@@ -383,67 +514,123 @@ var scaleSlider = document.getElementById("scale-slider");
   }
 */
 
-map.on('click', 'lines', function(e) {
+map.on('click', 'objects', function(e) {
 
-  var thisLine = e.features[0];
-  var featureCount = e.features[0].properties.count;
-
+  //var thisLine = e.features[0];
   
 
-
-  document.getElementById('line-panel').style.display = 'block';
-
-  var routeSizeSlider = document.getElementById("route-size-slider");
-  routeSizeSlider.oninput = function() {
-
-    for (var i = 0; i < featureCount; i++) {
-      var object = scene.getObjectByName( "route-" + i  );
-      scene.remove( object );
-    }
-
-    //var scaleAmount = this.value / 2000;
-    //paintRoads(scaleAmount)
-    //modelSettings.roadWidth = scaleAmount;
-    //root.scale.set(scaleAmount,scaleAmount,scaleAmount)
-  }
-
-  var routeDashSlider = document.getElementById("route-dash-slider");
-  routeDashSlider.oninput = function() {
-
-    for (var i = 0; i < featureCount; i++) {
-      var object = scene.getObjectByName( "route-" + i  );
-      scene.remove( object );
-    }
-
-
-
-    var scaleAmount = this.value / 5000;
-
-    console.log(thisLine)
-    console.log(scaleAmount)
-
-    renderPlaces(thisLine,scaleAmount,model)
-  }
-
-
-  var modelSelect = document.getElementById("model-select");
-  modelSelect.addEventListener("change", function() {
-    var value = modelSelect.options[e.selectedIndex].value;
-
-    for (var i = 0; i < featureCount; i++) {
-      var object = scene.getObjectByName( "route-" + i  );
-      scene.remove( object );
-    }
-
-    renderPlaces(thisLine,scaleAmount,value)
-
-  });
-
   
+  //editObject(e.features[0]);
+
   
 
 
 });
+
+
+
+var addPointBtn = document.getElementById('add-point');
+addPointBtn.addEventListener('click', toggleAddPoint);
+
+function toggleAddPoint() {
+  map.on('click', addPoint);
+}
+
+
+var addRouteBtn = document.getElementById('add-route');
+addRouteBtn.addEventListener('click', function() {
+
+  map.on('click', setRouteStart)
+
+});
+
+function setRouteStart(e) {
+  map.off('click', setRouteStart);
+  map.on('click', setRouteEnd);
+  console.log(e);
+
+  window.routeStart = [e.lngLat.lng,e.lngLat.lat]
+
+  //directions.setOrigin([e.lngLat.lng,e.lngLat.lat]);
+}
+function setRouteEnd(e) {
+  map.off('click', setRouteEnd);
+  console.log(e)
+
+  window.routeEnd = [e.lngLat.lng,e.lngLat.lat]
+  //directions.setDestination([e.lngLat.lng,e.lngLat.lat]);
+
+  getRoute();
+}
+
+
+
+
+
+/*
+directions.on('route', function(e) {
+
+  console.log(e)
+})
+*/
+
+
+
+
+
+
+
+
+// create a function to make a directions request
+function getRoute(end) {
+  // make a directions request using cycling profile
+  // an arbitrary start will always be the same
+  // only the end or destination will change
+  var start = [-122.662323, 45.523751];
+  var url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + routeStart[0] + ',' + routeStart[1] + ';' + routeEnd[0] + ',' + routeEnd[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+
+  // make an XHR request https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
+  var req = new XMLHttpRequest();
+  req.open('GET', url, true);
+  req.onload = function() {
+    var json = JSON.parse(req.response);
+    var data = json.routes[0];
+
+    var route = data.geometry.coordinates;
+    var myRoutes = {
+      "type":"FeatureCollection",
+      "features":[]
+    };
+    var geojson = {
+      type: 'Feature',
+      properties: {
+        id: 'my-route',
+      },
+      geometry: {
+        type: 'LineString',
+        coordinates: route
+      }
+    };
+
+    console.log(geojson)
+
+    renderPlaces(geojson,0.005);
+    updateObjectList();
+
+
+    
+    // add turn instructions here at the end
+  };
+  req.send();
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -459,7 +646,7 @@ function updateArea(e) {
 
   var thisRoute = route.features[0];
 
-  renderPlaces(thisRoute,0.005,model);
+  renderPlaces(thisRoute,0.005);
   console.log(route);
 
   //var layers = map.getStyle().layers;
@@ -467,10 +654,241 @@ function updateArea(e) {
 
   
 
-  map.getSource('lines').setData(lines);
+  
+
+  updateObjectList();
 
 
   
+}
+
+
+
+
+function editOsmObject(type) {
+
+  var editPanel = document.getElementById('panel');
+  editPanel.innerHTML = '';
+
+  var colorPick = editPanel.appendChild(document.createElement('input'));
+  colorPick.setAttribute("type", "text");
+  colorPick.setAttribute("name", "color1");
+  colorPick.setAttribute("value", "#333399");
+  colorPick.id = 'color1';
+
+  $('#color1').colorPicker( { 
+    onColorChange : function(id, newValue) { 
+      console.log("ID: " + id + " has been changed to " + newValue); 
+
+      var newColor = parseInt('0x' + newValue.substring(1));
+      console.log(newColor)
+
+      osmObjects.features.forEach(function(osm,index) {
+        if (osm.properties.type === type) {
+          var object = scene.getObjectByName( "osm-" + index  );
+          object.material.color.setHex( newColor );
+        }
+      });
+
+
+    } 
+  });
+
+
+  if (type === 'building') {
+    var buildingSlider = document.getElementById("building-slider");
+
+    var buildingHeightSlider = editPanel.appendChild(document.createElement('input'));
+    buildingHeightSlider.setAttribute("type", "range");
+    buildingHeightSlider.setAttribute("min", "0");
+    buildingHeightSlider.setAttribute("max", "100");
+    buildingHeightSlider.setAttribute("value", "10");
+
+    buildingHeightSlider.oninput = function() {
+      osmObjects.features.forEach(function(osm,index) {
+        if (osm.properties.type === 'building') {
+          var object = scene.getObjectByName( "osm-" + index  );
+          scene.remove( object );
+        }
+      });
+
+      var scaleAmount = this.value / 20;
+      paintBuildings(scaleAmount);
+      modelSettings.buildingHeight = scaleAmount;
+    }
+  }
+
+
+  
+  if (type === 'road' || type === 'path') {
+    var lineWidthSlider = editPanel.appendChild(document.createElement('input'));
+    lineWidthSlider.setAttribute("type", "range");
+    lineWidthSlider.setAttribute("min", "0");
+    lineWidthSlider.setAttribute("max", "10");
+    lineWidthSlider.setAttribute("value", "3");
+    lineWidthSlider.oninput = function() {
+      osmObjects.features.forEach(function(osm,index) {
+        if (osm.properties.type === type) {
+          var object = scene.getObjectByName( "osm-" + index  );
+          scene.remove( object );
+        }
+      });
+      var scaleAmount = this.value / 2000;
+      if (type === 'road') {
+        paintRoads(scaleAmount);
+        modelSettings.roadWidth = scaleAmount;
+      }
+      if (type === 'path') {
+        paintPaths(scaleAmount)
+      }
+    }
+  }
+  
+  
+}
+
+
+
+
+function editObject(thisObject,objInd) {
+
+  if (thisObject.geometry.type === 'LineString') {
+
+    var featureCount = thisObject.properties.count;
+
+    var editPanel = document.getElementById('panel');
+    editPanel.innerHTML = '';
+
+    var routeSizeSlider = editPanel.appendChild(document.createElement('input'));
+    routeSizeSlider.setAttribute("type", "range");
+    routeSizeSlider.setAttribute("min", "0");
+    routeSizeSlider.setAttribute("max", "100");
+    routeSizeSlider.setAttribute("value", "0");
+    routeSizeSlider.oninput = function() {
+      var scaleAmount = this.value / 500;
+      for (var i = 0; i < featureCount; i++) {
+        var object = scene.getObjectByName( "route-" + i  );
+        object.scale.set(scaleAmount,scaleAmount,scaleAmount);
+      }
+    }
+
+
+    var routeDashSlider = editPanel.appendChild(document.createElement('input'));
+    routeDashSlider.setAttribute("type", "range");
+    routeDashSlider.setAttribute("min", "0");
+    routeDashSlider.setAttribute("max", "100");
+    routeDashSlider.setAttribute("value", "0");
+    routeDashSlider.oninput = function() {
+      for (var i = 0; i < featureCount; i++) {
+        var object = scene.getObjectByName( "route-" + i  );
+        scene.remove( object );
+      }
+      var scaleAmount = this.value / 5000;
+
+      delete myObjects.features[objInd];
+      renderPlaces(thisObject,scaleAmount)
+    }
+
+
+    var modelSelect = editPanel.appendChild(document.createElement('select'));
+
+    var modelPoint = modelSelect.appendChild(document.createElement('option'));
+    modelPoint.innerHTML = 'Point';
+    modelPoint.value = 'point';
+    var modelArrow = modelSelect.appendChild(document.createElement('option'));
+    modelArrow.innerHTML = 'Arrow';
+    modelArrow.value = 'arrow';
+
+    modelSelect.addEventListener("change", function() {
+      var value = modelSelect.value;
+
+      for (var i = 0; i < featureCount; i++) {
+        var object = scene.getObjectByName( "route-" + i  );
+        scene.remove( object );
+      }
+
+      renderPlaces(thisObject,0.005,value)
+
+    }); 
+
+
+
+    var turnSelect = editPanel.appendChild(document.createElement('select'));
+
+    var turnPoint = turnSelect.appendChild(document.createElement('option'));
+    turnPoint.innerHTML = 'Point';
+    turnPoint.value = 'point';
+    var turnArrow = turnSelect.appendChild(document.createElement('option'));
+    turnArrow.innerHTML = 'Arrow';
+    turnArrow.value = 'arrow';
+
+    turnSelect.addEventListener("change", function() {
+      var value = turnSelect.value;
+      modelSettings.routeTurn = value;
+      console.log(modelSettings)
+      for (var i = 0; i < featureCount; i++) {
+        var object = scene.getObjectByName( "route-" + i  );
+        scene.remove( object );
+      }
+
+      renderPlaces(thisObject,0.005)
+
+    }); 
+
+  }
+
+  
+  
+}
+
+
+
+function updateObjectList() {
+
+
+  map.getSource('objects').setData(myObjects);
+  //map.getSource('osm-objects').setData(osmObjects);
+
+
+
+  var objectList = document.getElementById('object-list');
+  objectList.innerHTML = '';
+
+  var objectUl = objectList.appendChild(document.createElement('ul'));
+
+
+  var result = Object.keys(osmObjects.features).reduce(function(acc, key) {
+    var aff = osmObjects.features[key].properties.type;
+    if(acc[aff]) acc[aff]++;
+    else         acc[aff] = 1;           
+    return acc;
+  }, {});
+
+  for (var key in result) {
+    if (result.hasOwnProperty(key)) {
+      
+      console.log(key + " -> " + result[key]);
+
+      //var uniqueSpeeds = panel.appendChild(document.createElement('p'));
+      //uniqueSpeeds.innerHTML = key + " -> " + result[key];
+      var objectItem = objectUl.appendChild(document.createElement('li'));
+      objectItem.innerHTML = key;
+      objectItem.setAttribute('data-type', key);
+      objectItem.addEventListener('click', function() {
+        editOsmObject(this.getAttribute('data-type'));
+      })
+    }
+  }
+
+
+  myObjects.features.forEach(function(obj,index) {
+    var objectItem = objectUl.appendChild(document.createElement('li'));
+    objectItem.innerHTML = obj.geometry.type;
+    objectItem.addEventListener('click', function() {
+      editObject(myObjects.features[index],index);
+    })
+  })
+
 }
 
 
@@ -482,6 +900,8 @@ function updateArea(e) {
 var setBtn = document.getElementById('set-btn');
 setBtn.style.display = 'block';
 setBtn.addEventListener('click', function() {
+  document.getElementById('search').style.display = 'none';
+  document.getElementById('add-features').style.display = 'block';
   setBtn.style.display = 'none';
   setScene();
 })
@@ -562,150 +982,11 @@ import {GLTFExporter} from 'https://threejsfundamentals.org/threejs/resources/th
 
 
 
-  /*
-  {
-    var manager = new THREE.LoadingManager();
-    var textureLoader = new THREE.TextureLoader(manager);
-
-            var texture = textureLoader.load('https://cdn.shopify.com/s/files/1/0558/2081/products/Batman_Returns_FC_1024x1024.jpg?v=1541685585');
-    var toon = new THREE.MeshDepthMaterial({
-                transparent: true,
-                opacity: 0.5
-       });
-    const objLoader = new OBJLoader2();
-    objLoader.load('https://sjmarshalluk.github.io/model-maker/arrows.obj', (root) => {
-      root.traverse(function(child) {
-                        if (child instanceof THREE.Mesh) {
-                            child.material = toon;
-                            // child.material.shininess=0;
-                            // child.material.specular=0xffffff;
-                            //child.material.normalMap = texture;
-                        }
-                    });
-      root.position.set(0,2,0);
-      scene.add(root);
-      
-    });
-  }
-  */
-
-
-
-  /*
-  document.addEventListener( 'mousedown', onDocumentMouseDown );
-
-  function onDocumentMouseDown( event ) {    
-
-    console.log(objects)
-    console.log(event)
-    event.preventDefault();
-    var mouse3D = new THREE.Vector3( ( event.clientX / canvas.width ) * 2 - 1,   
-                            -( event.clientY / canvas.height ) * 2 + 1,  
-                            0 );     
-    var raycaster =  new THREE.Raycaster();                                        
-   raycaster.setFromCamera( mouse3D, camera );
-    var intersects = raycaster.intersectObjects( objects );
-    console.log(intersects)
-    if ( intersects.length > 0 ) {
-        intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
-    }
-  }
-  */
 
 
 
 
   
-
-  const pickPosition = {x: 0, y: 0};
-  
-  clearPickPosition();
-
-  function getCanvasRelativePosition(event) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-      x: (event.clientX - rect.left) * canvas.width  / rect.width,
-      y: (event.clientY - rect.top ) * canvas.height / rect.height,
-    };
-  }
-
-
-
-
-  var activeObject = null;
-  var objectColor = null;
-  function setPickPosition(event) {
-    class PickHelper {
-      constructor() {
-        this.raycaster = new THREE.Raycaster();
-        //this.pickedObject = null;
-        this.pickedObjectSavedColor = 0;
-      }
-      pick(normalizedPosition, scene, camera) {
-        // restore the color if there is a picked object
-        console.log(this.pickedObject)
-        if (activeObject) {
-          console.log('active')
-          activeObject.material.color.setHex(objectColor);
-          activeObject = undefined;
-        }
-
-        // cast a ray through the frustum
-        this.raycaster.setFromCamera(normalizedPosition, camera);
-        // get the list of objects the ray intersected
-        const intersectedObjects = this.raycaster.intersectObjects(scene.children, true);
-        console.log(intersectedObjects)
-        if (intersectedObjects.length) {
-          // pick the first object. It's the closest one
-          this.pickedObject = intersectedObjects[0].object;
-          // save its color
-          this.pickedObjectSavedColor = this.pickedObject.material.color.getHex();
-
-          activeObject = this.pickedObject;
-          objectColor = this.pickedObject.material.color.getHex();
-
-          //this.pickedObject.scale.set(1,1,1);
-
-          this.pickedObject.material.color.setHex(0xFFFF00);
-
-
-
-
-          console.log(activeObject)
-          showControls(this.pickedObject);
-
-
-          // set its emissive color to flashing red/yellow
-          //this.pickedObject.material.emissive.setHex((time * 8) % 2 > 1 ? 0xFFFF00 : 0xFF0000);
-        }
-      }
-    }
-    const pickHelper = new PickHelper();
-
-    pickHelper.pick(pickPosition, scene, camera);
-
-    const pos = getCanvasRelativePosition(event);
-
-
-    pickPosition.x = (pos.x / canvas.width ) *  2 - 1; 
-    pickPosition.y = (pos.y / canvas.height) * -2 + 1;  // note we flip Y
-
-  }
-
-  function clearPickPosition() {
-    // unlike the mouse which always has a position
-    // if the user stops touching the screen we want
-    // to stop picking. For now we just pick a value
-    // unlikely to pick something
-    pickPosition.x = -100000;
-    pickPosition.y = -100000;
-  }
-
-  canvas.addEventListener('mousedown', setPickPosition);
-  canvas.addEventListener('mousup', clearPickPosition);
-  //window.addEventListener('mouseleave', clearPickPosition);
-
-
 
 
 
@@ -765,13 +1046,18 @@ window.center = turf.centerOfMass(sceneExtent);
 
 getOsmBbox();
 
-//map.on('click', addPoint);
+
 
 
 
 
 }
 
+
+var osmObjects = {
+  "type":"FeatureCollection",
+  "features":[]
+};
 
 
 window.osmLines = {
@@ -874,59 +1160,41 @@ function showFeature(type,feature,shape){
       
       if (result.properties.tags.building === 'yes' || result.properties.tags.building === 'parking' || result.properties.tags.building === 'commercial' || result.properties.tags.building === 'office' || result.properties.tags.building === 'apartments') {
         
-        osmBuildings.features.push(result);
+        result.properties.type = 'building';
+        osmObjects.features.push(result);
+
+        //osmBuildings.features.push(result);
         console.log(osmBuildings)
       }
       
 
       if(result.geometry.type == 'Point') {
         if (result.properties.tags.highway == 'bus_stop') {
-          osmNodes.features.push(result);
+          result.properties.type = 'bus_stop';
+          osmObjects.features.push(result);
         }
       }
 
 
 
       if(result.geometry.type == 'LineString') {
-        if (result.properties.tags.highway == 'motorway') {
-          result.properties.linetype = 'road';
-          osmLines.features.push(result);
-        }
-        if (result.properties.tags.highway == 'primary') {
-          result.properties.linetype = 'road';
-          osmLines.features.push(result);
-        }
-        if (result.properties.tags.highway == 'secondary') {
-          result.properties.linetype = 'road';
-          osmLines.features.push(result);
-        }
-        if (result.properties.tags.highway == 'tertiary') {
-          result.properties.linetype = 'road';
-          osmLines.features.push(result);
-        }
-        if (result.properties.tags.highway == 'residential') {
-          result.properties.linetype = 'road';
-          osmLines.features.push(result);
-        }
-        if (result.properties.tags.highway == 'pedestrian') {
-          result.properties.linetype = 'path';
-          osmLines.features.push(result);
-        }
-        if (result.properties.tags.highway == 'footway') {
-          result.properties.linetype = 'path';
-          osmLines.features.push(result);
-        }
-        if (result.properties.tags.highway == 'unclassified') {
-          result.properties.linetype = 'road';
-          osmLines.features.push(result);
+        if (result.properties.tags.highway == 'motorway' || result.properties.tags.highway == 'primary' || result.properties.tags.highway == 'secondary' || result.properties.tags.highway == 'tertiary' || result.properties.tags.highway == 'residential' || result.properties.tags.highway == 'unclassified' ) {
+          result.properties.type = 'road';
+          osmObjects.features.push(result);
         }
 
+
+        if (result.properties.tags.highway == 'pedestrian' || result.properties.tags.highway == 'footway' ) {
+          result.properties.type = 'path';
+          osmObjects.features.push(result);
+        }
 
       }
     });
 
     console.log(osmLines)
     renderOsm()
+    updateObjectList();
 
   });   
 }
@@ -940,21 +1208,22 @@ function paintRoads(width) {
 
   var roads = [];
 
-  osmLines.features.forEach(function(road,index) {
-    if(road.properties.linetype === 'road') {
+  osmObjects.features.forEach(function(road,index) {
+    if(road.properties.type === 'road') {
       var buffered = turf.buffer(road, width, {units: 'kilometers'});
+      buffered.properties.index = index;
       roads.push(buffered);
     }
   })
 
   window.roadCount = roads.length;
 
-  roads.forEach(function(rd,index) {
+  roads.forEach(function(rd) {
 
 
     var roadPoints = [];
 
-    roads[index].geometry.coordinates[0].forEach(function(corner,index) {
+    rd.geometry.coordinates[0].forEach(function(corner,index) {
       let latitude = corner[1];
       let longitude = corner[0];
 
@@ -982,7 +1251,7 @@ function paintRoads(width) {
 
     var shape = new THREE.Shape( roadPoints );
 
-    var extrudeSettings = { amount: 0.01, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+    var extrudeSettings = { amount: 0, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
 
     var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 
@@ -995,7 +1264,7 @@ function paintRoads(width) {
 
     mesh.position.set( 0, 0, 0 );
     mesh.rotation.set(1.56,0,0);
-    mesh.name = 'road-' + index;
+    mesh.name = 'osm-' + rd.properties.index;
 
     scene.add( mesh );
     
@@ -1062,21 +1331,22 @@ function paintPaths(width) {
 
   var paths = [];
 
-  osmLines.features.forEach(function(path,index) {
-    if(path.properties.linetype === 'path') {
+  osmObjects.features.forEach(function(path,index) {
+    if(path.properties.type === 'path') {
       var buffered = turf.buffer(path, width, {units: 'kilometers'});
+      buffered.properties.index = index;
       paths.push(buffered);
     }
   })
 
   window.roadCount = paths.length;
 
-  paths.forEach(function(rd,index) {
+  paths.forEach(function(path) {
 
 
     var pathPoints = [];
 
-    paths[index].geometry.coordinates[0].forEach(function(corner,index) {
+    path.geometry.coordinates[0].forEach(function(corner,index) {
       let latitude = corner[1];
       let longitude = corner[0];
 
@@ -1104,7 +1374,7 @@ function paintPaths(width) {
 
     var shape = new THREE.Shape( pathPoints );
 
-    var extrudeSettings = { amount: 0.01, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+    var extrudeSettings = { amount: 0, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
 
     var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 
@@ -1117,7 +1387,7 @@ function paintPaths(width) {
 
     mesh.position.set( 0, 0.01, 0 );
     mesh.rotation.set(1.56,0,0);
-    mesh.name = 'path-' + index;
+    mesh.name = 'osm-' + path.properties.index;
 
     scene.add( mesh );
     
@@ -1136,59 +1406,64 @@ function paintBuildings(height) {
   window.buildingCount = osmBuildings.features.length;
   
 
-  osmBuildings.features.forEach(function(building,index) {
+  //osmBuildings.features.forEach(function(building,index) {
+
+  console.log(osmObjects)
+
+  osmObjects.features.forEach(function(building,index) {
+    if (building.properties.type === 'building') {
+
+      var buildingPoints = [];
+
+      osmObjects.features[index].geometry.coordinates[0].forEach(function(turn,index) {
+        console.log(turn)
+        let latitude = turn[1];
+        let longitude = turn[0];
 
 
-    var buildingPoints = [];
+        // threejs json
+        var pointX = turf.point([longitude,centerLat]);
+        var pointY = turf.point([centerLng,latitude]);
+        var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+        var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
 
-    osmBuildings.features[index].geometry.coordinates[0].forEach(function(turn,index) {
-      let latitude = turn[1];
-      let longitude = turn[0];
+        var offsetX = (longitude - centerLng) * 10000;
+        var offsetY = (latitude - centerLat) * 10000;
 
-
-      // threejs json
-      var pointX = turf.point([longitude,centerLat]);
-      var pointY = turf.point([centerLng,latitude]);
-      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
-      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
-
-      var offsetX = (longitude - centerLng) * 10000;
-      var offsetY = (latitude - centerLat) * 10000;
-
-      //addTurn(offsetX,offsetY,bearing);
+        //addTurn(offsetX,offsetY,bearing);
 
 
-      buildingPoints.push( new THREE.Vector3( offsetY,offsetX ) );
+        buildingPoints.push( new THREE.Vector3( offsetY,offsetX ) );
 
 
 
-    })
+      })
 
 
-    var shape = new THREE.Shape( buildingPoints );
+      var shape = new THREE.Shape( buildingPoints );
 
 
-    var extrudeSettings = { amount: height, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
-    console.log(buildingPoints)
-    var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+      var extrudeSettings = { amount: height, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+      console.log(buildingPoints)
+      var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 
-    var material = new THREE.MeshBasicMaterial( {
-      color: modelSettings.buildingColor
-    } );
+      var material = new THREE.MeshStandardMaterial( {
+        color: modelSettings.buildingColor
+      } );
 
-    //var material2 = new THREE.MeshLambertMaterial( { color: 0xaaaaaa, wireframe: false } );
-    var mesh = new THREE.Mesh( geometry, material );
+      //var material2 = new THREE.MeshLambertMaterial( { color: 0xaaaaaa, wireframe: false } );
+      var mesh = new THREE.Mesh( geometry, material );
 
-    mesh.position.set( 0, height, 0 );
-    mesh.rotation.set(1.56,0,0);
+      mesh.position.set( 0, height, 0 );
+      mesh.rotation.set(1.56,0,0);
 
-    mesh.material.transparent = true;
-    mesh.material.opacity = 0.5; 
-    mesh.name = 'building-' + index;
+      mesh.material.transparent = true;
+      mesh.material.opacity = 0.5; 
+      mesh.name = 'osm-' + index;
 
-    scene.add( mesh );
-    
-    
+      scene.add( mesh );
+      
+    }
   });
   
 }
@@ -1236,7 +1511,7 @@ function paintNodes(e,type) {
 function renderOsm() {
   
 
-
+  
 
   paintRoads(modelSettings.roadWidth);
 
@@ -1245,6 +1520,9 @@ function renderOsm() {
   paintBuildings(modelSettings.buildingHeight);
 
   paintNodes();
+
+
+
 
 
 }
@@ -1257,6 +1535,16 @@ function renderOsm() {
 
 function addPoint(e) {
 
+  map.off('click', addPoint)
+  console.log(e)
+
+  var point = turf.point([e.lngLat.lng,e.lngLat.lat]);
+
+  point.properties.count = 1;
+  myObjects.features.push(point);
+  console.log(myObjects)
+
+  updateObjectList();
 
   // ADD TO MAP
 
@@ -1393,7 +1681,14 @@ function renderPlaces(route,dashSize,model) {
       var offsetX = (thisCoords[0] - centerLng) * 10000;
       var offsetY = (thisCoords[1] - centerLat) * 10000;
 
-      addNewArrow(offsetX,offsetY);
+      console.log(modelSettings.routeTurn);
+      if (modelSettings.routeTurn === 'arrow') {
+        addNewArrow(offsetX,offsetY);
+      }
+      if (modelSettings.routeTurn === 'point') {
+        addNewPoint(offsetX,offsetY);
+      }
+      
     }
 
 
@@ -1401,8 +1696,9 @@ function renderPlaces(route,dashSize,model) {
 
   })
 
+
   route.properties.count = arPathPoints.features.length;
-  lines.features.push(route);
+  myObjects.features.push(route);
 
 
 }
@@ -1428,10 +1724,11 @@ function addPathPoint(offsetX,offsetY) {
 function addNewPoint(offsetX,offsetY,id,index,model) {
   const gltfLoader = new GLTFLoader();
 
+  console.log(model)
+
+  var url = 'https://sjmarshalluk.github.io/model-maker/assets/path/point.gltf';
   if (model === 'arrow') {
-    const url = 'https://sjmarshalluk.github.io/model-maker/assets/path/arrows.gltf';
-  } else {
-    const url = 'https://sjmarshalluk.github.io/model-maker/assets/path/point.gltf';
+    var url = 'https://sjmarshalluk.github.io/model-maker/assets/path/arrows.gltf';
   }
   
   gltfLoader.load(url, (gltf) => {
@@ -1470,7 +1767,7 @@ function addNewArrow(offsetX,offsetY) {
 }
 
 function showControls(root) {
-  console.log('hello')
+
 
   var controls = document.getElementById('control-panel');
   controls.style.display = 'block';
@@ -1508,31 +1805,7 @@ function showControls(root) {
 
 
 
-  var buildingSlider = document.getElementById("building-slider");
-  buildingSlider.oninput = function() {
-    for (var i = 0; i < buildingCount; i++) {
-      var object = scene.getObjectByName( "building-" + i  );
-      scene.remove( object );
-    }
-    var scaleAmount = this.value / 20;
-    paintBuildings(scaleAmount);
-    modelSettings.buildingHeight = scaleAmount;
-    //root.scale.set(scaleAmount,scaleAmount,scaleAmount)
-  }
-
-
-
-  var roadSlider = document.getElementById("road-slider");
-  roadSlider.oninput = function() {
-    for (var i = 0; i < roadCount; i++) {
-      var object = scene.getObjectByName( "road-" + i  );
-      scene.remove( object );
-    }
-    var scaleAmount = this.value / 2000;
-    paintRoads(scaleAmount)
-    modelSettings.roadWidth = scaleAmount;
-    //root.scale.set(scaleAmount,scaleAmount,scaleAmount)
-  }
+  
 
 
 
