@@ -617,7 +617,7 @@ function setStart(position) {
   window.latestLocation = [position.coords.longitude, position.coords.latitude];
 
   directions.setOrigin([position.coords.longitude, position.coords.latitude]);
-  map.setPaintProperty('directions-origin-point', 'circle-opacity', 0);
+  map.setPaintProperty('directions-origin-point', 'circle-opacity', 1);
   map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
   map.setPaintProperty('directions-origin-label', 'text-opacity', 0);
 
@@ -641,6 +641,30 @@ function setStart(position) {
     'paint': {
       'circle-radius': 6,
       'circle-color': '#B42222'
+    }
+  });
+
+  if (map.getLayer('currentPoint')) {
+    map.removeLayer('currentPoint');
+  }
+  if (map.getSource('currentPoint')) {
+    map.removeSource('currentPoint');
+  }
+
+  map.addSource('currentPoint', {
+    'type': 'geojson',
+    'data': point
+  });
+
+  map.addLayer({
+    'id': 'currentPoint',
+    'type': 'fill-extrusion',
+    'source': 'currentPoint',
+    'paint': {
+      'fill-extrusion-color': '#286412',
+      'fill-extrusion-height': 0.2,
+      'fill-extrusion-base': 0,
+      'fill-extrusion-opacity': 0.5
     }
   });
 
@@ -948,12 +972,15 @@ map.on('touchstart', function() {
   if (is_running === true) {
     stopOrientation()
 
-    map.on('touchend', function() {
-      startOrientation();
-    })
+    map.on('touchend', restartOrientation); 
   }
 })
 
+function restartOrientation() {
+  map.off('touchend', restartOrientation); 
+  startOrientation();
+
+}
 
 function setOrientation() {
   //e.preventDefault();
