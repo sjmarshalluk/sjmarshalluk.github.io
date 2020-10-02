@@ -436,7 +436,7 @@
 
     <a-gltf-model path id='path' position='-23.7 1000 20' rotation='0 205 0' scale='10 10 10' src='https://sjmarshalluk.github.io/model-maker/models/lavant-path-test.gltf'></a-gltf-model>
 
-    <a-gltf-model level id='level' position='0 1000 -4' rotation='0 205 0' scale='0.5 0.5 0.5' src='https://sjmarshalluk.github.io/dora/models/level.gltf'></a-gltf-model>
+    <a-gltf-model level id='level' position='0 1000 -4' rotation='0 205 0' scale='0.5 0.5 0.5' src='https://sjmarshalluk.github.io/dora/models/spirit-level.gltf'></a-gltf-model>
 
     <a-camera></a-camera>
   </a-scene>
@@ -488,11 +488,11 @@ document.getElementById('btn-exit').addEventListener('click', function() {
   document.getElementById('btn-use2D').style.display = 'none';
   document.getElementById('reloc').style.display = 'none';
   document.getElementById('directions').style.top = '-100px';
-  document.getElementById('content').classList.add('gps');
+  //document.getElementById('content').classList.add('gps');
 
   map.setPaintProperty('directions-route-line', 'line-opacity', 0);
   map.setPaintProperty('directions-destination-point', 'circle-opacity', 0);
-  map.on('click', setEndPoint) 
+  map.on('click', setEndPoint);
 })
 
 document.getElementById('btn-use2D').addEventListener('click', function() {
@@ -543,8 +543,18 @@ var map = new mapboxgl.Map({
 
 
 
-
 map.on('load', function() {
+
+
+var layers = map.getStyle().layers;
+
+var roadLayer = layers.filter(d => d.id === 'road-street');
+console.log(layers);
+
+console.log(roadLayer[0].paint["line-width"] );
+
+
+
   
 })
 
@@ -738,8 +748,27 @@ directions.on('route', function(e) {
      
     
   map.setPaintProperty('directions-route-line-alt', 'line-opacity', 0);
-  map.setPaintProperty('directions-route-line', 'line-opacity', 1);
-  map.setPaintProperty('directions-route-line', 'line-width', 30);
+  map.setPaintProperty('directions-route-line', 'line-opacity', 0.5);
+  map.setLayoutProperty('directions-route-line', 'line-cap', 'round');
+  map.setLayoutProperty('directions-route-line', 'line-join', 'round');
+
+
+  var lineWidth =   [
+      'interpolate',
+      ['exponential', 1.5],
+      ['zoom'],
+      12,
+      5,
+      14,
+      20,
+      18,
+      180
+  ]
+  map.setPaintProperty('directions-route-line', 'line-width', lineWidth);
+
+
+
+
   map.setPaintProperty('directions-route-line-casing', 'line-opacity', 0);
 
   map.setPaintProperty('directions-hover-point-casing', 'circle-opacity', 0);
