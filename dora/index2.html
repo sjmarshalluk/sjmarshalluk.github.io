@@ -56,6 +56,7 @@
     z-index: 1;
     position: absolute;
   }
+  
 
   #map-wrap { 
     position: absolute; 
@@ -699,7 +700,7 @@ directions.on('route', function(e) {
     
   map.setPaintProperty('directions-route-line-alt', 'line-opacity', 0);
   map.setPaintProperty('directions-route-line', 'line-opacity', 1);
-  map.setPaintProperty('directions-route-line', 'line-width', 20);
+  map.setPaintProperty('directions-route-line', 'line-width', 30);
   map.setPaintProperty('directions-route-line-casing', 'line-opacity', 0);
 
   map.setPaintProperty('directions-hover-point-casing', 'circle-opacity', 0);
@@ -789,7 +790,7 @@ function startVpsNav() {
   var path = document.getElementById("path");
   path.setAttribute('position', '-23.7 0 20');
 
-  map.flyTo({center: startPosition, zoom: 22});
+  map.flyTo({center: startPosition, zoom: 20});
   setOrientation();
 }
 
