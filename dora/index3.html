@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Dora</title>
+
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.jsXXX"></script>
+
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css" />
+
+
+  
+
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+<style>
+      * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+  body { 
+    margin: 0; padding: 0; 
+  }
+  #map { 
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    width: 100%; 
+  }
+
+  .mapboxgl-ctrl-directions { display: none }
+
+
+  #c {
+    width: 50%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    right: 0;
+    z-index: -1;
+    display: none;
+  }
+
+  #scene {
+    z-index: 1;
+    position: absolute;
+  }
+  
+
+  #map-wrap { 
+    position: absolute; 
+    bottom: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: 10; 
+    transition: 0.5s;
+    overflow: hidden;
+    left: 0;
+    transition: 0.3s ease-out;
+  }
+  .vps #map-wrap {
+    height: 0;
+  }
+  .gps #map-wrap {
+    height: 100%;
+  }
+  #map-wrap.half {
+    height: 45%; 
+  }
+  #map-wrap.perspective {
+    perspective: 450px;
+    height: 750px;
+  }
+  #map-wrap.perspective #map {
+    transform-style: preserve-3d;
+    transform: rotateX(45deg);
+  }
+
+  #video {
+    z-index: 10;
+    left: 0;
+    top: 0px;
+    position: fixed;
+    opacity: 1;
+    min-width: 100%;
+    min-height: 0;
+    height: 0;
+  }
+
+
+
+  #ui-wrap {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+  }
+  #panel {
+    width: 100%;
+    height: 200px;
+    background-color: #fff;
+    border-radius: 20px 20px 0 0;
+    bottom: -200px;
+    position: absolute;
+    z-index: 8000;
+    transition: 0.2s;
+    padding: 20px; 
+    text-align: center;
+  }
+  #panel.open {
+    bottom: 0!important;
+  }
+
+  #reloc {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.5);
+    color: #fff;
+    z-index: 100;
+    display: none;
+    line-height: 100vh;
+    text-align: center;
+  }
+
+  #compass_button {
+    width: 44px; 
+    height: 44px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    border-radius: 44px;
+    text-align: center;
+    background-color: #fff;
+  }
+
+  .btn {
+    height: 44px;
+    padding: 10px 30px;
+    border-radius: 44px;
+    background-color: transparent;
+    border: none;
+  }
+  .btn.start {
+    background-color: green;
+    color: #fff;
+  }
+  .btn.exit {
+    background-color: red;
+    color: #fff;
+  }
+
+  .AttributionContainer { display: none; }
+  .BearingIndicatorContainer  { display: none; }
+  .ZoomContainer  { display: none; }
+
+  .mapboxgl-ctrl-logo,
+  .mapboxgl-ctrl-attrib {
+    display: none!important
+  }
+
+
+  .a-enter-vr { display: none; }
+
+  .ui-buttons button {
+    width: 56px;
+    height: 56px;
+    border-radius: 44px;
+    background-color: #fff;
+    border: none;
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 1;
+    transition: 0.2s;
+  }
+  .ui-buttons button.active {
+    opacity: 0.3;
+  }
+
+  .control-buttons {
+    position: absolute;
+    width: 56px;
+    height: 130px;
+    bottom: 200px;
+    z-index: 9999;
+    transition: 0.2s ease-out;
+    transition-delay: 0.3s;
+    right: -60px;
+  }
+
+  .control-buttons.active {
+
+    transition-delay: 0.6s;
+  }
+
+  .control-buttons button {
+    margin-bottom: 10px;
+  }
+
+  .test #ar-control-buttons {
+    right: -60px!important;
+  }
+
+  .plan #ar-control-buttons {
+    right: -60px;
+  }
+  .plan #map-control-buttons {
+    right: 16px;
+  }
+
+  .gps #ar-control-buttons {
+    right: -60px;
+  }
+  .gps #map-control-buttons {
+    right: 16px;
+  }
+  .vps #ar-control-buttons {
+    right: 16px;
+  }
+  .vps.reloc #ar-control-buttons {
+    right: -60px;
+  }
+  .vps #map-control-buttons {
+    right: -60px;
+  }
+
+  #btn-center {
+    background-image: url('assets/center.svg');
+    text-indent: -9999px;
+  }
+  #btn-orientate {
+    background-image: url('assets/compass.jpg');
+    text-indent: -9999px;
+  }
+
+
+  #mode-button {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    bottom: 32px;
+    right: 16px;
+    z-index: 1000;
+  }
+
+
+  .plan #mode-button #btn-map {
+    display: none;
+  }
+  .plan #mode-button #btn-ar {
+    display: none;
+  }
+  .plan #mode-button #btn-ar-test {
+    display: block;
+  }
+
+  .gps #mode-button #btn-map {
+    display: none;
+  }
+  .gps #mode-button #btn-ar {
+    display: block;
+  }
+  .vps #mode-button #btn-map {
+    display: block;
+  }
+  .vps #mode-button #btn-ar {
+    display: none;
+  }
+
+  .gps #mode-button #btn-ar-test,
+  .vps #mode-button #btn-ar-test {
+    display: none;
+  }
+
+
+  #btn-map {
+    background-image: url('assets/map.svg');
+    text-indent: -9999px;
+  }
+
+  #btn-ar {
+    background-image: url('assets/ar.svg');
+    text-indent: -9999px;
+  }
+  #btn-ar-test {
+    background-image: url('assets/ar.svg');
+    text-indent: -9999px;
+  }
+
+
+
+  #directions {
+    width: calc(100% - 20px);
+    position: absolute;
+    left: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 1000;
+    height: 80px;
+    transition: 0.5s;
+    top: -100px;
+  }
+
+  .plan #directions {
+    top: -100px;
+  }
+  .gps #directions {
+    top: 10px;
+  }
+  .vps #directions {
+    top: -100px;
+  }
+
+
+  #btn-exit {
+    position: absolute;
+    left: 16px;
+    bottom: 32px;
+    z-index: 1000;
+    background-color: red;
+    width: 80px;
+    height: 56px;
+    border-radius: 44px;
+    border: none;
+    color: white;
+    display: none;
+  }
+
+  #btn-use2D {
+    position: absolute;
+    right: 16px;
+    bottom: 32px;
+    z-index: 1000;
+    background-color: white;
+    width: 80px;
+    height: 56px;
+    border-radius: 44px;
+    border: none;
+    display: none;
+  }
+
+
+  #vps-sphere {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    z-index: 1000;
+    background-color: white;
+    width: 56px;
+    height: 56px;
+    border-radius: 44px;
+    border: none;
+  }
+
+
+</style>
+
+<script type="text/javascript">
+
+  AFRAME.registerComponent("test", {
+    init: function() {
+      var btn = document.getElementById('btn-ar-test');
+      btn.addEventListener("click", function() {
+        console.log('hello')
+        var level = document.getElementById("level");
+        level.setAttribute('position', '0 0 -4');
+
+
+        var dollhouse = document.getElementById("dollhouse");
+        dollhouse.setAttribute('position', '-0.5 1000 -1');
+
+        var path = document.getElementById("path");
+        path.setAttribute('position', '-23.7 1000 20');
+
+        
+      });
+    }
+  });
+
+  AFRAME.registerComponent("path", {
+    init: function() {
+      var btn = document.getElementById('btn-path');
+      btn.addEventListener("click", function() {
+        var path = document.getElementById("path");
+        path.setAttribute('position', '-23.7 0 20');
+
+
+        document.getElementById('btn-path').classList.add('active');
+        document.getElementById('btn-level').classList.remove('active');
+        document.getElementById('btn-doll').classList.remove('active');
+
+
+        var dollhouse = document.getElementById("dollhouse");
+        dollhouse.setAttribute('position', '-0.5 1000 -1');
+        var level = document.getElementById("level");
+        level.setAttribute('position', '0 1000 -4');
+        
+      });
+    }
+  });
+
+  AFRAME.registerComponent("level", {
+    init: function() {
+      var btn = document.getElementById('btn-level');
+      btn.addEventListener("click", function() {
+        var level = document.getElementById("level");
+        level.setAttribute('position', '0 0 -4');
+
+
+        var dollhouse = document.getElementById("dollhouse");
+        dollhouse.setAttribute('position', '-0.5 1000 -1');
+
+        var path = document.getElementById("path");
+        path.setAttribute('position', '-23.7 1000 20');
+
+        document.getElementById('btn-path').classList.remove('active');
+        document.getElementById('btn-level').classList.add('active');
+        document.getElementById('btn-doll').classList.remove('active');
+        
+      });
+    }
+  });
+
+
+  AFRAME.registerComponent("dollhouse", {
+    init: function() {
+      var btn = document.getElementById('btn-doll');
+      btn.addEventListener("click", function() {
+        //var entityEl = document.querySelector("a-gltf-model");
+
+        var path = document.getElementById("path");
+        path.setAttribute('position', '-23.7 1000 20');
+
+
+        var dollhouse = document.getElementById("dollhouse");
+        dollhouse.setAttribute('position', '-0.5 0 -1');
+        var level = document.getElementById("level");
+        level.setAttribute('position', '0 1000 -4');
+
+        document.getElementById('btn-path').classList.remove('active');
+        document.getElementById('btn-level').classList.remove('active');
+        document.getElementById('btn-doll').classList.add('active');
+
+        /*
+        var entityEl = document.getElementById("dollhouse")
+        var pos = entityEl.getAttribute("position");
+        console.log(pos)
+        if (pos.y === 1000) {
+          entityEl.setAttribute('position', '-0.5 0 -1');
+        } else {
+          entityEl.setAttribute('position', '-0.5 1000 -1');
+        }
+        */
+        
+      });
+    }
+  });
+</script>
+</head>
+<body>
+
+  <div id="content" class="plan">
+
+    <div id="vps-sphere">
+    </div>
+
+    <div id="directions">
+      <p>Directions</p>
+    </div>
+
+    <div id="mode-button" class="ui-buttons">
+      <button id="btn-map">map</button>
+      <button id="btn-ar">ar</button>
+      <button id="btn-ar-test">ar?</button>
+    </div>
+
+    <div id="map-control-buttons" class="ui-buttons control-buttons">
+      <button id="btn-center">cent</button>
+      <button id="btn-orientate">comp</button>
+    </div>
+
+    <div id="ar-control-buttons" class="ui-buttons control-buttons hidden">
+      <button id="btn-path" class="active">path</button>
+      <button id="btn-doll">doll</button>
+      <button id="btn-level">level</button>
+    </div>
+
+
+    <button id="btn-exit">Exit</button>
+    <button id="btn-use2D">Use GPS</button>
+
+
+    <canvas id="c"></canvas>
+
+    <div id="map-wrap"> 
+      <button id="map-mode" class="btn" style="position: absolute; bottom: 60px; right: 10px; z-index: 1000; background-color: #fff; display: none;" >D</button>
+      <a id="compass_button" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 9999; display: none;">o</a>
+      <div id="map"></div>
+    </div>
+
+    <video id="video" autoplay playsinline></video>
+
+    <div id="reloc">
+      Pan around
+    </div>
+
+    <div id="ui-wrap">
+      <div id="panel">
+
+      </div>
+    </div>
+  </div>
+
+  <a-scene id="scene">
+    <a-gltf-model dollhouse id='dollhouse' position='-0.5 1000 -1' rotation='0 205 0' scale='0.5 0.5 0.5' src='https://sjmarshalluk.github.io/model-maker/models/lavant-test.gltf'></a-gltf-model>
+
+    <a-gltf-model path id='path' position='-23.7 1000 20' rotation='0 205 0' scale='10 10 10' src='https://sjmarshalluk.github.io/model-maker/models/lavant-path-test.gltf'></a-gltf-model>
+
+    <a-gltf-model level id='level' position='0 1000 -4' rotation='0 205 0' scale='0.5 0.5 0.5' src='https://sjmarshalluk.github.io/dora/models/spirit-level.gltf'></a-gltf-model>
+
+    <a-camera></a-camera>
+  </a-scene>
+ 
+<script>
+
+
+var panelHeight = '100px';
+
+
+
+
+document.getElementById('panel').style.height = panelHeight;
+document.getElementById('panel').style.bottom = '-' + panelHeight;
+
+
+
+document.getElementById('btn-map').addEventListener('click', function() {
+
+  document.getElementById('content').classList.remove('test');
+  document.getElementById('ar-control-buttons').classList.remove('active');
+  document.getElementById('map-control-buttons').classList.add('active');
+
+  document.getElementById('content').classList.remove('vps');
+  
+  setTimeout(function() { 
+    document.getElementById('content').classList.add('gps');
+  },0);
+
+})
+document.getElementById('btn-ar').addEventListener('click', function() {
+
+  document.getElementById('ar-control-buttons').classList.add('active');
+  document.getElementById('map-control-buttons').classList.remove('active');
+
+  document.getElementById('content').classList.remove('gps');
+
+  setTimeout(function() { 
+    document.getElementById('content').classList.add('vps');
+  },0);
+  
+
+})
+
+document.getElementById('btn-ar-test').addEventListener('click', function() {
+
+  document.getElementById('content').classList.add('vps');
+  document.getElementById('content').classList.add('test');
+
+
+
+})
+
+document.getElementById('btn-exit').addEventListener('click', function() {
+
+  var panel = document.getElementById('panel');
+  panel.innerHTML = '';
+  panel.classList.add('open');
+
+
+  var confirmBtn = panel.appendChild(document.createElement('button'));
+  confirmBtn.innerHTML = 'Exit nav';
+  confirmBtn.className = 'btn exit';
+  confirmBtn.addEventListener('click', function() {
+    panel.classList.remove('open');
+    document.getElementById('content').classList.remove('vps');
+    document.getElementById('content').classList.remove('gps');
+    document.getElementById('content').classList.add('plan');
+    document.getElementById('btn-exit').style.display = 'none';
+    document.getElementById('btn-use2D').style.display = 'none';
+    document.getElementById('reloc').style.display = 'none';
+    document.getElementById('directions').style.top = '-100px';
+    //document.getElementById('content').classList.add('gps');
+
+    map.setPaintProperty('directions-route-line', 'line-opacity', 0);
+    map.setPaintProperty('directions-destination-point', 'circle-opacity', 0);
+    map.on('click', setEndPoint);
+  })
+
+});
+
+
+document.getElementById('btn-use2D').addEventListener('click', function() {
+  document.getElementById('content').classList.remove('vps');
+  document.getElementById('content').classList.remove('gps');
+  document.getElementById('content').classList.add('gps');
+  document.getElementById('reloc').style.display = 'none';
+  document.getElementById('btn-use2D').style.display = 'none';
+  setCenter();
+})
+
+
+
+window.mode = 'browse';
+
+
+
+
+const video = document.getElementById('video');
+const videoConstraints = {
+    facingMode: 'environment'
+  };
+  const constraints = {
+    video: videoConstraints,
+    audio: false
+  };
+
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(stream => {
+      video.srcObject = stream;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
+
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v11',
+  center: [-79.4512, 43.6568],
+  zoom: 13,
+  pitch: 0
+});
+
+
+
+
+map.on('load', function() {
+
+
+var layers = map.getStyle().layers;
+
+var roadLayer = layers.filter(d => d.id === 'road-street');
+console.log(layers);
+
+console.log(roadLayer[0].paint["line-width"] );
+
+
+
+  
+})
+
+
+
+
+var directions = new MapboxDirections({
+  accessToken: mapboxgl.accessToken,
+  interactive: false
+});
+map.addControl(directions);
+
+getLocation();
+
+function getLocation() {
+  if (navigator.geolocation) {
+    
+
+    if (mode === 'nav') {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+      navigator.geolocation.getCurrentPosition(setStart);
+    }
+
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
+}
+
+window.firstTime = true;
+
+function showPosition(position) {
+
+  var latest = turf.point(latestLocation);
+  var current = turf.point([position.coords.longitude, position.coords.latitude]);
+
+  var options = {units: 'kilometers'};
+  var distance = turf.distance(latest, current, options);
+
+
+
+  if (firstTime === true || distance > 0.003) {
+
+    window.latestLocation = [position.coords.longitude, position.coords.latitude];
+
+    map.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
+
+
+    var point = turf.point([position.coords.longitude, position.coords.latitude]);
+    window.bufferedPoint = turf.buffer(point, 0.002, {units: 'kilometers'});
+
+    if (map.getLayer('currentPoint')) {
+      map.removeLayer('currentPoint');
+    }
+    if (map.getSource('currentPoint')) {
+      map.removeSource('currentPoint');
+    }
+
+    map.addSource('currentPoint', {
+      'type': 'geojson',
+      'data': bufferedPoint
+    });
+
+    map.addLayer({
+      'id': 'currentPoint',
+      'type': 'fill-extrusion',
+      'source': 'currentPoint',
+      'paint': {
+        'fill-extrusion-color': '#286412',
+        'fill-extrusion-height': 0.2,
+        'fill-extrusion-base': 0,
+        'fill-extrusion-opacity': 0.5
+      }
+    });
+
+    window.firstTime = false;
+
+  } else {
+
+
+    
+
+    
+    
+
+
+
+
+
+  }
+
+
+  
+  
+}
+
+function setStart(position) {
+  map.jumpTo({ center: [position.coords.longitude, position.coords.latitude] });
+  window.startPosition = [position.coords.longitude, position.coords.latitude];
+  window.latestLocation = [position.coords.longitude, position.coords.latitude];
+
+
+
+  
+  directions.setOrigin([position.coords.longitude, position.coords.latitude]);
+  map.setPaintProperty('directions-origin-point', 'circle-opacity', 1);
+  map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
+  map.setPaintProperty('directions-origin-label', 'text-opacity', 0);
+  
+
+
+  var point = turf.point([position.coords.longitude, position.coords.latitude]);
+
+
+  if (map.getLayer('startPoint')) {
+    map.removeLayer('startPoint');
+  }
+  if (map.getSource('startPoint')) {
+    map.removeSource('startPoint');
+  }
+  map.addSource('startPoint', {
+    'type': 'geojson',
+    'data': point
+  });
+  map.addLayer({
+    'id': 'startPoint',
+    'type': 'circle',
+    'source': 'startPoint',
+    'paint': {
+      'circle-radius': 6,
+      'circle-color': '#B42222'
+    }
+  });
+
+  if (map.getLayer('currentPoint')) {
+    map.removeLayer('currentPoint');
+  }
+  if (map.getSource('currentPoint')) {
+    map.removeSource('currentPoint');
+  }
+
+  map.addSource('currentPoint', {
+    'type': 'geojson',
+    'data': point
+  });
+
+  map.addLayer({
+    'id': 'currentPoint',
+    'type': 'fill-extrusion',
+    'source': 'currentPoint',
+    'paint': {
+      'fill-extrusion-color': '#286412',
+      'fill-extrusion-height': 0.2,
+      'fill-extrusion-base': 0,
+      'fill-extrusion-opacity': 0.5
+    }
+  });
+
+
+
+  
+  
+}
+
+
+map.on('click', setEndPoint) 
+
+
+function setEndPoint(e) {
+  console.log(e)
+  directions.setDestination([e.lngLat.lng,e.lngLat.lat]);
+
+}
+
+
+
+
+
+
+directions.on('route', function(e) {
+  map.setPaintProperty('directions-origin-point', 'circle-opacity', 1);
+  map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
+  map.setPaintProperty('directions-origin-label', 'text-opacity', 0);
+
+  map.off('click', setEndPoint) 
+
+  zoomToPath(e)
+
+  
+  
+     
+    
+  map.setPaintProperty('directions-route-line-alt', 'line-opacity', 0);
+  map.setPaintProperty('directions-route-line', 'line-opacity', 0.5);
+  map.setLayoutProperty('directions-route-line', 'line-cap', 'round');
+  map.setLayoutProperty('directions-route-line', 'line-join', 'round');
+
+
+  var lineWidth =   [
+      'interpolate',
+      ['exponential', 1.5],
+      ['zoom'],
+      12,
+      2.5,
+      14,
+      10,
+      18,
+      90
+  ]
+  map.setPaintProperty('directions-route-line', 'line-width', lineWidth);
+
+
+
+
+  map.setPaintProperty('directions-route-line-casing', 'line-opacity', 0);
+
+  map.setPaintProperty('directions-hover-point-casing', 'circle-opacity', 0);
+  map.setPaintProperty('directions-hover-point', 'circle-opacity', 0);
+  map.setPaintProperty('directions-waypoint-point-casing', 'circle-opacity', 0);
+  map.setPaintProperty('directions-waypoint-point', 'circle-opacity', 0);
+
+  map.setPaintProperty('directions-destination-point', 'circle-opacity', 1);
+  map.setPaintProperty('directions-destination-point', 'circle-radius', 10);
+  map.setPaintProperty('directions-destination-label', 'text-opacity', 0);
+
+
+
+  map.moveLayer('directions-route-line', 'tunnel-street-minor-low')
+
+
+  var layers = map.getStyle().layers;
+  console.log(layers);
+
+
+  showPanel();
+
+});
+
+
+
+function showPanel() {
+  var panel = document.getElementById('panel');
+  panel.innerHTML = '';
+  panel.classList.add('open');
+
+
+  var startBtn = panel.appendChild(document.createElement('button'));
+  startBtn.innerHTML = 'Start';
+  startBtn.className = 'btn start';
+  startBtn.addEventListener('click', function() {
+    document.getElementById('panel').classList.remove('open');
+
+    document.getElementById('content').classList.remove('plan');
+    
+
+    document.getElementById('btn-exit').style.display = 'block';
+    document.getElementById('btn-use2D').style.display = 'block';
+    
+
+    startReloc();
+    //startVpsNav();
+  })
+
+}
+
+
+
+
+function startReloc() {
+
+  document.getElementById('content').classList.add('vps');
+  document.getElementById('content').classList.add('reloc');
+
+
+  document.getElementById('reloc').style.display = 'inline';
+
+  setTimeout(function() { 
+    endReloc();
+  },2000);
+}
+
+
+function endReloc() {
+
+
+  document.getElementById('content').classList.remove('reloc');
+
+  
+  document.getElementById('btn-use2D').style.display = 'none';
+
+  document.getElementById('reloc').style.display = 'none';
+
+  startVpsNav();
+}
+
+
+
+function startVpsNav() {
+
+  document.getElementById('content').classList.add('vps');
+
+  var path = document.getElementById("path");
+  path.setAttribute('position', '-23.7 0 20');
+
+  map.flyTo({center: startPosition, zoom: 19});
+  setOrientation();
+}
+
+
+
+
+function getNewLocation() {
+  console.log('new')
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showNewPosition);
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
+}
+function showNewPosition(position) {
+  console.log('show')
+
+  stopOrientation();
+  map.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
+  setTimeout(function() { 
+    startOrientation();
+  },1000);
+
+  var point = turf.point([position.coords.longitude, position.coords.latitude]);
+  window.bufferedPoint = turf.buffer(point, 0.002, {units: 'kilometers'});
+
+  if (map.getLayer('currentPoint')) {
+    map.removeLayer('currentPoint');
+  }
+  if (map.getSource('currentPoint')) {
+    map.removeSource('currentPoint');
+  }
+
+  map.addSource('currentPoint', {
+    'type': 'geojson',
+    'data': bufferedPoint
+  });
+
+  map.addLayer({
+    'id': 'currentPoint',
+    'type': 'fill-extrusion',
+    'source': 'currentPoint',
+    'paint': {
+      'fill-extrusion-color': '#286412',
+      'fill-extrusion-height': 0.2,
+      'fill-extrusion-base': 0,
+      'fill-extrusion-opacity': 0.5
+    }
+  });
+
+}
+
+
+
+function zoomToPath(e) {
+  var path = {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "type": "LineString",
+          "coordinates": []
+        }
+      }
+    ]
+  }
+
+  
+  e.route[0].legs[0].steps.forEach(function (point) {
+    path.features[0].geometry.coordinates.push(point.maneuver.location);
+    console.log(point.maneuver.location)
+  });
+  
+
+  var bbox = turf.bbox(path);
+
+  map.fitBounds(bbox, {
+    padding: {top: 100, bottom:300, left: 100, right: 100}
+  });
+
+
+  //console.log(path.features[0].geometry.coordinates[0])
+  //var point1 = turf.point(path.features[0].geometry.coordinates[0]);
+  //var point2 = turf.point(path.features[0].geometry.coordinates[1]);
+
+  //window.startBearing = turf.bearing(point1, point2);
+}
+
+
+
+
+
+
+function handleOrientationPath(event) {
+
+  /*
+  var OldRange = (90 - 0);
+  var NewRange = (200 - 110);
+  var NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin;
+  */
+
+  if (event.beta > 0 && event.beta < 90) {
+    var perspective = event.beta * 10;
+
+    document.getElementById('map-wrap').style.perspective = perspective + "px";
+    
+  }
+}
+
+
+function handleOrientation(event) {
+
+  if (event.beta > 0 && event.beta < 90) {
+    //var perspective = event.beta + 100;
+    //document.getElementById('map-wrap').style.perspective = perspective;
+
+    //THIS IS FOR PERSPECTIVE  document.getElementById('map').style.transform = "rotateX(" + event.beta + "deg)";
+
+
+    map.setPitch(event.beta);
+
+
+    if (event.beta > 60) {
+      //document.getElementById('map-wrap').style.height = '60%';
+      map.setPitch(60);
+      document.getElementById('video').style.height = '40%';
+
+    }
+
+    if (event.beta < 60) {
+      //document.getElementById('map-wrap').style.height = '60%';
+      map.setPitch(0);
+      document.getElementById('video').style.height = '0';
+
+    }
+
+  }
+
+
+
+  
+
+  //var bearing = event.gamma - (event.gamma * 2);
+  //map.setBearing(bearing);
+
+  /*
+    map.lookAt({ tilt: event.beta });
+
+    //var rotation = event.gamma - (event.gamma * 2);
+    map.lookAt({ heading: event.gamma });
+  */
+
+  if (event.webkitCompassHeading) {
+        absoluteHeading = event.webkitCompassHeading;
+    } else {
+        absoluteHeading = event.alpha;
+    }
+    console.log(absoluteHeading);
+    map.setBearing(absoluteHeading);
+
+    
+  updateFieldIfNotNull('Orientation_a', event.alpha);
+  updateFieldIfNotNull('Orientation_b', event.beta);
+  updateFieldIfNotNull('Orientation_g', event.gamma);
+    
+  
+}
+
+function manageCompass(event) {
+    
+}
+
+
+
+
+
+
+
+
+
+
+let is_running = false;
+let compass_button = document.getElementById("btn-orientate");
+compass_button.addEventListener('click', setOrientation);
+
+
+
+
+let btnCenter = document.getElementById("btn-center");
+btnCenter.addEventListener('click', setCenter);
+
+
+function setCenter() {
+  if (is_running === true) {
+    stopOrientation()
+    map.flyTo({ center: latestLocation, zoom: 19 });
+    setTimeout(function() { 
+      restartOrientation();
+    },300);
+  }
+}
+
+
+map.on('touchstart', function() {
+  if (is_running === true) {
+    stopOrientation()
+
+    map.on('touchend', restartOrientation); 
+  }
+})
+
+function restartOrientation() {
+  map.off('touchend', restartOrientation); 
+  startOrientation();
+
+}
+
+function setOrientation() {
+  //e.preventDefault();
+  
+  if (
+    DeviceMotionEvent &&
+    typeof DeviceMotionEvent.requestPermission === "function"
+  ) {
+    DeviceMotionEvent.requestPermission();
+  }
+  
+  if (is_running){
+    document.getElementById('btn-orientate').classList.remove('active');
+    stopOrientation()
+    console.log('end')
+    //window.removeEventListener("devicemotion", handleMotion);
+    //window.removeEventListener('deviceorientation', manageCompass);
+    //compass_button.innerHTML = "o";
+
+  }else{
+    document.getElementById('btn-orientate').classList.add('active');
+    startOrientation()
+    console.log('start')
+    //window.addEventListener("devicemotion", handleMotion);
+    
+    //window.addEventListener('deviceorientation', manageCompass);
+    //compass_button.innerHTML = "x";
+
+  }
+};
+
+function startOrientation() {
+  window.addEventListener("deviceorientation", handleOrientation);
+  window.addEventListener("deviceorientation", handleOrientationPath);
+  is_running = true;
+
+  //map.on() - ADD TO STOP ORIENTATION WHEN NAVIGATING MAP
+}
+
+function stopOrientation() {
+  window.removeEventListener("deviceorientation", handleOrientation);
+  is_running = false;
+}
+
+
+
+
+ 
+</script>
+
+
+
+
+
+
+ 
+</body>
+</html>
