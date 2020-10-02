@@ -11,12 +11,10 @@
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
 <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css" />
 
-<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
+
+  
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-
-    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
-
 
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 <style>
@@ -60,6 +58,10 @@
     transition: 0.5s;
     overflow: hidden;
     left: 0;
+    transition: 0.2s;
+  }
+  #map-wrap.closed {
+    height: 0;
   }
   #map-wrap.half {
     height: 45%; 
@@ -152,31 +154,129 @@
   .mapboxgl-ctrl-attrib {
     display: none!important
   }
+
+
+  .a-enter-vr { display: none; }
+
+  .ui-buttons button {
+    width: 60px;
+    height: 60px;
+    border-radius: 44px;
+    background-color: #fff;
+    margin-bottom: 10px;
+    border: none;
+  }
+
+  .control-buttons {
+    position: absolute;
+    width: 60px;
+    height: 130px;
+    bottom: 200px;
+    right: 16px;
+    z-index: 9999;
+  }
+  .control-buttons.hidden {
+    display: none
+  }
+
+  #mode-button {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 16px;
+    z-index: 9999;
+  }
+  #mode-button #ar-btn {
+    display: none;
+  }
+  #mode-button #map-btn {
+    display: block;
+  }
+  #mode-button.map-view #map-btn {
+    display: none;
+  }
+  #mode-button.map-view #ar-btn {
+    display: block;
+  }
+
+
+
 </style>
+
+<script type="text/javascript">
+  AFRAME.registerComponent("path", {
+    init: function() {
+      var btn = document.getElementById('btn-path');
+      btn.addEventListener("click", function() {
+        var path = document.getElementById("path");
+        path.setAttribute('position', '-23.7 0 20');
+
+
+        var dollhouse = document.getElementById("dollhouse");
+        dollhouse.setAttribute('position', '-0.5 1000 -1');
+        
+      });
+    }
+  });
+
+
+  AFRAME.registerComponent("dollhouse", {
+    init: function() {
+      var btn = document.getElementById('btn-doll');
+      btn.addEventListener("click", function() {
+        //var entityEl = document.querySelector("a-gltf-model");
+
+        var path = document.getElementById("path");
+        path.setAttribute('position', '-23.7 1000 20');
+
+
+        var dollhouse = document.getElementById("dollhouse");
+        dollhouse.setAttribute('position', '-0.5 0 -1');
+
+        /*
+        var entityEl = document.getElementById("dollhouse")
+        var pos = entityEl.getAttribute("position");
+        console.log(pos)
+        if (pos.y === 1000) {
+          entityEl.setAttribute('position', '-0.5 0 -1');
+        } else {
+          entityEl.setAttribute('position', '-0.5 1000 -1');
+        }
+        */
+        
+      });
+    }
+  });
+</script>
 </head>
 <body>
 
-  <a-scene
-      vr-mode-ui="enabled: false"
-      embedded
-      arjs="sourceType: webcam; debugUIEnabled: false;"
-    >
 
-      <a-entity gltf-model="./path.gltf" gps-entity-place="latitude: 51.005394607316816;longitude: -0.9388164058314601" color="#4CC3D9" scale="3 3 3"></a-entity>
-      <a-camera gps-camera rotation-reader> </a-camera>
-    </a-scene>
+  <div id="mode-button" class="ui-buttons" style="display: none;">
+    <button id="btn-map">map</button>
+  </div>
 
+  <div id="map-control-buttons" class="ui-buttons control-buttons">
+    <button id="btn-center">cent</button>
+    <button id="btn-orientate">comp</button>
+  </div>
+
+  <div id="ar-control-buttons" class="ui-buttons control-buttons hidden">
+    <button id="btn-path">path</button>
+    <button id="btn-doll">doll</button>
+  </div>
 
 
   <canvas id="c"></canvas>
 
   <div id="map-wrap"> 
-    <button id="map-mode" class="btn" style="position: absolute; bottom: 60px; right: 10px; z-index: 1000; background-color: #fff">D</button>
-    <a id="compass_button" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 9999">o</a>
+    <button id="map-mode" class="btn" style="position: absolute; bottom: 60px; right: 10px; z-index: 1000; background-color: #fff; display: none;" >D</button>
+    <a id="compass_button" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 9999; display: none;">o</a>
     <div id="map"></div>
   </div>
 
-  <video style="display: none;" id="video" autoplay playsinline></video>
+  <video id="video" autoplay playsinline></video>
 
   <div id="reloc">
     Pan around
@@ -187,6 +287,14 @@
 
     </div>
   </div>
+
+  <a-scene>
+    <a-gltf-model dollhouse id='dollhouse' position='-0.5 0 -1' rotation='0 205 0' scale='0.5 0.5 0.5' src='https://sjmarshalluk.github.io/model-maker/models/lavant-test.gltf'></a-gltf-model>
+
+    <a-gltf-model path id='path' position='-23.7 0 20' rotation='0 205 0' scale='10 10 10' src='https://sjmarshalluk.github.io/model-maker/models/lavant-path-test.gltf'></a-gltf-model>
+
+    <a-camera></a-camera>
+  </a-scene>
  
 <script>
 
@@ -201,13 +309,20 @@ document.getElementById('panel').style.bottom = '-' + panelHeight;
 
 
 
+document.getElementById('btn-map').addEventListener('click', function() {
+  document.getElementById('map-wrap').classList.toggle('closed');
+  document.getElementById('mode-button').classList.toggle('map-view');
+  document.getElementById('map-control-buttons').classList.toggle('hidden');
+  document.getElementById('ar-control-buttons').classList.toggle('hidden');
+})
+
+
 
 window.mode = 'browse';
 
 
 
-/*
-VIDEO NOW DONE WITH AR JS
+
 const video = document.getElementById('video');
 const videoConstraints = {
     facingMode: 'environment'
@@ -225,7 +340,7 @@ const videoConstraints = {
     .catch(error => {
       console.error(error);
     });
-*/
+
 
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
@@ -238,8 +353,11 @@ var map = new mapboxgl.Map({
 });
 
 
-map.on('load', function() {
 
+
+
+map.on('load', function() {
+  
 })
 
 
@@ -384,43 +502,6 @@ function setEndPoint(e) {
 }
 
 
-/*
-map.on('mousedown', function(e) {
-
-  console.log('down')
-  setTimeout(function() { 
-    map.on('mouseup', function(e) {
-      console.log('up')
-      console.log(e)
-      directions.setDestination([e.lngLat.lng,e.lngLat.lat]);
-    });
-  },300);
-  
-  //console.log('A mousedown event has occurred.');
-});
-
-var time = 0;
-map.on('mousedown', function(e) {
-  setTimeout(function() { 
-    time = 1;
-
-  },500);
-
-  console.log('down')
-
-  //console.log('A mousedown event has occurred.');
-});
-map.on('mouseup', function(e) {
-  console.log('up')
-  console.log(e)
-
-  if (time > 0) {
-    directions.setDestination([e.lngLat.lng,e.lngLat.lat]);
-  }
-});
-*/
-
-
 directions.on('route', function(e) {
   map.setPaintProperty('directions-origin-point', 'circle-opacity', 0);
   map.setPaintProperty('directions-origin-point', 'circle-radius', 10);
@@ -473,10 +554,36 @@ function showPanel() {
   startBtn.className = 'btn start';
   startBtn.addEventListener('click', function() {
     document.getElementById('panel').classList.remove('open');
+    document.getElementById('map-wrap').classList.add('closed');
+    document.getElementById('mode-button').style.display = 'block';
+    document.getElementById('ar-control-buttons').classList.remove('hidden');
+    document.getElementById('map-control-buttons').classList.add('hidden');
     //startReloc();
     startVpsNav();
   })
 
+}
+
+
+
+
+function startReloc() {
+  
+  document.getElementById('map').style.top = '100%';
+  document.getElementById('reloc').style.display = 'inline';
+
+  setTimeout(function() { 
+    endReloc();
+  },2000);
+}
+
+
+function endReloc() {
+  //document.getElementById('panel').classList.remove('open');
+  document.getElementById('map').style.top = '0';
+  document.getElementById('reloc').style.display = 'none';
+
+  startVpsNav();
 }
 
 
@@ -489,8 +596,51 @@ function startVpsNav() {
 
 
 
+function getNewLocation() {
+  console.log('new')
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showNewPosition);
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
+}
+function showNewPosition(position) {
+  console.log('show')
 
+  stopOrientation();
+  map.flyTo({ center: [position.coords.longitude, position.coords.latitude] });
+  setTimeout(function() { 
+    startOrientation();
+  },1000);
 
+  var point = turf.point([position.coords.longitude, position.coords.latitude]);
+  window.bufferedPoint = turf.buffer(point, 0.002, {units: 'kilometers'});
+
+  if (map.getLayer('currentPoint')) {
+    map.removeLayer('currentPoint');
+  }
+  if (map.getSource('currentPoint')) {
+    map.removeSource('currentPoint');
+  }
+
+  map.addSource('currentPoint', {
+    'type': 'geojson',
+    'data': bufferedPoint
+  });
+
+  map.addLayer({
+    'id': 'currentPoint',
+    'type': 'fill-extrusion',
+    'source': 'currentPoint',
+    'paint': {
+      'fill-extrusion-color': '#286412',
+      'fill-extrusion-height': 0.2,
+      'fill-extrusion-base': 0,
+      'fill-extrusion-opacity': 0.5
+    }
+  });
+
+}
 
 
 
@@ -534,6 +684,198 @@ function zoomToPath(e) {
 
 
 
+function handleOrientationPath(event) {
+
+  /*
+  var OldRange = (90 - 0);
+  var NewRange = (200 - 110);
+  var NewValue = (((OldValue - OldMin) * NewRange) / OldRange) + NewMin;
+  */
+
+  if (event.beta > 0 && event.beta < 90) {
+    var perspective = event.beta * 10;
+
+    document.getElementById('map-wrap').style.perspective = perspective + "px";
+    
+  }
+}
+
+
+function handleOrientation(event) {
+
+  if (event.beta > 0 && event.beta < 90) {
+    //var perspective = event.beta + 100;
+    //document.getElementById('map-wrap').style.perspective = perspective;
+
+    //THIS IS FOR PERSPECTIVE  document.getElementById('map').style.transform = "rotateX(" + event.beta + "deg)";
+
+
+    map.setPitch(event.beta);
+  }
+
+
+  
+
+  //var bearing = event.gamma - (event.gamma * 2);
+  //map.setBearing(bearing);
+
+  /*
+    map.lookAt({ tilt: event.beta });
+
+    //var rotation = event.gamma - (event.gamma * 2);
+    map.lookAt({ heading: event.gamma });
+  */
+
+  if (event.webkitCompassHeading) {
+        absoluteHeading = event.webkitCompassHeading;
+    } else {
+        absoluteHeading = event.alpha;
+    }
+    console.log(absoluteHeading);
+    map.setBearing(absoluteHeading);
+
+    
+  updateFieldIfNotNull('Orientation_a', event.alpha);
+  updateFieldIfNotNull('Orientation_b', event.beta);
+  updateFieldIfNotNull('Orientation_g', event.gamma);
+    
+  
+}
+
+function manageCompass(event) {
+    
+}
+
+
+let is_running = false;
+let compass_button = document.getElementById("compass_button");
+compass_button.onclick = function(e) {
+  e.preventDefault();
+  
+  if (
+    DeviceMotionEvent &&
+    typeof DeviceMotionEvent.requestPermission === "function"
+  ) {
+    DeviceMotionEvent.requestPermission();
+  }
+  
+  if (is_running){
+    stopOrientation()
+    console.log('end')
+    //window.removeEventListener("devicemotion", handleMotion);
+    //window.removeEventListener('deviceorientation', manageCompass);
+    compass_button.innerHTML = "o";
+    is_running = false;
+  }else{
+    startOrientation()
+    console.log('start')
+    //window.addEventListener("devicemotion", handleMotion);
+    
+    //window.addEventListener('deviceorientation', manageCompass);
+    compass_button.innerHTML = "x";
+    
+  }
+};
+
+function startOrientation() {
+  window.addEventListener("deviceorientation", handleOrientation);
+  window.addEventListener("deviceorientation", handleOrientationPath);
+  is_running = true;
+
+  //map.on() - ADD TO STOP ORIENTATION WHEN NAVIGATING MAP
+}
+
+function stopOrientation() {
+  window.removeEventListener("deviceorientation", handleOrientation);
+  is_running = false;
+}
+
+
+window.curentMapMode = 'half';
+document.getElementById('map-mode').addEventListener('click', function() {
+  
+  if (curentMapMode === 'half') {
+    
+    console.log(curentMapMode)
+    document.getElementById('map-wrap').classList.remove('half');
+
+    var ts = 0;
+    var id = setInterval(resize, 10);
+    function resize() {
+      if (ts === 40) {
+        clearInterval(id);
+        ts = 0;
+        map.flyTo({center: startPosition, zoom: 20});
+      } else {
+        ts ++
+        map.resize();
+      }
+    }
+
+
+    var t = 0;
+    var tid = setInterval(fadeOutFeatures, 1);
+    function fadeOutFeatures() {
+      if (t === 100) {
+        clearInterval(tid);
+        t = 0;
+      } else {
+        console.log(t);
+        var opacity = t / 100;
+        map.setPaintProperty('land', 'background-opacity', opacity);
+        map.setPaintProperty('road-pedestrian', 'line-opacity', opacity);
+        map.setPaintProperty('road-path', 'line-opacity', opacity);
+        map.setPaintProperty('road-pedestrian-case', 'line-opacity', opacity);
+        map.setPaintProperty('road-label', 'text-opacity', opacity);
+        t ++
+        
+      }
+    }
+    
+    window.curentMapMode = 'full';  
+  } else {
+    window.curentMapMode = 'half';
+    console.log(curentMapMode)
+    document.getElementById('map-wrap').classList.add('half');
+
+    var ts = 0;
+    var tid = setInterval(resize, 10);
+    function resize() {
+      if (ts === 40) {
+        clearInterval(tid);
+        ts = 0;
+        map.flyTo({center: startPosition, zoom: 20});
+      } else {
+        ts ++
+        map.resize();
+      }
+    }
+    
+    var t = 0;
+    var id = setInterval(fadeOutFeatures, 1);
+    function fadeOutFeatures() {
+      if (t === 100) {
+        clearInterval(id);
+        t = 0;
+      } else {
+        console.log(t);
+        var opacity = 1 - (t / 100);
+        map.setPaintProperty('land', 'background-opacity', opacity);
+        map.setPaintProperty('road-pedestrian', 'line-opacity', opacity);
+        map.setPaintProperty('road-path', 'line-opacity', opacity);
+        map.setPaintProperty('road-pedestrian-case', 'line-opacity', opacity);
+        map.setPaintProperty('road-label', 'text-opacity', opacity);
+        t ++
+        
+      }
+    }
+    
+  }
+
+  
+
+  console.log(curentMapMode)
+})
 
 
  
