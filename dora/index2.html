@@ -67,7 +67,7 @@
     transition: 0.5s;
     overflow: hidden;
     left: 0;
-    transition: 0.2s;
+    transition: 0.3s ease-out;
   }
   .vps #map-wrap {
     height: 0;
@@ -173,24 +173,35 @@
   .a-enter-vr { display: none; }
 
   .ui-buttons button {
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border-radius: 44px;
     background-color: #fff;
     border: none;
-    background-size: 30px;
+    background-size: 24px;
     background-repeat: no-repeat;
     background-position: center;
+    opacity: 1;
+    transition: 0.2s;
+  }
+  .ui-buttons button.active {
+    opacity: 0.3;
   }
 
   .control-buttons {
     position: absolute;
-    width: 60px;
+    width: 56px;
     height: 130px;
     bottom: 200px;
     z-index: 9999;
-    transition: 0.3s;
+    transition: 0.3s ease-out;
+    transition-delay: 0.3s;
     right: -60px;
+  }
+
+  .control-buttons.active {
+
+    transition-delay: 0.6s;
   }
 
   .control-buttons button {
@@ -201,17 +212,17 @@
     right: -60px;
   }
   .plan #map-control-buttons {
-    right: 20px;
+    right: 16px;
   }
 
   .gps #ar-control-buttons {
     right: -60px;
   }
   .gps #map-control-buttons {
-    right: 20px;
+    right: 16px;
   }
   .vps #ar-control-buttons {
-    right: 20px;
+    right: 16px;
   }
   .vps.reloc #ar-control-buttons {
     right: -60px;
@@ -232,10 +243,10 @@
 
   #mode-button {
     position: absolute;
-    width: 60px;
-    height: 60px;
-    bottom: 30px;
-    right: 20px;
+    width: 56px;
+    height: 56px;
+    bottom: 32px;
+    right: 16px;
     z-index: 1000;
   }
 
@@ -278,6 +289,10 @@
     background-image: url('assets/ar.svg');
     text-indent: -9999px;
   }
+  #btn-ar-test {
+    background-image: url('assets/ar.svg');
+    text-indent: -9999px;
+  }
 
 
 
@@ -307,12 +322,12 @@
 
   #btn-exit {
     position: absolute;
-    left: 20px;
-    bottom: 30px;
+    left: 16px;
+    bottom: 32px;
     z-index: 1000;
     background-color: red;
     width: 80px;
-    height: 60px;
+    height: 56px;
     border-radius: 44px;
     border: none;
     color: white;
@@ -321,12 +336,12 @@
 
   #btn-use2D {
     position: absolute;
-    right: 20px;
-    bottom: 30px;
+    right: 16px;
+    bottom: 32px;
     z-index: 1000;
     background-color: white;
     width: 80px;
-    height: 60px;
+    height: 56px;
     border-radius: 44px;
     border: none;
     display: none;
@@ -335,12 +350,12 @@
 
   #vps-sphere {
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 16px;
+    top: 16px;
     z-index: 1000;
     background-color: white;
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border-radius: 44px;
     border: none;
   }
@@ -355,6 +370,11 @@
       btn.addEventListener("click", function() {
         var path = document.getElementById("path");
         path.setAttribute('position', '-23.7 0 20');
+
+
+        document.getElementById('btn-path').classList.add('active');
+        document.getElementById('btn-level').classList.remove('active');
+        document.getElementById('btn-doll').classList.remove('active');
 
 
         var dollhouse = document.getElementById("dollhouse");
@@ -379,6 +399,10 @@
 
         var path = document.getElementById("path");
         path.setAttribute('position', '-23.7 1000 20');
+
+        document.getElementById('btn-path').classList.remove('active');
+        document.getElementById('btn-level').classList.add('active');
+        document.getElementById('btn-doll').classList.remove('active');
         
       });
     }
@@ -399,6 +423,10 @@
         dollhouse.setAttribute('position', '-0.5 0 -1');
         var level = document.getElementById("level");
         level.setAttribute('position', '0 1000 -4');
+
+        document.getElementById('btn-path').classList.remove('active');
+        document.getElementById('btn-level').classList.remove('active');
+        document.getElementById('btn-doll').classList.add('active');
 
         /*
         var entityEl = document.getElementById("dollhouse")
@@ -439,7 +467,7 @@
     </div>
 
     <div id="ar-control-buttons" class="ui-buttons control-buttons hidden">
-      <button id="btn-path">path</button>
+      <button id="btn-path" class="active">path</button>
       <button id="btn-doll">doll</button>
       <button id="btn-level">level</button>
     </div>
@@ -494,21 +522,26 @@ document.getElementById('panel').style.bottom = '-' + panelHeight;
 
 
 document.getElementById('btn-map').addEventListener('click', function() {
+  document.getElementById('ar-control-buttons').classList.remove('active');
+  document.getElementById('map-control-buttons').classList.add('active');
 
   document.getElementById('content').classList.remove('vps');
   
   setTimeout(function() { 
     document.getElementById('content').classList.add('gps');
-  },300);
+  },0);
 
 })
 document.getElementById('btn-ar').addEventListener('click', function() {
+
+  document.getElementById('ar-control-buttons').classList.add('active');
+  document.getElementById('map-control-buttons').classList.remove('active');
 
   document.getElementById('content').classList.remove('gps');
 
   setTimeout(function() { 
     document.getElementById('content').classList.add('vps');
-  },300);
+  },0);
   
 
 })
@@ -1103,6 +1136,7 @@ function setOrientation() {
   }
   
   if (is_running){
+    document.getElementById('btn-orientate').classList.remove('active');
     stopOrientation()
     console.log('end')
     //window.removeEventListener("devicemotion", handleMotion);
@@ -1110,6 +1144,7 @@ function setOrientation() {
     //compass_button.innerHTML = "o";
 
   }else{
+    document.getElementById('btn-orientate').classList.add('active');
     startOrientation()
     console.log('start')
     //window.addEventListener("devicemotion", handleMotion);
