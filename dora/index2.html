@@ -159,6 +159,10 @@
     background-color: green;
     color: #fff;
   }
+  .btn.exit {
+    background-color: red;
+    color: #fff;
+  }
 
   .AttributionContainer { display: none; }
   .BearingIndicatorContainer  { display: none; }
@@ -194,7 +198,7 @@
     height: 130px;
     bottom: 200px;
     z-index: 9999;
-    transition: 0.3s ease-out;
+    transition: 0.2s ease-out;
     transition-delay: 0.3s;
     right: -60px;
   }
@@ -206,6 +210,10 @@
 
   .control-buttons button {
     margin-bottom: 10px;
+  }
+
+  .test #ar-control-buttons {
+    right: -60px!important;
   }
 
   .plan #ar-control-buttons {
@@ -364,6 +372,27 @@
 </style>
 
 <script type="text/javascript">
+
+  AFRAME.registerComponent("test", {
+    init: function() {
+      var btn = document.getElementById('btn-ar-test');
+      btn.addEventListener("click", function() {
+        console.log('hello')
+        var level = document.getElementById("level");
+        level.setAttribute('position', '0 0 -4');
+
+
+        var dollhouse = document.getElementById("dollhouse");
+        dollhouse.setAttribute('position', '-0.5 1000 -1');
+
+        var path = document.getElementById("path");
+        path.setAttribute('position', '-23.7 1000 20');
+
+        
+      });
+    }
+  });
+
   AFRAME.registerComponent("path", {
     init: function() {
       var btn = document.getElementById('btn-path');
@@ -522,6 +551,8 @@ document.getElementById('panel').style.bottom = '-' + panelHeight;
 
 
 document.getElementById('btn-map').addEventListener('click', function() {
+
+  document.getElementById('content').classList.remove('test');
   document.getElementById('ar-control-buttons').classList.remove('active');
   document.getElementById('map-control-buttons').classList.add('active');
 
@@ -548,24 +579,41 @@ document.getElementById('btn-ar').addEventListener('click', function() {
 
 document.getElementById('btn-ar-test').addEventListener('click', function() {
 
-  document.getElementById('content').classList.add('vps-test');
+  document.getElementById('content').classList.add('vps');
+  document.getElementById('content').classList.add('test');
+
+
 
 })
 
 document.getElementById('btn-exit').addEventListener('click', function() {
-  document.getElementById('content').classList.remove('vps');
-  document.getElementById('content').classList.remove('gps');
-  document.getElementById('content').classList.add('plan');
-  document.getElementById('btn-exit').style.display = 'none';
-  document.getElementById('btn-use2D').style.display = 'none';
-  document.getElementById('reloc').style.display = 'none';
-  document.getElementById('directions').style.top = '-100px';
-  //document.getElementById('content').classList.add('gps');
 
-  map.setPaintProperty('directions-route-line', 'line-opacity', 0);
-  map.setPaintProperty('directions-destination-point', 'circle-opacity', 0);
-  map.on('click', setEndPoint);
-})
+  var panel = document.getElementById('panel');
+  panel.innerHTML = '';
+  panel.classList.add('open');
+
+
+  var confirmBtn = panel.appendChild(document.createElement('button'));
+  confirmBtn.innerHTML = 'Exit nav';
+  confirmBtn.className = 'btn exit';
+  confirmBtn.addEventListener('click', function() {
+    panel.classList.remove('open');
+    document.getElementById('content').classList.remove('vps');
+    document.getElementById('content').classList.remove('gps');
+    document.getElementById('content').classList.add('plan');
+    document.getElementById('btn-exit').style.display = 'none';
+    document.getElementById('btn-use2D').style.display = 'none';
+    document.getElementById('reloc').style.display = 'none';
+    document.getElementById('directions').style.top = '-100px';
+    //document.getElementById('content').classList.add('gps');
+
+    map.setPaintProperty('directions-route-line', 'line-opacity', 0);
+    map.setPaintProperty('directions-destination-point', 'circle-opacity', 0);
+    map.on('click', setEndPoint);
+  })
+
+});
+
 
 document.getElementById('btn-use2D').addEventListener('click', function() {
   document.getElementById('content').classList.remove('vps');
@@ -1091,13 +1139,6 @@ function manageCompass(event) {
 
 
 
-let btnCenter = document.getElementById("btn-center");
-btnCenter.addEventListener('click', setCenter);
-
-
-function setCenter() {
-  map.flyTo({ center: latestLocation, zoom: 19 });
-}
 
 
 
@@ -1109,6 +1150,22 @@ let is_running = false;
 let compass_button = document.getElementById("btn-orientate");
 compass_button.addEventListener('click', setOrientation);
 
+
+
+
+let btnCenter = document.getElementById("btn-center");
+btnCenter.addEventListener('click', setCenter);
+
+
+function setCenter() {
+  if (is_running === true) {
+    stopOrientation()
+    map.flyTo({ center: latestLocation, zoom: 19 });
+    setTimeout(function() { 
+      restartOrientation();
+    },300);
+  }
+}
 
 
 map.on('touchstart', function() {
