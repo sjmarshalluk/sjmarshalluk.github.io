@@ -113,7 +113,7 @@
     border-radius: 20px 20px 0 0;
     bottom: -200px;
     position: absolute;
-    z-index: 1000;
+    z-index: 8000;
     transition: 0.2s;
     padding: 20px; 
     text-align: center;
@@ -130,8 +130,10 @@
     left: 0;
     background-color: rgba(0,0,0,0.5);
     color: #fff;
-    z-index: 2000;
+    z-index: 100;
     display: none;
+    line-height: 100vh;
+    text-align: center;
   }
 
   #compass_button {
@@ -170,21 +172,25 @@
   .a-enter-vr { display: none; }
 
   .ui-buttons button {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border-radius: 44px;
     background-color: #fff;
-    margin-bottom: 10px;
     border: none;
   }
 
   .control-buttons {
     position: absolute;
-    width: 60px;
-    height: 130px;
+    width: 50px;
+    height: 110px;
     bottom: 200px;
     z-index: 9999;
-    transition: 0.2s;
+    transition: 0.3s;
+    right: -60px;
+  }
+
+  .control-buttons button {
+    margin-bottom: 10px;
   }
 
   .plan #ar-control-buttons {
@@ -203,6 +209,9 @@
   .vps #ar-control-buttons {
     right: 16px;
   }
+  .vps.reloc #ar-control-buttons {
+    right: -60px;
+  }
   .vps #map-control-buttons {
     right: -60px;
   }
@@ -210,17 +219,21 @@
 
   #mode-button {
     position: absolute;
-    width: 60px;
-    height: 60px;
-    bottom: 20px;
+    width: 50px;
+    height: 50px;
+    bottom: 16px;
     right: 16px;
-    z-index: 9999;
+    z-index: 1000;
   }
-  .plan #mode-button {
+
+
+  .plan #mode-button #btn-map {
     display: none;
   }
-  .gps #mode-button,
-  .vps #mode-button {
+  .plan #mode-button #btn-ar {
+    display: none;
+  }
+  .plan #mode-button #btn-ar-test {
     display: block;
   }
 
@@ -237,6 +250,11 @@
     display: none;
   }
 
+  .gps #mode-button #btn-ar-test,
+  .vps #mode-button #btn-ar-test {
+    display: none;
+  }
+
 
 
   #directions {
@@ -248,7 +266,8 @@
     padding: 10px;
     z-index: 1000;
     height: 80px;
-    transition: 0.2s;
+    transition: 0.5s;
+    top: -100px;
   }
 
   .plan #directions {
@@ -259,6 +278,34 @@
   }
   .vps #directions {
     top: -100px;
+  }
+
+
+  #btn-exit {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    z-index: 1000;
+    background-color: red;
+    width: 70px;
+    height: 50px;
+    border-radius: 44px;
+    border: none;
+    color: white;
+    display: none;
+  }
+
+  #btn-use2D {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    z-index: 1000;
+    background-color: white;
+    width: 70px;
+    height: 50px;
+    border-radius: 44px;
+    border: none;
+    display: none;
   }
 
 
@@ -321,6 +368,7 @@
     <div id="mode-button" class="ui-buttons">
       <button id="btn-map">map</button>
       <button id="btn-ar">ar</button>
+      <button id="btn-ar-test">ar?</button>
     </div>
 
     <div id="map-control-buttons" class="ui-buttons control-buttons">
@@ -332,6 +380,10 @@
       <button id="btn-path">path</button>
       <button id="btn-doll">doll</button>
     </div>
+
+
+    <button id="btn-exit">Exit</button>
+    <button id="btn-use2D">Use GPS</button>
 
 
     <canvas id="c"></canvas>
@@ -356,9 +408,9 @@
   </div>
 
   <a-scene id="scene">
-    <a-gltf-model dollhouse id='dollhouse' position='-0.5 0 -1' rotation='0 205 0' scale='0.5 0.5 0.5' src='https://sjmarshalluk.github.io/model-maker/models/lavant-test.gltf'></a-gltf-model>
+    <a-gltf-model dollhouse id='dollhouse' position='-0.5 1000 -1' rotation='0 205 0' scale='0.5 0.5 0.5' src='https://sjmarshalluk.github.io/model-maker/models/lavant-test.gltf'></a-gltf-model>
 
-    <a-gltf-model path id='path' position='-23.7 0 20' rotation='0 205 0' scale='10 10 10' src='https://sjmarshalluk.github.io/model-maker/models/lavant-path-test.gltf'></a-gltf-model>
+    <a-gltf-model path id='path' position='-23.7 1000 20' rotation='0 205 0' scale='10 10 10' src='https://sjmarshalluk.github.io/model-maker/models/lavant-path-test.gltf'></a-gltf-model>
 
     <a-camera></a-camera>
   </a-scene>
@@ -379,14 +431,47 @@ document.getElementById('panel').style.bottom = '-' + panelHeight;
 document.getElementById('btn-map').addEventListener('click', function() {
 
   document.getElementById('content').classList.remove('vps');
-  document.getElementById('content').classList.add('gps');
+  
+  setTimeout(function() { 
+    document.getElementById('content').classList.add('gps');
+  },300);
 
 })
 document.getElementById('btn-ar').addEventListener('click', function() {
 
   document.getElementById('content').classList.remove('gps');
-  document.getElementById('content').classList.add('vps');
 
+  setTimeout(function() { 
+    document.getElementById('content').classList.add('vps');
+  },300);
+  
+
+})
+
+document.getElementById('btn-ar-test').addEventListener('click', function() {
+
+  document.getElementById('content').classList.add('vps-test');
+
+})
+
+document.getElementById('btn-exit').addEventListener('click', function() {
+  document.getElementById('content').classList.remove('vps');
+  document.getElementById('content').classList.remove('gps');
+  document.getElementById('content').classList.add('plan');
+  document.getElementById('btn-exit').style.display = 'none';
+  document.getElementById('btn-use2D').style.display = 'none';
+  document.getElementById('reloc').style.display = 'none';
+  document.getElementById('direction').style.top = '-100px';
+  document.getElementById('content').classList.add('gps');
+})
+
+document.getElementById('btn-use2D').addEventListener('click', function() {
+  document.getElementById('content').classList.remove('vps');
+  document.getElementById('content').classList.remove('gps');
+  document.getElementById('content').classList.add('gps');
+  document.getElementById('reloc').style.display = 'none';
+  document.getElementById('btn-use2D').style.display = 'none';
+  setCenter();
 })
 
 
@@ -629,9 +714,14 @@ function showPanel() {
     document.getElementById('panel').classList.remove('open');
 
     document.getElementById('content').classList.remove('plan');
-    document.getElementById('content').classList.add('vps');
-    //startReloc();
-    startVpsNav();
+    
+
+    document.getElementById('btn-exit').style.display = 'block';
+    document.getElementById('btn-use2D').style.display = 'block';
+    
+
+    startReloc();
+    //startVpsNav();
   })
 
 }
@@ -640,8 +730,11 @@ function showPanel() {
 
 
 function startReloc() {
-  
-  document.getElementById('map').style.top = '100%';
+
+  document.getElementById('content').classList.add('vps');
+  document.getElementById('content').classList.add('reloc');
+
+
   document.getElementById('reloc').style.display = 'inline';
 
   setTimeout(function() { 
@@ -651,8 +744,13 @@ function startReloc() {
 
 
 function endReloc() {
-  //document.getElementById('panel').classList.remove('open');
-  document.getElementById('map').style.top = '0';
+
+
+  document.getElementById('content').classList.remove('reloc');
+
+  
+  document.getElementById('btn-use2D').style.display = 'none';
+
   document.getElementById('reloc').style.display = 'none';
 
   startVpsNav();
@@ -662,7 +760,10 @@ function endReloc() {
 
 function startVpsNav() {
 
+  document.getElementById('content').classList.add('vps');
 
+  var path = document.getElementById("path");
+  path.setAttribute('position', '-23.7 0 20');
 
   map.flyTo({center: startPosition, zoom: 20});
   setOrientation();
@@ -819,6 +920,16 @@ function handleOrientation(event) {
 
 function manageCompass(event) {
     
+}
+
+
+
+let btnCenter = document.getElementById("btn-center");
+btnCenter.addEventListener('click', setCenter);
+
+
+function setCenter() {
+  map.flyTo({ center: latestLocation });
 }
 
 
