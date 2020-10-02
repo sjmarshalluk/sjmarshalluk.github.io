@@ -53,8 +53,11 @@
   }
 
   #scene {
-    z-index: 1;
+    z-index: 11;
     position: absolute;
+    height: 40%;
+    top: -40%;
+    transition: 0.3s;
   }
   
 
@@ -542,7 +545,7 @@
     </div>
   </div>
 
-  <a-scene id="scene">
+  <a-scene embedded id="scene">
     <a-gltf-model dollhouse id='dollhouse' position='-0.5 1000 -1' rotation='0 205 0' scale='0.5 0.5 0.5' src='https://sjmarshalluk.github.io/model-maker/models/lavant-test.gltf'></a-gltf-model>
 
     <a-gltf-model path id='path' position='-23.7 1000 20' rotation='0 205 0' scale='10 10 10' src='https://sjmarshalluk.github.io/model-maker/models/lavant-path-test.gltf'></a-gltf-model>
@@ -1123,6 +1126,7 @@ function handleOrientation(event) {
       //document.getElementById('map-wrap').style.height = '60%';
       map.setPitch(60);
       document.getElementById('video-wrap').style.top = '0';
+      document.getElementById('scene').style.top = '0';
 
     }
 
@@ -1130,6 +1134,7 @@ function handleOrientation(event) {
       //document.getElementById('map-wrap').style.height = '60%';
       map.setPitch(0);
       document.getElementById('video-wrap').style.top = '-40%';
+      document.getElementById('scene').style.top = '-40%';
 
     }
 
