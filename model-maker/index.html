@@ -373,8 +373,13 @@ if (savedSettings) {
 var modelSettings = {
   "buildingHeight": 1,
   "buildingColor": 0x00afaf,
+  "buildingOpacity": 0.5,
   "roadWidth": 0.003,
+  "roadColor": 0xCCCCCC,
+  "roadOpacity": 1,
   "pathWidth": 0.001,
+  "pathColor": 0xCCCCCC,
+  "pathOpacity": 1,
   "routeStart": 'none',
   "routeEnd": 'none',
   "routeTurn": 'none',
@@ -674,10 +679,13 @@ function editOsmObject(type) {
   var editPanel = document.getElementById('panel');
   editPanel.innerHTML = '';
 
+
+  var colorLabel = editPanel.appendChild(document.createElement('label'));
+  colorLabel.innerHTML = 'Color';
   var colorPick = editPanel.appendChild(document.createElement('input'));
   colorPick.setAttribute("type", "text");
   colorPick.setAttribute("name", "color1");
-  colorPick.setAttribute("value", "#333399");
+  colorPick.setAttribute("value", "#FFFFFF");
   colorPick.id = 'color1';
 
   $('#color1').colorPicker( { 
@@ -685,11 +693,22 @@ function editOsmObject(type) {
       console.log("ID: " + id + " has been changed to " + newValue); 
 
       var newColor = parseInt('0x' + newValue.substring(1));
-      console.log(newColor)
+      console.log(newColor);
+
+      if (type === 'building') {
+        modelSettings.buildingColor = newColor;
+      }
+      if (type === 'road') {
+        modelSettings.roadColor = newColor;
+      }
+      if (type === 'path') {
+        modelSettings.pathColor = newColor;
+      }
 
       osmObjects.features.forEach(function(osm,index) {
         if (osm.properties.type === type) {
           var object = scene.getObjectByName( "osm-" + index  );
+          //set modelsettings
           object.material.color.setHex( newColor );
         }
       });
@@ -699,6 +718,8 @@ function editOsmObject(type) {
   });
 
 
+    var opacityLabel = editPanel.appendChild(document.createElement('label'));
+    opacityLabel.innerHTML = 'Opacity';
     var opacitySlider = editPanel.appendChild(document.createElement('input'));
     opacitySlider.setAttribute("type", "range");
     opacitySlider.setAttribute("min", "0");
@@ -707,6 +728,17 @@ function editOsmObject(type) {
 
     opacitySlider.oninput = function() {
       var scaleAmount = this.value / 100;
+
+      if (type === 'building') {
+        modelSettings.buildingOpacity = scaleAmount;
+      }
+      if (type === 'road') {
+        modelSettings.roadOpacity = scaleAmount;
+      }
+      if (type === 'path') {
+        modelSettings.pathOpacity = scaleAmount;
+      }
+
       osmObjects.features.forEach(function(osm,index) {
         if (osm.properties.type === type) {
           var object = scene.getObjectByName( "osm-" + index  );
@@ -717,8 +749,9 @@ function editOsmObject(type) {
 
 
   if (type === 'building') {
-    var buildingSlider = document.getElementById("building-slider");
 
+    var buildingHeightLabel = editPanel.appendChild(document.createElement('label'));
+    buildingHeightLabel.innerHTML = 'Building Height';
     var buildingHeightSlider = editPanel.appendChild(document.createElement('input'));
     buildingHeightSlider.setAttribute("type", "range");
     buildingHeightSlider.setAttribute("min", "0");
@@ -734,14 +767,16 @@ function editOsmObject(type) {
       });
 
       var scaleAmount = this.value / 20;
-      paintBuildings(scaleAmount);
       modelSettings.buildingHeight = scaleAmount;
+      paintBuildings();
     }
   }
 
 
   
   if (type === 'road' || type === 'path') {
+    var lineWidthLabel = editPanel.appendChild(document.createElement('label'));
+    lineWidthLabel.innerHTML = 'Line Width';
     var lineWidthSlider = editPanel.appendChild(document.createElement('input'));
     lineWidthSlider.setAttribute("type", "range");
     lineWidthSlider.setAttribute("min", "0");
@@ -756,11 +791,12 @@ function editOsmObject(type) {
       });
       var scaleAmount = this.value / 2000;
       if (type === 'road') {
-        paintRoads(scaleAmount);
         modelSettings.roadWidth = scaleAmount;
+        paintRoads();
       }
       if (type === 'path') {
-        paintPaths(scaleAmount)
+        modelSettings.pathWidth = scaleAmount;
+        paintPaths()
       }
     }
   }
@@ -1057,6 +1093,14 @@ import {GLTFExporter} from 'https://threejsfundamentals.org/threejs/resources/th
   window.scene = new THREE.Scene();
   scene.background = new THREE.Color('white');
 
+
+  var light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(1, 3, 2);
+  scene.add(light);
+
+
+  /*
+
   {
     const planeSize = 40;
 
@@ -1095,7 +1139,7 @@ import {GLTFExporter} from 'https://threejsfundamentals.org/threejs/resources/th
     scene.add(light);
     scene.add(light.target);
   }
-
+  */
 
 
 
@@ -1318,7 +1362,7 @@ function showFeature(type,feature,shape){
 
 
 
-function paintRoads(width) {
+function paintRoads() {
 
   var centerLng = center.geometry.coordinates[0];
   var centerLat = center.geometry.coordinates[1];
@@ -1327,7 +1371,7 @@ function paintRoads(width) {
 
   osmObjects.features.forEach(function(road,index) {
     if(road.properties.type === 'road') {
-      var buffered = turf.buffer(road, width, {units: 'kilometers'});
+      var buffered = turf.buffer(road, modelSettings.roadWidth, {units: 'kilometers'});
       buffered.properties.index = index;
       roads.push(buffered);
     }
@@ -1373,7 +1417,7 @@ function paintRoads(width) {
     var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 
     var material = new THREE.MeshBasicMaterial( {
-      color: 0xCCCCCC
+      color: modelSettings.roadColor
     } );
 
     //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
@@ -1381,6 +1425,8 @@ function paintRoads(width) {
 
     mesh.position.set( 0, 0, 0 );
     mesh.rotation.set(1.56,0,0);
+    mesh.material.transparent = true;
+    mesh.material.opacity = modelSettings.roadOpacity; 
     mesh.name = 'osm-' + rd.properties.index;
 
     scene.add( mesh );
@@ -1441,7 +1487,7 @@ function paintRoads(width) {
 }
 
 
-function paintPaths(width) {
+function paintPaths() {
 
   var centerLng = center.geometry.coordinates[0];
   var centerLat = center.geometry.coordinates[1];
@@ -1450,7 +1496,7 @@ function paintPaths(width) {
 
   osmObjects.features.forEach(function(path,index) {
     if(path.properties.type === 'path') {
-      var buffered = turf.buffer(path, width, {units: 'kilometers'});
+      var buffered = turf.buffer(path, modelSettings.pathWidth, {units: 'kilometers'});
       buffered.properties.index = index;
       paths.push(buffered);
     }
@@ -1496,7 +1542,7 @@ function paintPaths(width) {
     var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 
     var material = new THREE.MeshBasicMaterial( {
-      color: 0xCCCCCC
+      color: modelSettings.pathColor
     } );
 
     //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
@@ -1504,6 +1550,9 @@ function paintPaths(width) {
 
     mesh.position.set( 0, 0.01, 0 );
     mesh.rotation.set(1.56,0,0);
+
+    mesh.material.transparent = true;
+    mesh.material.opacity = modelSettings.pathOpacity; 
     mesh.name = 'osm-' + path.properties.index;
 
     scene.add( mesh );
@@ -1516,7 +1565,7 @@ function paintPaths(width) {
 
 
 
-function paintBuildings(height) {
+function paintBuildings() {
   var centerLng = center.geometry.coordinates[0];
   var centerLat = center.geometry.coordinates[1];
 
@@ -1560,20 +1609,20 @@ function paintBuildings(height) {
       var shape = new THREE.Shape( buildingPoints );
 
 
-      var extrudeSettings = { amount: height, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+      var extrudeSettings = { amount: modelSettings.buildingHeight, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
       console.log(buildingPoints)
       var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 
-      var material = new THREE.MeshStandardMaterial( { color: modelSettings.buildingColor } );
+      //var material = new THREE.MeshStandardMaterial( { color: modelSettings.buildingColor } );
 
-      //var material = new THREE.MeshLambertMaterial( { color: 0xaaaaaa, wireframe: true } );
+      var material = new THREE.MeshLambertMaterial( { color: modelSettings.buildingColor, wireframe: false } );
       var mesh = new THREE.Mesh( geometry, material );
 
-      mesh.position.set( 0, height, 0 );
+      mesh.position.set( 0, modelSettings.buildingHeight, 0 );
       mesh.rotation.set(1.56,0,0);
 
       mesh.material.transparent = true;
-      mesh.material.opacity = 0.5; 
+      mesh.material.opacity = modelSettings.buildingOpacity; 
       mesh.name = 'osm-' + index;
 
       scene.add( mesh );
@@ -1628,11 +1677,11 @@ function renderOsm() {
 
   
 
-  paintRoads(modelSettings.roadWidth);
+  paintRoads();
 
-  paintPaths(modelSettings.pathWidth);
+  paintPaths();
 
-  paintBuildings(modelSettings.buildingHeight);
+  paintBuildings();
 
   paintNodes();
 
@@ -1730,14 +1779,47 @@ function setPoint(e,type) {
 
 function renderPlaces(route,dashSize,model) {
 
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+  route.geometry.coordinates.forEach(function(turn,index) {
+    let latitude = turn[1];
+    let longitude = turn[0];
+
+
+    if (index < route.geometry.coordinates.length - 1) {
+      var thisCoords = route.geometry.coordinates[index];
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (thisCoords[0] - centerLng) * 10000;
+      var offsetY = (thisCoords[1] - centerLat) * 10000;
+
+      console.log(modelSettings.routeTurn);
+      if (modelSettings.routeTurn === 'arrow') {
+        addNewArrow(offsetX,offsetY);
+      }
+      if (modelSettings.routeTurn === 'point') {
+        addNewPoint(offsetX,offsetY);
+      }
+      
+    }
+
+
+    
+
+  })
 
 
   if (modelSettings.routeType === 'solid') {
 
     var buffered = turf.buffer(route, modelSettings.routeWidth, {units: 'kilometers'});
 
-    var centerLng = center.geometry.coordinates[0];
-    var centerLat = center.geometry.coordinates[1];
+    
 
 
     var routePoints = [];
@@ -1793,9 +1875,6 @@ function renderPlaces(route,dashSize,model) {
   } else {
 
 
-    var centerLng = center.geometry.coordinates[0];
-    var centerLat = center.geometry.coordinates[1];
-
 
     var arPathPoints = {
       "type":"FeatureCollection",
@@ -1839,37 +1918,7 @@ function renderPlaces(route,dashSize,model) {
     };
 
 
-    route.geometry.coordinates.forEach(function(turn,index) {
-      let latitude = turn[1];
-      let longitude = turn[0];
-
-
-      if (index < route.geometry.coordinates.length - 1) {
-        var thisCoords = route.geometry.coordinates[index];
-
-        // threejs json
-        var pointX = turf.point([longitude,centerLat]);
-        var pointY = turf.point([centerLng,latitude]);
-        var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
-        var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
-
-        var offsetX = (thisCoords[0] - centerLng) * 10000;
-        var offsetY = (thisCoords[1] - centerLat) * 10000;
-
-        console.log(modelSettings.routeTurn);
-        if (modelSettings.routeTurn === 'arrow') {
-          addNewArrow(offsetX,offsetY);
-        }
-        if (modelSettings.routeTurn === 'point') {
-          addNewPoint(offsetX,offsetY);
-        }
-        
-      }
-
-
-      
-
-    })
+    
 
     route.properties.count = arPathPoints.features.length;
 
