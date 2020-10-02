@@ -6,6 +6,11 @@
 
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes">
+
+
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.jsXXX"></script>
+
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
@@ -13,8 +18,6 @@
 
 
   
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
 
   <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 <style>
@@ -45,8 +48,13 @@
     display: block;
     position: absolute;
     right: 0;
-    z-index: 1000;
+    z-index: -1;
     display: none;
+  }
+
+  #scene {
+    z-index: -1;
+    position: absolute;
   }
 
   #map-wrap { 
@@ -60,8 +68,11 @@
     left: 0;
     transition: 0.2s;
   }
-  #map-wrap.closed {
+  .vps #map-wrap {
     height: 0;
+  }
+  .gps #map-wrap {
+    height: 100%;
   }
   #map-wrap.half {
     height: 45%; 
@@ -172,12 +183,30 @@
     width: 60px;
     height: 130px;
     bottom: 200px;
-    right: 16px;
     z-index: 9999;
+    transition: 0.2s;
   }
-  .control-buttons.hidden {
-    display: none
+
+  .plan #ar-control-buttons {
+    right: -60px;
   }
+  .plan #map-control-buttons {
+    right: 16px;
+  }
+
+  .gps #ar-control-buttons {
+    right: -60px;
+  }
+  .gps #map-control-buttons {
+    right: 16px;
+  }
+  .vps #ar-control-buttons {
+    right: 16px;
+  }
+  .vps #map-control-buttons {
+    right: -60px;
+  }
+
 
   #mode-button {
     position: absolute;
@@ -187,19 +216,50 @@
     right: 16px;
     z-index: 9999;
   }
-  #mode-button #ar-btn {
+  .plan #mode-button {
     display: none;
   }
-  #mode-button #map-btn {
-    display: block;
-  }
-  #mode-button.map-view #map-btn {
-    display: none;
-  }
-  #mode-button.map-view #ar-btn {
+  .gps #mode-button,
+  .vps #mode-button {
     display: block;
   }
 
+  .gps #mode-button #btn-map {
+    display: none;
+  }
+  .gps #mode-button #btn-ar {
+    display: block;
+  }
+  .vps #mode-button #btn-map {
+    display: block;
+  }
+  .vps #mode-button #btn-ar {
+    display: none;
+  }
+
+
+
+  #directions {
+    width: calc(100% - 20px);
+    position: absolute;
+    left: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    z-index: 1000;
+    height: 80px;
+    transition: 0.2s;
+  }
+
+  .plan #directions {
+    top: -100px;
+  }
+  .gps #directions {
+    top: 10px;
+  }
+  .vps #directions {
+    top: -100px;
+  }
 
 
 </style>
@@ -252,43 +312,50 @@
 </head>
 <body>
 
+  <div id="content" class="plan">
 
-  <div id="mode-button" class="ui-buttons" style="display: none;">
-    <button id="btn-map">map</button>
-  </div>
+    <div id="directions">
+      <p>Directions</p>
+    </div>
 
-  <div id="map-control-buttons" class="ui-buttons control-buttons">
-    <button id="btn-center">cent</button>
-    <button id="btn-orientate">comp</button>
-  </div>
+    <div id="mode-button" class="ui-buttons">
+      <button id="btn-map">map</button>
+      <button id="btn-ar">ar</button>
+    </div>
 
-  <div id="ar-control-buttons" class="ui-buttons control-buttons hidden">
-    <button id="btn-path">path</button>
-    <button id="btn-doll">doll</button>
-  </div>
+    <div id="map-control-buttons" class="ui-buttons control-buttons">
+      <button id="btn-center">cent</button>
+      <button id="btn-orientate">comp</button>
+    </div>
+
+    <div id="ar-control-buttons" class="ui-buttons control-buttons hidden">
+      <button id="btn-path">path</button>
+      <button id="btn-doll">doll</button>
+    </div>
 
 
-  <canvas id="c"></canvas>
+    <canvas id="c"></canvas>
 
-  <div id="map-wrap"> 
-    <button id="map-mode" class="btn" style="position: absolute; bottom: 60px; right: 10px; z-index: 1000; background-color: #fff; display: none;" >D</button>
-    <a id="compass_button" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 9999; display: none;">o</a>
-    <div id="map"></div>
-  </div>
+    <div id="map-wrap"> 
+      <button id="map-mode" class="btn" style="position: absolute; bottom: 60px; right: 10px; z-index: 1000; background-color: #fff; display: none;" >D</button>
+      <a id="compass_button" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 9999; display: none;">o</a>
+      <div id="map"></div>
+    </div>
 
-  <video id="video" autoplay playsinline></video>
+    <video id="video" autoplay playsinline></video>
 
-  <div id="reloc">
-    Pan around
-  </div>
+    <div id="reloc">
+      Pan around
+    </div>
 
-  <div id="ui-wrap">
-    <div id="panel">
+    <div id="ui-wrap">
+      <div id="panel">
 
+      </div>
     </div>
   </div>
 
-  <a-scene>
+  <a-scene id="scene">
     <a-gltf-model dollhouse id='dollhouse' position='-0.5 0 -1' rotation='0 205 0' scale='0.5 0.5 0.5' src='https://sjmarshalluk.github.io/model-maker/models/lavant-test.gltf'></a-gltf-model>
 
     <a-gltf-model path id='path' position='-23.7 0 20' rotation='0 205 0' scale='10 10 10' src='https://sjmarshalluk.github.io/model-maker/models/lavant-path-test.gltf'></a-gltf-model>
@@ -310,10 +377,16 @@ document.getElementById('panel').style.bottom = '-' + panelHeight;
 
 
 document.getElementById('btn-map').addEventListener('click', function() {
-  document.getElementById('map-wrap').classList.toggle('closed');
-  document.getElementById('mode-button').classList.toggle('map-view');
-  document.getElementById('map-control-buttons').classList.toggle('hidden');
-  document.getElementById('ar-control-buttons').classList.toggle('hidden');
+
+  document.getElementById('content').classList.remove('vps');
+  document.getElementById('content').classList.add('gps');
+
+})
+document.getElementById('btn-ar').addEventListener('click', function() {
+
+  document.getElementById('content').classList.remove('gps');
+  document.getElementById('content').classList.add('vps');
+
 })
 
 
@@ -554,10 +627,9 @@ function showPanel() {
   startBtn.className = 'btn start';
   startBtn.addEventListener('click', function() {
     document.getElementById('panel').classList.remove('open');
-    document.getElementById('map-wrap').classList.add('closed');
-    document.getElementById('mode-button').style.display = 'block';
-    document.getElementById('ar-control-buttons').classList.remove('hidden');
-    document.getElementById('map-control-buttons').classList.add('hidden');
+
+    document.getElementById('content').classList.remove('plan');
+    document.getElementById('content').classList.add('vps');
     //startReloc();
     startVpsNav();
   })
@@ -591,6 +663,9 @@ function endReloc() {
 function startVpsNav() {
 
 
+
+  map.flyTo({center: startPosition, zoom: 20});
+  setOrientation();
 }
 
 
@@ -748,9 +823,12 @@ function manageCompass(event) {
 
 
 let is_running = false;
-let compass_button = document.getElementById("compass_button");
-compass_button.onclick = function(e) {
-  e.preventDefault();
+let compass_button = document.getElementById("btn-orientate");
+compass_button.addEventListener('click', setOrientation);
+
+
+function setOrientation() {
+  //e.preventDefault();
   
   if (
     DeviceMotionEvent &&
@@ -764,16 +842,16 @@ compass_button.onclick = function(e) {
     console.log('end')
     //window.removeEventListener("devicemotion", handleMotion);
     //window.removeEventListener('deviceorientation', manageCompass);
-    compass_button.innerHTML = "o";
-    is_running = false;
+    //compass_button.innerHTML = "o";
+
   }else{
     startOrientation()
     console.log('start')
     //window.addEventListener("devicemotion", handleMotion);
     
     //window.addEventListener('deviceorientation', manageCompass);
-    compass_button.innerHTML = "x";
-    
+    //compass_button.innerHTML = "x";
+
   }
 };
 
@@ -791,91 +869,6 @@ function stopOrientation() {
 }
 
 
-window.curentMapMode = 'half';
-document.getElementById('map-mode').addEventListener('click', function() {
-  
-  if (curentMapMode === 'half') {
-    
-    console.log(curentMapMode)
-    document.getElementById('map-wrap').classList.remove('half');
-
-    var ts = 0;
-    var id = setInterval(resize, 10);
-    function resize() {
-      if (ts === 40) {
-        clearInterval(id);
-        ts = 0;
-        map.flyTo({center: startPosition, zoom: 20});
-      } else {
-        ts ++
-        map.resize();
-      }
-    }
-
-
-    var t = 0;
-    var tid = setInterval(fadeOutFeatures, 1);
-    function fadeOutFeatures() {
-      if (t === 100) {
-        clearInterval(tid);
-        t = 0;
-      } else {
-        console.log(t);
-        var opacity = t / 100;
-        map.setPaintProperty('land', 'background-opacity', opacity);
-        map.setPaintProperty('road-pedestrian', 'line-opacity', opacity);
-        map.setPaintProperty('road-path', 'line-opacity', opacity);
-        map.setPaintProperty('road-pedestrian-case', 'line-opacity', opacity);
-        map.setPaintProperty('road-label', 'text-opacity', opacity);
-        t ++
-        
-      }
-    }
-    
-    window.curentMapMode = 'full';  
-  } else {
-    window.curentMapMode = 'half';
-    console.log(curentMapMode)
-    document.getElementById('map-wrap').classList.add('half');
-
-    var ts = 0;
-    var tid = setInterval(resize, 10);
-    function resize() {
-      if (ts === 40) {
-        clearInterval(tid);
-        ts = 0;
-        map.flyTo({center: startPosition, zoom: 20});
-      } else {
-        ts ++
-        map.resize();
-      }
-    }
-    
-    var t = 0;
-    var id = setInterval(fadeOutFeatures, 1);
-    function fadeOutFeatures() {
-      if (t === 100) {
-        clearInterval(id);
-        t = 0;
-      } else {
-        console.log(t);
-        var opacity = 1 - (t / 100);
-        map.setPaintProperty('land', 'background-opacity', opacity);
-        map.setPaintProperty('road-pedestrian', 'line-opacity', opacity);
-        map.setPaintProperty('road-path', 'line-opacity', opacity);
-        map.setPaintProperty('road-pedestrian-case', 'line-opacity', opacity);
-        map.setPaintProperty('road-label', 'text-opacity', opacity);
-        t ++
-        
-      }
-    }
-    
-  }
-
-  
-
-  console.log(curentMapMode)
-})
 
 
  
