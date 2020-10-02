@@ -765,7 +765,7 @@ function startVpsNav() {
   var path = document.getElementById("path");
   path.setAttribute('position', '-23.7 0 20');
 
-  map.flyTo({center: startPosition, zoom: 20});
+  map.flyTo({center: startPosition, zoom: 22});
   setOrientation();
 }
 
@@ -933,9 +933,26 @@ function setCenter() {
 }
 
 
+
+
+
+
+
 let is_running = false;
 let compass_button = document.getElementById("btn-orientate");
 compass_button.addEventListener('click', setOrientation);
+
+
+
+map.on('touchstart', function() {
+  if (is_running === true) {
+    stopOrientation()
+
+    map.on('touchend', function() {
+      startOrientation();
+    })
+  }
+})
 
 
 function setOrientation() {
