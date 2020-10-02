@@ -952,8 +952,8 @@ function showPanel() {
     document.getElementById('btn-use2D').style.display = 'block';
     
 
-    startReloc();
-    //startVpsNav();
+    //startReloc();
+    startVpsNav();
   })
 
 }
@@ -1127,7 +1127,10 @@ function handleOrientation(event) {
       map.setPitch(60);
       document.getElementById('video-wrap').style.top = '0';
       document.getElementById('scene').style.top = '0';
-
+      document.getElementById('scene').addEventListener('click', function() {
+        document.getElementById('video-wrap').style.height = '100%';
+        document.getElementById('scene').style.height = '100%';
+      })
     }
 
     if (event.beta < 60) {
