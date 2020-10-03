@@ -806,9 +806,16 @@ function setStart(position) {
 
   var point = turf.point([position.coords.longitude, position.coords.latitude]);
 
-  var marker = new mapboxgl.Marker({
-    rotation: 90,
-    rotationAlignment: 'viewport',
+
+  var el = document.createElement('div');
+  el.className = 'marker';
+  el.style.backgroundImage = 'url(assets/ca-green.png)';
+  el.style.width = '30px';
+  el.style.height = '30px';
+
+  window.marker = new mapboxgl.Marker(el, {
+    rotation: 0,
+    rotationAlignment: 'map',
     pitchAlignment: 'map'
   })
     .setLngLat([position.coords.longitude, position.coords.latitude])
@@ -1183,7 +1190,15 @@ function handleOrientation(event) {
 }
 
 function manageCompass(event) {
+
+   if (event.webkitCompassHeading) {
+        absoluteHeading = event.webkitCompassHeading;
+    } else {
+        absoluteHeading = event.alpha;
+    }
     
+    marker.rotation = absoluteHeading;
+    marker.rotationAlignment = 'viewport';
 }
 
 
@@ -1262,6 +1277,7 @@ function setOrientation() {
 };
 
 function startOrientation() {
+  window.removeEventListener("deviceorientation", manageCompass);
   window.addEventListener("deviceorientation", handleOrientation);
   window.addEventListener("deviceorientation", handleOrientationPath);
   is_running = true;
@@ -1270,6 +1286,7 @@ function startOrientation() {
 }
 
 function stopOrientation() {
+  window.addEventListener("deviceorientation", manageCompass);
   window.removeEventListener("deviceorientation", handleOrientation);
   is_running = false;
 }
