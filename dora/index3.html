@@ -1149,7 +1149,7 @@ function handleOrientation(event) {
       })
 
       var t = 0;
-      var id = setInterval(pitch, 10);
+      var id = setInterval(pitch, 1);
       function pitch() {
         if (t === 60) {
           clearInterval(id);
@@ -1168,7 +1168,7 @@ function handleOrientation(event) {
       document.getElementById('scene').style.top = '-40%';
 
       var t = 0;
-      var id = setInterval(pitch, 10);
+      var id = setInterval(pitch, 1);
       function pitch() {
         if (t === 60) {
           clearInterval(id);
