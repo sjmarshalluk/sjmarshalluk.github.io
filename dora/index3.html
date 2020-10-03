@@ -691,7 +691,7 @@ console.log(layers);
 
 console.log(roadLayer[0].paint["line-width"] );
 
-
+getLocation();
 
   
 })
@@ -705,7 +705,7 @@ var directions = new MapboxDirections({
 });
 map.addControl(directions);
 
-getLocation();
+
 
 function getLocation() {
   if (navigator.geolocation) {
@@ -806,10 +806,6 @@ function setStart(position) {
 
   var point = turf.point([position.coords.longitude, position.coords.latitude]);
 
-
-
-  map.on('load', function() {
-
   var marker = new mapboxgl.Marker({
     rotation: 90,
     rotationAlignment: 'viewport',
@@ -866,7 +862,7 @@ function setStart(position) {
 
 
 
-  })
+  
   
 }
 
