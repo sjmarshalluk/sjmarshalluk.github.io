@@ -1128,7 +1128,11 @@ function handleOrientationPath(event) {
 
 function handleOrientation(event) {
 
+  var previousPitch = 0;
+
   if (event.beta > 0 && event.beta < 90) {
+
+    previousPitch = event.beta;
     //var perspective = event.beta + 100;
     //document.getElementById('map-wrap').style.perspective = perspective;
 
@@ -1137,45 +1141,55 @@ function handleOrientation(event) {
 
     map.setPitch(event.beta);
 
+    
 
     if (event.beta > 60) {
       //document.getElementById('map-wrap').style.height = '60%';
-      map.setPitch(60);
-      document.getElementById('video-wrap').style.top = '0';
-      document.getElementById('scene').style.top = '0';
-      document.getElementById('scene').addEventListener('click', function() {
-        document.getElementById('video-wrap').style.height = '100%';
-        document.getElementById('scene').style.height = '100%';
-      })
+      
 
-      var t = 0;
-      var id = setInterval(pitch, 1);
-      function pitch() {
-        if (t === 60) {
-          clearInterval(id);
-          t = 0;
-        } else {
-          map.setPitch(t); //change to phone sensors
-          t ++
+      if (previousPitch < 60) {
+
+        map.setPitch(60);
+        document.getElementById('video-wrap').style.top = '0';
+        document.getElementById('scene').style.top = '0';
+        document.getElementById('scene').addEventListener('click', function() {
+          document.getElementById('video-wrap').style.height = '100%';
+          document.getElementById('scene').style.height = '100%';
+        })
+
+        var t = 0;
+        var id = setInterval(pitch, 1);
+        function pitch() {
+          if (t === 60) {
+            clearInterval(id);
+            t = 0;
+          } else {
+            map.setPitch(t); //change to phone sensors
+            t ++
+          }
         }
+
       }
     }
 
     if (event.beta < 60) {
-      //document.getElementById('map-wrap').style.height = '60%';
-      map.setPitch(0);
-      document.getElementById('video-wrap').style.top = '-40%';
-      document.getElementById('scene').style.top = '-40%';
 
-      var t = 0;
-      var id = setInterval(pitch, 1);
-      function pitch() {
-        if (t === 60) {
-          clearInterval(id);
-          t = 0;
-        } else {
-          map.setPitch(60 - t); //change to phone sensors
-          t ++
+      if (previousPitch < 60) {
+        //document.getElementById('map-wrap').style.height = '60%';
+        map.setPitch(0);
+        document.getElementById('video-wrap').style.top = '-40%';
+        document.getElementById('scene').style.top = '-40%';
+
+        var t = 0;
+        var id = setInterval(pitch, 1);
+        function pitch() {
+          if (t === 60) {
+            clearInterval(id);
+            t = 0;
+          } else {
+            map.setPitch(60 - t); //change to phone sensors
+            t ++
+          }
         }
       }
 
