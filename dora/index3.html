@@ -806,6 +806,14 @@ function setStart(position) {
 
   var point = turf.point([position.coords.longitude, position.coords.latitude]);
 
+  var marker = new mapboxgl.Marker({
+    rotation: 90,
+    rotationAlignment: 'viewport',
+    pitchAlignment: 'map'
+  })
+    .setLngLat([position.coords.longitude, position.coords.latitude])
+    .addTo(map);
+
 
   if (map.getLayer('startPoint')) {
     map.removeLayer('startPoint');
