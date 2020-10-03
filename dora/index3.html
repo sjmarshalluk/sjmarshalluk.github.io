@@ -1147,6 +1147,18 @@ function handleOrientation(event) {
         document.getElementById('video-wrap').style.height = '100%';
         document.getElementById('scene').style.height = '100%';
       })
+
+      var t = 0;
+      var id = setInterval(pitch, 10);
+      function pitch() {
+        if (t === 60) {
+          clearInterval(id);
+          t = 0;
+        } else {
+          map.setPitch(t); //change to phone sensors
+          t ++
+        }
+      }
     }
 
     if (event.beta < 60) {
@@ -1154,6 +1166,18 @@ function handleOrientation(event) {
       map.setPitch(0);
       document.getElementById('video-wrap').style.top = '-40%';
       document.getElementById('scene').style.top = '-40%';
+
+      var t = 0;
+      var id = setInterval(pitch, 10);
+      function pitch() {
+        if (t === 60) {
+          clearInterval(id);
+          t = 0;
+        } else {
+          map.setPitch(60 - t); //change to phone sensors
+          t ++
+        }
+      }
 
     }
 
