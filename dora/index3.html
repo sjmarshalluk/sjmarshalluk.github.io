@@ -1125,14 +1125,15 @@ function handleOrientationPath(event) {
   }
 }
 
+var previousPitch = 0;
 
 function handleOrientation(event) {
 
-  var previousPitch = 0;
+  previousPitch = event.beta;
 
   if (event.beta > 0 && event.beta < 90) {
 
-    previousPitch = event.beta;
+    
     //var perspective = event.beta + 100;
     //document.getElementById('map-wrap').style.perspective = perspective;
 
