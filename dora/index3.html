@@ -862,8 +862,9 @@ function setStart(position) {
   var el = document.createElement('div');
   el.className = 'marker';
   el.style.backgroundImage = 'url(assets/location.svg)';
-  el.style.width = '30px';
-  el.style.height = '30px';
+  el.style.backgroundSize = '100px';
+  el.style.width = '100px';
+  el.style.height = '100px';
 
   window.marker = new mapboxgl.Marker(el, {
     rotation: 0,
@@ -875,6 +876,7 @@ function setStart(position) {
 
 
 
+  /*
   if (map.getLayer('startPoint')) {
     map.removeLayer('startPoint');
   }
@@ -918,6 +920,8 @@ function setStart(position) {
       'fill-extrusion-opacity': 0.5
     }
   });
+
+  */
 
 
 
@@ -984,6 +988,7 @@ directions.on('route', function(e) {
 
   map.setPaintProperty('directions-destination-point', 'circle-opacity', 1);
   map.setPaintProperty('directions-destination-point', 'circle-radius', 10);
+  map.setPaintProperty('directions-destination-point', 'circle-color', '#3678EA');
   map.setPaintProperty('directions-destination-label', 'text-opacity', 0);
 
 
