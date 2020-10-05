@@ -1197,6 +1197,7 @@ function openVpsPreview() {
   
   document.getElementById('scene').addEventListener('click', function() {
     vpsMode = 'full';
+    document.getElementById('video-wrap').classList.remove('full');
     document.getElementById('video-wrap').classList.add('full');
     document.getElementById('map-wrap').classList.add('thumb');
     document.getElementById('scene').style.height = '100%';
