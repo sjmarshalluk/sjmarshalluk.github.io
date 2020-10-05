@@ -67,6 +67,21 @@
     height: 260px;
     top: -260px;
     transition: 0.3s;
+    overflow: hidden;
+    border-radius: 0;
+  }
+
+  #scene.preview {
+    width: calc(100% - 20px);
+    left: 10px;
+    top: 10px;
+    border-radius: 20px;
+  }
+  #scene.full {
+    top: 0;
+    height: 100%;
+    left: 0;
+    width: 100%;
   }
   
 
@@ -1173,7 +1188,7 @@ var vpsMode = null;
 function openVpsPreview() {
   vpsMode = 'preview';
   document.getElementById('video-wrap').classList.add('preview');
-  document.getElementById('scene').style.top = '0';
+  document.getElementById('scene').classList.add('preview');
   //document.getElementById('map-wrap').style.height = '60%';
   map.setPadding({ top: 260 });
 
@@ -1187,6 +1202,7 @@ function openVpsPreview() {
     vpsMode = 'full';
     document.getElementById('video-wrap').classList.remove('preview');
     document.getElementById('video-wrap').classList.add('full');
+    document.getElementById('scene').classList.add('full');
     document.getElementById('content').classList.remove('plan');
     document.getElementById('content').classList.add('vps');
     document.getElementById('map-wrap').classList.add('thumb');
@@ -1224,8 +1240,8 @@ function closeVpsPreview() {
   document.getElementById('video-wrap').classList.remove('preview');
   document.getElementById('video-wrap').classList.remove('full');
   document.getElementById('map-wrap').classList.remove('thumb');
-  document.getElementById('scene').style.height = '260px';
-  document.getElementById('scene').style.top = '-260px';
+  document.getElementById('scene').classList.remove('preview');
+  document.getElementById('scene').classList.remove('full');
 
   setTimeout(function() { 
     map.resize();
