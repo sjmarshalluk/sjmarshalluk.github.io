@@ -1298,10 +1298,21 @@ function startVpsMode() {
   if (vpsMode === null) {
     openVpsPreview();
   }
+
+  if (event.webkitCompassHeading) {
+        absoluteHeading = event.webkitCompassHeading;
+  } else {
+      absoluteHeading = event.alpha;
+  }
+  map.setBearing(absoluteHeading);
 }
 
 function endVpsMode() {
 
+    
+
+
+  map.setBearing(0);
   map.setPitch(0);
   if (vpsMode === 'preview') {
     closeVpsPreview();
@@ -1388,13 +1399,8 @@ function handleOrientation(event) {
     map.lookAt({ heading: event.gamma });
   */
 
-  if (event.webkitCompassHeading) {
-        absoluteHeading = event.webkitCompassHeading;
-    } else {
-        absoluteHeading = event.alpha;
-    }
-    console.log(absoluteHeading);
-    map.setBearing(absoluteHeading);
+
+
 
     
   updateFieldIfNotNull('Orientation_a', event.alpha);
