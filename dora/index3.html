@@ -1245,11 +1245,11 @@ function openVpsPreview() {
   var t = 0;
   var id = setInterval(pitch, 1);
   function pitch() {
-    if (t === 60) {
+    if (t === 30) {
       clearInterval(id);
       t = 0;
     } else {
-      map.setPitch(t); //change to phone sensors
+      map.setPitch(t*2); //change to phone sensors
       t ++
     }
   }
@@ -1287,11 +1287,11 @@ function closeVpsPreview() {
   var t = 0;
   var id = setInterval(pitch, 1);
   function pitch() {
-    if (t === 60) {
+    if (t === 30) {
       clearInterval(id);
       t = 0;
     } else {
-      map.setPitch(60 - t); //change to phone sensors
+      map.setPitch(60 - (t * 2)); //change to phone sensors
       t ++
     }
   }
