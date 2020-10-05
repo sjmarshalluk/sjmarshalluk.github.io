@@ -406,7 +406,7 @@
     position: absolute;
     left: calc(50% - 70px);
     bottom: 32px;
-    z-index: 1000;
+    z-index: 9000;
     background-color: red;
     width: 140px;
     height: 56px;
@@ -524,6 +524,15 @@
 <body>
 
   <div id="content" class="plan">
+
+
+    <div id="test-btns" style="position: absolute; z-index: 9999;">
+      <button onclick="startVpsMode()">Up</button>
+      <button onclick="endVpsMode()">Down</button>
+    </div>
+
+
+
 
     <button id="close-vps-btn">Close 3D</button>
 
@@ -1164,6 +1173,9 @@ function openVpsPreview() {
     document.getElementById('map-wrap').classList.add('thumb');
     document.getElementById('scene').style.height = '100%';
 
+    document.getElementById('map-toggle').style.display = 'block';
+
+    map.setPadding({ top: 0 });
     setTimeout(function() { 
       map.resize();
     },300);
@@ -1198,7 +1210,6 @@ function closeVpsPreview() {
   },300);
 
 
-  document.getElementById('content').classList.remove('plan');
   document.getElementById('content').classList.remove('vps');
 
   map.setPadding({ top: 0 });
@@ -1221,6 +1232,43 @@ function closeVpsPreview() {
       map.setPitch(60 - t); //change to phone sensors
       t ++
     }
+  }
+}
+
+
+
+
+function startVpsMode() {
+  map.setPitch(60);
+  
+  document.getElementById('close-vps-btn').style.display = 'none';
+  if (vpsMode === null) {
+    openVpsPreview();
+  }
+}
+
+function endVpsMode() {
+
+  map.setPitch(0);
+  if (vpsMode === 'preview') {
+    closeVpsPreview();
+    document.getElementById('content').classList.add('plan');
+  } else {
+    document.getElementById('close-vps-btn').style.display = 'block';
+    document.getElementById('close-vps-btn').addEventListener('click', function() {
+      closeVpsPreview();
+      document.getElementById('close-vps-btn').style.display = 'none';
+      document.getElementById('map-toggle').style.display = 'none';
+      document.getElementById('map-wrap').classList.remove('thumb');
+      document.getElementById('content').classList.add('plan');
+    });
+    setTimeout(function() {
+      closeVpsPreview();
+      document.getElementById('close-vps-btn').style.display = 'none';
+      document.getElementById('map-toggle').style.display = 'none';
+      document.getElementById('map-wrap').classList.remove('thumb');
+      document.getElementById('content').classList.add('plan');
+    },3000);
   }
 }
 
@@ -1250,12 +1298,9 @@ function handleOrientation(event) {
       
 
       if (previousPitch < 60) {
-        map.setPitch(60);
-        
-        document.getElementById('close-vps-btn').style.display = 'none';
-        if (vpsMode === null) {
-          openVpsPreview();
-        }
+
+        startVpsMode();
+
       }
     }
 
@@ -1263,17 +1308,10 @@ function handleOrientation(event) {
 
       if (previousPitch > 60) {
         //document.getElementById('map-wrap').style.height = '60%';
-        map.setPitch(0);
-        if (vpsMode === 'preview') {
-          closeVpsPreview();
-        } else {
-          document.getElementById('close-vps-btn').style.display = 'block';
-          document.getElementById('close-vps-btn').addEventListener('click', function() {
-            closeVpsPreview();
-            document.getElementById('close-vps-btn').style.display = 'none';
-            document.getElementById('map-wrap').classList.remove('thumb');
-          })
-        }
+
+
+        endVpsMode();
+
       }
 
     }
