@@ -384,6 +384,21 @@
   }
 
 
+  #close-vps-btn {
+    position: absolute;
+    left: calc(50% - 70px);
+    bottom: 32px;
+    z-index: 1000;
+    background-color: red;
+    width: 140px;
+    height: 56px;
+    border-radius: 44px;
+    border: none;
+    color: white;
+    display: none;
+  }
+
+
 </style>
 
 <script type="text/javascript">
@@ -491,6 +506,8 @@
 <body>
 
   <div id="content" class="plan">
+
+    <button id="close-vps-btn">Close 3D</button>
 
     <div id="vps-sphere">
     </div>
@@ -809,7 +826,7 @@ function setStart(position) {
 
   var el = document.createElement('div');
   el.className = 'marker';
-  el.style.backgroundImage = 'url(assets/ca-green.png)';
+  el.style.backgroundImage = 'url(assets/location.svg)';
   el.style.width = '30px';
   el.style.height = '30px';
 
@@ -1125,6 +1142,66 @@ function handleOrientationPath(event) {
   }
 }
 
+
+
+var vpsMode = null;
+
+
+function openVpsPreview() {
+  vpsMode = 'preview';
+  document.getElementById('video-wrap').style.top = '0';
+  document.getElementById('scene').style.top = '0';
+  document.getElementById('map-wrap').style.height = '60%';
+  setTimeout(function() { 
+    map.resize();
+  },300);
+  
+  document.getElementById('scene').addEventListener('click', function() {
+    vpsMode = 'full';
+    document.getElementById('video-wrap').style.height = '100%';
+    document.getElementById('scene').style.height = '100%';
+  })
+
+  var t = 0;
+  var id = setInterval(pitch, 1);
+  function pitch() {
+    if (t === 60) {
+      clearInterval(id);
+      t = 0;
+    } else {
+      map.setPitch(t); //change to phone sensors
+      t ++
+    }
+  }
+}
+
+
+function closeVpsPreview() {
+  
+  document.getElementById('video-wrap').style.height = '40%';
+  document.getElementById('scene').style.height = '40%';
+  document.getElementById('video-wrap').style.top = '-40%';
+  document.getElementById('scene').style.top = '-40%';
+
+  document.getElementById('map-wrap').style.height = '100%';
+  setTimeout(function() { 
+    map.resize();
+  },300);
+
+  var t = 0;
+  var id = setInterval(pitch, 1);
+  function pitch() {
+    if (t === 60) {
+      clearInterval(id);
+      t = 0;
+    } else {
+      map.setPitch(60 - t); //change to phone sensors
+      t ++
+    }
+  }
+}
+
+
 var previousPitch = 0;
 //var thisPitch = 0;
 
@@ -1150,27 +1227,8 @@ function handleOrientation(event) {
       
 
       if (previousPitch < 60) {
-
         map.setPitch(60);
-        document.getElementById('video-wrap').style.top = '0';
-        document.getElementById('scene').style.top = '0';
-        document.getElementById('scene').addEventListener('click', function() {
-          document.getElementById('video-wrap').style.height = '100%';
-          document.getElementById('scene').style.height = '100%';
-        })
-
-        var t = 0;
-        var id = setInterval(pitch, 1);
-        function pitch() {
-          if (t === 60) {
-            clearInterval(id);
-            t = 0;
-          } else {
-            map.setPitch(t); //change to phone sensors
-            t ++
-          }
-        }
-
+        openVpsPreview();
       }
     }
 
@@ -1179,19 +1237,14 @@ function handleOrientation(event) {
       if (previousPitch > 60) {
         //document.getElementById('map-wrap').style.height = '60%';
         map.setPitch(0);
-        document.getElementById('video-wrap').style.top = '-40%';
-        document.getElementById('scene').style.top = '-40%';
+        if (vpsMode === 'preview') {
+          closeVpsPreview();
+        } else {
+          document.getElementById('close-vps-btn').style.display = 'block';
+          document.getElementById('close-vps-btn').addEventListener('click', function() {
+            closeVpsPreview();
 
-        var t = 0;
-        var id = setInterval(pitch, 1);
-        function pitch() {
-          if (t === 60) {
-            clearInterval(id);
-            t = 0;
-          } else {
-            map.setPitch(60 - t); //change to phone sensors
-            t ++
-          }
+          })
         }
       }
 
