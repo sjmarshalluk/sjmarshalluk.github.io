@@ -319,43 +319,6 @@
 
 
 
-  #mode-button {
-    position: absolute;
-    width: 56px;
-    height: 56px;
-    bottom: 32px;
-    right: 16px;
-    z-index: 1000;
-  }
-
-
-  .plan #mode-button #btn-map {
-    display: none;
-  }
-  .plan #mode-button #btn-ar {
-    display: none;
-  }
-  .plan #mode-button #btn-ar-test {
-    display: block;
-  }
-
-  .gps #mode-button #btn-map {
-    display: none;
-  }
-  .gps #mode-button #btn-ar {
-    display: block;
-  }
-  .vps #mode-button #btn-map {
-    display: block;
-  }
-  .vps #mode-button #btn-ar {
-    display: none;
-  }
-
-  .gps #mode-button #btn-ar-test,
-  .vps #mode-button #btn-ar-test {
-    display: none;
-  }
 
 
   #btn-map {
@@ -571,11 +534,7 @@
       <p>Directions</p>
     </div>
 
-    <div id="mode-button" class="ui-buttons" style="display: none;">
-      <button id="btn-map">map</button>
-      <button id="btn-ar" style="display: none;">ar</button>
-      <button id="btn-ar-test" style="display: none;">ar?</button>
-    </div>
+
 
     <div id="map-control-buttons" class="ui-buttons control-buttons">
       <button id="btn-center">cent</button>
@@ -646,39 +605,6 @@ document.getElementById('panel').style.bottom = '-' + panelHeight;
 
 
 
-document.getElementById('btn-map').addEventListener('click', function() {
-
-  document.getElementById('content').classList.remove('test');
-  document.getElementById('ar-control-buttons').classList.remove('active');
-  document.getElementById('map-control-buttons').classList.add('active');
-
-  document.getElementById('content').classList.remove('vps');
-  
-  setTimeout(function() { 
-    document.getElementById('content').classList.add('gps');
-  },0);
-
-})
-document.getElementById('btn-ar').addEventListener('click', function() {
-
-  document.getElementById('ar-control-buttons').classList.add('active');
-  document.getElementById('map-control-buttons').classList.remove('active');
-
-  document.getElementById('content').classList.remove('gps');
-
-  setTimeout(function() { 
-    document.getElementById('content').classList.add('vps');
-  },0);
-  
-
-})
-
-document.getElementById('btn-ar-test').addEventListener('click', function() {
-
-  document.getElementById('content').classList.add('vps');
-  document.getElementById('content').classList.add('test');
-
-})
 
 
 document.getElementById('btn-map-thumb').addEventListener('click', function() {
@@ -1258,6 +1184,8 @@ function openVpsPreview() {
 
 
 function closeVpsPreview() {
+
+  vpsMode = null;
   
   document.getElementById('video-wrap').classList.remove('preview');
   document.getElementById('video-wrap').classList.remove('full');
