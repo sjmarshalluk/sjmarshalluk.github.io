@@ -32,6 +32,15 @@
   body { 
     margin: 0; padding: 0; 
   }
+
+  #content {
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+  }
   #map { 
     position: absolute; 
     top: 0; 
@@ -55,8 +64,8 @@
   #scene {
     z-index: 11;
     position: absolute;
-    height: 40%;
-    top: -40%;
+    height: 300px;
+    top: -300px;
     transition: 0.3s;
   }
   
@@ -95,21 +104,34 @@
     width: 100%;
     z-index: 10;
     left: 0;
-    top: -40%;
+    top: -300px;
     position: absolute;
-    height: 40%;
+    height: 300px;
     overflow: hidden;
     transition: 0.3s;
   }
+  #video-wrap.preview {
+    width: calc(100% - 10px);
+    left: 5px;
+    top: 5px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+  #video-wrap.full {
+    top: 0;
+    height: 100%;
+  }
+
 
   #video {
     position: absolute;
-    top: 0;
+    top: -50%;
     left: 0;
     opacity: 1;
     min-width: 100%;
     min-height: 100vh;
     height: 100%;
+    border-radius: 10px;
   }
 
 
@@ -1149,16 +1171,20 @@ var vpsMode = null;
 
 function openVpsPreview() {
   vpsMode = 'preview';
-  document.getElementById('video-wrap').style.top = '0';
+  document.getElementById('video-wrap').classList.add('preview');
   document.getElementById('scene').style.top = '0';
-  document.getElementById('map-wrap').style.height = '60%';
+  //document.getElementById('map-wrap').style.height = '60%';
+  map.setPadding({ top: 300 });
+
+  /*
   setTimeout(function() { 
     map.resize();
   },300);
+  */
   
   document.getElementById('scene').addEventListener('click', function() {
     vpsMode = 'full';
-    document.getElementById('video-wrap').style.height = '100%';
+    document.getElementById('video-wrap').classList.add('full');
     document.getElementById('scene').style.height = '100%';
   })
 
@@ -1178,15 +1204,20 @@ function openVpsPreview() {
 
 function closeVpsPreview() {
   
-  document.getElementById('video-wrap').style.height = '40%';
-  document.getElementById('scene').style.height = '40%';
-  document.getElementById('video-wrap').style.top = '-40%';
-  document.getElementById('scene').style.top = '-40%';
+  document.getElementById('video-wrap').classList.remove('preview');
+  document.getElementById('video-wrap').classList.remove('full');
+  document.getElementById('scene').style.height = '300px';
+  document.getElementById('scene').style.top = '-300px';
 
+  map.setPadding({ top: 0 });
+
+
+  /*
   document.getElementById('map-wrap').style.height = '100%';
   setTimeout(function() { 
     map.resize();
   },300);
+  */
 
   var t = 0;
   var id = setInterval(pitch, 1);
@@ -1229,6 +1260,7 @@ function handleOrientation(event) {
       if (previousPitch < 60) {
         map.setPitch(60);
         openVpsPreview();
+        document.getElementById('close-vps-btn').style.display = 'none';
       }
     }
 
@@ -1243,7 +1275,7 @@ function handleOrientation(event) {
           document.getElementById('close-vps-btn').style.display = 'block';
           document.getElementById('close-vps-btn').addEventListener('click', function() {
             closeVpsPreview();
-
+            document.getElementById('close-vps-btn').style.display = 'none';
           })
         }
       }
