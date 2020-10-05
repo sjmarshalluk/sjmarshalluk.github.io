@@ -104,9 +104,9 @@
     width: 100%;
     z-index: 10;
     left: 0;
-    top: -300px;
+    top: -260px;
     position: absolute;
-    height: 300px;
+    height: 260px;
     overflow: hidden;
     transition: 0.3s;
   }
@@ -131,7 +131,10 @@
     min-width: 100%;
     min-height: 100vh;
     height: 100%;
-    border-radius: 10px;
+  }
+
+  #video-wrap.full #video {
+    top: 0;
   }
 
 
@@ -1174,7 +1177,7 @@ function openVpsPreview() {
   document.getElementById('video-wrap').classList.add('preview');
   document.getElementById('scene').style.top = '0';
   //document.getElementById('map-wrap').style.height = '60%';
-  map.setPadding({ top: 300 });
+  map.setPadding({ top: 260 });
 
   /*
   setTimeout(function() { 
@@ -1206,8 +1209,8 @@ function closeVpsPreview() {
   
   document.getElementById('video-wrap').classList.remove('preview');
   document.getElementById('video-wrap').classList.remove('full');
-  document.getElementById('scene').style.height = '300px';
-  document.getElementById('scene').style.top = '-300px';
+  document.getElementById('scene').style.height = '260px';
+  document.getElementById('scene').style.top = '-260px';
 
   map.setPadding({ top: 0 });
 
@@ -1249,7 +1252,7 @@ function handleOrientation(event) {
     //THIS IS FOR PERSPECTIVE  document.getElementById('map').style.transform = "rotateX(" + event.beta + "deg)";
 
 
-    map.setPitch(event.beta);
+    //map.setPitch(event.beta);
 
     
 
