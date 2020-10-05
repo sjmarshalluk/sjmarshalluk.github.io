@@ -130,6 +130,8 @@
   #video-wrap.full {
     top: 0;
     height: 100%;
+    left: 0;
+    width: 100%;
   }
 
 
@@ -1202,7 +1204,7 @@ function openVpsPreview() {
   
   document.getElementById('scene').addEventListener('click', function() {
     vpsMode = 'full';
-    document.getElementById('video-wrap').classList.remove('full');
+    document.getElementById('video-wrap').classList.remove('preview');
     document.getElementById('video-wrap').classList.add('full');
     document.getElementById('content').classList.add('vps');
     document.getElementById('map-wrap').classList.add('thumb');
@@ -1227,7 +1229,7 @@ function closeVpsPreview() {
   
   document.getElementById('video-wrap').classList.remove('preview');
   document.getElementById('video-wrap').classList.remove('full');
-    document.getElementById('map-wrap').classList.remove('thumb');
+  document.getElementById('map-wrap').classList.remove('thumb');
   document.getElementById('scene').style.height = '260px';
   document.getElementById('scene').style.top = '-260px';
 
@@ -1281,8 +1283,11 @@ function handleOrientation(event) {
 
       if (previousPitch < 60) {
         map.setPitch(60);
-        openVpsPreview();
+        
         document.getElementById('close-vps-btn').style.display = 'none';
+        if (vpsMode === null) {
+          openVpsPreview();
+        }
       }
     }
 
@@ -1298,6 +1303,7 @@ function handleOrientation(event) {
           document.getElementById('close-vps-btn').addEventListener('click', function() {
             closeVpsPreview();
             document.getElementById('close-vps-btn').style.display = 'none';
+            document.getElementById('map-wrap').classList.remove('thumb');
           })
         }
       }
