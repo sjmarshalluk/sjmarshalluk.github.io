@@ -64,8 +64,8 @@
   #scene {
     z-index: 11;
     position: absolute;
-    height: 300px;
-    top: -300px;
+    height: 260px;
+    top: -260px;
     transition: 0.3s;
   }
   
@@ -364,10 +364,10 @@
   #btn-exit {
     position: absolute;
     left: 16px;
-    bottom: 32px;
+    top: 16px;
     z-index: 1000;
     background-color: red;
-    width: 80px;
+    width: 56px;
     height: 56px;
     border-radius: 44px;
     border: none;
@@ -563,7 +563,7 @@
     </div>
 
 
-    <button id="btn-exit">Exit</button>
+    <button id="btn-exit">X</button>
     <button id="btn-use2D">Use GPS</button>
 
 
@@ -982,11 +982,11 @@ function showPanel() {
   startBtn.addEventListener('click', function() {
     document.getElementById('panel').classList.remove('open');
 
-    document.getElementById('content').classList.remove('plan');
+    //document.getElementById('content').classList.remove('plan');
     
 
     document.getElementById('btn-exit').style.display = 'block';
-    document.getElementById('btn-use2D').style.display = 'block';
+    //document.getElementById('btn-use2D').style.display = 'block';
     
 
     //startReloc();
@@ -1029,15 +1029,34 @@ function endReloc() {
 
 function startVpsNav() {
 
-  document.getElementById('content').classList.add('vps');
+  //document.getElementById('content').classList.add('vps');
 
   var path = document.getElementById("path");
   path.setAttribute('position', '-23.7 0 20');
 
   map.flyTo({center: startPosition, zoom: 19});
   setOrientation();
+
+
+  
 }
 
+
+
+function setMapMode() {
+  document.getElementById('content').classList.remove('vps');
+  document.getElementById('content').classList.add('plan');
+  document.getElementById('map-toggle').style.display = 'none';
+  document.getElementById('map-wrap').classList.remove('thumb');
+  document.getElementById('video-wrap').classList.remove('full');
+  document.getElementById('scene').style.height = '260px';
+  document.getElementById('scene').style.top = '-260px';
+  vpsMode = null;
+  setTimeout(function() { 
+    map.resize();
+  },300);
+  map.off('click', setMapMode);
+}
 
 
 
@@ -1175,6 +1194,8 @@ function openVpsPreview() {
 
     document.getElementById('map-toggle').style.display = 'block';
 
+    map.on('click', setMapMode);
+
     map.setPadding({ top: 0 });
     setTimeout(function() { 
       map.resize();
@@ -1262,6 +1283,8 @@ function endVpsMode() {
       document.getElementById('map-wrap').classList.remove('thumb');
       document.getElementById('content').classList.add('plan');
     });
+
+    /*
     setTimeout(function() {
       closeVpsPreview();
       document.getElementById('close-vps-btn').style.display = 'none';
@@ -1269,6 +1292,7 @@ function endVpsMode() {
       document.getElementById('map-wrap').classList.remove('thumb');
       document.getElementById('content').classList.add('plan');
     },3000);
+    */
   }
 }
 
