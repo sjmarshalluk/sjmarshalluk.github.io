@@ -1058,19 +1058,23 @@ function startVpsNav() {
 
 
 function setMapMode() {
+  vpsMode = null;
   document.getElementById('content').classList.remove('vps');
   document.getElementById('content').classList.add('plan');
   document.getElementById('map-toggle').style.display = 'none';
   document.getElementById('map-wrap').classList.remove('thumb');
   document.getElementById('video-wrap').classList.remove('full');
-  document.getElementById('scene').style.height = '260px';
-  document.getElementById('scene').style.top = '-260px';
-  vpsMode = null;
+  document.getElementById('scene').classList.remove('thumb');
+  document.getElementById('scene').classList.remove('full');
+
+  document.getElementById('close-vps-btn').style.display = 'none';
+  
   setTimeout(function() { 
     map.resize();
   },300);
   map.off('click', setMapMode);
   map.on('click', setEndPoint);
+
 }
 
 
@@ -1206,7 +1210,6 @@ function openVpsPreview() {
     document.getElementById('content').classList.remove('plan');
     document.getElementById('content').classList.add('vps');
     document.getElementById('map-wrap').classList.add('thumb');
-    document.getElementById('scene').style.height = '100%';
 
     document.getElementById('map-toggle').style.display = 'block';
     map.off('click', setEndPoint);
