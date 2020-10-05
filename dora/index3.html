@@ -1044,7 +1044,9 @@ function endReloc() {
 function startVpsNav() {
 
   document.getElementById('content').classList.add('vps');
+  document.getElementById('map-wrap').classList.remove('preview');
   document.getElementById('map-wrap').classList.add('thumb');
+  document.getElementById('video-wrap').classList.remove('preview');
   document.getElementById('video-wrap').classList.add('full');
   document.getElementById('scene').classList.add('full');
   document.getElementById('map-toggle').style.display = 'block';
