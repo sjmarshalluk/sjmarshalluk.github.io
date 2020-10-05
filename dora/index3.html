@@ -996,7 +996,7 @@ function showPanel() {
   startBtn.addEventListener('click', function() {
     document.getElementById('panel').classList.remove('open');
 
-    //document.getElementById('content').classList.remove('plan');
+    document.getElementById('content').classList.remove('plan');
     
 
     document.getElementById('btn-exit').style.display = 'block';
@@ -1043,12 +1043,21 @@ function endReloc() {
 
 function startVpsNav() {
 
-  //document.getElementById('content').classList.add('vps');
+  document.getElementById('content').classList.add('vps');
+  document.getElementById('map-wrap').classList.add('thumb');
+  document.getElementById('video-wrap').classList.add('full');
+  document.getElementById('scene').classList.add('full');
+  document.getElementById('map-toggle').style.display = 'block';
+  map.setPitch(60);
+  setTimeout(function() { 
+    map.resize();
+    map.flyTo({center: startPosition, zoom: 19});
+  },300);
 
   var path = document.getElementById("path");
   path.setAttribute('position', '-23.7 0 20');
 
-  map.flyTo({center: startPosition, zoom: 19});
+  
   setOrientation();
 
 
@@ -1395,7 +1404,7 @@ function handleOrientation(event) {
   }
 
 
-  
+
   console.log(absoluteHeading);
   map.setBearing(absoluteHeading);
 
