@@ -88,7 +88,7 @@
     bottom: 5px;
     left: 5px;
     border-radius: 20px;
-    z-index: 9999;
+    z-index: 11;
   }
 
   .vps #map-wrapXXX {
@@ -1207,7 +1207,6 @@ function openVpsPreview() {
     document.getElementById('video-wrap').classList.remove('preview');
     document.getElementById('video-wrap').classList.add('full');
     document.getElementById('content').classList.remove('plan');
-    document.getElementById('content').classList.remove('gps');
     document.getElementById('content').classList.add('vps');
     document.getElementById('map-wrap').classList.add('thumb');
     document.getElementById('scene').style.height = '100%';
@@ -1246,7 +1245,6 @@ function closeVpsPreview() {
 
   document.getElementById('content').classList.remove('plan');
   document.getElementById('content').classList.remove('vps');
-  document.getElementById('content').classList.add('gps');
 
   map.setPadding({ top: 0 });
 
