@@ -1211,6 +1211,10 @@ function openVpsPreview() {
     document.getElementById('content').classList.add('vps');
     document.getElementById('map-wrap').classList.add('thumb');
     document.getElementById('scene').style.height = '100%';
+
+    setTimeout(function() { 
+      map.resize();
+    },300);
   })
 
   var t = 0;
@@ -1234,6 +1238,10 @@ function closeVpsPreview() {
   document.getElementById('map-wrap').classList.remove('thumb');
   document.getElementById('scene').style.height = '260px';
   document.getElementById('scene').style.top = '-260px';
+
+  setTimeout(function() { 
+    map.resize();
+  },300);
 
 
   document.getElementById('content').classList.remove('plan');
