@@ -84,9 +84,9 @@
 
   #map-wrap.thumb {
     height: 200px;
-    width: calc(100% - 10px);
-    bottom: 5px;
-    left: 5px;
+    width: calc(100% - 20px);
+    bottom: 20px;
+    left: 10px;
     border-radius: 20px;
     z-index: 8000;
   }
@@ -125,9 +125,9 @@
     transition: 0.3s;
   }
   #video-wrap.preview {
-    width: calc(100% - 10px);
-    left: 5px;
-    top: 5px;
+    width: calc(100% - 20px);
+    left: 10px;
+    top: 10px;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
   }
@@ -1316,20 +1316,20 @@ function handleOrientation(event) {
 
     
 
-    if (event.beta > 60) {
+    if (event.beta > 50) {
       //document.getElementById('map-wrap').style.height = '60%';
       
 
-      if (previousPitch < 60) {
+      if (previousPitch < 50) {
 
         startVpsMode();
 
       }
     }
 
-    if (event.beta < 60) {
+    if (event.beta < 50) {
 
-      if (previousPitch > 60) {
+      if (previousPitch > 50) {
         //document.getElementById('map-wrap').style.height = '60%';
 
 
