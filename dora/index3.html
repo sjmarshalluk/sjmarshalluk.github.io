@@ -81,6 +81,16 @@
     left: 0;
     transition: 0.3s ease-out;
   }
+
+  #map-wrap.thumb {
+    height: 200px;
+    width: calc(100% - 10px);
+    bottom: 5px;
+    left: 5px;
+    border-radius: 20px;
+    z-index: 9999;
+  }
+
   .vps #map-wrap {
     height: 0;
   }
@@ -565,14 +575,14 @@
 
     <canvas id="c"></canvas>
 
-    <div id="map-wrap"> 
+    <div id="map-wrap" class="thumb"> 
       <button id="map-mode" class="btn" style="position: absolute; bottom: 60px; right: 10px; z-index: 1000; background-color: #fff; display: none;" >D</button>
       <a id="compass_button" class="btn btn-lg btn-success py-1" href="#" role="button" style="position: absolute; z-index: 9999; display: none;">o</a>
       <div id="map"></div>
     </div>
 
 
-    <div id="video-wrap">
+    <div id="video-wrap" class="full">
       <video id="video" autoplay playsinline></video>
     </div>
 
@@ -1188,6 +1198,7 @@ function openVpsPreview() {
   document.getElementById('scene').addEventListener('click', function() {
     vpsMode = 'full';
     document.getElementById('video-wrap').classList.add('full');
+    document.getElementById('map-wrap').classList.add('thumb');
     document.getElementById('scene').style.height = '100%';
   })
 
@@ -1209,6 +1220,7 @@ function closeVpsPreview() {
   
   document.getElementById('video-wrap').classList.remove('preview');
   document.getElementById('video-wrap').classList.remove('full');
+    document.getElementById('map-wrap').classList.remove('thumb');
   document.getElementById('scene').style.height = '260px';
   document.getElementById('scene').style.top = '-260px';
 
