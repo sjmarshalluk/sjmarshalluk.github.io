@@ -1126,10 +1126,11 @@ function handleOrientationPath(event) {
 }
 
 var previousPitch = 0;
+//var thisPitch = 0;
 
 function handleOrientation(event) {
 
-  previousPitch = event.beta;
+  
 
   if (event.beta > 0 && event.beta < 90) {
 
@@ -1199,7 +1200,7 @@ function handleOrientation(event) {
   }
 
 
-
+  previousPitch = event.beta;
   
 
   //var bearing = event.gamma - (event.gamma * 2);
