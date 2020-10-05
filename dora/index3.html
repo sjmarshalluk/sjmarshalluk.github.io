@@ -1190,12 +1190,20 @@ var vpsMode = null;
 
 
 function openVpsPreview() {
+
+
+
+
   vpsMode = 'preview';
   document.getElementById('video-wrap').classList.add('preview');
   document.getElementById('scene').classList.add('preview');
   //document.getElementById('map-wrap').style.height = '60%';
   map.setPadding({ top: 260 });
-
+  console.log('zoom')
+  setTimeout(function() { 
+    map.flyTo({ center: latestLocation, zoom: 19 });
+  },500);
+  
   /*
   setTimeout(function() { 
     map.resize();
@@ -1220,6 +1228,9 @@ function openVpsPreview() {
     setTimeout(function() { 
       map.resize();
     },300);
+    setTimeout(function() { 
+      map.flyTo({ center: latestLocation, zoom: 19 });
+    },500);
   })
 
   var t = 0;
@@ -1233,6 +1244,7 @@ function openVpsPreview() {
       t ++
     }
   }
+
 }
 
 
