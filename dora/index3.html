@@ -893,7 +893,7 @@ function setStart(position) {
 }
 
 
-map.on('click', setEndPoint) 
+map.on('click', setEndPoint);
 
 
 function setEndPoint(e) {
@@ -1055,6 +1055,7 @@ function setMapMode() {
     map.resize();
   },300);
   map.off('click', setMapMode);
+  map.on('click', setEndPoint);
 }
 
 
@@ -1192,6 +1193,7 @@ function openVpsPreview() {
     document.getElementById('scene').style.height = '100%';
 
     document.getElementById('map-toggle').style.display = 'block';
+    map.off('click', setEndPoint);
 
     map.on('click', setMapMode);
 
