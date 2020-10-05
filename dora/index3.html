@@ -48,6 +48,11 @@
     width: 100%; 
   }
 
+  .a-dialog-buttons-container {
+    z-index: 9999;
+    position: absolute;
+  }
+
   .mapboxgl-ctrl-directions { display: none }
 
 
@@ -202,9 +207,9 @@
     left: 0;
     background-color: rgba(0,0,0,0.5);
     color: #fff;
-    z-index: 100;
+    z-index: 9999;
     display: none;
-    line-height: 100vh;
+    line-height: 260px;
     text-align: center;
   }
 
@@ -591,12 +596,13 @@
 
 
     <div id="video-wrap">
+      <div id="reloc">
+        Pan around
+      </div>
       <video id="video" autoplay playsinline></video>
     </div>
 
-    <div id="reloc">
-      Pan around
-    </div>
+    
 
     <div id="ui-wrap">
       <div id="panel">
@@ -1301,9 +1307,27 @@ function closeVpsPreview() {
 
 
 
+var vpsReloc = 'false';
+
+
+function checkVps() {
+  if (vpsReloc === 'false') {
+    document.getElementById('reloc').style.display = 'block';
+
+    setTimeout(function() {
+      document.getElementById('vps-sphere').style.backgroundColor = 'green';
+      document.getElementById('reloc').style.display = 'none';
+      vpsReloc = 'true';
+    },2000)
+  }
+}
+
+
 
 function startVpsMode() {
   map.setPitch(60);
+
+  checkVps();
   
   document.getElementById('close-vps-btn').style.display = 'none';
   if (vpsMode === null) {
