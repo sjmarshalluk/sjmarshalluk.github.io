@@ -1,0 +1,2451 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>VR Editor</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
+    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.js"></script>
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+    <script src='threegeojson.js'></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css" type="text/css" />
+
+
+     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css"/>
+
+
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <script language="javascript" type="text/javascript" src="js/jquery.colorPicker.min.js"/></script>
+  <link rel="stylesheet" href="css/colorPicker.css" type="text/css" />
+
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+
+
+<style type="text/css">
+  
+  html, body {
+  margin: 0;
+  height: 100%;
+}
+
+  #map { 
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    width: 50%; 
+    left: 0; 
+    z-index: 10; 
+  }
+
+  #c:focus,
+  #map:focus {
+    outline: none;
+  }
+
+  #c {
+    width: 50%; 
+    height: 100%;
+    display: block;
+    position: absolute;
+    right: 0;
+  }
+
+
+  #object-list {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #CCC;
+  }
+
+  #object-list ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  #object-list ul li:hover {
+    cursor: pointer;
+    background-color: #fafafa;
+  }
+  
+
+
+  #control-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    z-index: 9000;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #fff;
+  }
+  #line-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    z-index: 9000;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background-color: #fff;
+  }
+
+  #osm-panel {
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    z-index: 1000;
+    width: 100%;
+    padding-top: 20px;
+    display: none;
+  }
+
+
+
+  #search {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #fff;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  margin-bottom: 10px;
+}
+
+  #navbar {
+
+  }
+
+  #sidebar {
+    width: 200px;
+    position: absolute;
+    left: 0;
+    height: 100%;
+    padding: 10px;
+    background-color: #fff;
+    border-right: 1px solid #CCC;
+  }
+  #panel {
+    width: 200px;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    padding: 10px;
+    background-color: #fff;
+    border-left: 1px solid #CCC;
+  }
+  #editor {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: calc(100% - 400px);
+    right: 200px;
+  }
+
+  #editor.canvas-view #map {
+    width: 0;
+  }
+  #editor.canvas-view #c {
+    width: 100%;
+  }
+
+  input[type="range"] {
+    width: 100%;
+  }
+
+
+.mapboxgl-popup {
+max-width: 400px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.AttributionContainer { display: none; }
+        .BearingIndicatorContainer  { display: none; }
+        .ZoomContainer  { display: none; }
+
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib {
+  display: none!important
+}
+
+.mapboxgl-ctrl-geocoder {
+  width: 100%!important;
+  min-width: 0;
+}
+.mapboxgl-ctrl-group {
+  box-shadow: none!important;
+}
+.mapbox-gl-draw_line {
+  width: 100%!important;
+  background-color: #f0f0f0!important;
+  padding: .75rem .75rem!important;
+  border-radius: .25rem!important;
+  line-height: 1.5!important;
+  margin-bottom: 10px;
+}
+.mapboxgl-ctrl-directions { display: none }
+
+
+
+#scene {
+    z-index: 21;
+    position: absolute;
+    height: 260px;
+    top: -260px;
+    transition: 0.3s;
+    overflow: hidden;
+    border-radius: 0;
+  }
+
+  #scene.full {
+    top: 0;
+    height: 100%;
+    left: 0;
+    width: 100%;
+    border-radius: 0;
+  }
+
+
+    #video-wrap {
+    width: 50px;
+    z-index: 20;
+    right: 16px;
+    top: 16px;
+    position: absolute;
+    height: 50px;
+    overflow: hidden;
+    transition: 0.3s;
+    border-radius: 30px;
+  }
+  #video-wrap.preview {
+    width: calc(100% - 16px);
+    height: 260px;
+    right: 8px;
+    top: 8px;
+    border-radius: 33px;
+    box-shadow: 0 0 10px rgba(0,0,0,0);
+  }
+  .full-width #video-wrap.preview {
+    width: calc(100% - 0px);
+    left: 0;
+    top: 0;
+    border-radius: 0;
+  }
+
+
+  #video-wrap.full {
+    top: 0;
+    height: calc(100% - 96px);
+    left: 0;
+    width: 100%;
+  }
+  .raised #video-wrap.full {
+    height: 100%;
+  }
+
+
+  #video {
+    position: absolute;
+    top: -50%;
+    left: 0;
+    opacity: 1;
+    min-width: 100%;
+    min-height: 100vh;
+    height: 100%;
+    display: none;
+  }
+
+  #video-wrap.full #video {
+    top: 0;
+  }
+
+</style>
+
+
+<script type="text/javascript">
+  
+
+AFRAME.registerComponent('mythreejsthing', {
+  schema: {
+    color: {
+      default: '#000'
+    },
+  },
+
+  update: function() {
+    var material = new THREE.MeshBasicMaterial({
+      color: this.data.color,
+      wireframe: true
+    });
+
+    var geometry = new THREE.BoxGeometry(1, 1, 1);
+
+    //this.el.setObject3D('mesh', new THREE.Mesh(geometry, material));
+  },
+
+  remove: function() {
+    this.el.removeObject3D('mesh');
+  }
+});
+
+  AFRAME.registerComponent("thisimg", {
+    init: function() {
+      
+    }
+  });
+</script>
+
+
+
+  <script type="module">
+
+
+/*
+
+const video = document.getElementById('video');
+const videoConstraints = {
+    facingMode: 'environment'
+  };
+  const constraints = {
+    video: videoConstraints,
+    audio: false
+  };
+
+  navigator.mediaDevices
+    .getUserMedia(constraints)
+    .then(stream => {
+      video.srcObject = stream;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+*/
+
+
+
+document.getElementById('toggle-map').addEventListener('click', function() {
+  var editor = document.getElementById("editor");
+  editor.classList.toggle("canvas-view");
+})
+
+/*
+var savedSettings = localStorage.getItem("mysettings");
+if (savedSettings) {
+  var modelSettings = {
+    "buildingHeight": 1,
+    "buildingColor": 0x00afaf,
+    "roadWidth": 0.003,
+    "pathWidth": 0.001
+  }
+} else {
+  var modelSettings = JSON.parse(savedSettings);
+}
+*/
+
+var modelSettings = {
+  "buildingHeight": 1,
+  "buildingColor": 0x00afaf,
+  "buildingOpacity": 0.5,
+  "roadWidth": 0.003,
+  "roadColor": 0xCCCCCC,
+  "roadOpacity": 1,
+  "pathWidth": 0.001,
+  "pathColor": 0xCCCCCC,
+  "pathOpacity": 1,
+  "routeStart": 'none',
+  "routeEnd": 'none',
+  "routeTurn": 'none',
+  "routeType": 'solid',
+  "routeWidth": 0.003,
+  "routeColor": 0x00afaf,
+  "routePosZ": 0.1
+}
+
+console.log(modelSettings)
+
+
+mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v11',
+  center: [-0.93875203281641,51.005568447565174],
+  zoom: 18
+});
+
+var geolocate = new mapboxgl.GeolocateControl({
+  positionOptions: {
+    enableHighAccuracy: true
+  },
+  trackUserLocation: true,
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl
+})
+map.addControl(geolocate);
+
+var geocoder = new MapboxGeocoder({
+  accessToken: mapboxgl.accessToken,
+  mapboxgl: mapboxgl
+});
+document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+
+
+geocoder.on('results', function(results) {
+   console.log(results);
+})
+
+/*
+geocoder.on('result', function(ev) {
+  console.log(ev.result.center);
+  map.jumpTo({ center: ev.result.center, zoom: 17 });
+  clearLayers();
+  $('.mapboxgl-marker').css('display','none');
+  var activeFeatures = osmFeatures.filter(d => d.status === 'active');
+  if (activeFeatures.length == 0) {
+  } else {
+    getOsmBbox();
+  }
+  
+})
+*/
+
+geocoder.on('result', function(ev) {
+  console.log(ev.result.center);
+  map.jumpTo({ center: ev.result.center, zoom: 18 });
+  
+  
+});
+
+
+var directions = new MapboxDirections({
+  accessToken: mapboxgl.accessToken,
+  interactive: false
+});
+map.addControl(directions);
+
+
+
+var draw = new MapboxDraw({
+  displayControlsDefault: false,
+  controls: {
+    line_string: true,
+    trash: false
+  }
+});
+//map.addControl(draw);
+document.getElementById('drawline').appendChild(draw.onAdd(map));
+
+
+
+
+var myObjects = {
+  "type":"FeatureCollection",
+  "features":[]
+};
+
+
+
+map.on('load', function() {
+
+  //geolocate.trigger();
+
+
+map.addSource('objects', {
+  'type': 'geojson',
+  'data': myObjects
+});
+map.addLayer({
+  'id': 'line-objects',
+  'type': 'line',
+  'source': 'objects',
+  'layout': {
+    'line-join': 'round',
+    'line-cap': 'round'
+  },
+  'paint': {
+    'line-color': '#888',
+    'line-width': 8
+  },
+  'filter': ['==', '$type', 'LineString']
+});
+
+
+map.addLayer({
+  "id": "points",
+  "type": "circle",
+  "source": 'objects',
+  'paint': {
+    'circle-radius': 5,
+    'circle-color': '#000',
+    /*
+    'circle-stroke-width': 2,
+    'circle-stroke-color': [
+      'match',
+      ['get', 'status'],
+      'verified',
+      '#05CB63',
+      'removed',
+      '#E05643',
+      'skipped',
+      '#aaaaaa',
+      'inactive',
+      '#aaaaaa',
+      '#EA45CE'
+    ],
+    */
+  },
+  'filter': ['==', '$type', 'Point']
+});
+
+
+});
+
+/*
+var scaleSlider = document.getElementById("scale-slider");
+  scaleSlider.oninput = function() {
+    var scaleAmount = this.value / 100;
+    root.scale.set(scaleAmount,scaleAmount,scaleAmount)
+  }
+*/
+
+map.on('click', 'objects', function(e) {
+
+  //var thisLine = e.features[0];
+  
+
+  
+  //editObject(e.features[0]);
+
+  
+
+
+});
+
+
+
+/*
+
+var firstTime = false;
+
+geolocate.on('geolocate', function() {
+
+  //Get the updated user location, this returns a javascript object.
+  var userlocation = geolocate._lastKnownPosition;
+  console.log(userlocation)
+
+  //Your work here - Get coordinates like so
+  var lat = userlocation.coords.latitude;
+  var lng = userlocation.coords.longitude;
+
+  if (firstTime === false) {
+    showPosition(userlocation);
+    firstTime = true;
+  }
+});
+*/
+
+
+var thisImage = 'Sxqxj6JQWmdN8w3660Rf5w';
+//var thisImage = 'w-16QEt1P1EMvhFtxlc9Tw';
+
+var link = "https://a.mapillary.com/v3/images/" + thisImage + "?client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh";
+
+
+$.getJSON(link)
+.done(function(data){
+
+
+  var userlocation = {
+    'coords': {
+      'latitude': data.geometry.coordinates[1],
+      'longitude': data.geometry.coordinates[0]
+    } 
+  }
+  console.log(userlocation)
+  showPosition(userlocation);
+      
+})
+
+
+//document.querySelector('#my-image').setAttribute('src', 'https://images.mapillary.com/w-16QEt1P1EMvhFtxlc9Tw/thumb-1024.jpg')
+
+document.querySelector('#my-image').setAttribute('src', 'Sxqxj6JQWmdN8w3660Rf5w.jpg')
+
+
+
+
+
+function showPosition(position) {
+
+
+
+  window.currentPoint = turf.point([position.coords.longitude, position.coords.latitude]);
+
+  map.jumpTo({ center: [position.coords.longitude, position.coords.latitude], zoom: 18 });
+
+
+  setScene()
+}
+
+
+var addPointBtn = document.getElementById('add-point');
+addPointBtn.addEventListener('click', toggleAddPoint);
+
+function toggleAddPoint() {
+  map.on('click', addPoint);
+}
+
+
+var addRouteBtn = document.getElementById('add-route');
+addRouteBtn.addEventListener('click', function() {
+
+  map.on('click', setRouteStart)
+
+});
+
+function setRouteStart(e) {
+  map.off('click', setRouteStart);
+  map.on('click', setRouteEnd);
+  console.log(e);
+
+  window.routeStart = [e.lngLat.lng,e.lngLat.lat]
+
+  //directions.setOrigin([e.lngLat.lng,e.lngLat.lat]);
+}
+function setRouteEnd(e) {
+  map.off('click', setRouteEnd);
+  console.log(e)
+
+  window.routeEnd = [e.lngLat.lng,e.lngLat.lat]
+  //directions.setDestination([e.lngLat.lng,e.lngLat.lat]);
+
+  getRoute();
+}
+
+
+
+
+
+/*
+directions.on('route', function(e) {
+
+  console.log(e)
+})
+*/
+
+
+
+
+
+
+
+
+// create a function to make a directions request
+function getRoute(end) {
+  // make a directions request using cycling profile
+  // an arbitrary start will always be the same
+  // only the end or destination will change
+  var start = [-122.662323, 45.523751];
+  var url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + routeStart[0] + ',' + routeStart[1] + ';' + routeEnd[0] + ',' + routeEnd[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+
+  // make an XHR request https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
+  var req = new XMLHttpRequest();
+  req.open('GET', url, true);
+  req.onload = function() {
+    var json = JSON.parse(req.response);
+    var data = json.routes[0];
+
+    var route = data.geometry.coordinates;
+    var myRoutes = {
+      "type":"FeatureCollection",
+      "features":[]
+    };
+    var geojson = {
+      type: 'Feature',
+      properties: {
+        id: 'my-route',
+      },
+      geometry: {
+        type: 'LineString',
+        coordinates: route
+      }
+    };
+
+    console.log(geojson)
+
+    renderPlaces(geojson,0.005);
+    updateObjectList();
+
+
+    
+    // add turn instructions here at the end
+  };
+  req.send();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+map.on('draw.create', updateArea);
+map.on('draw.delete', updateArea);
+map.on('draw.update', updateArea);
+
+
+function updateArea(e) {
+  var route = draw.getAll();
+
+
+  var thisRoute = route.features[0];
+
+  renderPlaces(thisRoute,0.005);
+  console.log(route);
+
+  //var layers = map.getStyle().layers;
+
+
+  
+
+  
+
+  updateObjectList();
+
+
+  
+}
+
+
+
+
+function editOsmObject(type) {
+
+  var editPanel = document.getElementById('panel');
+  editPanel.innerHTML = '';
+
+
+  var colorLabel = editPanel.appendChild(document.createElement('label'));
+  colorLabel.innerHTML = 'Color';
+  var colorPick = editPanel.appendChild(document.createElement('input'));
+  colorPick.setAttribute("type", "text");
+  colorPick.setAttribute("name", "color1");
+  colorPick.setAttribute("value", "#FFFFFF");
+  colorPick.id = 'color1';
+
+  $('#color1').colorPicker( { 
+    onColorChange : function(id, newValue) { 
+      console.log("ID: " + id + " has been changed to " + newValue); 
+
+      var newColor = parseInt('0x' + newValue.substring(1));
+      console.log(newColor);
+
+      if (type === 'building') {
+        modelSettings.buildingColor = newColor;
+      }
+      if (type === 'road') {
+        modelSettings.roadColor = newColor;
+      }
+      if (type === 'path') {
+        modelSettings.pathColor = newColor;
+      }
+
+      osmObjects.features.forEach(function(osm,index) {
+        if (osm.properties.type === type) {
+          var object = scene.getObjectByName( "osm-" + index  );
+          //set modelsettings
+          object.material.color.setHex( newColor );
+        }
+      });
+
+
+    } 
+  });
+
+
+    var opacityLabel = editPanel.appendChild(document.createElement('label'));
+    opacityLabel.innerHTML = 'Opacity';
+    var opacitySlider = editPanel.appendChild(document.createElement('input'));
+    opacitySlider.setAttribute("type", "range");
+    opacitySlider.setAttribute("min", "0");
+    opacitySlider.setAttribute("max", "100");
+    opacitySlider.setAttribute("value", "50");
+
+    opacitySlider.oninput = function() {
+      var scaleAmount = this.value / 100;
+
+      if (type === 'building') {
+        modelSettings.buildingOpacity = scaleAmount;
+      }
+      if (type === 'road') {
+        modelSettings.roadOpacity = scaleAmount;
+      }
+      if (type === 'path') {
+        modelSettings.pathOpacity = scaleAmount;
+      }
+
+      osmObjects.features.forEach(function(osm,index) {
+        if (osm.properties.type === type) {
+          var object = scene.getObjectByName( "osm-" + index  );
+          object.material.opacity = scaleAmount;
+        }
+      });
+    }
+
+
+  if (type === 'building') {
+
+    var buildingHeightLabel = editPanel.appendChild(document.createElement('label'));
+    buildingHeightLabel.innerHTML = 'Building Height';
+    var buildingHeightSlider = editPanel.appendChild(document.createElement('input'));
+    buildingHeightSlider.setAttribute("type", "range");
+    buildingHeightSlider.setAttribute("min", "0");
+    buildingHeightSlider.setAttribute("max", "100");
+    buildingHeightSlider.setAttribute("value", "10");
+
+    buildingHeightSlider.oninput = function() {
+      osmObjects.features.forEach(function(osm,index) {
+        if (osm.properties.type === 'building') {
+          var object = scene.getObjectByName( "osm-" + index  );
+          scene.remove( object );
+        }
+      });
+
+      var scaleAmount = this.value / 20;
+      modelSettings.buildingHeight = scaleAmount;
+      paintBuildings();
+    }
+  }
+
+
+  
+  if (type === 'road' || type === 'path') {
+    var lineWidthLabel = editPanel.appendChild(document.createElement('label'));
+    lineWidthLabel.innerHTML = 'Line Width';
+    var lineWidthSlider = editPanel.appendChild(document.createElement('input'));
+    lineWidthSlider.setAttribute("type", "range");
+    lineWidthSlider.setAttribute("min", "0");
+    lineWidthSlider.setAttribute("max", "10");
+    lineWidthSlider.setAttribute("value", "3");
+    lineWidthSlider.oninput = function() {
+      osmObjects.features.forEach(function(osm,index) {
+        if (osm.properties.type === type) {
+          var object = scene.getObjectByName( "osm-" + index  );
+          scene.remove( object );
+        }
+      });
+      var scaleAmount = this.value / 2000;
+      if (type === 'road') {
+        modelSettings.roadWidth = scaleAmount;
+        paintRoads();
+      }
+      if (type === 'path') {
+        modelSettings.pathWidth = scaleAmount;
+        paintPaths()
+      }
+    }
+  }
+  
+  
+}
+
+
+
+
+function editObject(thisObject,objInd) {
+
+  if (thisObject.geometry.type === 'LineString') {
+
+    var featureCount = thisObject.properties.count;
+
+    var editPanel = document.getElementById('panel');
+    editPanel.innerHTML = '';
+
+
+
+    var routeTypeLabel = editPanel.appendChild(document.createElement('label'));
+    routeTypeLabel.innerHTML = 'Route Type';
+    var routeTypeSelect = editPanel.appendChild(document.createElement('select'));
+    routeTypeSelect.classList.add('form-control');
+
+    var routeSolid = routeTypeSelect.appendChild(document.createElement('option'));
+    routeSolid.innerHTML = 'Solid';
+    routeSolid.value = 'solid';
+    var routeDotted = routeTypeSelect.appendChild(document.createElement('option'));
+    routeDotted.innerHTML = 'Dotted';
+    routeDotted.value = 'dotted';
+
+    routeTypeSelect.addEventListener("change", function() {
+      var value = routeTypeSelect.value;
+      modelSettings.routeType = value;
+
+      for (var i = 0; i < featureCount; i++) {
+        var object = scene.getObjectByName( "route-" + i  );
+        scene.remove( object );
+      }
+      var object = scene.getObjectByName( "route" );
+      scene.remove( object );
+
+      renderPlaces(thisObject,0.005,value)
+
+    }); 
+
+
+    var routeSizeSliderLabel = editPanel.appendChild(document.createElement('label'));
+    routeSizeSliderLabel.innerHTML = 'Point Size';
+    var routeSizeSlider = editPanel.appendChild(document.createElement('input'));
+    routeSizeSlider.setAttribute("type", "range");
+    routeSizeSlider.setAttribute("min", "0");
+    routeSizeSlider.setAttribute("max", "100");
+    routeSizeSlider.setAttribute("value", "0");
+    routeSizeSlider.oninput = function() {
+      var scaleAmount = this.value / 500;
+      for (var i = 0; i < featureCount; i++) {
+        var object = scene.getObjectByName( "route-" + i  );
+        object.scale.set(scaleAmount,scaleAmount,scaleAmount);
+      }
+    }
+
+
+
+    var routeDashSliderLabel = editPanel.appendChild(document.createElement('label'));
+    routeDashSliderLabel.innerHTML = 'Point Distance';
+    var routeDashSlider = editPanel.appendChild(document.createElement('input'));
+    routeDashSlider.setAttribute("type", "range");
+    routeDashSlider.setAttribute("min", "0");
+    routeDashSlider.setAttribute("max", "100");
+    routeDashSlider.setAttribute("value", "0");
+    routeDashSlider.oninput = function() {
+      for (var i = 0; i < featureCount; i++) {
+        var object = scene.getObjectByName( "route-" + i  );
+        scene.remove( object );
+      }
+      var scaleAmount = this.value / 5000;
+
+      delete myObjects.features[objInd];
+      renderPlaces(thisObject,scaleAmount)
+    }
+
+
+
+    var modelSelectLabel = editPanel.appendChild(document.createElement('label'));
+    modelSelectLabel.innerHTML = 'Point Type';
+    var modelSelect = editPanel.appendChild(document.createElement('select'));
+    modelSelect.classList.add('form-control');
+
+    var modelPoint = modelSelect.appendChild(document.createElement('option'));
+    modelPoint.innerHTML = 'Point';
+    modelPoint.value = 'point';
+    var modelArrow = modelSelect.appendChild(document.createElement('option'));
+    modelArrow.innerHTML = 'Arrow';
+    modelArrow.value = 'arrow';
+
+    modelSelect.addEventListener("change", function() {
+      var value = modelSelect.value;
+
+      for (var i = 0; i < featureCount; i++) {
+        var object = scene.getObjectByName( "route-" + i  );
+        scene.remove( object );
+      }
+
+      renderPlaces(thisObject,0.005,value)
+
+    }); 
+
+
+
+    var turnSelectLabel = editPanel.appendChild(document.createElement('label'));
+    turnSelectLabel.innerHTML = 'Turn Type';
+    var turnSelect = editPanel.appendChild(document.createElement('select'));
+    turnSelect.classList.add('form-control');
+
+    var turnPoint = turnSelect.appendChild(document.createElement('option'));
+    turnPoint.innerHTML = 'Point';
+    turnPoint.value = 'point';
+    var turnArrow = turnSelect.appendChild(document.createElement('option'));
+    turnArrow.innerHTML = 'Arrow';
+    turnArrow.value = 'arrow';
+
+    turnSelect.addEventListener("change", function() {
+      var value = turnSelect.value;
+      modelSettings.routeTurn = value;
+      console.log(modelSettings)
+      for (var i = 0; i < featureCount; i++) {
+        var object = scene.getObjectByName( "route-" + i  );
+        scene.remove( object );
+      }
+
+      renderPlaces(thisObject,0.005)
+
+    }); 
+
+
+
+    var routeWidthSliderLabel = editPanel.appendChild(document.createElement('label'));
+    routeWidthSliderLabel.innerHTML = 'Route Width';
+    var routeWidthSlider = editPanel.appendChild(document.createElement('input'));
+    routeWidthSlider.setAttribute("type", "range");
+    routeWidthSlider.setAttribute("min", "0");
+    routeWidthSlider.setAttribute("max", "10");
+    routeWidthSlider.setAttribute("value", "3");
+    routeWidthSlider.oninput = function() {
+      var object = scene.getObjectByName( "route");
+      scene.remove( object );
+
+      var scaleAmount = this.value / 2000;
+      modelSettings.routeWidth = scaleAmount;
+      renderPlaces(thisObject)
+    }
+
+
+    var routePosZLabel = editPanel.appendChild(document.createElement('label'));
+    routePosZLabel.innerHTML = 'Route Pos Z';
+    var routePosZ = editPanel.appendChild(document.createElement('input'));
+    routePosZ.setAttribute("type", "range");
+    routePosZ.setAttribute("min", "-10");
+    routePosZ.setAttribute("max", "10");
+    routePosZ.setAttribute("value", "1");
+    routePosZ.oninput = function() {
+      var scaleAmount = this.value / 10;
+      modelSettings.posZ = scaleAmount;
+      var object = scene.getObjectByName( "route"  );
+      object.position.y = scaleAmount;
+
+    }
+
+
+    var colorPick = editPanel.appendChild(document.createElement('input'));
+    colorPick.setAttribute("type", "text");
+    colorPick.setAttribute("name", "color1");
+    colorPick.setAttribute("value", "#333399");
+    colorPick.id = 'color1';
+
+    $('#color1').colorPicker( { 
+      onColorChange : function(id, newValue) { 
+
+        var newColor = parseInt('0x' + newValue.substring(1));
+
+        modelSettings.routeColor = newColor;
+
+        var object = scene.getObjectByName( "route"  );
+        object.material.color.setHex( newColor );
+
+      } 
+    });
+
+  }
+
+  
+  
+}
+
+
+
+function updateObjectList() {
+
+
+  map.getSource('objects').setData(myObjects);
+  //map.getSource('osm-objects').setData(osmObjects);
+
+
+
+  var objectList = document.getElementById('object-list');
+  objectList.innerHTML = '';
+
+  var objectUl = objectList.appendChild(document.createElement('ul'));
+
+
+  var result = Object.keys(osmObjects.features).reduce(function(acc, key) {
+    var aff = osmObjects.features[key].properties.type;
+    if(acc[aff]) acc[aff]++;
+    else         acc[aff] = 1;           
+    return acc;
+  }, {});
+
+  for (var key in result) {
+    if (result.hasOwnProperty(key)) {
+      
+      console.log(key + " -> " + result[key]);
+
+      //var uniqueSpeeds = panel.appendChild(document.createElement('p'));
+      //uniqueSpeeds.innerHTML = key + " -> " + result[key];
+      var objectItem = objectUl.appendChild(document.createElement('li'));
+      objectItem.innerHTML = key;
+      objectItem.setAttribute('data-type', key);
+      objectItem.addEventListener('click', function() {
+        editOsmObject(this.getAttribute('data-type'));
+      })
+    }
+  }
+
+
+  myObjects.features.forEach(function(obj,index) {
+    var objectItem = objectUl.appendChild(document.createElement('li'));
+    objectItem.innerHTML = obj.geometry.type;
+    objectItem.addEventListener('click', function() {
+      editObject(myObjects.features[index],index);
+    })
+  })
+
+}
+
+
+
+
+
+//setScene();
+
+var setBtn = document.getElementById('set-btn');
+setBtn.style.display = 'block';
+setBtn.addEventListener('click', function() {
+  document.getElementById('search').style.display = 'none';
+  document.getElementById('add-features').style.display = 'block';
+  setBtn.style.display = 'none';
+  setScene();
+})
+
+
+ 
+
+
+    // Three.js - Load .OBJ ?
+// from https://threejsfundamentals.org/threejs/threejs-load-obj-no-materials.html
+
+
+//import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/build/three.module.js';
+import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/controls/OrbitControls.js';
+import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/loaders/GLTFLoader.js';
+import {GLTFExporter} from 'https://threejsfundamentals.org/threejs/resources/threejs/r119/examples/jsm/exporters/GLTFExporter.js';
+
+
+
+  const canvas = document.querySelector('#c');
+  const renderer = new THREE.WebGLRenderer({canvas});
+
+  const fov = 45;
+  const aspect = 2;  // the canvas default
+  const near = 1;
+  const far = 100;
+  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+  camera.position.set(0, 1, 0);
+  
+
+  const controls = new OrbitControls(camera, canvas);
+  controls.target.set(0, 1, 0);
+  controls.update();
+
+  var objects = [];
+  window.scene = new THREE.Scene();
+  scene.background = new THREE.Color('white');
+
+
+  var light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(1, 3, 2);
+  scene.add(light);
+
+
+
+
+  /*
+
+  {
+    const planeSize = 40;
+
+    const loader = new THREE.TextureLoader();
+    const texture = loader.load('https://threejsfundamentals.org/threejs/resources/images/checker.png');
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.magFilter = THREE.NearestFilter;
+    const repeats = planeSize / 2;
+    texture.repeat.set(repeats, repeats);
+
+    const planeGeo = new THREE.PlaneBufferGeometry(planeSize, planeSize);
+    const planeMat = new THREE.MeshPhongMaterial({
+      map: texture,
+      side: THREE.DoubleSide,
+    });
+    const mesh = new THREE.Mesh(planeGeo, planeMat);
+    mesh.rotation.x = Math.PI * -.5;
+    // scene.add(mesh);
+  }
+
+  {
+    const skyColor = 0xB1E1FF;  // light blue
+    const groundColor = 0xB97A20;  // brownish orange
+    const intensity = 1;
+    const light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+    scene.add(light);
+  }
+
+  {
+    const color = 0xFFFFFF;
+    const intensity = 1;
+    const light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(0, 10, 0);
+    light.target.position.set(-5, 0, 0);
+    scene.add(light);
+    scene.add(light.target);
+  }
+  */
+
+
+
+
+
+
+
+  
+
+
+
+
+  function resizeRendererToDisplaySize(renderer) {
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    const needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
+  }
+
+  function render() {
+
+    if (resizeRendererToDisplaySize(renderer)) {
+      const canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+    }
+
+    
+
+    renderer.render(scene, camera);
+
+    requestAnimationFrame(render);
+  }
+
+  render()
+
+  //requestAnimationFrame(render);
+
+
+
+window.pointType;
+
+function setScene() {
+
+
+
+
+ var bounds = map.getBounds();
+  console.log(bounds)
+var sceneExtent = turf.polygon([[
+    [bounds._ne.lng,bounds._ne.lat],
+    [bounds._sw.lng,bounds._ne.lat],
+    [bounds._sw.lng,bounds._sw.lat],
+    [bounds._ne.lng,bounds._sw.lat],
+    [bounds._ne.lng,bounds._ne.lat]
+    ]], { name: 'poly1' });
+console.log(sceneExtent)
+
+
+window.center = turf.centerOfMass(sceneExtent);
+
+getOsmBbox();
+
+
+
+
+
+
+}
+
+
+var osmObjects = {
+  "type":"FeatureCollection",
+  "features":[]
+};
+
+
+window.osmLines = {
+  "type":"FeatureCollection",
+  "features":[]
+};
+window.osmBuildings = {
+  "type":"FeatureCollection",
+  "features":[]
+};
+window.osmNodes = {
+  "type":"FeatureCollection",
+  "features":[]
+};
+
+
+
+
+function getOsmBbox() {
+  var bounds = map.getBounds();
+  window.searchBbox = bounds._sw.lat + ',' + bounds._sw.lng + ',' + bounds._ne.lat + ',' + bounds._ne.lng;
+  showFeature()
+  showMapillary(bounds)
+}
+
+function queryOsm() {
+  if (map.getLayer('features-point')) {
+    map.removeLayer('features-point');
+  }
+  if (map.getLayer('features-polygon')) {
+    map.removeLayer('features-polygon');
+  }
+  if (map.getLayer('features-line')) {
+    map.removeLayer('features-line');
+  }
+  if (map.getSource('feats')) {
+    map.removeSource('feats');
+  }
+  showFeature()
+}
+
+function buildOverpassApiUrlFeat() {
+
+  var nodeQuery = '';
+  var wayQuery = '';
+  var relationQuery = '';
+
+  wayQuery += 'way[building](' + searchBbox + ');'
+
+  wayQuery += 'way[highway](' + searchBbox + ');'
+
+  nodeQuery += 'node[highway=bus_stop](' + searchBbox + ');'
+
+  nodeQuery += 'node[amenity=bench](' + searchBbox + ');'
+
+  //wayQuery += 'node[entrance](' + searchBbox + ');'
+
+
+
+      
+
+
+  //var nodeQuery = 'node[' + overpassQuery + '](' + searchBbox + ');';
+  //var nodeQuery = 'node[tourism=attraction](' + searchBbox + ');node[natural=peak](' + searchBbox + ');';
+  //var wayQuery = 'way[' + overpassQuery + '](' + searchBbox + ');';
+  //var relationQuery = 'relation[' + overpassQuery + '](' + searchBbox + ');';
+  var query = '?data=[out:json][timeout:15];(' + nodeQuery + wayQuery + relationQuery + ');out body geom;';
+  var baseUrl = 'https://z.overpass-api.de/api/interpreter';
+  var resultUrl = baseUrl + query;
+  return resultUrl;
+}
+
+
+function showMapillary(bounds) {
+  var mapBounds = bounds._sw.lng + ',' + bounds._sw.lat + ',' + bounds._ne.lng + ',' + bounds._ne.lat;
+  var pointsData = 'https://a.mapillary.com/v3/map_features?client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh&layers=points&bbox=' + mapBounds + '&per_page=1000&values=object--bench';
+
+  $.getJSON(pointsData)
+  .done(function(points){
+    console.log(points)
+    points.features.forEach(function(result) {
+
+      osmNodes.features.push(result);
+    })
+
+    console.log(osmNodes)
+    paintNodes();
+  })
+}
+
+
+function showFeature(type,feature,shape){
+
+  //var queryFeatures = type + '=' + feature;
+  //var queryFeatures = 'tourism=attraction;natural=peak';
+  var overpassApiUrlFeat = buildOverpassApiUrlFeat();
+  $.get(overpassApiUrlFeat, function (osmDataAsJson) {
+    var resultAsGeojson = osmtogeojson(osmDataAsJson);
+    console.log(resultAsGeojson);
+
+
+    var outlines = {
+      "type":"FeatureCollection",
+      "features":[]
+    };
+
+    var outlinesPoly = {
+      "type":"FeatureCollection",
+      "features":[]
+    }
+
+    
+
+
+
+    resultAsGeojson.features.forEach(function(result) {
+      if (result.properties.tags.entrance === 'yes') {
+        var bufferedDoor = turf.buffer(result, 0.0003, {units: 'kilometers'});
+        doors.features.push(bufferedDoor);
+      }
+      
+      if (result.properties.tags.building === 'yes' || result.properties.tags.building === 'parking' || result.properties.tags.building === 'commercial' || result.properties.tags.building === 'office' || result.properties.tags.building === 'apartments') {
+        
+        result.properties.type = 'building';
+        osmObjects.features.push(result);
+
+        //osmBuildings.features.push(result);
+        console.log(osmBuildings)
+      }
+      
+
+      if(result.geometry.type == 'Point') {
+        if (result.properties.tags.highway == 'bus_stop') {
+          result.properties.type = 'bus_stop';
+          osmObjects.features.push(result);
+        }
+      }
+
+
+
+      if(result.geometry.type == 'LineString') {
+        if (result.properties.tags.highway == 'motorway' || result.properties.tags.highway == 'primary' || result.properties.tags.highway == 'secondary' || result.properties.tags.highway == 'tertiary' || result.properties.tags.highway == 'residential' || result.properties.tags.highway == 'unclassified' ) {
+          result.properties.type = 'road';
+          osmObjects.features.push(result);
+        }
+
+
+        if (result.properties.tags.highway == 'pedestrian' || result.properties.tags.highway == 'footway' ) {
+          result.properties.type = 'path';
+          osmObjects.features.push(result);
+        }
+
+      }
+    });
+
+    console.log(osmLines)
+    renderOsm()
+
+  });   
+}
+
+
+
+function paintRoads() {
+
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+  var roads = [];
+
+  osmObjects.features.forEach(function(road,index) {
+    if(road.properties.type === 'road') {
+      var buffered = turf.buffer(road, modelSettings.roadWidth, {units: 'kilometers'});
+      buffered.properties.index = index;
+      roads.push(buffered);
+    }
+  })
+
+  window.roadCount = roads.length;
+
+  roads.forEach(function(rd) {
+
+
+    var roadPoints = [];
+
+    rd.geometry.coordinates[0].forEach(function(corner,index) {
+      let latitude = corner[1];
+      let longitude = corner[0];
+
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (longitude - centerLng) * 50000;
+      var offsetY = (latitude - centerLat) * 50000;
+
+      //addTurn(offsetX,offsetY,bearing);
+
+
+      roadPoints.push( new THREE.Vector3( offsetY,offsetX ) );
+
+
+
+    })
+
+
+
+
+    var shape = new THREE.Shape( roadPoints );
+
+    var extrudeSettings = { amount: 0, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+
+    var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+
+    var material = new THREE.MeshBasicMaterial( {
+      color: modelSettings.roadColor
+    } );
+
+    //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
+    var mesh = new THREE.Mesh( geometry, material );
+
+    mesh.position.set( 0, 0, 0 );
+    mesh.rotation.set(0,0,0);
+    mesh.material.transparent = true;
+    mesh.material.opacity = modelSettings.roadOpacity; 
+    mesh.name = 'osm-' + rd.properties.index;
+
+    scene.add( mesh );
+    
+
+
+    
+    
+    
+  });
+
+
+  
+
+
+
+  /*
+
+  osmLines.features.forEach(function(road,index) {
+
+    var material = new THREE.LineBasicMaterial({
+      color: 0xCCCCCC,
+      linewidth: 5
+    });
+
+    var points = [];
+
+    osmLines.features[index].geometry.coordinates.forEach(function(turn,index) {
+      let latitude = turn[1];
+      let longitude = turn[0];
+
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (longitude - centerLng) * 10000;
+      var offsetY = (latitude - centerLat) * 10000;
+
+      //addTurn(offsetX,offsetY,bearing);
+
+
+      points.push( new THREE.Vector3( offsetY,0,offsetX ) );
+
+
+
+    })
+
+
+
+    var geometry = new THREE.BufferGeometry().setFromPoints( points );
+
+    var line = new THREE.Line( geometry, material );
+    scene.add( line );
+    
+  });
+
+  */
+
+
+  
+
+}
+
+
+function paintPaths() {
+
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+  var paths = [];
+
+  osmObjects.features.forEach(function(path,index) {
+    if(path.properties.type === 'path') {
+      var buffered = turf.buffer(path, modelSettings.pathWidth, {units: 'kilometers'});
+      buffered.properties.index = index;
+      paths.push(buffered);
+    }
+  })
+
+  window.roadCount = paths.length;
+
+  paths.forEach(function(path) {
+
+
+    var pathPoints = [];
+
+    path.geometry.coordinates[0].forEach(function(corner,index) {
+      let latitude = corner[1];
+      let longitude = corner[0];
+
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (longitude - centerLng) * 50000;
+      var offsetY = (latitude - centerLat) * 50000;
+
+      //addTurn(offsetX,offsetY,bearing);
+
+
+      pathPoints.push( new THREE.Vector3( offsetY,offsetX ) );
+
+
+
+    })
+
+
+
+
+    var shape = new THREE.Shape( pathPoints );
+
+    var extrudeSettings = { amount: 0, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+
+    var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+
+    var material = new THREE.MeshBasicMaterial( {
+      color: modelSettings.pathColor
+    } );
+
+    //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
+    var mesh = new THREE.Mesh( geometry, material );
+
+    mesh.position.set( 0, 0.01, 0 );
+    mesh.rotation.set(0,0,0);
+
+    mesh.material.transparent = true;
+    mesh.material.opacity = modelSettings.pathOpacity; 
+    mesh.name = 'osm-' + path.properties.index;
+
+    scene.add( mesh );
+    
+    
+  });
+
+
+}
+
+
+
+function paintBuildings() {
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+  window.buildingCount = osmBuildings.features.length;
+  
+
+  //osmBuildings.features.forEach(function(building,index) {
+
+  console.log(osmObjects)
+
+  osmObjects.features.forEach(function(building,index) {
+    if (building.properties.type === 'building') {
+
+      var buildingPoints = [];
+
+      osmObjects.features[index].geometry.coordinates[0].forEach(function(turn,index) {
+        console.log(turn)
+        let latitude = turn[1];
+        let longitude = turn[0];
+
+
+        // threejs json
+        var pointX = turf.point([longitude,centerLat]);
+        var pointY = turf.point([centerLng,latitude]);
+        var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+        var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+        var offsetX = (longitude - centerLng) * 50000;
+        var offsetY = (latitude - centerLat) * 50000;
+
+        //addTurn(offsetX,offsetY,bearing);
+
+
+        buildingPoints.push( new THREE.Vector3( offsetY,offsetX ) );
+
+
+
+      })
+
+
+      var shape = new THREE.Shape( buildingPoints );
+
+
+      var extrudeSettings = { amount: modelSettings.buildingHeight, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+      console.log(buildingPoints)
+      var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+
+      //var material = new THREE.MeshStandardMaterial( { color: modelSettings.buildingColor } );
+
+      var material = new THREE.MeshLambertMaterial( { color: modelSettings.buildingColor, wireframe: false } );
+      var mesh = new THREE.Mesh( geometry, material );
+
+      mesh.position.set( 0, modelSettings.buildingHeight, 0 );
+      mesh.rotation.set(0,0,0);
+
+      mesh.material.transparent = true;
+      mesh.material.opacity = modelSettings.buildingOpacity; 
+      mesh.name = 'osm-' + index;
+
+      scene.add( mesh );
+      
+    }
+  });
+  
+}
+
+
+
+function paintNodes(e,type) {
+  console.log(osmNodes)
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+
+
+  osmNodes.features.forEach(function(node,index) {    console.log(e)
+
+
+    let latitude = node.geometry.coordinates[1];
+    let longitude = node.geometry.coordinates[0];
+
+    // threejs json
+    var pointX = turf.point([longitude,centerLat]);
+    var pointY = turf.point([centerLng,latitude]);
+    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+    var offsetX = (longitude - centerLng) * 100000;
+    var offsetY = (latitude - centerLat) * 100000;
+
+
+    addMapillaryPoint(offsetX,offsetY);
+
+    
+
+  })
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function renderOsm() {
+  
+
+  
+
+  //paintRoads();
+
+  //paintPaths();
+
+  //paintBuildings();
+
+  //paintNodes();
+
+
+
+
+
+  var dollhouse = document.querySelector('a-scene');
+
+
+  //this.el.setObject3D('mesh', new THREE.Mesh(geometry, material));
+  dollhouse.setObject3D('mesh', scene);
+
+  scene.rotation.y = -200 * Math.PI/180;
+  scene.rotation.x = 5 * Math.PI/180;
+  scene.rotation.z = -5 * Math.PI/180;
+
+  //dollhouse.setAttribute('rotation', '0 2.3 0');
+
+
+
+}
+  
+
+
+
+
+
+
+function addPoint(e) {
+
+  map.off('click', addPoint)
+  console.log(e)
+
+  var point = turf.point([e.lngLat.lng,e.lngLat.lat]);
+
+  point.properties.count = 1;
+  myObjects.features.push(point);
+  console.log(myObjects)
+
+  updateObjectList();
+
+  // ADD TO MAP
+
+
+  document.getElementById('myModal').style.display = 'block';
+
+
+  /*
+  var popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+  });
+
+  popup.setLngLat([e.lngLat.lng,e.lngLat.lat]).setHTML('<button id="dot">Dot</button><button id="arrow">Arrow</button>').addTo(map);
+  */
+
+  document.getElementById('dot').addEventListener('click', function() {
+    var type = 'dot';
+    setPoint(e,type);
+    document.getElementById('myModal').style.display = 'none';
+  })
+  document.getElementById('arrow').addEventListener('click', function() {
+    var type = 'arrow';
+    setPoint(e,type);
+    document.getElementById('myModal').style.display = 'none';
+  })
+
+}
+
+
+
+
+function setPoint(e,type) {
+  console.log(e)
+
+
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+
+
+  let latitude = e.lngLat.lat;
+  let longitude = e.lngLat.lng;
+
+  // threejs json
+  var pointX = turf.point([longitude,centerLat]);
+  var pointY = turf.point([centerLng,latitude]);
+  var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+  var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+  var offsetX = (longitude - centerLng) * 10000;
+  var offsetY = (latitude - centerLat) * 10000;
+
+
+  if (type === 'dot') {
+    addNewPoint(offsetX,offsetY);
+  }
+  if (type === 'arrow') {
+    addNewArrow(offsetX,offsetY);
+  }
+
+  
+
+
+}
+
+
+
+function renderPlaces(route,dashSize,model) {
+
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+  route.geometry.coordinates.forEach(function(turn,index) {
+    let latitude = turn[1];
+    let longitude = turn[0];
+
+
+    if (index < route.geometry.coordinates.length - 1) {
+      var thisCoords = route.geometry.coordinates[index];
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (thisCoords[0] - centerLng) * 10000;
+      var offsetY = (thisCoords[1] - centerLat) * 10000;
+
+      console.log(modelSettings.routeTurn);
+      if (modelSettings.routeTurn === 'arrow') {
+        addNewArrow(offsetX,offsetY);
+      }
+      if (modelSettings.routeTurn === 'point') {
+        addNewPoint(offsetX,offsetY);
+      }
+      
+    }
+
+
+    
+
+  })
+
+
+  if (modelSettings.routeType === 'solid') {
+
+    var buffered = turf.buffer(route, modelSettings.routeWidth, {units: 'kilometers'});
+
+    
+
+
+    var routePoints = [];
+
+    buffered.geometry.coordinates[0].forEach(function(corner,index) {
+      console.log(corner)
+
+      let latitude = corner[1];
+      let longitude = corner[0];
+
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (longitude - centerLng) * 10000;
+      var offsetY = (latitude - centerLat) * 10000;
+
+      //addTurn(offsetX,offsetY,bearing);
+
+
+      routePoints.push( new THREE.Vector3( offsetY,offsetX ) );
+
+
+
+    })
+
+
+
+
+    var shape = new THREE.Shape( routePoints );
+
+    var extrudeSettings = { amount: 0, bevelEnabled: false, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 1 };
+
+    var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
+
+    var material = new THREE.MeshBasicMaterial( {
+      color: modelSettings.routeColor
+    } );
+
+    //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
+    var mesh = new THREE.Mesh( geometry, material );
+
+    mesh.position.set( 0, modelSettings.routePosZ, 0 );
+    mesh.rotation.set(0,0,0);
+    mesh.name = 'route';
+
+    scene.add( mesh );
+      
+
+  } else {
+
+
+
+    var arPathPoints = {
+      "type":"FeatureCollection",
+      "features":[]
+    };
+
+    var routeLength = turf.length(route, {units: 'kilometers'});
+    var options = {units: 'kilometers'};
+    var lengthMetres = routeLength * 1000;
+
+    var i;
+    for (i = 0; i < lengthMetres; i++) {
+      var distanceAlong = i * dashSize;
+      console.log(dashSize)
+      var along = turf.along(route, distanceAlong, options);
+      arPathPoints.features.push(along)
+
+      if (i === lengthMetres || i > lengthMetres) {
+        //console.log(arPathPoints)
+      }
+    }
+
+    for(i=0; i < arPathPoints.features.length; i++) {
+
+      let latitude = arPathPoints.features[i].geometry.coordinates[1];
+      let longitude = arPathPoints.features[i].geometry.coordinates[0];
+
+      // threejs json
+      var pointX = turf.point([longitude,centerLat]);
+      var pointY = turf.point([centerLng,latitude]);
+      var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+      var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+      var offsetX = (longitude - centerLng) * 10000;
+      var offsetY = (latitude - centerLat) * 10000;
+
+      addNewPoint(offsetX,offsetY,'route',i,model);
+
+
+
+    };
+
+
+    
+
+    route.properties.count = arPathPoints.features.length;
+
+  }
+
+
+  
+  myObjects.features.push(route);
+
+
+}
+
+
+
+function addPathPoint(offsetX,offsetY) {
+  const gltfLoader = new GLTFLoader();
+  const url = 'https://sjmarshalluk.github.io/ar-tester/path.gltf';
+  gltfLoader.load(url, (gltf) => {
+    const root = gltf.scene;
+
+    root.position.set(offsetY,0,offsetX);
+    root.scale.set(0.1,0.1,0.1);
+    root.rotation.set(0,0,0);
+    scene.add(root);
+
+
+  });
+}
+
+
+
+function addMapillaryPoint(offsetX,offsetY) {
+
+  var material = new THREE.MeshBasicMaterial({
+      color: '#05cb63',
+      wireframe: true
+    });
+
+    var geometry = new THREE.BoxGeometry(1, 1, 1);
+
+
+
+    //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
+    var mesh = new THREE.Mesh( geometry, material );
+
+    mesh.position.set(offsetY,0,offsetX);
+    mesh.rotation.set(0,-100,0);
+
+    scene.add( mesh );
+
+    
+
+
+    /*
+  const gltfLoader = new GLTFLoader();
+
+
+  var url = 'https://sjmarshalluk.github.io/model-maker/assets/path/point.gltf';
+  
+  gltfLoader.load(url, (gltf) => {
+    const root = gltf.scene;
+
+    root.position.set(offsetY,0.1,offsetX);
+    root.scale.set(0.1,0.1,0.1);
+    root.rotation.set(0,0,0);
+
+    scene.add(root);
+
+    //objects.push(root);
+    //showControls(root);
+
+  });
+  */
+
+  console.log(offsetX,offsetY)
+}
+
+
+function addNewPoint(offsetX,offsetY,id,index,model) {
+  const gltfLoader = new GLTFLoader();
+
+  console.log(model)
+
+  var url = 'https://sjmarshalluk.github.io/model-maker/assets/path/point.gltf';
+  if (model === 'arrow') {
+    var url = 'https://sjmarshalluk.github.io/model-maker/assets/path/arrows.gltf';
+  }
+  
+  gltfLoader.load(url, (gltf) => {
+    const root = gltf.scene;
+
+    root.position.set(offsetY,0.1,offsetX);
+    root.scale.set(0.1,0.1,0.1);
+    root.rotation.set(0,0,0);
+    root.name = id + '-' + index;
+
+    scene.add(root);
+
+    //objects.push(root);
+    //showControls(root);
+
+  });
+}
+
+function addNewArrow(offsetX,offsetY) {
+  console.log('arrow')
+  const gltfLoader = new GLTFLoader();
+  const url = 'https://sjmarshalluk.github.io/model-maker/arrows.gltf';
+  gltfLoader.load(url, (gltf) => {
+    const root = gltf.scene;
+
+    root.position.set(offsetY,0,offsetX);
+    root.scale.set(0.1,0.1,0.1);
+    root.rotation.set(0,0,0);
+    
+
+    scene.add(root);
+
+    //showControls(root);
+
+  });
+}
+
+function showControls(root) {
+
+
+  var controls = document.getElementById('control-panel');
+  controls.style.display = 'block';
+
+  var scaleSlider = document.getElementById("scale-slider");
+  scaleSlider.oninput = function() {
+    var scaleAmount = this.value / 100;
+    root.scale.set(scaleAmount,scaleAmount,scaleAmount)
+  }
+
+  var angleSlider = document.getElementById("angle-slider");
+  angleSlider.oninput = function() {
+    var angleAmount = this.value / 10;
+    root.rotation.set(0,angleAmount,0)
+  }
+
+
+  var deleteBtn = document.getElementById("delete-btn");
+  deleteBtn.addEventListener('click', function() {
+    //root.geometry.dispose();
+    //root.material.dispose();
+    scene.remove( root );
+    controls.style.display = 'none';
+  });
+
+
+  document.getElementById('done').addEventListener('click', function() {
+    controls.style.display = 'none';
+  })
+
+
+}
+
+
+
+
+
+  
+
+
+
+
+document.getElementById( 'export_scene' ).addEventListener( 'click', function () {
+
+        exportGLTF( scene );
+
+      } );
+
+
+var link = document.createElement( 'a' );
+      link.style.display = 'none';
+      document.body.appendChild( link ); // Firefox workaround, see #6594
+
+
+function exportGLTF( input ) {
+
+        var gltfExporter = new GLTFExporter();
+
+
+        gltfExporter.parse( input, function ( result ) {
+
+          if ( result instanceof ArrayBuffer ) {
+
+            saveArrayBuffer( result, 'scene.glb' );
+
+          } else {
+
+            var output = JSON.stringify( result, null, 2 );
+            console.log( output );
+            saveString( output, 'scene.gltf' );
+
+          }
+
+        } );
+
+      }
+
+
+      function saveString( text, filename ) {
+
+        save( new Blob( [ text ], { type: 'text/plain' } ), filename );
+
+      }
+
+      function saveArrayBuffer( buffer, filename ) {
+
+        save( new Blob( [ buffer ], { type: 'application/octet-stream' } ), filename );
+
+      }
+
+
+      function save( blob, filename ) {
+
+        link.href = URL.createObjectURL( blob );
+        link.download = filename;
+        link.click();
+
+        // URL.revokeObjectURL( url ); breaks Firefox...
+
+      }
+
+
+
+document.getElementById('save-settings').addEventListener('click', saveSettings);
+function saveSettings() {
+
+  console.log(modelSettings);
+
+
+
+  if (typeof(Storage) !== "undefined") {
+    localStorage.setItem("mysettings", JSON.stringify(modelSettings));
+  } else {
+  }
+}
+
+
+
+  </script>
+
+
+
+  <script type="text/javascript">
+
+
+
+  </script>
+
+</head>
+
+
+<body style='margin: 0; overflow: hidden;'>
+
+  <div class="modal" tabindex="-1" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button id="dot">Dot</button><button id="arrow">Arrow</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <div id="panel" style="display: none;">
+    
+        <div id="line-panel">
+
+          <label for="route-size-slider">Size</label>
+          <input type="range" min="0" max="100" value="0" class="custom-range" id="route-size-slider">
+
+
+          <label for="route-size-slider">Distance</label>
+          <div class="slidecontainer">
+            <input type="range" min="3" max="15" value="0" class="slider" id="route-dash-slider">
+          </div>
+
+
+          <label for="route-size-slider">Style</label>
+          <select name="models" class="form-control" id="model-select">
+            <option value="point">Point</option>
+            <option value="arrow">Arrow</option>
+          </select>
+
+          <label for="turn-select">Turns</label>
+          <select name="models" class="form-control" id="turn-select">
+            <option value="arrow">Arrow</option>
+            <option value="point">Point</option>
+          </select>
+
+          <label for="start-select">Start</label>
+          <select name="models" class="form-control" id="start-select">
+            <option>Select</option>
+            <option value="point">Point</option>
+            <option value="arrow">Arrow</option>
+          </select>
+
+          <label for="end-select">End</label>
+          <select name="models" class="form-control" id="end-select">
+            <option>Select</option>
+            <option value="point">Point</option>
+            <option value="arrow">Arrow</option>
+          </select>
+
+          <button id="delete-btn" class="btn btn-block">Delete</button>
+
+          <button id="done" class="btn btn-block">Done</button>
+
+        </div>
+
+
+
+
+        <div id="control-panel">
+
+          <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="0" class="slider" id="scale-slider">
+          </div>
+
+          <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="0" class="slider" id="angle-slider">
+          </div>
+
+          <button id="delete-btn" class="btn btn-block">Delete</button>
+
+          <button id="done" class="btn btn-block">Done</button>
+
+        </div>
+
+
+        <div id="osm-panel">
+
+          <h6>OSM</h6>
+
+          <label for="building-slider">Building Height</label>
+          <input type="range" min="0" max="100" value="10" class="custom-range" id="building-slider">
+
+
+          <label for="road-slider">Road Width</label>
+
+          <div id="line-width-slider"></div>
+
+
+
+          
+
+        </div>
+    </div>
+  
+
+     <div id="sidebar" style="display: none;">
+
+      
+
+        <div id="search">
+          <div id="geocoder" class="geocoder"></div>
+        </div>
+
+      <button id="btn-path" class="active">path</button>
+
+        <button id="set-btn" class="btn btn-block btn-outline-success">Create model</button>
+        
+
+        <div id="add-features" style="display: none;">
+          <button id="add-point" class="btn btn-block">Add point</button>
+          <button id="add-route" class="btn btn-block" style="margin-bottom: 10px">Add route</button>
+          <div id="drawline"></div>
+          
+        </div>
+
+        <div id="object-list"></div>
+        
+
+      <div style="position: absolute;bottom: 0; width: 100%; left: 0; padding: 10px">
+        <button id="save-settings" class="btn btn-block">Save settings</button>
+        <button id="export_scene" class="btn btn-block">Export Scene</button>
+      </div>
+    </div>
+
+
+    
+
+  <div id="editor" style="display: none; z-index: 999">
+
+    <button id="toggle-map" class="btn" style="position: absolute; bottom: 10px; left: 10px; z-index: 1000"><</button>
+
+    <div id="map"></div>
+
+    
+    <canvas id="c"></canvas>
+
+  </div>
+
+
+  <div id="video-wrap" class="full">
+    <video id="video"  autoplay playsinline></video>
+  </div>
+
+
+
+  <a-scene id="scene" class="full">
+    
+
+    <a-sky thisimg src="puydesancy.jpg" rotation="0 -130 0" id="my-image"></a-sky>
+    <a-entity mythreejsthing="color: green;" position="0 1 -5" id="dollhouse"> </a-entity>
+  </a-scene>
+
+
+
+
+</body>
+
+</html>
