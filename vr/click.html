@@ -18,6 +18,13 @@
 
 <script>
 
+
+    AFRAME.registerComponent("thisimg", {
+      init: function() {
+        
+      }
+    });
+
     AFRAME.registerComponent('intersect-color-change',{
       init:function() {
         var el=this.el;
@@ -27,7 +34,7 @@
         el.addEventListener('mousedown',function(evt){el.setAttribute('material','color','#EF2D5E');});el.addEventListener('mouseup',function(evt){el.setAttribute('material','color',self.isMouseEnter?'#24CAFF':initialColor);});
         el.addEventListener('triggerdown',function(){
           el.setAttribute('material','color','#24CAFF');
-          self.isMouseEnter=true;
+          //self.isMouseEnter=true;
           //nextImg()
           document.querySelector('#my-image').setAttribute('src', 'https://sjmarshalluk.github.io/3d-editor/w-16QEt1P1EMvhFtxlc9Tw.jpg');
         });
@@ -35,11 +42,7 @@
       }
     });
 
-    AFRAME.registerComponent("thisimg", {
-        init: function() {
-          
-        }
-      });
+    
 
 
       // Create boxes.
@@ -128,7 +131,7 @@
 
 
 
-<button id="ui-btn" style="position: absolute;z-index: 999">Click!</button>
+<button id="ui-btn" style="position: absolute;z-index: 999">Click</button>
 
 <a-scene background="color: #212" antialias="true">
   <a-sky thisimg src="puydesancy.jpg" rotation="0 -130 0" id="my-image"></a-sky>
