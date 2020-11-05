@@ -13,6 +13,9 @@
 </head>
 <body>
 
+
+
+
 <script>
 
     AFRAME.registerComponent('intersect-color-change',{init:function(){var el=this.el;var material=el.getAttribute('material');var initialColor=material.color;var self=this;el.addEventListener('mousedown',function(evt){el.setAttribute('material','color','#EF2D5E');});el.addEventListener('mouseup',function(evt){el.setAttribute('material','color',self.isMouseEnter?'#24CAFF':initialColor);});el.addEventListener('mouseenter',function(){el.setAttribute('material','color','#24CAFF');self.isMouseEnter=true;});el.addEventListener('mouseleave',function(){el.setAttribute('material','color',initialColor);self.isMouseEnter=false;});}});
@@ -23,7 +26,8 @@
           
         }
       });
-    
+
+
       // Create boxes.
       AFRAME.registerComponent('boxes', {
         init: function () {
@@ -50,7 +54,8 @@
 
 
           el.addEventListener('xbuttondown', function (evt) {
-            document.querySelector('#my-image').setAttribute('src', 'https://sjmarshalluk.github.io/3d-editor/w-16QEt1P1EMvhFtxlc9Tw.jpg');
+            changeImg()
+            
           });
         }
       });
@@ -67,6 +72,11 @@
         }
       });
     </script>
+
+
+
+<button id="ui-btn" style="position: absolute;z-index: 999">Click</button>
+
 <a-scene background="color: #212" antialias="true">
   <a-sky thisimg src="puydesancy.jpg" rotation="0 -130 0" id="my-image"></a-sky>
 <a-entity position="0 3.2 0" camera look-controls wasd-controls></a-entity>
@@ -76,7 +86,6 @@
 <a-entity position="0 0 -10">
 <a-mixin id="box" geometry="primitive: box" material="color: #FAFAFA" rotation="0 0 -35" scale="0.5 0.5 0.5" intersect-color-change shadow="cast: true; receive: false"></a-mixin>
 <a-entity boxes></a-entity>
-<a-circle rotation="-90 0 0" radius="20" color="#666" position="0 -0.1 0" shadow="receive: true" roughness="1"></a-circle>
 <a-light type="point" position="0 10 -30" intensity="0.85" shadow-if-mobile></a-light>
 
 </a-entity>
@@ -85,6 +94,15 @@
 
 <script type="text/javascript">
     document.querySelector('#my-image').setAttribute('src', 'https://sjmarshalluk.github.io/3d-editor/Sxqxj6JQWmdN8w3660Rf5w.jpg');
+
+
+    document.getElementById('ui-btn').addEventListener('click', function() {
+      changeImg();
+    })
+
+    function changeImg() {
+      document.querySelector('#my-image').setAttribute('src', 'https://sjmarshalluk.github.io/3d-editor/w-16QEt1P1EMvhFtxlc9Tw.jpg');
+    }
 
 /*
   document.querySelector('#btn-next').addEventListener('click', function() {
