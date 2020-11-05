@@ -86,40 +86,10 @@
           }
         }
       });
-    </script>
 
 
 
-<button id="ui-btn" style="position: absolute;z-index: 999">Click</button>
-
-<a-scene background="color: #212" antialias="true">
-  <a-sky thisimg src="puydesancy.jpg" rotation="0 -130 0" id="my-image"></a-sky>
-<a-entity position="0 3.2 0" camera look-controls wasd-controls></a-entity>
-<a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: [mixin='box']"></a-entity>
-<a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: [mixin='box']" line="color: #118A7E"></a-entity>
-<a-light position="0 0.5 1" intensity="0.75"></a-light>
-<a-entity position="0 0 -10">
-<a-mixin id="box" geometry="primitive: box" material="color: #FAFAFA" rotation="0 0 -35" scale="0.5 0.5 0.5" intersect-color-change shadow="cast: true; receive: false"></a-mixin>
-<a-entity boxes></a-entity>
-
-<a-mixin id="next-mixin" geometry="primitive: box" material="color: #FAFAFA" rotation="0 0 -35" scale="0.5 0.5 0.5" next-image shadow="cast: true; receive: false"></a-mixin>
-<a-entity next></a-entity>
-<a-light type="point" position="0 10 -30" intensity="0.85" shadow-if-mobile></a-light>
-
-</a-entity>
-</a-scene>
-
-
-<script type="text/javascript">
-    document.querySelector('#my-image').setAttribute('src', 'https://sjmarshalluk.github.io/3d-editor/Sxqxj6JQWmdN8w3660Rf5w.jpg');
-
-
-    document.getElementById('ui-btn').addEventListener('click', function() {
-      nextImg();
-    })
-
-
-    var images = [];
+      var images = [];
 
     var seqPos = 0;
 
@@ -153,6 +123,40 @@
       document.querySelector('#my-image').setAttribute('src', imageUrl);
       seqPos++
     }
+    </script>
+
+
+
+<button id="ui-btn" style="position: absolute;z-index: 999">Click!</button>
+
+<a-scene background="color: #212" antialias="true">
+  <a-sky thisimg src="puydesancy.jpg" rotation="0 -130 0" id="my-image"></a-sky>
+<a-entity position="0 3.2 0" camera look-controls wasd-controls></a-entity>
+<a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: [mixin='box']"></a-entity>
+<a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: [mixin='box']" line="color: #118A7E"></a-entity>
+<a-light position="0 0.5 1" intensity="0.75"></a-light>
+<a-entity position="0 0 -10">
+<a-mixin id="box" geometry="primitive: box" material="color: #FAFAFA" rotation="0 0 -35" scale="0.5 0.5 0.5" intersect-color-change shadow="cast: true; receive: false"></a-mixin>
+<a-entity boxes></a-entity>
+
+<a-mixin id="next-mixin" geometry="primitive: box" material="color: #FAFAFA" rotation="0 0 -35" scale="0.5 0.5 0.5" next-image shadow="cast: true; receive: false"></a-mixin>
+<a-entity next></a-entity>
+<a-light type="point" position="0 10 -30" intensity="0.85" shadow-if-mobile></a-light>
+
+</a-entity>
+</a-scene>
+
+
+<script type="text/javascript">
+    document.querySelector('#my-image').setAttribute('src', 'https://sjmarshalluk.github.io/3d-editor/Sxqxj6JQWmdN8w3660Rf5w.jpg');
+
+
+    document.getElementById('ui-btn').addEventListener('click', function() {
+      nextImg();
+    })
+
+
+    
 
 /*
   document.querySelector('#btn-next').addEventListener('click', function() {
