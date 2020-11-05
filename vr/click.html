@@ -25,7 +25,7 @@
         var initialColor=material.color;
         var self=this;
         el.addEventListener('mousedown',function(evt){el.setAttribute('material','color','#EF2D5E');});el.addEventListener('mouseup',function(evt){el.setAttribute('material','color',self.isMouseEnter?'#24CAFF':initialColor);});
-        el.addEventListener('mouseenter',function(){
+        el.addEventListener('triggerdown',function(){
           el.setAttribute('material','color','#24CAFF');
           self.isMouseEnter=true;
           prevImg()
@@ -185,13 +185,15 @@
 
 
     function prevImg() {
-      document.querySelector('#my-image').setAttribute('src', 'https://sjmarshalluk.github.io/3d-editor/w-16QEt1P1EMvhFtxlc9Tw.jpg');
+      var imageUrl = 'https://cors-anywhere.herokuapp.com/https://images.mapillary.com/' + images[seqPos] + '/thumb-2048.jpg'
+      document.querySelector('#my-image').setAttribute('src', imageUrl);
+      seqPos--
     }
 
 
     function nextImg() {
       console.log(images[seqPos])
-      var imageUrl = 'https://images.mapillary.com/' + images[seqPos] + '/thumb-2048.jpg'
+      var imageUrl = 'https://cors-anywhere.herokuapp.com/https://images.mapillary.com/' + images[seqPos] + '/thumb-2048.jpg'
       document.querySelector('#my-image').setAttribute('src', imageUrl);
       seqPos++
     }
