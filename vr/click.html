@@ -28,7 +28,8 @@
         el.addEventListener('triggerdown',function(){
           el.setAttribute('material','color','#24CAFF');
           self.isMouseEnter=true;
-          nextImg()
+          //nextImg()
+          document.querySelector('#my-image').setAttribute('src', 'https://sjmarshalluk.github.io/3d-editor/w-16QEt1P1EMvhFtxlc9Tw.jpg');
         });
         el.addEventListener('mouseleave',function(){el.setAttribute('material','color',initialColor);self.isMouseEnter=false;});
       }
@@ -68,7 +69,7 @@
 
           el.addEventListener('triggerdown', function (evt) {
             //changeImg()
-            document.querySelector('#my-image').setAttribute('src', 'w-16QEt1P1EMvhFtxlc9Tw.jpg');
+            
           });
         }
       });
@@ -127,7 +128,7 @@
 
 
 
-<button id="ui-btn" style="position: absolute;z-index: 999">Click</button>
+<button id="ui-btn" style="position: absolute;z-index: 999">Click!</button>
 
 <a-scene background="color: #212" antialias="true">
   <a-sky thisimg src="puydesancy.jpg" rotation="0 -130 0" id="my-image"></a-sky>
