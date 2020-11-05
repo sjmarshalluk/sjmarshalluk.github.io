@@ -28,11 +28,28 @@
         el.addEventListener('triggerdown',function(){
           el.setAttribute('material','color','#24CAFF');
           self.isMouseEnter=true;
+          prevImg()
+        });
+        el.addEventListener('mouseleave',function(){el.setAttribute('material','color',initialColor);self.isMouseEnter=false;});
+      }
+    });
+
+    AFRAME.registerComponent('next-image',{
+      init:function() {
+        var el=this.el;
+        var material=el.getAttribute('material');
+        var initialColor=material.color;
+        var self=this;
+        el.addEventListener('mousedown',function(evt){el.setAttribute('material','color','#EF2D5E');});el.addEventListener('mouseup',function(evt){el.setAttribute('material','color',self.isMouseEnter?'#24CAFF':initialColor);});
+        el.addEventListener('mouseenter',function(){
+          el.setAttribute('material','color','#24CAFF');
+          self.isMouseEnter=true;
           nextImg()
         });
         el.addEventListener('mouseleave',function(){el.setAttribute('material','color',initialColor);self.isMouseEnter=false;});
       }
     });
+
 
     AFRAME.registerComponent("thisimg", {
         init: function() {
@@ -74,6 +91,33 @@
       });
 
 
+
+      AFRAME.registerComponent('next', {
+        init: function () {
+          var box;
+          var columns = 1;
+          var el = this.el;
+          var i;
+          var j;
+          var rows = 1;
+
+          if (el.sceneEl.isMobile) {
+            columns = 10;
+            rows = 5;
+          };
+
+          for (x = columns / -2; x < columns / 2; x++) {
+            for (y = 0.5; y < rows; y++) {
+              box = document.createElement('a-entity');
+              box.setAttribute('mixin', 'next-mixin');
+              box.setAttribute('position', {x: 0.6, y: 0.6, z: 2});
+              el.appendChild(box);
+            }
+          }
+
+
+        }
+      });
 
       AFRAME.registerComponent('shadow-if-mobile', {
         init: function () {
