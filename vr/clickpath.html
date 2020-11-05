@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="origin-trial" data-feature="WebVR (For Chrome M59+)" data-expires="2017-07-28" content="ArFv1ZeTwzkhjNE00uAE+XtiQB41fwqG/TqlFMLrepd9sforQSvQE/tgfIbUMYNuNre4QR1k4/z8xp2mV3dbhwwAAABeeyJvcmlnaW4iOiJodHRwczovL2FmcmFtZS5pbzo0NDMiLCJmZWF0dXJlIjoiV2ViVlIxLjEiLCJleHBpcnkiOjE1MDEyMTcwMDIsImlzU3ViZG9tYWluIjp0cnVlfQ==">
+<meta charset="utf-8">
+<title>Laser Controls</title>
+<meta name="description" content="Laser Controls - A-Frame">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+<script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js"></script>
+</head>
+<body>
+<script>
+
+
+
+
+  AFRAME.registerComponent('intersect-color-change',{init:function(){var el=this.el;var material=el.getAttribute('material');var initialColor=material.color;var self=this;el.addEventListener('mousedown',function(evt){el.setAttribute('material','color','#EF2D5E');});el.addEventListener('mouseup',function(evt){el.setAttribute('material','color',self.isMouseEnter?'#24CAFF':initialColor);});el.addEventListener('mouseenter',function(){el.setAttribute('material','color','#24CAFF');self.isMouseEnter=true;});el.addEventListener('mouseleave',function(){el.setAttribute('material','color',initialColor);self.isMouseEnter=false;});}});
+      // Create boxes.
+      AFRAME.registerComponent('boxes', {
+        init: function () {
+          var el = this.el;
+
+          for (var i = 0; i < 10; i++) {
+            box = document.createElement('a-entity');
+            box.setAttribute('mixin', 'box');
+            box.setAttribute('position', {x: 0, y: 0, z: 1.5});
+            box.id = 'pt' + i;
+            el.appendChild(box);
+          }
+
+
+          
+
+        }
+      });
+
+      AFRAME.registerComponent('shadow-if-mobile', {
+        init: function () {
+          if (!this.el.sceneEl.isMobile) {
+            this.el.setAttribute('light', {
+              castShadow: true,
+              shadowMapWidth: 2048,
+              shadowMapHeight: 1024
+            });
+          }
+        }
+      });
+
+
+      AFRAME.registerComponent("thisimg", {
+        init: function() {
+          
+        }
+      });
+
+
+
+    </script>
+<a-scene background="color: #212" antialias="true">
+  <a-sky thisimg src="puydesancy.jpg" rotation="0 -130 0" id="my-image"></a-sky>
+<a-entity position="0 3.2 0" camera look-controls wasd-controls></a-entity>
+<a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: [mixin='box']"></a-entity>
+<a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: [mixin='box']" line="color: #118A7E"></a-entity>
+<a-light position="0 0.5 1" intensity="0.75"></a-light>
+<a-entity position="0 0 -10">
+<a-mixin id="box" geometry="primitive: box" material="color: #FAFAFA" rotation="0 0 -35" scale="0.5 0.5 0.5" intersect-color-change shadow="cast: true; receive: false"></a-mixin>
+<a-entity boxes></a-entity>
+
+</a-entity>
+</a-scene>
+
+
+<script type="text/javascript">
+  document.querySelector('#my-image').setAttribute('src', 'Sxqxj6JQWmdN8w3660Rf5w.jpg');
+
+
+
+
+  var thisSeq = '0-UskBD78xAsg2c9CL0Yag';
+  var link = "https://a.mapillary.com/v3/sequences/" + thisSeq + "?client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh";
+
+  $.getJSON(link)
+    .done(function(data){
+
+
+    console.log(data)
+    var centerCoords = data.geometry.coordinates[0];
+
+    window.center = turf.point(centerCoords)
+
+    window.centerLng = centerCoords[0];
+    window.centerLat = centerCoords[1];
+
+    window.osmNodes = data;
+
+    paintNodes(data)
+        
+  })
+
+  function paintNodes(osmNodes) {
+  
+    
+
+
+
+    osmNodes.geometry.coordinates.forEach(function(node,index) {    
+      if (index === 0) {
+      } else {
+        console.log(node)
+
+        let latitude = node[1];
+        let longitude = node[0];
+
+        console.log(longitude,centerLat)
+
+        // threejs json
+        var pointX = turf.point([longitude,centerLat]);
+        var pointY = turf.point([centerLng,latitude]);
+        var options = {units: 'kilometers'};
+
+        console.log(pointX)
+        console.log(pointY)
+        console.log(center)
+
+        var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+        var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+        var offsetX = (longitude - centerLng) * 100000;
+        var offsetY = (latitude - centerLat) * 100000;
+
+
+        addPathPoint(offsetX,offsetY);
+
+        document.querySelector('#pt'+index).setAttribute('position', {x: offsetY, y: 0, z: offsetX});
+      }
+
+    })
+
+
+
+
+  }
+
+  function addPathPoint(offsetX,offsetY) {
+
+  }
+
+
+
+</script>
+
+</body>
+</html>

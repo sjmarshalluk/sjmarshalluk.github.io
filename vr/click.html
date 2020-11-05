@@ -7,13 +7,15 @@
 <meta charset="utf-8">
 <title>Laser Controls</title>
 <meta name="description" content="Laser Controls - A-Frame">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+<script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js"></script>
 </head>
 <body>
+
 <script>
 
-
-  AFRAME.registerComponent('intersect-color-change',{init:function(){var el=this.el;var material=el.getAttribute('material');var initialColor=material.color;var self=this;el.addEventListener('mousedown',function(evt){el.setAttribute('material','color','#EF2D5E');});el.addEventListener('mouseup',function(evt){el.setAttribute('material','color',self.isMouseEnter?'#24CAFF':initialColor);});el.addEventListener('mouseenter',function(){el.setAttribute('material','color','#24CAFF');self.isMouseEnter=true;});el.addEventListener('mouseleave',function(){el.setAttribute('material','color',initialColor);self.isMouseEnter=false;});}});
+    AFRAME.registerComponent('intersect-color-change',{init:function(){var el=this.el;var material=el.getAttribute('material');var initialColor=material.color;var self=this;el.addEventListener('mousedown',function(evt){el.setAttribute('material','color','#EF2D5E');});el.addEventListener('mouseup',function(evt){el.setAttribute('material','color',self.isMouseEnter?'#24CAFF':initialColor);});el.addEventListener('mouseenter',function(){el.setAttribute('material','color','#24CAFF');self.isMouseEnter=true;});el.addEventListener('mouseleave',function(){el.setAttribute('material','color',initialColor);self.isMouseEnter=false;});}});
       // Create boxes.
       AFRAME.registerComponent('boxes', {
         init: function () {
@@ -37,6 +39,11 @@
               el.appendChild(box);
             }
           }
+
+
+          el.addEventListener('xbuttondown', function (evt) {
+            document.querySelector('#my-image').setAttribute('src', 'w-16QEt1P1EMvhFtxlc9Tw.jpg');
+          });
         }
       });
 
@@ -51,16 +58,6 @@
           }
         }
       });
-
-
-      AFRAME.registerComponent("thisimg", {
-        init: function() {
-          
-        }
-      });
-
-
-
     </script>
 <a-scene background="color: #212" antialias="true">
   <a-sky thisimg src="puydesancy.jpg" rotation="0 -130 0" id="my-image"></a-sky>
@@ -73,17 +70,20 @@
 <a-entity boxes></a-entity>
 <a-circle rotation="-90 0 0" radius="20" color="#666" position="0 -0.1 0" shadow="receive: true" roughness="1"></a-circle>
 <a-light type="point" position="0 10 -30" intensity="0.85" shadow-if-mobile></a-light>
-<a-torus radius="20" arc="190" rotation="0 90 0" animation="property: rotation; to: 0 450 0; loop: true; dur: 16000; easing: linear"></a-torus>
-<a-torus radius="20" arc="190" rotation="0 45 0" animation="property: rotation; to: 0 405 0; loop: true; dur: 16000; easing: linear"></a-torus>
-<a-torus radius="20" arc="190" rotation="0 135 0" animation="property: rotation; to: 0 495 0; dir: reverse; loop: true; dur: 16000; easing: linear"></a-torus>
-<a-torus radius="20" arc="360" rotation="-90 0 0"></a-torus>
+
 </a-entity>
 </a-scene>
 
 
 <script type="text/javascript">
-  document.querySelector('#my-image').setAttribute('src', 'Sxqxj6JQWmdN8w3660Rf5w.jpg')
-</script>
+    document.querySelector('#my-image').setAttribute('src', 'Sxqxj6JQWmdN8w3660Rf5w.jpg');
 
+
+/*
+  document.querySelector('#btn-next').addEventListener('click', function() {
+    document.querySelector('#my-image').setAttribute('src', 'w-16QEt1P1EMvhFtxlc9Tw.jpg');
+  })
+  */
+</script>
 </body>
 </html>
