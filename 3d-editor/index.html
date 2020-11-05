@@ -278,6 +278,51 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 </style>
 
 
+<script src="https://unpkg.com/aframe-look-at-component@0.5.1/dist/aframe-look-at-component.min.js"></script>
+    <script>
+      AFRAME.registerComponent('hotspots',{
+        init:function(){
+            this.el.addEventListener('reloadspots',function(evt){
+            
+            //get the entire current spot group and scale it to 0
+            var currspotgroup=document.getElementById(evt.detail.currspots);
+            currspotgroup.setAttribute("scale","0 0 0");
+            
+            //get the entire new spot group and scale it to 1
+            var newspotgroup=document.getElementById(evt.detail.newspots);
+            newspotgroup.setAttribute("scale","1 1 1");
+          });
+        }
+      });
+      AFRAME.registerComponent('spot',{
+        schema:{
+          linkto:{type:"string",default:""},
+          spotgroup:{type:"string",default:""}
+        },
+        init:function(){
+          
+          //add image source of hotspot icon
+          this.el.setAttribute("src","#hotspot");
+          //make the icon look at the camera all the time
+          this.el.setAttribute("look-at","#cam");
+          
+          var data=this.data;
+          
+          this.el.addEventListener('click',function(){
+            //set the skybox source to the new image as per the spot
+            var sky=document.getElementById("skybox");
+            sky.setAttribute("src",data.linkto);
+            
+            var spotcomp=document.getElementById("spots");
+            var currspots=this.parentElement.getAttribute("id");
+            //create event for spots component to change the spots data
+            spotcomp.emit('reloadspots',{newspots:data.spotgroup,currspots:currspots});
+          });
+        }
+      });
+    </script>
+
+
 <script type="text/javascript">
   
 
@@ -2441,6 +2486,23 @@ function saveSettings() {
 
     <a-sky thisimg src="puydesancy.jpg" rotation="0 -130 0" id="my-image"></a-sky>
     <a-entity mythreejsthing="color: green;" position="0 1 -5" id="dollhouse"> </a-entity>
+
+    <a-entity id="spots" hotspots>
+        <a-entity id="group-point1">
+          <a-image spot="linkto:#point2;spotgroup:group-point2" position="-4 0 10"></a-image>
+        </a-entity>
+        <a-entity id="group-point2" scale="0 0 0">
+          <a-image spot="linkto:#point1;spotgroup:group-point1" position="10 0 -8"></a-image>
+          <a-image spot="linkto:#point3;spotgroup:group-point3" position="0 0 10"></a-image>
+        </a-entity>
+        <a-entity id="group-point3" scale="0 0 0">
+          <a-image spot="linkto:#point2;spotgroup:group-point2" position="10 0 3"></a-image>
+          <a-image spot="linkto:#point4;spotgroup:group-point4" position="-10 0 -3"></a-image>
+        </a-entity>
+        <a-entity id="group-point4" scale="0 0 0">
+          <a-image spot="linkto:#point3;spotgroup:group-point3" position="0 0 -10"></a-image>
+        </a-entity>
+</a-entity>
   </a-scene>
 
 
