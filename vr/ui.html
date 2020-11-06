@@ -37,19 +37,6 @@
 </head>
 <body>
   <a-scene>
-    <a-assets>
-      <!-- Text Canvas -->
-      <a-asset-item id="theater-obj" src="theater.obj"></a-asset-item>
-          <video id="film" src="https://rdub80.github.io/aframe-gui/examples/assets/minority.mp4"></video>
-    </a-assets>
-
-
-
-    <a-video id="video-screen" src="#film"
-      width="8"
-      height="2.75"
-      position="-1 1.6 -4.8"
-    ></a-video>
 
 
 
@@ -87,6 +74,8 @@
 
     <a-sky thisimg src="https://cors-anywhere.herokuapp.com/https://images.mapillary.com/oo_5wFkfb1-o-XQ_Zbukcw/thumb-2048.jpg" rotation="0 -130 0" id="my-image"></a-sky>
 
+    <a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: [gui-interactable]"></a-entity>
+    <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: [gui-interactable]" line="color: #118A7E"></a-entity>
 
     <!-- Camera + cursor. -->
     <a-entity id="cameraRig" position="0 1.6 0">
@@ -124,7 +113,6 @@
 
 
 
-    var video_el = document.getElementById("film");
 
     function togglePlayback () {
 
@@ -145,17 +133,11 @@
       seqPos++
     }
     function toggleSound () {
-      console.log('toggleSound on/off');
-      if(!video_el.muted){
-              video_el.muted == true;
-          }
-          else {
-              video_el.muted == false;
-          }
+      
 
     }
     function toggleCaps () {
-      console.log('toggleCaps visible/hidden');
+      
     }
 
     </script>
