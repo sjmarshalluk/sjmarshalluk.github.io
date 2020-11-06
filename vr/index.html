@@ -181,6 +181,122 @@
       <a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
     </a-assets>
 
+
+    <a-gui-button 
+      id="img-0" 
+      width="2.5" height="2.5" 
+      position="0 -5 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-1" 
+      width="2.5" height="2.5" 
+      position="0 -5 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-2" 
+      width="2.5" height="2.5" 
+      position="0 -5 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-3" 
+      width="2.5" height="2.5" 
+      position="0 -5 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-4" 
+      width="2.5" height="2.5" 
+      position="0 -5 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-5" 
+      width="2.5" height="2.5" 
+      position="0 -5 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-6" 
+      width="2.5" height="2.5" 
+      position="0 -5 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-7" 
+      width="2.5" height="2.5" 
+      position="0 -5 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-8" 
+      width="2.5" height="2.5" 
+      position="0 -5 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-9" 
+      width="2.5" height="2.5" 
+      position="0 -5 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-10" 
+      width="2.5" height="2.5" 
+      position="0 -5 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+
+
+
+
+
      <!-- <a-entity geometry="primitive: box; width:5; height:2; depth:0.01;" position="0 3 -4" material="shader: html; target: #htmlElement; fps:1;"></a-entity> -->
     <a-gui-flex-container
         id="flex"
@@ -746,7 +862,7 @@
     </a-entity>
 
 
-    <!-- Camera + cursor. 
+    <!-- Camera + cursor. -->
     <a-entity id="cameraRig" position="0 1.6 0">
       <a-camera look-controls wasd-controls position="0 0 0">
         <a-gui-cursor id="cursor"
@@ -757,7 +873,7 @@
         </a-gui-cursor> 
       </a-camera> 
     </a-entity>
-    -->
+    
 
     <div style="width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden">
       <div id="htmlElement" style="background: #fff; color:#000; font-size: 60px; width:1500px; height: 600px;"></div>
@@ -819,6 +935,15 @@
     //document.getElementById('test_input').value = 'london';
 
 
+
+
+
+
+    
+
+
+
+
     var images = [];
 
     var seqPos = 0;
@@ -852,14 +977,29 @@
         $.getJSON(seqlink)
         .done(function(seqdata){
 
+          window.data = seqdata;
+
           console.log(seqdata);
 
           images = [];
           seqPos = 0;
 
-          seqdata.properties.coordinateProperties.image_keys.forEach(function(img) {
+
+          
+
+          seqdata.properties.coordinateProperties.image_keys.forEach(function(img,index) {
             images.push(img);
+
+            
+
+
+            
+
+
+
           })
+
+          paintSpots()
 
           console.log(images);
 
@@ -882,12 +1022,117 @@
     $.getJSON(link)
       .done(function(data){
 
-        data.properties.coordinateProperties.image_keys.forEach(function(img) {
+        window.data = data;
+
+        data.properties.coordinateProperties.image_keys.forEach(function(img,index) {
           images.push(img);
+
         })
+
+        paintSpots()
+
 
         console.log(images);
     })
+
+
+      var i = 0;
+
+
+
+      function paintSpots() {
+
+        console.log(data)
+
+        var centerLng = data.geometry.coordinates[seqPos][0];
+        var centerLat = data.geometry.coordinates[seqPos][1];
+        var center = turf.point([centerLng,centerLat]);
+        console.log(centerLng,centerLat)
+
+          i = 0;
+
+          data.geometry.coordinates.forEach(function(coords,index) {
+
+
+
+            if (index > (seqPos-4) && index >= 0) {
+              if (index < (seqPos+4)) {
+
+                console.log(seqPos)
+
+                console.log(coords)
+                
+                let latitude = coords[1];
+                let longitude = coords[0];
+
+                console.log(longitude,latitude)
+                // threejs json
+                var pointX = turf.point([longitude,centerLat]);
+                var pointY = turf.point([centerLng,latitude]);
+                var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+                var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+                var offsetX = (centerLng- longitude) * 500000;
+                var offsetY = (centerLat - latitude) * 500000;
+
+                //addMapillaryPoint(offsetX,offsetY);
+
+                
+
+                //var difference = function (a, b) { return Math.abs(a - b); }
+
+                //var diff = difference(index,5);
+                //console.log(index)
+                //console.log(diff)
+
+                //var mid = index - diff;
+
+                document.querySelector('#img-'+i).setAttribute('position', {x: offsetY, y: -5, z: offsetX});
+
+                i++
+
+                console.log(index)
+                console.log(i)
+
+              }
+              
+            }
+
+
+          })
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function jumpToPosition(e) {
+      
+
+      var pos = e.path[0].id.slice(-1);
+      console.log(pos)
+
+      var imageUrl = 'https://cors-anywhere.herokuapp.com/https://images.mapillary.com/' + images[pos] + '/thumb-2048.jpg'
+      document.querySelector('#my-image').setAttribute('src', imageUrl);
+
+      var newSeqPos = parseInt(seqPos) + parseInt(pos);
+      seqPos = newSeqPos;
+
+      console.log(seqPos)
+
+      paintSpots()
+    }
+
 
 
 
