@@ -816,7 +816,7 @@
     })
 
 
-    document.getElementById('test_input').value = 'london';
+    //document.getElementById('test_input').value = 'london';
 
 
     var images = [];
@@ -991,6 +991,8 @@
 
 
 
+    var searchTerm = '';
+
     window.keypress = function(event) {
 
       console.log('in window.keypress');
@@ -1050,6 +1052,7 @@
           textField.components['gui-input'].appendText(' ');
         } else {
           textField.components['gui-input'].appendText(text);
+
         }
         window.old_timestamp = event.timeStamp;
       }
@@ -1061,9 +1064,12 @@
 
     window.enter = function() {
       console.log("enter");
-      var searchTerm = document.getElementById('test_input').value;
 
+      //var textField = document.getElementById("test_input");
+      var textField = document.getElementById("test_input");
+      var searchTerm = textField.components['gui-input'].oldText;
 
+      console.log(searchTerm);
 
 
       var geolink = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + searchTerm + ".json?access_token=pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng";
@@ -1072,6 +1078,9 @@
           console.log(data)
 
           getSeq(data.features[0].center)
+
+          var textField = document.getElementById("test_input");
+          
 
       });
     }
