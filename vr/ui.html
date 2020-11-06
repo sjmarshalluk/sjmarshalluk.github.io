@@ -7,12 +7,25 @@
     <title>Mapillary VR</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css"/>
   <style type="text/css">
+    #map { 
+      display: none;
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    width: 50%; 
+    left: 0; 
+    z-index: 10; 
+  }
+  .mapboxgl-ctrl-geocoder {
+    display: none;
+  }
     @font-face{
       font-family:"Ionicons";
 
@@ -159,6 +172,7 @@
 
 </head>
 <body>
+  <div id="map"></div>
   <a-scene>
 
     <a-assets>
@@ -731,7 +745,19 @@
       </a-entity>
     </a-entity>
 
-    
+
+    <!-- Camera + cursor. 
+    <a-entity id="cameraRig" position="0 1.6 0">
+      <a-camera look-controls wasd-controls position="0 0 0">
+        <a-gui-cursor id="cursor"
+              raycaster="objects: [gui-interactable]"
+              fuse="true" fuse-timeout="2000"
+              design="ring"
+        >
+        </a-gui-cursor> 
+      </a-camera> 
+    </a-entity>
+    -->
 
     <div style="width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden">
       <div id="htmlElement" style="background: #fff; color:#000; font-size: 60px; width:1500px; height: 600px;"></div>
@@ -741,33 +767,22 @@
 
     <a-gui-flex-container
       flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
-      opacity="0.7" width="5" height="1"
+      opacity="0.7" width="3" height="1"
       position="0 0.45 -4" rotation="0 0 0" scale="0.5 0.5 0.5"
     >
       <a-gui-icon-button
         width="0.75" height="0.75"
         onclick="togglePlayback"
-        icon="ios-play"
+        icon="skip-backward"
       >
       </a-gui-icon-button>
       <a-gui-icon-button
         width="0.75" height="0.75"
         onclick="stop"
-        icon="stop"
+        icon="skip-forward"
       >
       </a-gui-icon-button>
-      <a-gui-icon-button
-        width="0.75" height="0.75"
-        onclick="toggleSound"
-        icon="music-note"
-      >
-      </a-gui-icon-button>
-      <a-gui-toggle
-        width="2.5" height="0.75"
-        onclick="toggleCaps"
-        value="Captions"
-        font-family="Arial"
-      >
+      
       </a-gui-toggle>
     </a-gui-flex-container>
 
@@ -782,9 +797,83 @@
 
   <script type="text/javascript">
 
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-0.93875203281641,51.005568447565174],
+      zoom: 18
+    });
+
+    var geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl
+    });
+    document.getElementById('test_input').appendChild(geocoder.onAdd(map));
+
+    geocoder.on('results', function(results) {
+       console.log(results);
+    })
+
+
+    document.getElementById('test_input').value = 'london';
+
+
     var images = [];
 
     var seqPos = 0;
+
+
+
+
+    function getSeq(coords) {
+
+      var point = turf.point(coords);
+      var buffered = turf.buffer(point, 5, {units: 'miles'});
+      var bbox = turf.bbox(buffered);
+
+
+      
+
+
+
+      
+      var imglink = "https://a.mapillary.com/v3/images?bbox=" + bbox + "&pano=true&per_page=1&client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh";
+      console.log(imglink);
+      $.getJSON(imglink)
+      .done(function(imgdata){
+
+        console.log(imgdata.features[0].properties.sequence_key);
+
+
+
+        var seqlink = "https://a.mapillary.com/v3/sequences/" + imgdata.features[0].properties.sequence_key + "?client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh";
+        console.log(seqlink);
+        $.getJSON(seqlink)
+        .done(function(seqdata){
+
+          console.log(seqdata);
+
+          images = [];
+          seqPos = 0;
+
+          seqdata.properties.coordinateProperties.image_keys.forEach(function(img) {
+            images.push(img);
+          })
+
+          console.log(images);
+
+          var imageUrl = 'https://cors-anywhere.herokuapp.com/https://images.mapillary.com/' + images[seqPos] + '/thumb-2048.jpg'
+          document.querySelector('#my-image').setAttribute('src', imageUrl);
+
+        })
+
+
+      })
+      
+
+    }
+    
 
 
     var thisSeq = '0-UskBD78xAsg2c9CL0Yag';
@@ -972,8 +1061,25 @@
 
     window.enter = function() {
       console.log("enter");
-      var textField = document.getElementById("test_input");
+      var searchTerm = document.getElementById('test_input').value;
+
+
+
+
+      var geolink = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + searchTerm + ".json?access_token=pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng";
+      $.getJSON(geolink)
+        .done(function(data){
+          console.log(data)
+
+          getSeq(data.features[0].center)
+
+      });
     }
+
+
+
+
+    
 
     </script>
 
