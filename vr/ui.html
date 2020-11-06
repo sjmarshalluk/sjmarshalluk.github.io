@@ -77,17 +77,7 @@
     <a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: [gui-interactable]"></a-entity>
     <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: [gui-interactable]" line="color: #118A7E"></a-entity>
 
-    <!-- Camera + cursor. -->
-    <a-entity id="cameraRig" position="0 1.6 0">
-      <a-camera look-controls wasd-controls position="0 0 0">
-        <a-gui-cursor id="cursor"
-              raycaster="objects: [gui-interactable]"
-              fuse="true" fuse-timeout="2000"
-              design="ring"
-        >
-        </a-gui-cursor> <!-- /cursor -->
-      </a-camera> <!-- /camera -->
-    </a-entity>
+
 
   </a-scene>
 
