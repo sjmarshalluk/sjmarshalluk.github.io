@@ -1114,7 +1114,7 @@ function paintBuildings() {
       mesh.position.set( 0, modelSettings.buildingHeight, 0 );
       mesh.rotation.set(90 * Math.PI/180,0,0);
 
-      mesh.material.transparent = true;
+      mesh.material.transparent = false;
       mesh.material.opacity = modelSettings.buildingOpacity; 
       mesh.name = 'osm-' + index;
 
@@ -2548,7 +2548,7 @@ function addMlyBin(offsetX,offsetY) {
 
                 //var mid = index - diff;
 
-                document.querySelector('#img-'+i).setAttribute('position', {x: offsetY, y: 0, z: offsetX});
+                document.querySelector('#img-'+i).setAttribute('position', {x: offsetY, y: -100, z: offsetX});
 
                 i++
 
