@@ -646,7 +646,14 @@ var osmNodes = {
   "type":"FeatureCollection",
   "features":[]
 };
-
+var mlyImgNodes = {
+  "type":"FeatureCollection",
+  "features":[]
+}
+var mlyNodes = {
+  "type":"FeatureCollection",
+  "features":[]
+}
 
 
 
@@ -683,9 +690,9 @@ function buildOverpassApiUrlFeat() {
 
   wayQuery += 'way[highway](' + searchBbox + ');'
 
-  nodeQuery += 'node[highway=bus_stop](' + searchBbox + ');'
+  //nodeQuery += 'node[highway=bus_stop](' + searchBbox + ');'
 
-  nodeQuery += 'node[amenity=bench](' + searchBbox + ');'
+  nodeQuery += 'node[amenity=waste_basket](' + searchBbox + ');'
 
   //wayQuery += 'node[entrance](' + searchBbox + ');'
 
@@ -735,11 +742,29 @@ function showMapillary(bounds) {
     console.log(points)
     points.features.forEach(function(result) {
 
-      osmNodes.features.push(result);
+      mlyImgNodes.features.push(result);
     })
 
-    console.log(osmNodes)
-    paintNodes();
+    console.log(mlyImgNodes)
+    paintImgNodes();
+  })
+
+
+
+  var binlink = "https://a.mapillary.com/v3/map_features?layers=points&bbox=" + mapBounds + "&values=object--trash-can&client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh";
+
+
+
+  $.getJSON(binlink)
+  .done(function(points){
+    console.log(points)
+    points.features.forEach(function(result) {
+
+      mlyNodes.features.push(result);
+    })
+
+    console.log(mlyImgNodes)
+    paintMlyNodes();
   })
 }
 
@@ -788,6 +813,13 @@ function showFeature(type,feature,shape){
         if (result.properties.tags.highway == 'bus_stop') {
           result.properties.type = 'bus_stop';
           osmObjects.features.push(result);
+        }
+      }
+
+      if(result.geometry.type == 'Point') {
+        if (result.properties.tags.amenity == 'waste_basket') {
+          result.properties.type = 'waste_basket';
+          osmNodes.features.push(result);
         }
       }
 
@@ -1118,7 +1150,77 @@ function paintNodes(e,type) {
     var offsetY = (latitude - centerLat) * 3000;
 
 
+    addOsmBin(offsetX,offsetY);
+
+    
+
+  })
+
+
+
+
+}
+
+
+function paintImgNodes(e,type) {
+  console.log(mlyImgNodes)
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+
+
+  mlyImgNodes.features.forEach(function(node,index) {    console.log(e)
+
+
+    let latitude = node.geometry.coordinates[1];
+    let longitude = node.geometry.coordinates[0];
+
+    // threejs json
+    var pointX = turf.point([longitude,centerLat]);
+    var pointY = turf.point([centerLng,latitude]);
+    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+    var offsetX = (longitude - centerLng) * 3000;
+    var offsetY = (latitude - centerLat) * 3000;
+
+
     addMapillaryPoint(offsetX,offsetY);
+
+    
+
+  })
+
+
+
+
+}
+
+
+function paintMlyNodes(e,type) {
+  console.log(mlyImgNodes)
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+
+
+  mlyNodes.features.forEach(function(node,index) {    console.log(e)
+
+
+    let latitude = node.geometry.coordinates[1];
+    let longitude = node.geometry.coordinates[0];
+
+    // threejs json
+    var pointX = turf.point([longitude,centerLat]);
+    var pointY = turf.point([centerLng,latitude]);
+    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+    var offsetX = (longitude - centerLng) * 3000;
+    var offsetY = (latitude - centerLat) * 3000;
+
+
+    addMlyBin(offsetX,offsetY);
 
     
 
@@ -1456,6 +1558,53 @@ function addMapillaryPoint(offsetX,offsetY) {
 
   });
   */
+
+  console.log(offsetX,offsetY)
+}
+
+
+function addOsmBin(offsetX,offsetY) {
+
+  var material = new THREE.MeshBasicMaterial({
+    color: '#000000',
+    wireframe: false
+  });
+
+  //var geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+
+  var geometry = new THREE.CylinderGeometry( 0.03, 0.03, 0.1, 20 );
+
+  //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
+  var mesh = new THREE.Mesh( geometry, material );
+
+  mesh.position.set(offsetY,0.2,offsetX);
+  mesh.rotation.set(0,-100,0);
+
+  scene.add( mesh );
+
+  console.log(offsetX,offsetY)
+}
+
+
+
+function addMlyBin(offsetX,offsetY) {
+
+  var material = new THREE.MeshBasicMaterial({
+    color: '#000000',
+    wireframe: true
+  });
+
+  //var geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+
+  var geometry = new THREE.CylinderGeometry( 0.03, 0.03, 0.1, 20 );
+
+  //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
+  var mesh = new THREE.Mesh( geometry, material );
+
+  mesh.position.set(offsetY,0.2,offsetX);
+  mesh.rotation.set(0,-100,0);
+
+  scene.add( mesh );
 
   console.log(offsetX,offsetY)
 }
