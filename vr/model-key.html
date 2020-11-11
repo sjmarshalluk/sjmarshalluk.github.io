@@ -1074,9 +1074,9 @@ function paintBuildings() {
       console.log(buildingPoints)
       var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 
-      //var material = new THREE.MeshStandardMaterial( { color: modelSettings.buildingColor } );
+      var material = new THREE.MeshStandardMaterial( { color: modelSettings.buildingColor } );
 
-      var material = new THREE.MeshLambertMaterial( { color: modelSettings.buildingColor, wireframe: false } );
+      //var material = new THREE.MeshLambertMaterial( { color: modelSettings.buildingColor, wireframe: false } );
       var mesh = new THREE.Mesh( geometry, material );
 
       mesh.position.set( 0, modelSettings.buildingHeight, 0 );
@@ -1160,9 +1160,9 @@ function renderOsm() {
   //this.el.setObject3D('mesh', new THREE.Mesh(geometry, material));
   dollhouse.setObject3D('mesh', scene);
 
-  scene.rotation.y = -200 * Math.PI/180;
-  scene.rotation.x = 5 * Math.PI/180;
-  scene.rotation.z = -5 * Math.PI/180;
+  scene.rotation.y = 25 * Math.PI/180;
+  scene.rotation.x = 0 * Math.PI/180;
+  scene.rotation.z = 0 * Math.PI/180;
 
   //dollhouse.setAttribute('rotation', '0 2.3 0');
 
@@ -1428,7 +1428,7 @@ function addMapillaryPoint(offsetX,offsetY) {
     //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
     var mesh = new THREE.Mesh( geometry, material );
 
-    mesh.position.set(offsetY,0,offsetX);
+    mesh.position.set(offsetY,0.2,offsetX);
     mesh.rotation.set(0,-100,0);
 
     scene.add( mesh );
@@ -1486,7 +1486,7 @@ function addMapillaryPoint(offsetX,offsetY) {
 
   <a-scene>
 
-    <a-plane position="0 -0.1 0" rotation="-85 -30 0" width="7" height="7" color="#7BC8A4" shadow></a-plane>
+    <a-plane position="0 -0.1 0" rotation="-90 0 0" width="8" height="8" color="#7BC8A4" shadow></a-plane>
 
     <a-assets>
       <!-- Text Canvas -->
@@ -1615,7 +1615,7 @@ function addMapillaryPoint(offsetX,offsetY) {
         id="flex"
         flex-direction="column" justify-content="center" align-items="middle" component-padding="0.1"
         opacity="0.7" width="4.5" height="1.5"
-        position="0 -1 -4" rotation="-20 0 0"
+        position="0 2.4 -6" rotation="-20 0 0"
     >   <a-gui-input id="test_input"
            width="4" height="0.7"
            onclick="testInputAction"
@@ -1631,7 +1631,7 @@ function addMapillaryPoint(offsetX,offsetY) {
         </a-gui-input>
     </a-gui-flex-container>
 
-      <a-entity position="0 -3 -4" rotation="-35 0 0">
+      <a-entity position="0 1 -6" rotation="-35 0 0">
         <a-entity id="keyboardNum" visible="false" position="0 -10 -1">
         <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
               gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
@@ -2197,7 +2197,7 @@ function addMapillaryPoint(offsetX,offsetY) {
     <a-gui-flex-container
       flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
       opacity="0.7" width="3" height="1"
-      position="0 0.45 -4" rotation="0 0 0" scale="0.5 0.5 0.5"
+      position="0 -100 -4" rotation="0 0 0" scale="0.5 0.5 0.5"
     >
       <a-gui-icon-button
         width="0.75" height="0.75"
