@@ -1519,7 +1519,7 @@ function renderPlaces(route,dashSize,model) {
 
 function addMapillaryPoint(offsetX,offsetY) {
 
-  var material = new THREE.MeshBasicMaterial({
+    var material = new THREE.MeshBasicMaterial({
       color: '#05cb63',
       wireframe: false
     });
@@ -1602,7 +1602,7 @@ function addMlyBin(offsetX,offsetY) {
   //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
   var mesh = new THREE.Mesh( geometry, material );
 
-  mesh.position.set(offsetY,0.03,offsetX);
+  mesh.position.set(offsetY,0.06,offsetX);
   mesh.rotation.set(0,0,0);
 
   scene.add( mesh );
@@ -1765,7 +1765,7 @@ function addMlyBin(offsetX,offsetY) {
         id="flex"
         flex-direction="column" justify-content="center" align-items="middle" component-padding="0.1"
         opacity="0.7" width="4.5" height="1.5"
-        position="0 2.4 -6" rotation="-20 0 0"
+        position="0 2400 -6" rotation="-20 0 0"
     >   <a-gui-input id="test_input"
            width="4" height="0.7"
            onclick="testInputAction"
@@ -1781,7 +1781,7 @@ function addMlyBin(offsetX,offsetY) {
         </a-gui-input>
     </a-gui-flex-container>
 
-      <a-entity position="0 1 -6" rotation="-35 0 0">
+      <a-entity position="0 1000 -6" rotation="-35 0 0">
         <a-entity id="keyboardNum" visible="false" position="0 -10 -1">
         <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
               gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
