@@ -1,46 +1,21 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html>
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>VR Editor</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta charset="utf-8">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Mapillary VR</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+    <script src="https://unpkg.com/osmtogeojson@2.2.12/osmtogeojson.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel="stylesheet" />
-    <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js"></script>
-    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.js"></script>
-    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
-    <script src='threegeojson.js'></script>
-    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css" type="text/css" />
-
-
-     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css" type="text/css"/>
-
-
-
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-  <script language="javascript" type="text/javascript" src="js/jquery.colorPicker.min.js"/></script>
-  <link rel="stylesheet" href="css/colorPicker.css" type="text/css" />
-
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
-
-
-<style type="text/css">
-  
-  html, body {
-  margin: 0;
-  height: 100%;
-}
-
-  #map { 
+  <style type="text/css">
+    #map { 
+      display: none;
     position: absolute; 
     top: 0; 
     bottom: 0; 
@@ -48,279 +23,157 @@
     left: 0; 
     z-index: 10; 
   }
-
-  #c:focus,
-  #map:focus {
-    outline: none;
-  }
-
-  #c {
-    width: 50%; 
-    height: 100%;
-    display: block;
-    position: absolute;
-    right: 0;
-  }
-
-
-  #object-list {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #CCC;
-  }
-
-  #object-list ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  #object-list ul li:hover {
-    cursor: pointer;
-    background-color: #fafafa;
-  }
-  
-
-
-  #control-panel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 20px;
-    z-index: 9000;
-    width: 100%;
-    height: 100%;
-    display: none;
-    background-color: #fff;
-  }
-  #line-panel {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 20px;
-    z-index: 9000;
-    width: 100%;
-    height: 100%;
-    display: none;
-    background-color: #fff;
-  }
-
-  #osm-panel {
-    top: 0;
-    right: 0;
-    background-color: #fff;
-    z-index: 1000;
-    width: 100%;
-    padding-top: 20px;
+  .mapboxgl-ctrl-geocoder {
     display: none;
   }
+    @font-face{
+      font-family:"Ionicons";
+
+      src:url("assets/fonts/ionicons.eot?v=2.0.1");
+      src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
+
+      font-weight:normal;
+      font-style:normal
+    }
+    body{font-family:Ionicons;}
+    .visuallyhidden {
+      position: absolute;
+      display: block;
+      border: 0;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      width: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+
+  <script src="aframe-gui.js"></script>
+
+  <script>
+  (function() {
+
+    // Optimization for Repeat Views
+    if( sessionStorage.criticalFoftFontsLoaded ) {
+      console.log("fonts are already loaded");
+      return;
+    }
+
+    var guiWebFont = new FontFaceObserver('Fira Sans');
+
+    Promise.all([guiWebFont.load()]).then(function () {
+      console.log("fonts are loaded");
+      // Optimization for Repeat Views
+      sessionStorage.criticalFoftFontsLoaded = true;
+    });
+  })();
 
 
+  window.kbAbcLow = true;
+  window.kbAbcHigh = false;
+  window.kbNum = false;
+  window.kbChar = false;
+  var old_timestamp = null;
 
-  #search {
-  width: 100%;
-  height: 40px;
-  border-radius: 10px;
-  background-color: #fff;
-  z-index: 2000;
-  top: 0;
-  left: 0;
-  margin-bottom: 10px;
-}
-
-  #navbar {
-
+  function toggleKb(kb){
+    if(window.kbAbcLow == kb){
+      var navkbSwitch = document.getElementById("navkbSwitch");
+      navkbSwitch.components['gui-button'].setText('123');
+      // navkbSwitch.components['gui-interactable'].setClickAction('switchKbToNum');
+      switchKbToAbcLow();
+    }else if(window.kbAbcHigh == kb){
+      var navkbSwitch = document.getElementById("navkbSwitch");
+      navkbSwitch.components['gui-button'].setText('123');
+      // navkbSwitch.components['gui-interactable'].setClickAction('switchKbToNum');
+      switchKbToAbcHigh();
+    }else if(window.kbNum == kb){
+      var navkbSwitch = document.getElementById("navkbSwitch");
+      navkbSwitch.components['gui-button'].setText('Abc');
+      // navkbSwitch.components['gui-interactable'].setClickAction('switchKbToAbcLow');
+      switchKbToNum();
+    }else if(window.kbChar == kb){
+      var navkbSwitch = document.getElementById("navkbSwitch");
+      navkbSwitch.components['gui-button'].setText('Abc');
+      // navkbSwitch.components['gui-interactable'].setClickAction('switchKbToAbcLow');
+      switchKbToChar();
+    }
   }
 
-  #sidebar {
-    width: 200px;
-    position: absolute;
-    left: 0;
-    height: 100%;
-    padding: 10px;
-    background-color: #fff;
-    border-right: 1px solid #CCC;
+  function switchKbToNum() {
+      var keyboardAbcLow = document.getElementById("keyboardAbcLow");
+      var keyboardAbcHigh = document.getElementById("keyboardAbcHigh");
+      var keyboardNum = document.getElementById("keyboardNum");
+      var keyboardChar = document.getElementById("keyboardChar");
+    console.log(" - switchKbToNum");
+    keyboardAbcLow.setAttribute('position','0 -10 -1');
+    keyboardAbcHigh.setAttribute('position','0 -10 -1');
+    keyboardChar.setAttribute('position','0 -10 -1');
+    keyboardNum.setAttribute('position','0 0 0');
+
+    keyboardAbcLow.setAttribute('visible',false);
+    keyboardAbcHigh.setAttribute('visible',false);
+    keyboardChar.setAttribute('visible',false);
+    keyboardNum.setAttribute('visible',true);
   }
-  #panel {
-    width: 200px;
-    position: absolute;
-    right: 0;
-    height: 100%;
-    padding: 10px;
-    background-color: #fff;
-    border-left: 1px solid #CCC;
+  function switchKbToChar() {
+      var keyboardAbcLow = document.getElementById("keyboardAbcLow");
+      var keyboardAbcHigh = document.getElementById("keyboardAbcHigh");
+      var keyboardNum = document.getElementById("keyboardNum");
+      var keyboardChar = document.getElementById("keyboardChar");
+    console.log(" - switchKbToChar");
+    keyboardAbcLow.setAttribute('position','0 -10 -1');
+    keyboardAbcHigh.setAttribute('position','0 -10 -1');
+    keyboardNum.setAttribute('position','0 -10 -1');
+    keyboardChar.setAttribute('position','0 0 0');
+
+    keyboardAbcLow.setAttribute('visible',false);
+    keyboardAbcHigh.setAttribute('visible',false);
+    keyboardNum.setAttribute('visible',false);
+    keyboardChar.setAttribute('visible',true);
   }
-  #editor {
-    height: 100%;
-    position: absolute;
-    top: 0;
-    width: calc(100% - 400px);
-    right: 200px;
+  function switchKbToAbcHigh() {
+      var keyboardAbcLow = document.getElementById("keyboardAbcLow");
+      var keyboardAbcHigh = document.getElementById("keyboardAbcHigh");
+      var keyboardNum = document.getElementById("keyboardNum");
+      var keyboardChar = document.getElementById("keyboardChar");
+    console.log(" - switchKbToAbcHigh");
+    keyboardAbcLow.setAttribute('position','0 -10 -1');
+    keyboardNum.setAttribute('position','0 -10 -1');
+    keyboardChar.setAttribute('position','0 -10 -1');
+    keyboardAbcHigh.setAttribute('position','0 0 0');
+
+    keyboardAbcLow.setAttribute('visible',false);
+    keyboardNum.setAttribute('visible',false);
+    keyboardChar.setAttribute('visible',false);
+    keyboardAbcHigh.setAttribute('visible',true);
   }
+  function switchKbToAbcLow() {
+      var keyboardAbcLow = document.getElementById("keyboardAbcLow");
+      var keyboardAbcHigh = document.getElementById("keyboardAbcHigh");
+      var keyboardNum = document.getElementById("keyboardNum");
+      var keyboardChar = document.getElementById("keyboardChar");
+    console.log(" - switchKbToAbcLow");
+    keyboardAbcHigh.setAttribute('position','0 -10 -1');
+    keyboardNum.setAttribute('position','0 -10 -1');
+    keyboardChar.setAttribute('position','0 -10 -1');
+    keyboardAbcLow.setAttribute('position','0 0 0');
 
-  #editor.canvas-view #map {
-    width: 0;
-  }
-  #editor.canvas-view #c {
-    width: 100%;
-  }
-
-  input[type="range"] {
-    width: 100%;
-  }
-
-
-.mapboxgl-popup {
-max-width: 400px;
-font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-}
-
-.AttributionContainer { display: none; }
-        .BearingIndicatorContainer  { display: none; }
-        .ZoomContainer  { display: none; }
-
-.mapboxgl-ctrl-logo,
-.mapboxgl-ctrl-attrib {
-  display: none!important
-}
-
-.mapboxgl-ctrl-geocoder {
-  width: 100%!important;
-  min-width: 0;
-}
-.mapboxgl-ctrl-group {
-  box-shadow: none!important;
-}
-.mapbox-gl-draw_line {
-  width: 100%!important;
-  background-color: #f0f0f0!important;
-  padding: .75rem .75rem!important;
-  border-radius: .25rem!important;
-  line-height: 1.5!important;
-  margin-bottom: 10px;
-}
-.mapboxgl-ctrl-directions { display: none }
-
-
-
-#scene {
-    z-index: 21;
-    position: absolute;
-    height: 260px;
-    top: -260px;
-    transition: 0.3s;
-    overflow: hidden;
-    border-radius: 0;
+    keyboardNum.setAttribute('visible',false);
+    keyboardChar.setAttribute('visible',false);
+    keyboardAbcHigh.setAttribute('visible',false);
+    keyboardAbcLow.setAttribute('visible',true);
   }
 
-  #scene.full {
-    top: 0;
-    height: 100%;
-    left: 0;
-    width: 100%;
-    border-radius: 0;
-  }
+  </script>
 
 
-    #video-wrap {
-    width: 50px;
-    z-index: 20;
-    right: 16px;
-    top: 16px;
-    position: absolute;
-    height: 50px;
-    overflow: hidden;
-    transition: 0.3s;
-    border-radius: 30px;
-  }
-  #video-wrap.preview {
-    width: calc(100% - 16px);
-    height: 260px;
-    right: 8px;
-    top: 8px;
-    border-radius: 33px;
-    box-shadow: 0 0 10px rgba(0,0,0,0);
-  }
-  .full-width #video-wrap.preview {
-    width: calc(100% - 0px);
-    left: 0;
-    top: 0;
-    border-radius: 0;
-  }
 
 
-  #video-wrap.full {
-    top: 0;
-    height: calc(100% - 96px);
-    left: 0;
-    width: 100%;
-  }
-  .raised #video-wrap.full {
-    height: 100%;
-  }
+  <script src="gui-env.js"></script>
 
 
-  #video {
-    position: absolute;
-    top: -50%;
-    left: 0;
-    opacity: 1;
-    min-width: 100%;
-    min-height: 100vh;
-    height: 100%;
-    display: none;
-  }
 
-  #video-wrap.full #video {
-    top: 0;
-  }
-
-</style>
-
-
-<script src="https://unpkg.com/aframe-look-at-component@0.5.1/dist/aframe-look-at-component.min.js"></script>
-    <script>
-      AFRAME.registerComponent('hotspots',{
-        init:function(){
-            this.el.addEventListener('reloadspots',function(evt){
-            
-            //get the entire current spot group and scale it to 0
-            var currspotgroup=document.getElementById(evt.detail.currspots);
-            currspotgroup.setAttribute("scale","0 0 0");
-            
-            //get the entire new spot group and scale it to 1
-            var newspotgroup=document.getElementById(evt.detail.newspots);
-            newspotgroup.setAttribute("scale","1 1 1");
-          });
-        }
-      });
-      AFRAME.registerComponent('spot',{
-        schema:{
-          linkto:{type:"string",default:""},
-          spotgroup:{type:"string",default:""}
-        },
-        init:function(){
-          
-          //add image source of hotspot icon
-          this.el.setAttribute("src","#hotspot");
-          //make the icon look at the camera all the time
-          this.el.setAttribute("look-at","#cam");
-          
-          var data=this.data;
-          
-          this.el.addEventListener('click',function(){
-            //set the skybox source to the new image as per the spot
-            var sky=document.getElementById("skybox");
-            sky.setAttribute("src",data.linkto);
-            
-            var spotcomp=document.getElementById("spots");
-            var currspots=this.parentElement.getAttribute("id");
-            //create event for spots component to change the spots data
-            spotcomp.emit('reloadspots',{newspots:data.spotgroup,currspots:currspots});
-          });
-        }
-      });
-    </script>
 
 
 <script type="text/javascript">
@@ -355,6 +208,8 @@ AFRAME.registerComponent('mythreejsthing', {
     }
   });
 </script>
+
+
 
 
 
@@ -447,53 +302,6 @@ var geocoder = new MapboxGeocoder({
   accessToken: mapboxgl.accessToken,
   mapboxgl: mapboxgl
 });
-document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
-
-
-geocoder.on('results', function(results) {
-   console.log(results);
-})
-
-/*
-geocoder.on('result', function(ev) {
-  console.log(ev.result.center);
-  map.jumpTo({ center: ev.result.center, zoom: 17 });
-  clearLayers();
-  $('.mapboxgl-marker').css('display','none');
-  var activeFeatures = osmFeatures.filter(d => d.status === 'active');
-  if (activeFeatures.length == 0) {
-  } else {
-    getOsmBbox();
-  }
-  
-})
-*/
-
-geocoder.on('result', function(ev) {
-  console.log(ev.result.center);
-  map.jumpTo({ center: ev.result.center, zoom: 18 });
-  
-  
-});
-
-
-var directions = new MapboxDirections({
-  accessToken: mapboxgl.accessToken,
-  interactive: false
-});
-map.addControl(directions);
-
-
-
-var draw = new MapboxDraw({
-  displayControlsDefault: false,
-  controls: {
-    line_string: true,
-    trash: false
-  }
-});
-//map.addControl(draw);
-document.getElementById('drawline').appendChild(draw.onAdd(map));
 
 
 
@@ -568,19 +376,6 @@ var scaleSlider = document.getElementById("scale-slider");
   }
 */
 
-map.on('click', 'objects', function(e) {
-
-  //var thisLine = e.features[0];
-  
-
-  
-  //editObject(e.features[0]);
-
-  
-
-
-});
-
 
 
 /*
@@ -605,8 +400,10 @@ geolocate.on('geolocate', function() {
 */
 
 
-var thisImage = 'Sxqxj6JQWmdN8w3660Rf5w';
+//var thisImage = 'Sxqxj6JQWmdN8w3660Rf5w';
 //var thisImage = 'w-16QEt1P1EMvhFtxlc9Tw';
+//var thisImage = 'Jqum6TdBCIg5pams-Ey20w'; //brighton1
+var thisImage = 's8A3_D0rHaLa3ubqZTxb4Q'; //brighton2
 
 var link = "https://a.mapillary.com/v3/images/" + thisImage + "?client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh";
 
@@ -629,7 +426,7 @@ $.getJSON(link)
 
 //document.querySelector('#my-image').setAttribute('src', 'https://images.mapillary.com/w-16QEt1P1EMvhFtxlc9Tw/thumb-1024.jpg')
 
-document.querySelector('#my-image').setAttribute('src', 'Sxqxj6JQWmdN8w3660Rf5w.jpg')
+//document.querySelector('#my-image').setAttribute('src', 'Sxqxj6JQWmdN8w3660Rf5w.jpg')
 
 
 
@@ -641,47 +438,11 @@ function showPosition(position) {
 
   window.currentPoint = turf.point([position.coords.longitude, position.coords.latitude]);
 
-  map.jumpTo({ center: [position.coords.longitude, position.coords.latitude], zoom: 18 });
+  map.jumpTo({ center: [position.coords.longitude, position.coords.latitude], zoom: 17 });
 
 
   setScene()
 }
-
-
-var addPointBtn = document.getElementById('add-point');
-addPointBtn.addEventListener('click', toggleAddPoint);
-
-function toggleAddPoint() {
-  map.on('click', addPoint);
-}
-
-
-var addRouteBtn = document.getElementById('add-route');
-addRouteBtn.addEventListener('click', function() {
-
-  map.on('click', setRouteStart)
-
-});
-
-function setRouteStart(e) {
-  map.off('click', setRouteStart);
-  map.on('click', setRouteEnd);
-  console.log(e);
-
-  window.routeStart = [e.lngLat.lng,e.lngLat.lat]
-
-  //directions.setOrigin([e.lngLat.lng,e.lngLat.lat]);
-}
-function setRouteEnd(e) {
-  map.off('click', setRouteEnd);
-  console.log(e)
-
-  window.routeEnd = [e.lngLat.lng,e.lngLat.lat]
-  //directions.setDestination([e.lngLat.lng,e.lngLat.lat]);
-
-  getRoute();
-}
-
 
 
 
@@ -700,459 +461,8 @@ directions.on('route', function(e) {
 
 
 
-// create a function to make a directions request
-function getRoute(end) {
-  // make a directions request using cycling profile
-  // an arbitrary start will always be the same
-  // only the end or destination will change
-  var start = [-122.662323, 45.523751];
-  var url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + routeStart[0] + ',' + routeStart[1] + ';' + routeEnd[0] + ',' + routeEnd[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
 
-  // make an XHR request https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
-  var req = new XMLHttpRequest();
-  req.open('GET', url, true);
-  req.onload = function() {
-    var json = JSON.parse(req.response);
-    var data = json.routes[0];
 
-    var route = data.geometry.coordinates;
-    var myRoutes = {
-      "type":"FeatureCollection",
-      "features":[]
-    };
-    var geojson = {
-      type: 'Feature',
-      properties: {
-        id: 'my-route',
-      },
-      geometry: {
-        type: 'LineString',
-        coordinates: route
-      }
-    };
-
-    console.log(geojson)
-
-    renderPlaces(geojson,0.005);
-    updateObjectList();
-
-
-    
-    // add turn instructions here at the end
-  };
-  req.send();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-map.on('draw.create', updateArea);
-map.on('draw.delete', updateArea);
-map.on('draw.update', updateArea);
-
-
-function updateArea(e) {
-  var route = draw.getAll();
-
-
-  var thisRoute = route.features[0];
-
-  renderPlaces(thisRoute,0.005);
-  console.log(route);
-
-  //var layers = map.getStyle().layers;
-
-
-  
-
-  
-
-  updateObjectList();
-
-
-  
-}
-
-
-
-
-function editOsmObject(type) {
-
-  var editPanel = document.getElementById('panel');
-  editPanel.innerHTML = '';
-
-
-  var colorLabel = editPanel.appendChild(document.createElement('label'));
-  colorLabel.innerHTML = 'Color';
-  var colorPick = editPanel.appendChild(document.createElement('input'));
-  colorPick.setAttribute("type", "text");
-  colorPick.setAttribute("name", "color1");
-  colorPick.setAttribute("value", "#FFFFFF");
-  colorPick.id = 'color1';
-
-  $('#color1').colorPicker( { 
-    onColorChange : function(id, newValue) { 
-      console.log("ID: " + id + " has been changed to " + newValue); 
-
-      var newColor = parseInt('0x' + newValue.substring(1));
-      console.log(newColor);
-
-      if (type === 'building') {
-        modelSettings.buildingColor = newColor;
-      }
-      if (type === 'road') {
-        modelSettings.roadColor = newColor;
-      }
-      if (type === 'path') {
-        modelSettings.pathColor = newColor;
-      }
-
-      osmObjects.features.forEach(function(osm,index) {
-        if (osm.properties.type === type) {
-          var object = scene.getObjectByName( "osm-" + index  );
-          //set modelsettings
-          object.material.color.setHex( newColor );
-        }
-      });
-
-
-    } 
-  });
-
-
-    var opacityLabel = editPanel.appendChild(document.createElement('label'));
-    opacityLabel.innerHTML = 'Opacity';
-    var opacitySlider = editPanel.appendChild(document.createElement('input'));
-    opacitySlider.setAttribute("type", "range");
-    opacitySlider.setAttribute("min", "0");
-    opacitySlider.setAttribute("max", "100");
-    opacitySlider.setAttribute("value", "50");
-
-    opacitySlider.oninput = function() {
-      var scaleAmount = this.value / 100;
-
-      if (type === 'building') {
-        modelSettings.buildingOpacity = scaleAmount;
-      }
-      if (type === 'road') {
-        modelSettings.roadOpacity = scaleAmount;
-      }
-      if (type === 'path') {
-        modelSettings.pathOpacity = scaleAmount;
-      }
-
-      osmObjects.features.forEach(function(osm,index) {
-        if (osm.properties.type === type) {
-          var object = scene.getObjectByName( "osm-" + index  );
-          object.material.opacity = scaleAmount;
-        }
-      });
-    }
-
-
-  if (type === 'building') {
-
-    var buildingHeightLabel = editPanel.appendChild(document.createElement('label'));
-    buildingHeightLabel.innerHTML = 'Building Height';
-    var buildingHeightSlider = editPanel.appendChild(document.createElement('input'));
-    buildingHeightSlider.setAttribute("type", "range");
-    buildingHeightSlider.setAttribute("min", "0");
-    buildingHeightSlider.setAttribute("max", "100");
-    buildingHeightSlider.setAttribute("value", "10");
-
-    buildingHeightSlider.oninput = function() {
-      osmObjects.features.forEach(function(osm,index) {
-        if (osm.properties.type === 'building') {
-          var object = scene.getObjectByName( "osm-" + index  );
-          scene.remove( object );
-        }
-      });
-
-      var scaleAmount = this.value / 20;
-      modelSettings.buildingHeight = scaleAmount;
-      paintBuildings();
-    }
-  }
-
-
-  
-  if (type === 'road' || type === 'path') {
-    var lineWidthLabel = editPanel.appendChild(document.createElement('label'));
-    lineWidthLabel.innerHTML = 'Line Width';
-    var lineWidthSlider = editPanel.appendChild(document.createElement('input'));
-    lineWidthSlider.setAttribute("type", "range");
-    lineWidthSlider.setAttribute("min", "0");
-    lineWidthSlider.setAttribute("max", "10");
-    lineWidthSlider.setAttribute("value", "3");
-    lineWidthSlider.oninput = function() {
-      osmObjects.features.forEach(function(osm,index) {
-        if (osm.properties.type === type) {
-          var object = scene.getObjectByName( "osm-" + index  );
-          scene.remove( object );
-        }
-      });
-      var scaleAmount = this.value / 2000;
-      if (type === 'road') {
-        modelSettings.roadWidth = scaleAmount;
-        paintRoads();
-      }
-      if (type === 'path') {
-        modelSettings.pathWidth = scaleAmount;
-        paintPaths()
-      }
-    }
-  }
-  
-  
-}
-
-
-
-
-function editObject(thisObject,objInd) {
-
-  if (thisObject.geometry.type === 'LineString') {
-
-    var featureCount = thisObject.properties.count;
-
-    var editPanel = document.getElementById('panel');
-    editPanel.innerHTML = '';
-
-
-
-    var routeTypeLabel = editPanel.appendChild(document.createElement('label'));
-    routeTypeLabel.innerHTML = 'Route Type';
-    var routeTypeSelect = editPanel.appendChild(document.createElement('select'));
-    routeTypeSelect.classList.add('form-control');
-
-    var routeSolid = routeTypeSelect.appendChild(document.createElement('option'));
-    routeSolid.innerHTML = 'Solid';
-    routeSolid.value = 'solid';
-    var routeDotted = routeTypeSelect.appendChild(document.createElement('option'));
-    routeDotted.innerHTML = 'Dotted';
-    routeDotted.value = 'dotted';
-
-    routeTypeSelect.addEventListener("change", function() {
-      var value = routeTypeSelect.value;
-      modelSettings.routeType = value;
-
-      for (var i = 0; i < featureCount; i++) {
-        var object = scene.getObjectByName( "route-" + i  );
-        scene.remove( object );
-      }
-      var object = scene.getObjectByName( "route" );
-      scene.remove( object );
-
-      renderPlaces(thisObject,0.005,value)
-
-    }); 
-
-
-    var routeSizeSliderLabel = editPanel.appendChild(document.createElement('label'));
-    routeSizeSliderLabel.innerHTML = 'Point Size';
-    var routeSizeSlider = editPanel.appendChild(document.createElement('input'));
-    routeSizeSlider.setAttribute("type", "range");
-    routeSizeSlider.setAttribute("min", "0");
-    routeSizeSlider.setAttribute("max", "100");
-    routeSizeSlider.setAttribute("value", "0");
-    routeSizeSlider.oninput = function() {
-      var scaleAmount = this.value / 500;
-      for (var i = 0; i < featureCount; i++) {
-        var object = scene.getObjectByName( "route-" + i  );
-        object.scale.set(scaleAmount,scaleAmount,scaleAmount);
-      }
-    }
-
-
-
-    var routeDashSliderLabel = editPanel.appendChild(document.createElement('label'));
-    routeDashSliderLabel.innerHTML = 'Point Distance';
-    var routeDashSlider = editPanel.appendChild(document.createElement('input'));
-    routeDashSlider.setAttribute("type", "range");
-    routeDashSlider.setAttribute("min", "0");
-    routeDashSlider.setAttribute("max", "100");
-    routeDashSlider.setAttribute("value", "0");
-    routeDashSlider.oninput = function() {
-      for (var i = 0; i < featureCount; i++) {
-        var object = scene.getObjectByName( "route-" + i  );
-        scene.remove( object );
-      }
-      var scaleAmount = this.value / 5000;
-
-      delete myObjects.features[objInd];
-      renderPlaces(thisObject,scaleAmount)
-    }
-
-
-
-    var modelSelectLabel = editPanel.appendChild(document.createElement('label'));
-    modelSelectLabel.innerHTML = 'Point Type';
-    var modelSelect = editPanel.appendChild(document.createElement('select'));
-    modelSelect.classList.add('form-control');
-
-    var modelPoint = modelSelect.appendChild(document.createElement('option'));
-    modelPoint.innerHTML = 'Point';
-    modelPoint.value = 'point';
-    var modelArrow = modelSelect.appendChild(document.createElement('option'));
-    modelArrow.innerHTML = 'Arrow';
-    modelArrow.value = 'arrow';
-
-    modelSelect.addEventListener("change", function() {
-      var value = modelSelect.value;
-
-      for (var i = 0; i < featureCount; i++) {
-        var object = scene.getObjectByName( "route-" + i  );
-        scene.remove( object );
-      }
-
-      renderPlaces(thisObject,0.005,value)
-
-    }); 
-
-
-
-    var turnSelectLabel = editPanel.appendChild(document.createElement('label'));
-    turnSelectLabel.innerHTML = 'Turn Type';
-    var turnSelect = editPanel.appendChild(document.createElement('select'));
-    turnSelect.classList.add('form-control');
-
-    var turnPoint = turnSelect.appendChild(document.createElement('option'));
-    turnPoint.innerHTML = 'Point';
-    turnPoint.value = 'point';
-    var turnArrow = turnSelect.appendChild(document.createElement('option'));
-    turnArrow.innerHTML = 'Arrow';
-    turnArrow.value = 'arrow';
-
-    turnSelect.addEventListener("change", function() {
-      var value = turnSelect.value;
-      modelSettings.routeTurn = value;
-      console.log(modelSettings)
-      for (var i = 0; i < featureCount; i++) {
-        var object = scene.getObjectByName( "route-" + i  );
-        scene.remove( object );
-      }
-
-      renderPlaces(thisObject,0.005)
-
-    }); 
-
-
-
-    var routeWidthSliderLabel = editPanel.appendChild(document.createElement('label'));
-    routeWidthSliderLabel.innerHTML = 'Route Width';
-    var routeWidthSlider = editPanel.appendChild(document.createElement('input'));
-    routeWidthSlider.setAttribute("type", "range");
-    routeWidthSlider.setAttribute("min", "0");
-    routeWidthSlider.setAttribute("max", "10");
-    routeWidthSlider.setAttribute("value", "3");
-    routeWidthSlider.oninput = function() {
-      var object = scene.getObjectByName( "route");
-      scene.remove( object );
-
-      var scaleAmount = this.value / 2000;
-      modelSettings.routeWidth = scaleAmount;
-      renderPlaces(thisObject)
-    }
-
-
-    var routePosZLabel = editPanel.appendChild(document.createElement('label'));
-    routePosZLabel.innerHTML = 'Route Pos Z';
-    var routePosZ = editPanel.appendChild(document.createElement('input'));
-    routePosZ.setAttribute("type", "range");
-    routePosZ.setAttribute("min", "-10");
-    routePosZ.setAttribute("max", "10");
-    routePosZ.setAttribute("value", "1");
-    routePosZ.oninput = function() {
-      var scaleAmount = this.value / 10;
-      modelSettings.posZ = scaleAmount;
-      var object = scene.getObjectByName( "route"  );
-      object.position.y = scaleAmount;
-
-    }
-
-
-    var colorPick = editPanel.appendChild(document.createElement('input'));
-    colorPick.setAttribute("type", "text");
-    colorPick.setAttribute("name", "color1");
-    colorPick.setAttribute("value", "#333399");
-    colorPick.id = 'color1';
-
-    $('#color1').colorPicker( { 
-      onColorChange : function(id, newValue) { 
-
-        var newColor = parseInt('0x' + newValue.substring(1));
-
-        modelSettings.routeColor = newColor;
-
-        var object = scene.getObjectByName( "route"  );
-        object.material.color.setHex( newColor );
-
-      } 
-    });
-
-  }
-
-  
-  
-}
-
-
-
-function updateObjectList() {
-
-
-  map.getSource('objects').setData(myObjects);
-  //map.getSource('osm-objects').setData(osmObjects);
-
-
-
-  var objectList = document.getElementById('object-list');
-  objectList.innerHTML = '';
-
-  var objectUl = objectList.appendChild(document.createElement('ul'));
-
-
-  var result = Object.keys(osmObjects.features).reduce(function(acc, key) {
-    var aff = osmObjects.features[key].properties.type;
-    if(acc[aff]) acc[aff]++;
-    else         acc[aff] = 1;           
-    return acc;
-  }, {});
-
-  for (var key in result) {
-    if (result.hasOwnProperty(key)) {
-      
-      console.log(key + " -> " + result[key]);
-
-      //var uniqueSpeeds = panel.appendChild(document.createElement('p'));
-      //uniqueSpeeds.innerHTML = key + " -> " + result[key];
-      var objectItem = objectUl.appendChild(document.createElement('li'));
-      objectItem.innerHTML = key;
-      objectItem.setAttribute('data-type', key);
-      objectItem.addEventListener('click', function() {
-        editOsmObject(this.getAttribute('data-type'));
-      })
-    }
-  }
-
-
-  myObjects.features.forEach(function(obj,index) {
-    var objectItem = objectUl.appendChild(document.createElement('li'));
-    objectItem.innerHTML = obj.geometry.type;
-    objectItem.addEventListener('click', function() {
-      editObject(myObjects.features[index],index);
-    })
-  })
-
-}
 
 
 
@@ -1160,14 +470,6 @@ function updateObjectList() {
 
 //setScene();
 
-var setBtn = document.getElementById('set-btn');
-setBtn.style.display = 'block';
-setBtn.addEventListener('click', function() {
-  document.getElementById('search').style.display = 'none';
-  document.getElementById('add-features').style.display = 'block';
-  setBtn.style.display = 'none';
-  setScene();
-})
 
 
  
@@ -1333,19 +635,26 @@ var osmObjects = {
 };
 
 
-window.osmLines = {
+var osmLines = {
   "type":"FeatureCollection",
   "features":[]
 };
-window.osmBuildings = {
+var osmBuildings = {
   "type":"FeatureCollection",
   "features":[]
 };
-window.osmNodes = {
+var osmNodes = {
   "type":"FeatureCollection",
   "features":[]
 };
-
+var mlyImgNodes = {
+  "type":"FeatureCollection",
+  "features":[]
+}
+var mlyNodes = {
+  "type":"FeatureCollection",
+  "features":[]
+}
 
 
 
@@ -1382,9 +691,9 @@ function buildOverpassApiUrlFeat() {
 
   wayQuery += 'way[highway](' + searchBbox + ');'
 
-  nodeQuery += 'node[highway=bus_stop](' + searchBbox + ');'
+  //nodeQuery += 'node[highway=bus_stop](' + searchBbox + ');'
 
-  nodeQuery += 'node[amenity=bench](' + searchBbox + ');'
+  nodeQuery += 'node[amenity=waste_basket](' + searchBbox + ');'
 
   //wayQuery += 'node[entrance](' + searchBbox + ');'
 
@@ -1434,11 +743,29 @@ function showMapillary(bounds) {
     console.log(points)
     points.features.forEach(function(result) {
 
-      osmNodes.features.push(result);
+      mlyImgNodes.features.push(result);
     })
 
-    console.log(osmNodes)
-    paintNodes();
+    console.log(mlyImgNodes)
+    paintImgNodes();
+  })
+
+
+
+  var binlink = "https://a.mapillary.com/v3/map_features?layers=points&bbox=" + mapBounds + "&values=object--trash-can&client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh";
+
+
+
+  $.getJSON(binlink)
+  .done(function(points){
+    console.log(points)
+    points.features.forEach(function(result) {
+
+      mlyNodes.features.push(result);
+    })
+
+    console.log(mlyImgNodes)
+    paintMlyNodes();
   })
 }
 
@@ -1487,6 +814,13 @@ function showFeature(type,feature,shape){
         if (result.properties.tags.highway == 'bus_stop') {
           result.properties.type = 'bus_stop';
           osmObjects.features.push(result);
+        }
+      }
+
+      if(result.geometry.type == 'Point') {
+        if (result.properties.tags.amenity == 'waste_basket') {
+          result.properties.type = 'waste_basket';
+          osmNodes.features.push(result);
         }
       }
 
@@ -1773,15 +1107,15 @@ function paintBuildings() {
       console.log(buildingPoints)
       var geometry = new THREE.ExtrudeBufferGeometry( shape, extrudeSettings );
 
-      //var material = new THREE.MeshStandardMaterial( { color: modelSettings.buildingColor } );
+      var material = new THREE.MeshStandardMaterial( { color: modelSettings.buildingColor } );
 
-      var material = new THREE.MeshLambertMaterial( { color: modelSettings.buildingColor, wireframe: false } );
+      //var material = new THREE.MeshLambertMaterial( { color: modelSettings.buildingColor, wireframe: false } );
       var mesh = new THREE.Mesh( geometry, material );
 
       mesh.position.set( 0, modelSettings.buildingHeight, 0 );
       mesh.rotation.set(90 * Math.PI/180,0,0);
 
-      mesh.material.transparent = true;
+      mesh.material.transparent = false;
       mesh.material.opacity = modelSettings.buildingOpacity; 
       mesh.name = 'osm-' + index;
 
@@ -1817,7 +1151,77 @@ function paintNodes(e,type) {
     var offsetY = (latitude - centerLat) * 3000;
 
 
+    addOsmBin(offsetX,offsetY);
+
+    
+
+  })
+
+
+
+
+}
+
+
+function paintImgNodes(e,type) {
+  console.log(mlyImgNodes)
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+
+
+  mlyImgNodes.features.forEach(function(node,index) {    console.log(e)
+
+
+    let latitude = node.geometry.coordinates[1];
+    let longitude = node.geometry.coordinates[0];
+
+    // threejs json
+    var pointX = turf.point([longitude,centerLat]);
+    var pointY = turf.point([centerLng,latitude]);
+    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+    var offsetX = (longitude - centerLng) * 3000;
+    var offsetY = (latitude - centerLat) * 3000;
+
+
     addMapillaryPoint(offsetX,offsetY);
+
+    
+
+  })
+
+
+
+
+}
+
+
+function paintMlyNodes(e,type) {
+  console.log(mlyImgNodes)
+  var centerLng = center.geometry.coordinates[0];
+  var centerLat = center.geometry.coordinates[1];
+
+
+
+  mlyNodes.features.forEach(function(node,index) {    console.log(e)
+
+
+    let latitude = node.geometry.coordinates[1];
+    let longitude = node.geometry.coordinates[0];
+
+    // threejs json
+    var pointX = turf.point([longitude,centerLat]);
+    var pointY = turf.point([centerLng,latitude]);
+    var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+    var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+    var offsetX = (longitude - centerLng) * 3000;
+    var offsetY = (latitude - centerLat) * 3000;
+
+
+    addMlyBin(offsetX,offsetY);
 
     
 
@@ -1859,9 +1263,9 @@ function renderOsm() {
   //this.el.setObject3D('mesh', new THREE.Mesh(geometry, material));
   dollhouse.setObject3D('mesh', scene);
 
-  scene.rotation.y = -200 * Math.PI/180;
-  scene.rotation.x = 5 * Math.PI/180;
-  scene.rotation.z = -5 * Math.PI/180;
+  scene.rotation.y = 25 * Math.PI/180;
+  scene.rotation.x = 0 * Math.PI/180;
+  scene.rotation.z = 0 * Math.PI/180;
 
   //dollhouse.setAttribute('rotation', '0 2.3 0');
 
@@ -2111,21 +1515,6 @@ function renderPlaces(route,dashSize,model) {
 
 
 
-function addPathPoint(offsetX,offsetY) {
-  const gltfLoader = new GLTFLoader();
-  const url = 'https://sjmarshalluk.github.io/ar-tester/path.gltf';
-  gltfLoader.load(url, (gltf) => {
-    const root = gltf.scene;
-
-    root.position.set(offsetY,0,offsetX);
-    root.scale.set(0.1,0.1,0.1);
-    root.rotation.set(0,0,0);
-    scene.add(root);
-
-
-  });
-}
-
 
 
 function addMapillaryPoint(offsetX,offsetY) {
@@ -2142,7 +1531,7 @@ function addMapillaryPoint(offsetX,offsetY) {
     //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
     var mesh = new THREE.Mesh( geometry, material );
 
-    mesh.position.set(offsetY,0,offsetX);
+    mesh.position.set(offsetY,0.2,offsetX);
     mesh.rotation.set(0,-100,0);
 
     scene.add( mesh );
@@ -2175,314 +1564,63 @@ function addMapillaryPoint(offsetX,offsetY) {
 }
 
 
-function addNewPoint(offsetX,offsetY,id,index,model) {
-  const gltfLoader = new GLTFLoader();
+function addOsmBin(offsetX,offsetY) {
 
-  console.log(model)
-
-  var url = 'https://sjmarshalluk.github.io/model-maker/assets/path/point.gltf';
-  if (model === 'arrow') {
-    var url = 'https://sjmarshalluk.github.io/model-maker/assets/path/arrows.gltf';
-  }
-  
-  gltfLoader.load(url, (gltf) => {
-    const root = gltf.scene;
-
-    root.position.set(offsetY,0.1,offsetX);
-    root.scale.set(0.1,0.1,0.1);
-    root.rotation.set(0,0,0);
-    root.name = id + '-' + index;
-
-    scene.add(root);
-
-    //objects.push(root);
-    //showControls(root);
-
-  });
-}
-
-function addNewArrow(offsetX,offsetY) {
-  console.log('arrow')
-  const gltfLoader = new GLTFLoader();
-  const url = 'https://sjmarshalluk.github.io/model-maker/arrows.gltf';
-  gltfLoader.load(url, (gltf) => {
-    const root = gltf.scene;
-
-    root.position.set(offsetY,0,offsetX);
-    root.scale.set(0.1,0.1,0.1);
-    root.rotation.set(0,0,0);
-    
-
-    scene.add(root);
-
-    //showControls(root);
-
-  });
-}
-
-function showControls(root) {
-
-
-  var controls = document.getElementById('control-panel');
-  controls.style.display = 'block';
-
-  var scaleSlider = document.getElementById("scale-slider");
-  scaleSlider.oninput = function() {
-    var scaleAmount = this.value / 100;
-    root.scale.set(scaleAmount,scaleAmount,scaleAmount)
-  }
-
-  var angleSlider = document.getElementById("angle-slider");
-  angleSlider.oninput = function() {
-    var angleAmount = this.value / 10;
-    root.rotation.set(0,angleAmount,0)
-  }
-
-
-  var deleteBtn = document.getElementById("delete-btn");
-  deleteBtn.addEventListener('click', function() {
-    //root.geometry.dispose();
-    //root.material.dispose();
-    scene.remove( root );
-    controls.style.display = 'none';
+  var material = new THREE.MeshBasicMaterial({
+    color: '#333333',
+    wireframe: false
   });
 
+  //var geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
 
-  document.getElementById('done').addEventListener('click', function() {
-    controls.style.display = 'none';
-  })
+  var geometry = new THREE.CylinderGeometry( 0.03, 0.03, 0.1, 20 );
 
+  //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
+  var mesh = new THREE.Mesh( geometry, material );
 
+  mesh.position.set(offsetY,0,offsetX);
+  mesh.rotation.set(0,-100,0);
+
+  scene.add( mesh );
+
+  console.log(offsetX,offsetY)
 }
 
 
 
+function addMlyBin(offsetX,offsetY) {
 
+  var material = new THREE.MeshBasicMaterial({
+    color: '#333333',
+    wireframe: true
+  });
 
-  
+  //var geometry = new THREE.BoxGeometry(0.3, 0.3, 0.3);
 
+  var geometry = new THREE.CylinderGeometry( 0.03, 0.03, 0.1, 10 );
 
+  //var material2 = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, emissive: 0x2a2a2a, emissiveIntensity: 1, wireframe: false } );
+  var mesh = new THREE.Mesh( geometry, material );
 
+  mesh.position.set(offsetY,0.03,offsetX);
+  mesh.rotation.set(0,0,0);
 
-document.getElementById( 'export_scene' ).addEventListener( 'click', function () {
+  scene.add( mesh );
 
-        exportGLTF( scene );
-
-      } );
-
-
-var link = document.createElement( 'a' );
-      link.style.display = 'none';
-      document.body.appendChild( link ); // Firefox workaround, see #6594
-
-
-function exportGLTF( input ) {
-
-        var gltfExporter = new GLTFExporter();
-
-
-        gltfExporter.parse( input, function ( result ) {
-
-          if ( result instanceof ArrayBuffer ) {
-
-            saveArrayBuffer( result, 'scene.glb' );
-
-          } else {
-
-            var output = JSON.stringify( result, null, 2 );
-            console.log( output );
-            saveString( output, 'scene.gltf' );
-
-          }
-
-        } );
-
-      }
-
-
-      function saveString( text, filename ) {
-
-        save( new Blob( [ text ], { type: 'text/plain' } ), filename );
-
-      }
-
-      function saveArrayBuffer( buffer, filename ) {
-
-        save( new Blob( [ buffer ], { type: 'application/octet-stream' } ), filename );
-
-      }
-
-
-      function save( blob, filename ) {
-
-        link.href = URL.createObjectURL( blob );
-        link.download = filename;
-        link.click();
-
-        // URL.revokeObjectURL( url ); breaks Firefox...
-
-      }
-
-
-
-document.getElementById('save-settings').addEventListener('click', saveSettings);
-function saveSettings() {
-
-  console.log(modelSettings);
-
-
-
-  if (typeof(Storage) !== "undefined") {
-    localStorage.setItem("mysettings", JSON.stringify(modelSettings));
-  } else {
-  }
+  console.log(offsetX,offsetY)
 }
+
+
+
 
 
 
   </script>
 
-
-
-  <script type="text/javascript">
-
-
-
-  </script>
 
 </head>
+<body>
 
-
-<body style='margin: 0; overflow: hidden;'>
-
-  <div class="modal" tabindex="-1" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-body">
-        <button id="dot">Dot</button><button id="arrow">Arrow</button>
-      </div>
-    </div>
-  </div>
-</div>
-  
-
-  <div id="panel" style="display: none;">
-    
-        <div id="line-panel">
-
-          <label for="route-size-slider">Size</label>
-          <input type="range" min="0" max="100" value="0" class="custom-range" id="route-size-slider">
-
-
-          <label for="route-size-slider">Distance</label>
-          <div class="slidecontainer">
-            <input type="range" min="3" max="15" value="0" class="slider" id="route-dash-slider">
-          </div>
-
-
-          <label for="route-size-slider">Style</label>
-          <select name="models" class="form-control" id="model-select">
-            <option value="point">Point</option>
-            <option value="arrow">Arrow</option>
-          </select>
-
-          <label for="turn-select">Turns</label>
-          <select name="models" class="form-control" id="turn-select">
-            <option value="arrow">Arrow</option>
-            <option value="point">Point</option>
-          </select>
-
-          <label for="start-select">Start</label>
-          <select name="models" class="form-control" id="start-select">
-            <option>Select</option>
-            <option value="point">Point</option>
-            <option value="arrow">Arrow</option>
-          </select>
-
-          <label for="end-select">End</label>
-          <select name="models" class="form-control" id="end-select">
-            <option>Select</option>
-            <option value="point">Point</option>
-            <option value="arrow">Arrow</option>
-          </select>
-
-          <button id="delete-btn" class="btn btn-block">Delete</button>
-
-          <button id="done" class="btn btn-block">Done</button>
-
-        </div>
-
-
-
-
-        <div id="control-panel">
-
-          <div class="slidecontainer">
-            <input type="range" min="0" max="100" value="0" class="slider" id="scale-slider">
-          </div>
-
-          <div class="slidecontainer">
-            <input type="range" min="0" max="100" value="0" class="slider" id="angle-slider">
-          </div>
-
-          <button id="delete-btn" class="btn btn-block">Delete</button>
-
-          <button id="done" class="btn btn-block">Done</button>
-
-        </div>
-
-
-        <div id="osm-panel">
-
-          <h6>OSM</h6>
-
-          <label for="building-slider">Building Height</label>
-          <input type="range" min="0" max="100" value="10" class="custom-range" id="building-slider">
-
-
-          <label for="road-slider">Road Width</label>
-
-          <div id="line-width-slider"></div>
-
-
-
-          
-
-        </div>
-    </div>
-  
-
-     <div id="sidebar" style="display: none;">
-
-      
-
-        <div id="search">
-          <div id="geocoder" class="geocoder"></div>
-        </div>
-
-      <button id="btn-path" class="active">path</button>
-
-        <button id="set-btn" class="btn btn-block btn-outline-success">Create model</button>
-        
-
-        <div id="add-features" style="display: none;">
-          <button id="add-point" class="btn btn-block">Add point</button>
-          <button id="add-route" class="btn btn-block" style="margin-bottom: 10px">Add route</button>
-          <div id="drawline"></div>
-          
-        </div>
-
-        <div id="object-list"></div>
-        
-
-      <div style="position: absolute;bottom: 0; width: 100%; left: 0; padding: 10px">
-        <button id="save-settings" class="btn btn-block">Save settings</button>
-        <button id="export_scene" class="btn btn-block">Export Scene</button>
-      </div>
-    </div>
-
-
-    
 
   <div id="editor" style="display: none; z-index: 999">
 
@@ -2496,41 +1634,1169 @@ function saveSettings() {
   </div>
 
 
-  <div id="video-wrap" class="full">
-    <video id="video"  autoplay playsinline></video>
-  </div>
+  <a-scene>
+
+    <a-plane position="0 -0.1 0" rotation="-90 0 0" width="8" height="8" color="#7BC8A4" shadow></a-plane>
+
+    <a-assets>
+      <!-- Text Canvas -->
+      <canvas id="canvasObj" crossorigin="anonymous" webkit-playsinline=""></canvas>
+      <a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
+    </a-assets>
+
+
+    <a-gui-button 
+      id="img-0" 
+      width="0.03" height="0.03" 
+      position="0 0 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value=" "
+      margin="0 0 0.05 0"
+      toggle="true" 
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-1" 
+      width="0.03" height="0.03" 
+      position="0 0 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-2" 
+      width="0.03" height="0.03" 
+      position="0 0 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-3" 
+      width="0.03" height="0.03" 
+      position="0 0 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-4" 
+      width="0.03" height="0.03" 
+      position="0 0 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-5" 
+      width="0.03" height="0.03" 
+      position="0 0 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-6" 
+      width="0.03" height="0.03" 
+      position="0 0 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-7" 
+      width="0.03" height="0.03" 
+      position="0 0 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-8" 
+      width="0.03" height="0.03" 
+      position="0 0 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-9" 
+      width="0.03" height="0.03" 
+      position="0 0 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
+    <a-gui-button 
+      id="img-10" 
+      width="0.03" height="0.03" 
+      position="0 0 0" rotation="-90 0 0" 
+      onclick="jumpToPosition" key-code="32"
+      value="test button"
+      margin="0 0 0.05 0"
+      toggle="true"
+    >
+    </a-gui-button>
 
 
 
-  <a-scene id="scene" class="full">
-    
 
-    <a-sky thisimg src="puydesancy.jpg" rotation="0 -130 0" id="my-image"></a-sky>
-    <a-entity mythreejsthing="color: green;" position="0 1 -5" id="dollhouse"> </a-entity>
 
-    <a-plane position="0 -0.1 0" rotation="-85 -30 0" width="3" height="5" color="#7BC8A4" shadow></a-plane>
+     <!-- <a-entity geometry="primitive: box; width:5; height:2; depth:0.01;" position="0 3 -4" material="shader: html; target: #htmlElement; fps:1;"></a-entity> -->
+    <a-gui-flex-container
+        id="flex"
+        flex-direction="column" justify-content="center" align-items="middle" component-padding="0.1"
+        opacity="0.7" width="4.5" height="1.5"
+        position="0 2.4 -6" rotation="-20 0 0"
+    >   <a-gui-input id="test_input"
+           width="4" height="0.7"
+           onclick="testInputAction"
+           value=""
+           font-size="160px"
+           font-color="#212121"
+           border-color="#212121"
+           border-hover-color="#424242"
+           background-color="#FAFAFA"
+           hover-color="#F5F5F5"
+           active-color="#FFEB3B"
+        >
+        </a-gui-input>
+    </a-gui-flex-container>
 
-    <a-entity id="spots" hotspots>
-        <a-entity id="group-point1">
-          <a-image spot="linkto:#point2;spotgroup:group-point2" position="-4 0 10"></a-image>
+      <a-entity position="0 1 -6" rotation="-35 0 0">
+        <a-entity id="keyboardNum" visible="false" position="0 -10 -1">
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 0.5 0"
+        >
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; key:1;"
+                gui-button=" text:1; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; key:2;"
+                gui-button=" text:2; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; key:3;"
+                gui-button=" text:3; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; key:4;"
+                gui-button=" text:4; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; key:5;"
+                gui-button=" text:5; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; key:6;"
+                gui-button=" text:6; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; key:7;"
+                gui-button=" text:7; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; key:8;"
+                gui-button=" text:8; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; key:9;"
+                gui-button=" text:9; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; key:0;"
+                gui-button=" text:0; fontFamily:'Fira Sans';"
+          ></a-entity>
         </a-entity>
-        <a-entity id="group-point2" scale="0 0 0">
-          <a-image spot="linkto:#point1;spotgroup:group-point1" position="10 0 -8"></a-image>
-          <a-image spot="linkto:#point3;spotgroup:group-point3" position="0 0 10"></a-image>
+
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 0 0"
+        >
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="-"
+                   value="-" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="/"
+                   value="/" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key=":"
+                   value=":" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key=";"
+                   value=";" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="("
+                   value="(" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key=")"
+                   value=")" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="$"
+                   value="$" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="&"
+                   value="&" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="@"
+                   value="@" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key='"'
+                   value='"' font-family="Fira Sans"
+          ></a-gui-button>
         </a-entity>
-        <a-entity id="group-point3" scale="0 0 0">
-          <a-image spot="linkto:#point2;spotgroup:group-point2" position="10 0 3"></a-image>
-          <a-image spot="linkto:#point4;spotgroup:group-point4" position="-10 0 -3"></a-image>
+
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 -0.5 0"
+        >
+          <a-entity   gui-item="type: button; width: 0.75; height: 0.5;"
+                  gui-interactable="clickAction: switchKb2; keyCode:17;"
+                gui-button=" text:#+=; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="."
+                   value="." font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key=","
+                   value="," font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="?"
+                   value="?" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="!"
+                   value="!" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="'"
+                   value="'" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-entity   gui-item="type: button; width: 0.75; height: 0.5;"
+                  gui-interactable="clickAction: keypress; key:Backspace;"
+                gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
+          ></a-entity>
         </a-entity>
-        <a-entity id="group-point4" scale="0 0 0">
-          <a-image spot="linkto:#point3;spotgroup:group-point3" position="0 0 -10"></a-image>
+      </a-entity>
+        <a-entity id="keyboardChar" visible="false" position="0 -10 -1">
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 0.5 0"
+        >
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="["
+                   value="[" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="]"
+                   value="]" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="{"
+                   value="{" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="}"
+                   value="}" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="#"
+                   value="#" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="%"
+                   value="%" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="^"
+                   value="^" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="*"
+                   value="*" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="+"
+                   value="+" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="="
+                   value="=" font-family="Fira Sans"
+          ></a-gui-button>
         </a-entity>
-</a-entity>
+
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 0 0"
+        >
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="_"
+                   value="_" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="\"
+                   value="\" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="|"
+                   value="|" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="~"
+                   value="~" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="<"
+                   value="<" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key=">"
+                   value=">" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; keyCode:69;" euro
+                gui-button=" text:€; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; keyCode:76;" pound_sterling
+                gui-button=" text:char#163; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; keyCode:89;" yen_sign
+                gui-button=" text:char#165; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: keypress; keyCode:8226;" bullet
+                gui-button="text:char#8226; fontFamily:'Fira Sans';"
+          ></a-entity>
+        </a-entity>
+
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 -0.5 0"
+        >
+          <a-entity   gui-item="type: button; width: 0.75; height: 0.5;"
+                  gui-interactable="clickAction: switchKb2; keyCode:17;"
+                gui-button=" text:123; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="."
+                   value="." font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key=","
+                   value="," font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="?"
+                   value="?" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="!"
+                   value="!" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="*"
+                   value="(" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-entity   gui-item="type: button; width: 0.75; height: 0.5;"
+                                   gui-interactable="clickAction: keypress; key:Backspace;"
+                                   gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
+        ></a-entity>
+
+        </a-entity>
+      </a-entity>
+        <a-entity id="keyboardAbcHigh" visible="false" position="0 -10 -1">
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 0.5 0"
+        >
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="Q"
+                   value="Q" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="W"
+                   value="W" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="E"
+                   value="E" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="R"
+                   value="R" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="T"
+                   value="T" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="Y"
+                   value="Y" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="U"
+                   value="U" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="I"
+                   value="I" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="O"
+                   value="O" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="P"
+                   value="P" font-family="Fira Sans"
+          ></a-gui-button>
+        </a-entity>
+
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 0 0"
+        >
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="A"
+                   value="A" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="S"
+                   value="S" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="D"
+                   value="D" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="F"
+                   value="F" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="G"
+                   value="G" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="H"
+                   value="H" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="J"
+                   value="J" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="K"
+                   value="K" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="L"
+                   value="L" font-family="Fira Sans"
+          ></a-gui-button>
+        </a-entity>
+
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 -0.5 0"
+        >
+          <a-entity   gui-item="type: button; width: 0.75; height: 0.5;"
+                  gui-interactable="clickAction: switchKbToAbcLow; keyCode:16;" id="shiftDown"
+                gui-icon-label-button="icon:arrow-down-a; text:; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="Z"
+                   value="Z" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="X"
+                   value="X" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="C"
+                   value="C" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="V"
+                   value="V" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="B"
+                   value="B" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="N"
+                   value="N" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="M"
+                   value="M" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-entity   gui-item="type: button; width: 0.75; height: 0.5;"
+                 gui-interactable="clickAction: keypress; key:Backspace;"
+                 gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
+          ></a-entity>
+        </a-entity>
+      </a-entity>
+        <a-entity id="keyboardAbcLow" visible="true" position="0 0 0">
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 0.5 0"
+        >
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="q"
+                   value="q" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="w"
+                   value="w" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="e"
+                   value="e" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="r"
+                   value="r" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="t"
+                   value="t" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="y"
+                   value="y" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="u"
+                   value="u" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="i"
+                   value="i" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="o"
+                   value="o" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="p"
+                   value="p" font-family="Fira Sans"
+          ></a-gui-button>
+        </a-entity>
+
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 0 0"
+        >
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="a"
+                   value="a" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="s"
+                   value="s" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="d"
+                   value="d" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="f"
+                   value="f" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="g"
+                   value="g" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="h"
+                   value="h" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="j"
+                   value="j" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="k"
+                   value="k" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="l"
+                   value="l" font-family="Fira Sans"
+          ></a-gui-button>
+        </a-entity>
+
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 -0.5 0"
+        >
+          <a-entity   gui-item="type: button; width: 0.75; height: 0.5;"
+                  gui-interactable="clickAction: switchKbToAbcHigh; keyCode:16;" id="shiftUp"
+                gui-icon-label-button="icon:arrow-up-a; text:; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="z"
+                   value="z" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="x"
+                   value="x" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="c"
+                   value="c" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="v"
+                   value="v" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="b"
+                   value="b" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="n"
+                   value="n" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-gui-button width="0.5" height="0.5"
+                   onclick="keypress" key="m"
+                   value="m" font-family="Fira Sans"
+          ></a-gui-button>
+          <a-entity   gui-item="type: button; width: 0.75; height: 0.5;"
+                 gui-interactable="clickAction: keypress; key:Backspace;"
+                 gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
+          ></a-entity>
+        </a-entity>
+      </a-entity>
+        <a-entity id="keyboardNav">
+        <a-entity   gui-item="type: flex-container; width: 5.25; height: 0.5;"
+              gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+              position="0 -1 0"
+        >
+          <a-entity   gui-item="type: button; width: 0.75; height: 0.5;" id="navkbSwitch"
+                  gui-interactable="clickAction: switchKb; keyCode:9;"
+                gui-button=" text:123; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.5; height: 0.5;"
+                  gui-interactable="clickAction: voicecontrol;"
+                gui-icon-label-button="icon:android-microphone; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 3; height: 0.5;"
+                  gui-interactable="clickAction: keypress; keyCode:32;" id="space"
+                gui-button=" text:space; fontFamily:'Fira Sans';"
+          ></a-entity>
+          <a-entity   gui-item="type: button; width: 0.75; height: 0.5;"
+                  gui-interactable="clickAction: enter; keyCode:13;" id="enter"
+                gui-button=" text:Go; fontFamily:'Fira Sans';"
+          ></a-entity>
+        </a-entity>
+      </a-entity>
+    </a-entity>
+
+
+    <!-- Camera + cursor. 
+    <a-entity id="cameraRig" position="0 1.6 0">
+      <a-camera look-controls wasd-controls position="0 0 0">
+        <a-gui-cursor id="cursor"
+              raycaster="objects: [gui-interactable]"
+              fuse="true" fuse-timeout="2000"
+              design="ring"
+        >
+        </a-gui-cursor> 
+      </a-camera> 
+    </a-entity>
+    -->
+
+    <div style="width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden">
+      <div id="htmlElement" style="background: #fff; color:#000; font-size: 60px; width:1500px; height: 600px;"></div>
+    </div>
+
+
+
+    <a-gui-flex-container
+      flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+      opacity="0.7" width="3" height="1"
+      position="0 -100 -4" rotation="0 0 0" scale="0.5 0.5 0.5"
+    >
+      <a-gui-icon-button
+        width="0.75" height="0.75"
+        onclick="togglePlayback"
+        icon="skip-backward"
+      >
+      </a-gui-icon-button>
+      <a-gui-icon-button
+        width="0.75" height="0.75"
+        onclick="stop"
+        icon="skip-forward"
+      >
+      </a-gui-icon-button>
+      
+      </a-gui-toggle>
+    </a-gui-flex-container>
+
+    <a-sky thisimg src="https://cors-anywhere.herokuapp.com/https://images.mapillary.com/s8A3_D0rHaLa3ubqZTxb4Q/thumb-2048.jpg" rotation="0 -130 0" id="my-image"></a-sky>
+
+    <a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: [gui-interactable]"></a-entity>
+    <a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: [gui-interactable]" line="color: #118A7E"></a-entity>
+
+
+
   </a-scene>
 
+  <script type="text/javascript">
+
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-0.93875203281641,51.005568447565174],
+      zoom: 18
+    });
+
+    var geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl
+    });
+    document.getElementById('test_input').appendChild(geocoder.onAdd(map));
+
+    geocoder.on('results', function(results) {
+       console.log(results);
+    })
 
 
+    //document.getElementById('test_input').value = 'london';
+
+
+
+
+
+
+    
+
+
+
+
+    var images = [];
+
+    var seqPos = 0;
+
+
+
+
+    function getSeq(coords) {
+
+      var point = turf.point(coords);
+      var buffered = turf.buffer(point, 5, {units: 'miles'});
+      var bbox = turf.bbox(buffered);
+
+
+      
+
+
+
+      
+      var imglink = "https://a.mapillary.com/v3/images?bbox=" + bbox + "&pano=true&per_page=1&client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh";
+      console.log(imglink);
+      $.getJSON(imglink)
+      .done(function(imgdata){
+
+        console.log(imgdata.features[0].properties.sequence_key);
+
+
+
+        var seqlink = "https://a.mapillary.com/v3/sequences/" + imgdata.features[0].properties.sequence_key + "?client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh";
+        console.log(seqlink);
+        $.getJSON(seqlink)
+        .done(function(seqdata){
+
+          window.data = seqdata;
+
+          console.log(seqdata);
+
+          images = [];
+          seqPos = 0;
+
+
+          
+
+          seqdata.properties.coordinateProperties.image_keys.forEach(function(img,index) {
+            images.push(img);
+
+            
+
+
+            
+
+
+
+          })
+
+          paintSpots()
+
+          console.log(images);
+
+          var imageUrl = 'https://cors-anywhere.herokuapp.com/https://images.mapillary.com/' + images[seqPos] + '/thumb-2048.jpg'
+          document.querySelector('#my-image').setAttribute('src', imageUrl);
+
+        })
+
+
+      })
+      
+
+    }
+    
+
+
+    var thisSeq = '0-UskBD78xAsg2c9CL0Yag';
+    var link = "https://a.mapillary.com/v3/sequences/" + thisSeq + "?client_id=ZzY1cV9tVkxZZVE5SXpMU09WNlZOQTpiMjMwZWVlMmIyMDY3ZDlh";
+
+    $.getJSON(link)
+      .done(function(data){
+
+        window.data = data;
+
+        data.properties.coordinateProperties.image_keys.forEach(function(img,index) {
+          images.push(img);
+
+        })
+
+        paintSpots()
+
+
+        console.log(images);
+    })
+
+
+      var i = 0;
+
+
+
+      function paintSpots() {
+
+        console.log(data)
+
+        var centerLng = data.geometry.coordinates[seqPos][0];
+        var centerLat = data.geometry.coordinates[seqPos][1];
+        var center = turf.point([centerLng,centerLat]);
+        console.log(centerLng,centerLat)
+
+          i = 0;
+
+          data.geometry.coordinates.forEach(function(coords,index) {
+
+
+
+            if (index < 9) {
+
+                console.log(seqPos)
+
+                console.log(coords)
+                
+                let latitude = coords[1];
+                let longitude = coords[0];
+
+                console.log(longitude,latitude)
+                // threejs json
+                var pointX = turf.point([longitude,centerLat]);
+                var pointY = turf.point([centerLng,latitude]);
+                var distanceX = turf.distance(pointX, center, {units: 'kilometers'});
+                var distanceY = turf.distance(pointY, center, {units: 'kilometers'});
+
+                var offsetX = (centerLng- longitude) * 3000;
+                var offsetY = (centerLat - latitude) * 3000;
+
+                //addMapillaryPoint(offsetX,offsetY);
+
+                
+
+                //var difference = function (a, b) { return Math.abs(a - b); }
+
+                //var diff = difference(index,5);
+                //console.log(index)
+                //console.log(diff)
+
+                //var mid = index - diff;
+
+                document.querySelector('#img-'+i).setAttribute('position', {x: offsetY, y: -100, z: offsetX});
+
+                i++
+
+                console.log(index)
+                console.log(i)
+
+              
+            }
+
+
+          })
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function jumpToPosition(e) {
+      
+
+      var pos = e.path[0].id.slice(-1);
+      console.log(pos)
+
+      var imageUrl = 'https://cors-anywhere.herokuapp.com/https://images.mapillary.com/' + images[pos] + '/thumb-2048.jpg'
+      document.querySelector('#my-image').setAttribute('src', imageUrl);
+
+      var newSeqPos = parseInt(seqPos) + parseInt(pos);
+      seqPos = newSeqPos;
+
+      console.log(seqPos)
+
+      paintSpots()
+    }
+
+
+
+
+
+    function togglePlayback () {
+
+      //document.querySelector('#my-image').setAttribute('src', 'https://sjmarshalluk.github.io/3d-editor/w-16QEt1P1EMvhFtxlc9Tw.jpg');
+
+      
+
+
+      var imageUrl = 'https://cors-anywhere.herokuapp.com/https://images.mapillary.com/' + images[seqPos] + '/thumb-2048.jpg'
+      document.querySelector('#my-image').setAttribute('src', imageUrl);
+      seqPos++
+
+
+    }
+    function stop () {
+      var imageUrl = 'https://cors-anywhere.herokuapp.com/https://images.mapillary.com/' + images[seqPos] + '/thumb-2048.jpg'
+      document.querySelector('#my-image').setAttribute('src', imageUrl);
+      seqPos++
+    }
+    function toggleSound () {
+      
+
+    }
+    function toggleCaps () {
+      
+    }
+
+
+
+
+
+
+
+    window.switchKb = function() {
+        var keyboardAbcLow = document.getElementById("keyboardAbcLow");
+        var keyboardAbcHigh = document.getElementById("keyboardAbcHigh");
+        var keyboardNum = document.getElementById("keyboardNum");
+        var keyboardChar = document.getElementById("keyboardChar");
+
+      if( keyboardAbcLow.getAttribute('position').y == 0){
+        window.kbAbcLow = false;
+        window.kbAbcHigh = false;
+        window.kbNum = true;
+        window.kbChar = false;
+        toggleKb(window.kbNum);
+      }else{
+        window.kbAbcLow = true;
+        window.kbAbcHigh = false;
+        window.kbNum = false;
+        window.kbChar = false;
+        toggleKb(window.kbAbcLow);
+      }
+    }
+
+    window.switchKb2 = function() {
+        var keyboardAbcLow = document.getElementById("keyboardAbcLow");
+        var keyboardAbcHigh = document.getElementById("keyboardAbcHigh");
+        var keyboardNum = document.getElementById("keyboardNum");
+        var keyboardChar = document.getElementById("keyboardChar");
+
+      if(old_timestamp == null || old_timestamp + 100 < event.timeStamp){ //prevent multiple clicks when using keyboard
+
+        if( keyboardNum.getAttribute('position').y == 0){
+          window.kbAbcLow = false;
+          window.kbAbcHigh = false;
+          window.kbNum = false;
+          window.kbChar = true;
+          toggleKb(window.kbChar);
+        }else{
+          window.kbAbcLow = false;
+          window.kbAbcHigh = false;
+          window.kbNum = true;
+          window.kbChar = false;
+          toggleKb(window.kbNum);
+        }
+        old_timestamp = event.timeStamp;
+      }
+    }
+
+    window.addEventListener("keyup", function (event) {
+      if (event.defaultPrevented) {
+        return; // Do nothing if the event was already processed
+      }
+      switch (event.keyCode) {
+        case 16: // shift
+            console.log("shift key release");
+            document.getElementById("shiftDown").emit('click');
+            break;
+        default:
+            return; // Quit when this doesn't handle the key event.
+        }
+      event.preventDefault();
+    }, true);
+
+
+
+    window.keyCodeToChar = {8:"Backspace",9:"Tab",13:"Enter",16:"Shift",17:"Ctrl",18:"Alt",19:"Pause/Break",20:"Caps Lock",27:"Esc",32:"Space",33:"Page Up",34:"Page Down",35:"End",36:"Home",37:"Left",38:"Up",39:"Right",40:"Down",45:"Insert",46:"Delete",48:"0",49:"1",50:"2",51:"3",52:"4",53:"5",54:"6",55:"7",56:"8",57:"9",65:"A",66:"B",67:"C",68:"D",69:"E",70:"F",71:"G",72:"H",73:"I",74:"J",75:"K",76:"L",77:"M",78:"N",79:"O",80:"P",81:"Q",82:"R",83:"S",84:"T",85:"U",86:"V",87:"W",88:"X",89:"Y",90:"Z",91:"Windows",93:"Right Click",96:"Numpad 0",97:"Numpad 1",98:"Numpad 2",99:"Numpad 3",100:"Numpad 4",101:"Numpad 5",102:"Numpad 6",103:"Numpad 7",104:"Numpad 8",105:"Numpad 9",106:"Numpad *",107:"Numpad +",109:"Numpad -",110:"Numpad .",111:"Numpad /",112:"F1",113:"F2",114:"F3",115:"F4",116:"F5",117:"F6",118:"F7",119:"F8",120:"F9",121:"F10",122:"F11",123:"F12",144:"Num Lock",145:"Scroll Lock",182:"My Computer",183:"My Calculator",186:";",187:"=",188:",",189:"-",190:".",191:"/",192:"`",219:"[",220:"\\",221:"]",222:"'"};
+
+
+
+    var searchTerm = '';
+
+    window.keypress = function(event) {
+
+      console.log('in window.keypress');
+      if(window.old_timestamp == null || window.old_timestamp + 100 < event.timeStamp){ //prevent multiple clicks when using keyboard
+
+        var keyCode = 222;
+        var key = null;
+        var text = null;
+
+        if(event.target.parentEl.components['gui-interactable']){
+          console.log('using parent el: ' + event.target.parentEl.id);
+          keyCode = event.target.parentEl.components['gui-interactable']['data']['keyCode'];
+          key = event.target.parentEl.components['gui-interactable']['data']['key'];
+          var buttonComponent = event.target.parentEl.components['gui-button'];
+          var iconButtonComponent = event.target.parentEl.components['gui-icon-button'];
+          var iconLabelButtonComponent = event.target.parentEl.components['gui-icon-label-button'];
+          if (buttonComponent) {
+            text = buttonComponent['data']['text'];
+          } else if (iconButtonComponent) {
+            text = iconButtonComponent['data']['text'];
+          } else if (iconLabelButtonComponent) {
+            text = iconLabelButtonComponent['data']['text'];
+          }
+          console.log("keyCode: " + keyCode);
+          console.dir(event.target.parentEl.components['gui-interactable']['data']['keyCode']);
+          console.log("keypressed with button: " + keyCode);
+        } else {
+          console.log('using el: ' + event.target.parentEl.id);
+          keyCode = event.target.components['gui-interactable']['data']['keyCode'];
+          key = event.target.components['gui-interactable']['data']['key'];
+          var buttonComponent = event.target.components['gui-button'];
+          var iconButtonComponent = event.target.components['gui-icon-button'];
+          var iconLabelButtonComponent = event.target.components['gui-icon-label-button'];
+          if (buttonComponent) {
+            text = buttonComponent['data']['text'];
+          } else if (iconButtonComponent) {
+            text = iconButtonComponent['data']['text'];
+          } else if (iconLabelButtonComponent) {
+            text = iconLabelButtonComponent['data']['text'];
+          }
+          console.log("keypressed with keyboard: " + keyCode);
+        }
+
+        //var textField = document.getElementById("htmlElement");
+        //textField.textContent += window.keyCodeToChar[keyCode];
+        // var char = window.keyCodeToChar[keyCode];
+        if (!text) {
+          text = String.fromCharCode(keyCode);
+          if (keyCode >= 65 || keyCode <= 90) {
+            text = text.toLowerCase();
+          }
+        }
+        var textField = document.getElementById("test_input");
+        if (key === 'Backspace') {
+          textField.components['gui-input'].delete();
+        } else if (text === 'space') {
+          textField.components['gui-input'].appendText(' ');
+        } else {
+          textField.components['gui-input'].appendText(text);
+
+        }
+        window.old_timestamp = event.timeStamp;
+      }
+    }
+
+    window.voicecontrol = function() {
+      console.log("voicecontrol");
+    }
+
+    window.enter = function() {
+      console.log("enter");
+
+      //var textField = document.getElementById("test_input");
+      var textField = document.getElementById("test_input");
+      var searchTerm = textField.components['gui-input'].oldText;
+
+      console.log(searchTerm);
+
+
+      var geolink = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + searchTerm + ".json?access_token=pk.eyJ1Ijoic2ptYXJzaGFsbHVrIiwiYSI6ImNpeDBleG1hdjAwNGEyenBoODAxODRxeGkifQ.tad1YtixbGXoQGGF_Z84Ng";
+      $.getJSON(geolink)
+        .done(function(data){
+          console.log(data)
+
+          getSeq(data.features[0].center)
+
+          var textField = document.getElementById("test_input");
+          
+
+      });
+    }
+
+
+
+
+    
+
+    </script>
 
 </body>
-
 </html>
